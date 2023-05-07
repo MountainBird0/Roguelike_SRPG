@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public int currentStage;
+
+
+
+
     public void Awake()
     {
         if (instance == null)
@@ -30,10 +35,48 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"{GetType()} - 새 게임 시작");
 
+
+        currentStage = 1;
+        // 씬 이동
+        GlobalSceneManager.instance.GoLodingScene();
+
+        DataManager.instance.LoadNewData();
+
+        // 맵 매니저 맵 생성
+    }
+
+    /******************************************************************************
+    *  이어하기 시작 - 
+    *******************************************************************************/
+    public void StarContinueGame()
+    {
+        Debug.Log($"{GetType()} - 이어하기");
+
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
 
         // 맵 매니저 맵 생성
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /******************************************************************************
+    * 게임 저장 - 메인Scene
+    *******************************************************************************/
+    public void SaveGame()
+    {
+        Debug.Log($"{GetType()} - 저장");
+
+        DataManager.instance.SaveDate(); // 데이터 저장
+        //DataManager.instance.SaveTemp(); // 데이터 저장
     }
 
 }

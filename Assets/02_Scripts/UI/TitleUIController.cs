@@ -41,7 +41,7 @@ public class TitleUIController : MonoBehaviour
     /**********************************************************
     * 이어하기 버튼을 눌렀을 때
     ***********************************************************/
-    public void ClickButtonContinue()
+    public void ClickBtnContinue()
     {
         if (currentState.Equals(UiState.Nothing))
         {
@@ -52,7 +52,7 @@ public class TitleUIController : MonoBehaviour
     /**********************************************************
     * 새로하기 버튼을 눌렀을 때
     ***********************************************************/
-    public void ClickButtonNewGame()
+    public void ClickBtnNewGame()
     {
         if(currentState.Equals(UiState.Nothing))
         {
@@ -65,17 +65,17 @@ public class TitleUIController : MonoBehaviour
     /**********************************************************
     * 새로하기 버튼을 누른 후 O 버튼
     ***********************************************************/
-    public void ClickButtonNewGameYes()
+    public void ClickBtnNewGameYes()
     {
         Debug.Log($"{GetType()} - 새로하기 누른 후 O 버튼");
 
-        TitleUIManager.instance.NewGameStart();
+        UIManager.instance.NewGameStart();
 
     }
     /**********************************************************
     * 새로하기 버튼을 누른 후 X 버튼
     ***********************************************************/
-    public void ClickButtonNewGameNo()
+    public void ClickBtnNewGameNo()
     {
         Debug.Log($"{GetType()} - 새로하기 누른 후 X 버튼");
 
@@ -83,12 +83,10 @@ public class TitleUIController : MonoBehaviour
         currentState = UiState.Nothing;
     }
 
-
-
     /**********************************************************
     * 유물 버튼을 눌렀을 때
     ***********************************************************/
-    public void ClickButtonArtifact()
+    public void ClickBtnArtifact()
     {
         if (currentState.Equals(UiState.Nothing))
         {
@@ -99,7 +97,7 @@ public class TitleUIController : MonoBehaviour
     /**********************************************************
     * 업적 버튼을 눌렀을 때
     ***********************************************************/
-    public void ClickButtonAchievement()
+    public void ClickBtnAchievement()
     {
         if (currentState.Equals(UiState.Nothing))
         {

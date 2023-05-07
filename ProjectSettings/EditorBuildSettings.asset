@@ -23,4 +23,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_Scenes/05_ClearScene.unity
     guid: ffd7ade073038b54eb08019b3a037b38
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 8dc9bf8ef8df8184885452db96a721ac, type: 2}

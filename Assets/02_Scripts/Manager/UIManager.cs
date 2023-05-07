@@ -5,9 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleUIManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
-    public static TitleUIManager instance;
+    public static UIManager instance;
 
     public void Awake()
     {
@@ -30,7 +30,7 @@ public class TitleUIManager : MonoBehaviour
 
 
     /******************************************************************************
-    * 새로운 게임 시작을 위해552
+    * 새로운 게임 시작을 위해
     *******************************************************************************/
     public void NewGameStart()
     {
