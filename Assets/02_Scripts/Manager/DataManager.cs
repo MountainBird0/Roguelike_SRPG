@@ -14,7 +14,8 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
     
-    public List<DataMainMap> dataMainMap;
+    public List<DataMainMap> dataMainMaps;
+    public List<LineNum> lineNums;
     public LineNum lineNum;
 
     public TextAsset DefaultlineNum;
@@ -32,6 +33,8 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+
+        lineNums = new List<LineNum>();
     }
 
 
@@ -62,7 +65,7 @@ public class DataManager : MonoBehaviour
     {
         string fileName = "MainMapData";
         string path = Application.persistentDataPath + fileName + ".Json";
-        var setJson = JsonConvert.SerializeObject(dataMainMap);
+        var setJson = JsonConvert.SerializeObject(dataMainMaps);
         File.WriteAllText(path, setJson);
     }
 
@@ -71,7 +74,7 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     private void LoadLineNumData()
     {
-        lineNum = JsonConvert.DeserializeObject<LineNum>(DefaultlineNum.ToString());
+        //lineNums = JsonConvert.DeserializeObject<LineNum>(DefaultlineNum.ToString());
     }
 
 
@@ -91,13 +94,17 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void SaveTemp()
     {
-        lineNum.stage1Line = 5;
-        lineNum.stage2Line = 6;
-        lineNum.stage3Line = 7;
+        lineNum.line = 111;
+        lineNums.Add(lineNum);
+        lineNum.line = 222;
+        lineNums.Add(lineNum);
+        lineNum.line = 333;
+        lineNums.Add(lineNum);
+
 
         string fileName = "LineNum";
         string path = Application.persistentDataPath + fileName + ".Json";
-        var setJson = JsonConvert.SerializeObject(lineNum);
+        var setJson = JsonConvert.SerializeObject(lineNums);
         File.WriteAllText(path, setJson);
     }
 

@@ -75,8 +75,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"{GetType()} - 저장");
 
-        DataManager.instance.SaveDate(); // 데이터 저장
-        //DataManager.instance.SaveTemp(); // 데이터 저장
+        //DataManager.instance.SaveDate(); // 데이터 저장
+        DataManager.instance.SaveTemp(); // 데이터 저장
     }
 
 }

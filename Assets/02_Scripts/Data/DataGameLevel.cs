@@ -9,8 +9,6 @@
 *******************************************************************************/
 public struct LineNum
 {
-    public int stage1Line;
-    public int stage2Line;
-    public int stage3Line;
+    public int line;
 }
 

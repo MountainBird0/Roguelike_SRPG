@@ -25,10 +25,10 @@ public class MainMapMaker : MonoBehaviour
     private float gapWidth = 0;
     private float gapHeight = 0;
 
+    private List<DataMainMap> stageDates;
     private DataMainMap stageDate;
 
 
-    private LineNum lineNum;
 
     private DataMainMap Data;
 
@@ -59,15 +59,13 @@ public class MainMapMaker : MonoBehaviour
     private void MakeMap()
     {
         // 세이브 데이터 있으면
-        for(int i = 0; i < 10; i++)
-        {
 
-        }
 
 
 
 
         // 세이브 데이터 없으면
+
     }
 
 
@@ -79,12 +77,30 @@ public class MainMapMaker : MonoBehaviour
     ***********************************************************/
     public void MakeNewMap()
     {
+        var lineNum = DataManager.instance.lineNums;
         var stageNum = GameManager.instance.currentStage;
 
-        switch(stageNum)
+
+        switch (stageNum)
         {
             case 1:
                 Debug.Log($"{GetType()} - stage1 만듬");
+                //for(int i = 0; i < lineNum.stage1Line; i++)
+                //{
+                //    if(i == 0)
+                //    {
+                //        // 첫줄
+                //    }
+                //    else if(i == lineNum.stage1Line - 1)
+                //    {
+                //        // 마지막 줄
+                //    }
+
+
+
+                //}
+
+
                 break;
 
             case 2:
@@ -104,7 +120,7 @@ public class MainMapMaker : MonoBehaviour
 
 
 
-        lineNum = DataManager.instance.lineNum;
+        
 
     }
 
@@ -190,7 +206,6 @@ public class MainMapMaker : MonoBehaviour
 
 
 
-
     // test
     private void Update()
     {
@@ -201,45 +216,29 @@ public class MainMapMaker : MonoBehaviour
             //MakeMap(lineNum);
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log($"{GetType()} - 2번 누름 저장해보기");
+
+
+
+            GameManager.instance.SaveGame();
+        }
+
+
         //if (Input.GetKeyDown(KeyCode.Alpha2))
         //{
         //    Debug.Log($"{GetType()} - 2번 누름 저장해보기");
 
-        //    Data.stageNum = 1;
-        //    Data.lineNum = 4;
+        //stageDate.stageNum = 1;
+        //stageDates.Add(Data);
 
-        //    Data.iconNums.Enqueue(2);
-        //    Data.iconNums.Enqueue(4);
-        //    Data.iconNums.Enqueue(3);
-        //    Data.iconNums.Enqueue(1);
+        //stageDate.stageNum = 2;
+        //stageDates.Add(Data);
 
-        //    Data.iconStates.Add((1, true));
-        //    Data.iconStates.Add((2, true));
-        //    Data.iconStates.Add((4, true));
-        //    Data.iconStates.Add((2, true));
-        //    Data.iconStates.Add((3, true));
 
-        //    //Data.iconNum = 5;
-        //    //Data.icon = 2;
-        //    //Data.isClear = 2;
 
-        //    mainMapData.Add(Data);
 
-        //    Data.stageNum = 2;
-        //    Data.lineNum = 7;
-
-        //    Data.iconNums.Enqueue(3);
-        //    Data.iconNums.Enqueue(2);
-        //    Data.iconNums.Enqueue(3);
-        //    Data.iconNums.Enqueue(1);
-
-        //    Data.iconStates.Add((3, true));
-        //    Data.iconStates.Add((1, true));
-        //    Data.iconStates.Add((4, true));
-        //    Data.iconStates.Add((3, true));
-        //    Data.iconStates.Add((4, true));
-
-        //    mainMapData.Add(Data);
 
         //    DataManager.instance.mainMapData = mainMapData;
 
