@@ -69,54 +69,29 @@ public class MainMapMaker : MonoBehaviour
         {
             for(int i = 0; i < sld.lineNum; i++)
             {
+                if (i == 0)
+                {
+                    // 첫 줄
+                }
+                else if (i == sld.lineNum - 1)
+                {
+                    // 마지막 줄
+                }
+                else if(i == sld.chestLine)
+                {
+                    // 상자 줄
+                }
+                else
+                {
+                    // 나머지
+                }
 
             }
 
         }
-
-
-        switch (stageNum)
-        {
-            case 1:
-                Debug.Log($"{GetType()} - stage1 만듬");
-                //for(int i = 0; i < lineNum.stage1Line; i++)
-                //{
-                //    if(i == 0)
-                //    {
-                //        // 첫줄
-                //    }
-                //    else if(i == lineNum.stage1Line - 1)
-                //    {
-                //        // 마지막 줄
-                //    }
-
-
-
-                //}
-
-
-                break;
-
-            case 2:
-                Debug.Log($"{GetType()} - stage2 만듬");
-                break;
-
-            case 3:
-                Debug.Log($"{GetType()} - stage3 만듬");
-                break;
-
-            default:
-                Debug.Log($"{GetType()} - 무한맵 만듬");
-                break;
-        }
-
-
-
-
-
-        
-
     }
+
+
 
     /**********************************************************
     * 새로운 맵 생성을 위한 데이터 만듬
