@@ -1174,7 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1294e00501704c4419466d03c36dbb1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultlineNum: {fileID: 4900000, guid: de804046ea5241b49976c24935eb7120, type: 3}
+  StageLevelText: {fileID: 4900000, guid: defa3c3f04bc7ae4e8b9a4f44f98a4e0, type: 3}
 --- !u!4 &866180284
 Transform:
   m_ObjectHideFlags: 0

@@ -13,12 +13,9 @@ using Newtonsoft.Json.Serialization;
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
-    
-    public List<DataMainMap> dataMainMaps;
-    public List<LineNum> lineNums;
-    public LineNum lineNum;
 
-    public TextAsset DefaultlineNum;
+    public TextAsset StageLevelText;
+    public Dictionary<string, StageLevelData> StageLevels;
 
 
     public void Awake()
@@ -34,7 +31,8 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        lineNums = new List<LineNum>();
+        // lineNums = new List<LineNum>();
+        StageLevels = new Dictionary<string, StageLevelData>();
     }
 
 
@@ -45,7 +43,7 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void LoadNewData()
     {
-        LoadLineNumData();
+        LoadLevelData();
     }
 
     /**********************************************************
@@ -63,23 +61,42 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void SaveDate()
     {
-        string fileName = "MainMapData";
-        string path = Application.persistentDataPath + fileName + ".Json";
-        var setJson = JsonConvert.SerializeObject(dataMainMaps);
-        File.WriteAllText(path, setJson);
+
+        //string fileName = "MainMapData";
+        //string path = Application.persistentDataPath + fileName + ".Json";
+        //var setJson = JsonConvert.SerializeObject(dataMainMaps);
+        //File.WriteAllText(path, setJson);
     }
 
     /**********************************************************
-    * Json에서 LineNum 할당된거 가지고 오기
+    * TextAsset형식으로 되어있는 Leveldata 가지고오기
     ***********************************************************/
-    private void LoadLineNumData()
+    private void LoadLevelData()
     {
-        //lineNums = JsonConvert.DeserializeObject<LineNum>(DefaultlineNum.ToString());
+        StageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(StageLevelText.ToString());
+
     }
 
 
 
+    //var a = StageLevels["1"];
+    //StageLevelData b;
+    //// 가지고온거 활용
+    //Debug.Log($"{GetType()} - {a.lineNum}");
 
+    //if(StageLevels.TryGetValue("2", out b))
+    //{
+    //    Debug.Log($"{GetType()} - {b.lineNum}");
+    //    Debug.Log($"{GetType()} - {b.monsterPer}");
+    //    Debug.Log($"{GetType()} - {b.shopNum}");
+    //    Debug.Log($"{GetType()} - {b.stage}");
+    //    Debug.Log($"{GetType()} - {b.lastLine}");
+    //    Debug.Log($"{GetType()} - {b.monsterPer}");
+    //}
+
+
+
+    //lineNums = JsonConvert.DeserializeObject<LineNum>(DefaultlineNum.ToString());
 
 
 
@@ -94,18 +111,18 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void SaveTemp()
     {
-        lineNum.line = 111;
-        lineNums.Add(lineNum);
-        lineNum.line = 222;
-        lineNums.Add(lineNum);
-        lineNum.line = 333;
-        lineNums.Add(lineNum);
+        //lineNum.line = 111;
+        //lineNums.Add(lineNum);
+        //lineNum.line = 222;
+        //lineNums.Add(lineNum);
+        //lineNum.line = 333;
+        //lineNums.Add(lineNum);
 
 
-        string fileName = "LineNum";
-        string path = Application.persistentDataPath + fileName + ".Json";
-        var setJson = JsonConvert.SerializeObject(lineNums);
-        File.WriteAllText(path, setJson);
+        //string fileName = "LineNum";
+        //string path = Application.persistentDataPath + fileName + ".Json";
+        //var setJson = JsonConvert.SerializeObject(lineNums);
+        //File.WriteAllText(path, setJson);
     }
 
 

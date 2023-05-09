@@ -25,12 +25,6 @@ public class MainMapMaker : MonoBehaviour
     private float gapWidth = 0;
     private float gapHeight = 0;
 
-    private List<DataMainMap> stageDates;
-    private DataMainMap stageDate;
-
-
-
-    private DataMainMap Data;
 
 
 
@@ -40,17 +34,16 @@ public class MainMapMaker : MonoBehaviour
 
 
 
+    private Dictionary<string, StageLevelData> StageLevels;
+
     private void Awake()
     {
+        StageLevels = new Dictionary<string, StageLevelData>();
     }
 
     public void Start()
     {
-        stageDate = new DataMainMap()
-        {
-            iconNums = new Queue<int>(),
-            iconStates = new List<(int icon, bool check)>()
-        };
+
     }
 
     /**********************************************************
@@ -59,26 +52,27 @@ public class MainMapMaker : MonoBehaviour
     private void MakeMap()
     {
         // 세이브 데이터 있으면
-
-
-
-
-
         // 세이브 데이터 없으면
-
     }
-
-
-
-
 
     /**********************************************************
     * 새로운 맵 생성
     ***********************************************************/
     public void MakeNewMap()
     {
-        var lineNum = DataManager.instance.lineNums;
         var stageNum = GameManager.instance.currentStage;
+        
+        StageLevels = DataManager.instance.StageLevels;
+        StageLevelData sld;
+
+        if (StageLevels.TryGetValue(stageNum.ToString(), out sld))
+        {
+            for(int i = 0; i < sld.lineNum; i++)
+            {
+
+            }
+
+        }
 
 
         switch (stageNum)
