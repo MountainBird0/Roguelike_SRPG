@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
 
+        DataManager.instance.LoadSaveData();
+
         // 맵 매니저 맵 생성
     }
 
@@ -76,7 +78,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"{GetType()} - 저장");
 
         //DataManager.instance.SaveDate(); // 데이터 저장
-        DataManager.instance.SaveTemp(); // 데이터 저장
     }
 
 }

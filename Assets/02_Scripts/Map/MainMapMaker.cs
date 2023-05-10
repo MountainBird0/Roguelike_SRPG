@@ -8,11 +8,13 @@ using UnityEngine;
 public class MainMapMaker : MonoBehaviour
 {
     public Transform map;
-    
+
     [Space(10f)]
     //public float lineNum; // 생성할 라인 수
 
     [Header("[ Icon ]")] // 아이콘들
+    public GameObject[] icons;
+
     public GameObject Monster;
     public GameObject Boss;
     public GameObject Shop;
@@ -35,39 +37,76 @@ public class MainMapMaker : MonoBehaviour
 
 
     private Dictionary<string, StageLevelData> StageLevels;
+    private StageData stageData;
+
 
     private void Awake()
     {
         StageLevels = new Dictionary<string, StageLevelData>();
+        stageData = new StageData()
+        {
+            iconPerLines = new Queue<int>(),
+            iconIndexs = new Queue<int>(),
+        };
     }
 
     public void Start()
     {
+        // StageData정보 받아오기 시도 후
+        stageData = DataManager.instance.stageData;
+        Debug.Log($"{GetType()} - stagedata 값 확인 : {stageData}");
+        Debug.Log($"{GetType()} - stagedata 값 확인 : {stageData.lineNum}");
+
+        //if (stageData == null)
+        //{
+
+        //}
 
     }
 
     /**********************************************************
-    * 맵 생성
+    * 데이터 기반으로 맵 생성
     ***********************************************************/
     private void MakeMap()
     {
-        // 세이브 데이터 있으면
-        // 세이브 데이터 없으면
+        int iconPerLine;
+        int clearLine = stageData.clearLine;
+        int iconIndex;
+     
+        GameObject icon;
+        Vector2 iconPos = Vector2.zero;
+
+        for (int i = 0; i < stageData.lineNum; i++)
+        {
+            iconPerLine = stageData.iconPerLines.Dequeue();
+            for(int j = 0; j < iconPerLine; j++)
+            {
+                // 위치계산
+
+                iconIndex = stageData.iconIndexs.Dequeue();
+                icon = Instantiate(icons[iconIndex], map);
+                icon.transform.position = iconPos;
+                if(i <= clearLine)
+                {
+                    icon.SetActive(false);
+                }
+            }
+        }
     }
 
     /**********************************************************
-    * 새로운 맵 생성
+    * 새로운 맵 생성을 위한 데이터 만듬
     ***********************************************************/
-    public void MakeNewMap()
+    public void MakeNewData()
     {
-        var stageNum = GameManager.instance.currentStage;
-        
+        int currentStage = GameManager.instance.currentStage;
+
         StageLevels = DataManager.instance.StageLevels;
         StageLevelData sld;
 
-        if (StageLevels.TryGetValue(stageNum.ToString(), out sld))
+        if (StageLevels.TryGetValue(currentStage.ToString(), out sld))
         {
-            for(int i = 0; i < sld.lineNum; i++)
+            for (int i = 0; i < sld.lineNum; i++)
             {
                 if (i == 0)
                 {
@@ -77,7 +116,7 @@ public class MainMapMaker : MonoBehaviour
                 {
                     // 마지막 줄
                 }
-                else if(i == sld.chestLine)
+                else if (i == sld.chestLine)
                 {
                     // 상자 줄
                 }
@@ -89,23 +128,9 @@ public class MainMapMaker : MonoBehaviour
             }
 
         }
-    }
 
 
-
-    /**********************************************************
-    * 새로운 맵 생성을 위한 데이터 만듬
-    ***********************************************************/
-    public void MakeNewData(int lineNum)
-    {
-        for(int i = 0; i < lineNum; i++)
-        {
-
-        }
-        
-
-
-
+        DataManager.instance.stageData = stageData; // DataManager에 저장
     }
 
 
@@ -181,7 +206,7 @@ public class MainMapMaker : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log($"{GetType()} - 1번 누름 맵 생성");
-            MakeNewMap();
+            MakeMap();
             //MakeMap(lineNum);
         }
 

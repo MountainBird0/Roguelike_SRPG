@@ -17,6 +17,7 @@ public class DataManager : MonoBehaviour
     public TextAsset StageLevelText;
     public Dictionary<string, StageLevelData> StageLevels;
 
+    public StageData stageData;
 
     public void Awake()
     {
@@ -31,8 +32,12 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        // lineNums = new List<LineNum>();
         StageLevels = new Dictionary<string, StageLevelData>();
+        stageData = new StageData()
+        {
+            iconPerLines = new Queue<int>(),
+            iconIndexs = new Queue<int>(),
+        };
     }
 
 
@@ -46,12 +51,26 @@ public class DataManager : MonoBehaviour
         LoadLevelData();
     }
 
+
     /**********************************************************
     * 기존 게임 json 파일 불러오기
     ***********************************************************/
     public void LoadSaveData()
     {
-        
+        string fileName = "StageData";
+        string path = Application.persistentDataPath + fileName + ".Json";
+
+        FileInfo FileInfo = new FileInfo(path);
+
+        if(!FileInfo.Exists)
+        {
+            Debug.Log($"{GetType()} - 파일없음");
+            return;
+        }
+
+        // 저장되어있는 메인 맵 데이터 불러옴
+        string json = File.ReadAllText(path);
+        stageData = JsonConvert.DeserializeObject<StageData>(json);
     }
 
 
@@ -68,13 +87,22 @@ public class DataManager : MonoBehaviour
         //File.WriteAllText(path, setJson);
     }
 
+
     /**********************************************************
     * TextAsset형식으로 되어있는 Leveldata 가지고오기
     ***********************************************************/
     private void LoadLevelData()
     {
         StageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(StageLevelText.ToString());
+    }
 
+
+    /**********************************************************
+    * 진행중인 맵 데이터 가지고오기
+    ***********************************************************/
+    private void GetStageData(StageData currentStageData)
+    {
+        StageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(StageLevelText.ToString());
     }
 
 
