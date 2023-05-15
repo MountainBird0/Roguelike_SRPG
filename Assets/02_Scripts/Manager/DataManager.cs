@@ -14,8 +14,8 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    public TextAsset StageLevelText;
-    public Dictionary<string, StageLevelData> StageLevels;
+    public TextAsset stageLevelText;
+    public Dictionary<string, StageLevelData> stageLevels;
 
 
     public void Awake()
@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // lineNums = new List<LineNum>();
-        StageLevels = new Dictionary<string, StageLevelData>();
+        stageLevels = new Dictionary<string, StageLevelData>();
     }
 
 
@@ -73,7 +73,7 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     private void LoadLevelData()
     {
-        StageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(StageLevelText.ToString());
+        stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
 
     }
 

@@ -62,7 +62,7 @@ public class MainMapMaker : MonoBehaviour
     {
         var stageNum = GameManager.instance.currentStage;
         
-        StageLevels = DataManager.instance.StageLevels;
+        StageLevels = DataManager.instance.stageLevels;
         StageLevelData sld;
 
         if (StageLevels.TryGetValue(stageNum.ToString(), out sld))
@@ -89,23 +89,6 @@ public class MainMapMaker : MonoBehaviour
             }
 
         }
-    }
-
-
-
-    /**********************************************************
-    * 새로운 맵 생성을 위한 데이터 만듬
-    ***********************************************************/
-    public void MakeNewData(int lineNum)
-    {
-        for(int i = 0; i < lineNum; i++)
-        {
-
-        }
-        
-
-
-
     }
 
 
