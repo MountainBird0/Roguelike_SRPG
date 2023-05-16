@@ -10,7 +10,7 @@ public class StageLevelData
     public int shopCount;
 }
 
-public class a
+public class IconProbabilityData
 {
     public int monsterPer;
     public int shopPer;
