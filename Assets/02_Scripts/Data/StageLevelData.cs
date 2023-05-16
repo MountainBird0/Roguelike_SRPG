@@ -1,15 +1,18 @@
 public class StageLevelData
 {
-    public int stage { get; set; }
-    public int lineNum { get; set; }
+    public int stage;
+    public int lineCount;
 
-    public int firstLine { get; set; }
-    public int lastLine { get; set; }
-    public int chestLine { get; set; }
-    
-    public int shopNum { get; set; }
+    public int firstLine;
+    public int lastLine;
+    public int chestLine;
 
-    public int monsterPer { get; set; }
-    public int shopPer { get; set; }
+    public int shopCount;
+}
+
+public class a
+{
+    public int monsterPer;
+    public int shopPer;
 }
 

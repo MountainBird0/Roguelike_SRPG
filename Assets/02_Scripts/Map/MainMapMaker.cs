@@ -18,6 +18,7 @@ public class MainMapMaker : MonoBehaviour
     public GameObject Shop;
     public GameObject Chest;
 
+
     // 맵 관련
     const int MAP_WIDTH = 14;
     const int MAP_HEIGHT = 6;
@@ -34,16 +35,21 @@ public class MainMapMaker : MonoBehaviour
 
 
 
-    private Dictionary<string, StageLevelData> StageLevels;
+
+    private StageData stageData;
 
     private void Awake()
     {
-        StageLevels = new Dictionary<string, StageLevelData>();
+        stageData = new StageData()
+        {
+            iconCounts = new Queue<int>(),
+            iconTypes = new Queue<ICON>()
+        };
     }
 
     public void Start()
     {
-
+        MakeMap();
     }
 
     /**********************************************************
@@ -51,46 +57,33 @@ public class MainMapMaker : MonoBehaviour
     ***********************************************************/
     private void MakeMap()
     {
-        // 세이브 데이터 있으면
-        // 세이브 데이터 없으면
-    }
+        stageData = DataManager.instance.stageData;
 
-    /**********************************************************
-    * 새로운 맵 생성
-    ***********************************************************/
-    public void MakeNewMap()
-    {
-        var stageNum = GameManager.instance.currentStage;
-        
-        StageLevels = DataManager.instance.stageLevels;
-        StageLevelData sld;
+        GameObject icon;
+        ICON iconType;
 
-        if (StageLevels.TryGetValue(stageNum.ToString(), out sld))
+        Debug.Log($"{GetType()} - 맵생성 들어감");
+        Debug.Log($"{GetType()} - 라인 수 {stageData.lineCount}");
+
+        for (int i = 0; i < stageData.lineCount; i++)
         {
-            for(int i = 0; i < sld.lineNum; i++)
+            Debug.Log($"{GetType()} - 이거 몇번?");
+
+            iconType = stageData.iconTypes.Dequeue();
+            
+            switch(iconType)
             {
-                if (i == 0)
-                {
-                    // 첫 줄
-                }
-                else if (i == sld.lineNum - 1)
-                {
-                    // 마지막 줄
-                }
-                else if(i == sld.chestLine)
-                {
-                    // 상자 줄
-                }
-                else
-                {
-                    // 나머지
-                }
+                case ICON.MONSTER:
+                    icon = Instantiate(Monster, map);
+                    break;
+
 
             }
+            
 
         }
-    }
 
+    }
 
 
 
@@ -111,12 +104,12 @@ public class MainMapMaker : MonoBehaviour
             // 첫번째 라인
             if (i.Equals(0))
             {
-                StartLine();
+                
             }
             // 마지막 라인
             else if (i == lineNum - 1)
             {
-                LastLine();
+                
             }
             // 보물상자 라인
 
@@ -132,30 +125,6 @@ public class MainMapMaker : MonoBehaviour
         }
     }
 
-    private void StartLine()
-    {
-        Debug.Log($"{GetType()} - 첫 라인");
-
-        icon = Instantiate(Monster, map);
-        icon.transform.position = moveVec;
-    }
-    private void LastLine()
-    {
-        Debug.Log($"{GetType()} - 마지막 라인");
-
-        moveVec.x += gapWidth;
-        icon = Instantiate(Boss, map);
-        icon.transform.position = moveVec;
-    }
-
-
-
-    /**********************************************************
-    * 불러온 맵으로 생성
-    ***********************************************************/
-
-
-
 
 
     // test
@@ -164,7 +133,7 @@ public class MainMapMaker : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log($"{GetType()} - 1번 누름 맵 생성");
-            MakeNewMap();
+            
             //MakeMap(lineNum);
         }
 

@@ -35,12 +35,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"{GetType()} - 새 게임 시작");
 
-
         currentStage = 1;
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
-
-        DataManager.instance.LoadNewData();
+ 
 
         // 맵 매니저 맵 생성
     }

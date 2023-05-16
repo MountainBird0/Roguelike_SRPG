@@ -1,42 +1,32 @@
-{
-    "1": {
-      "stage": 1,
-      "lineNum": 5,
-      "firstLine": 2,
-      "lastLine": 1,
-      "chestLine": 3,
-      "shopNum": 1,
-      "monsterPer": 60,
-      "shopPer": 40
-    },
-    "2": {
-      "stage": 2,
-      "lineNum": 6,
-      "firstLine": 2,
-      "lastLine": 1,
-      "chestLine": 4,
-      "shopNum": 2,
-      "monsterPer": 60,
-      "shopPer": 40
-    },
-    "3": {
-      "stage": 3,
-      "lineNum": 7,
-      "firstLine": 3,
-      "lastLine": 1,
-      "chestLine": 4,
-      "shopNum": 2,
-      "monsterPer": 60,
-      "shopPer": 40
-    },
-    "4": {
-      "stage": 0,
-      "lineNum": 7,
-      "firstLine": 4,
-      "lastLine": 1,
-      "chestLine": 4,
-      "shopNum": 2,
-      "monsterPer": 60,
-      "shopPer": 40
-    }
+{  
+  "1": 
+  {
+    "lineCount": 5,
+    "FirstLine": 2,
+    "lastLine": 1,
+    "chestLine": 3,
+    "shopCount": 1,
+    "monsterPer": 60,
+    "shopPer": 40
+  },
+  "2": 
+  {
+    "lineCount": 6,
+    "FirstLine": 2,
+    "lastLine": 1,
+    "chestLine": 4,
+    "shopCount": 2,
+    "monsterPer": 60,
+    "shopPer": 40
+  },
+  "3": 
+  {
+    "lineCount": 7,
+    "FirstLine": 3,
+    "lastLine": 1,
+    "chestLine": 4,
+    "shopCount": 2,
+    "monsterPer": 60,
+    "shopPer": 40
+  }
 }

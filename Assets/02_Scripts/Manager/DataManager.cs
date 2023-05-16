@@ -17,6 +17,8 @@ public class DataManager : MonoBehaviour
     public TextAsset stageLevelText;
     public Dictionary<string, StageLevelData> stageLevels;
 
+    public StageData stageData;
+
 
     public void Awake()
     {
@@ -31,11 +33,14 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        // lineNums = new List<LineNum>();
         stageLevels = new Dictionary<string, StageLevelData>();
+
     }
 
-
+    public void Start()
+    {
+        LoadData();
+    }
 
 
     /**********************************************************
@@ -43,7 +48,7 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void LoadNewData()
     {
-        LoadLevelData();
+
     }
 
     /**********************************************************
@@ -69,9 +74,9 @@ public class DataManager : MonoBehaviour
     }
 
     /**********************************************************
-    * TextAsset형식으로 되어있는 Leveldata 가지고오기
+    * TextAsset형식으로 되어있는 데이터들 가지고 오기
     ***********************************************************/
-    private void LoadLevelData()
+    private void LoadData()
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
 

@@ -69,7 +69,7 @@ public class TitleUIController : MonoBehaviour
     {
         Debug.Log($"{GetType()} - 새로하기 누른 후 O 버튼");
 
-        UIManager.instance.NewGameStart();
+        UIManager.instance.InputNewGame();
 
     }
     /**********************************************************
