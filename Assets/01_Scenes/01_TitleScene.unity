@@ -1175,6 +1175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageLevelText: {fileID: 4900000, guid: defa3c3f04bc7ae4e8b9a4f44f98a4e0, type: 3}
+  iconProbabilityText: {fileID: 4900000, guid: 9a3d91f5b15638b46924f2512697321c, type: 3}
 --- !u!4 &866180284
 Transform:
   m_ObjectHideFlags: 0

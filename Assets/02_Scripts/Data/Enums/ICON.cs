@@ -1,7 +1,7 @@
 public enum ICON
 {
-    SHOP,
     MONSTER,
+    SHOP,   
     BOSS,
     CHEST
 }

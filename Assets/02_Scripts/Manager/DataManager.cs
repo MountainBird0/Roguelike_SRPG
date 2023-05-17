@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
+[DefaultExecutionOrder((int)SEO.DataManager)]
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
@@ -17,8 +18,10 @@ public class DataManager : MonoBehaviour
     public TextAsset stageLevelText;
     public Dictionary<string, StageLevelData> stageLevels;
 
-    public StageData stageData;
+    public TextAsset iconProbabilityText;
+    public Dictionary<string, IconProbabilityData> iconProbabilitys;
 
+    public StageData stageData;
 
     public void Awake()
     {
@@ -34,7 +37,8 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         stageLevels = new Dictionary<string, StageLevelData>();
-
+        stageData = new StageData();
+        iconProbabilitys = new Dictionary<string, IconProbabilityData>();
     }
 
     public void Start()
@@ -79,8 +83,10 @@ public class DataManager : MonoBehaviour
     private void LoadData()
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
-
+        iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
     }
+
+
 
 
 
@@ -103,13 +109,6 @@ public class DataManager : MonoBehaviour
 
     //lineNums = JsonConvert.DeserializeObject<LineNum>(DefaultlineNum.ToString());
 
-
-
-
-
-
-
-
     /**********************************************************
     * json에 레벨 디자인 저장
     * C:\Users\huy12\AppData\LocalLow\DefaultCompany
@@ -130,5 +129,5 @@ public class DataManager : MonoBehaviour
         //File.WriteAllText(path, setJson);
     }
 
-
+    // 끝
 }

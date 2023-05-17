@@ -1,6 +1,5 @@
 public class StageLevelData
 {
-    public int stage;
     public int lineCount;
 
     public int firstLine;
@@ -12,7 +11,7 @@ public class StageLevelData
 
 public class IconProbabilityData
 {
-    public int monsterPer;
-    public int shopPer;
+    public int monsterChance;
+    public int shopChance;
 }
 

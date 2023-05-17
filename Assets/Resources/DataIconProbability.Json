@@ -1,0 +1,14 @@
+{
+    "1": {
+      "monsterChance": 70,
+      "shopChance": 30
+    },
+    "2": {
+      "monsterChance": 70,
+      "shopChance": 30
+    },
+    "3": {
+      "monsterChance": 70,
+      "shopChance": 30
+    }
+  }

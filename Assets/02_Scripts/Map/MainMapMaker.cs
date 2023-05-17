@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder((int)SEO.MainMapMaker)]
 public class MainMapMaker : MonoBehaviour
 {
     public Transform map;
@@ -26,15 +27,7 @@ public class MainMapMaker : MonoBehaviour
     private float gapWidth = 0;
     private float gapHeight = 0;
 
-
-
-
     private GameObject icon;
-
-    private Vector2 moveVec = Vector2.zero;
-
-
-
 
     private StageData stageData;
 
@@ -57,73 +50,85 @@ public class MainMapMaker : MonoBehaviour
     ***********************************************************/
     private void MakeMap()
     {
+        Debug.Log($"{GetType()} - 맵생성 시작");
+        
         stageData = DataManager.instance.stageData;
 
-        GameObject icon;
+        GameObject icon = null;
         ICON iconType;
+        int iconCount;
 
-        Debug.Log($"{GetType()} - 맵생성 들어감");
-        Debug.Log($"{GetType()} - 라인 수 {stageData.lineCount}");
+        Vector2 moveVec = Vector2.zero;
 
         for (int i = 0; i < stageData.lineCount; i++)
         {
-            Debug.Log($"{GetType()} - 이거 몇번?");
-
-            iconType = stageData.iconTypes.Dequeue();
             
-            switch(iconType)
+            iconCount = stageData.iconCounts.Dequeue();
+            for(int j = 0; j < iconCount; j++)
             {
-                case ICON.MONSTER:
-                    icon = Instantiate(Monster, map);
-                    break;
-
-
-            }
+                iconType = stageData.iconTypes.Dequeue();
             
+                switch(iconType)
+                {
+                    case ICON.MONSTER:
+                        icon = Instantiate(Monster, map);
+                        break;
+                    case ICON.SHOP:
+                        icon = Instantiate(Shop, map);
+                        break;
+                    case ICON.BOSS:
+                        icon = Instantiate(Boss, map);
+                        break;
+                    case ICON.CHEST:
+                        icon = Instantiate(Chest, map);
+                        break;
+                }
+                icon.transform.position = moveVec;
+                moveVec.y += 1;
+            }
+            moveVec.x += 2;
+            moveVec.y = 0;
 
         }
-
     }
-
-
 
 
     /**********************************************************
     * 불러온 맵으로 생성
     * 사이즈 -7 ~ 7 // -3 ~ 3
     ***********************************************************/
-    public void MakeMap(float lineNum)
-    {
-        gapWidth = MAP_WIDTH / (lineNum - 1);
-        moveVec.x = -(MAP_WIDTH / 2);
+    //public void MakeMap(float lineNum)
+    //{
+    //    gapWidth = MAP_WIDTH / (lineNum - 1);
+    //    moveVec.x = -(MAP_WIDTH / 2);
 
-        // 라인 생성
-        for (int i = 0; i < lineNum; i++)
-        {
-            Debug.Log($"{GetType()} - {i}, line : {lineNum - 1}");
-            // 첫번째 라인
-            if (i.Equals(0))
-            {
+    //    // 라인 생성
+    //    for (int i = 0; i < lineNum; i++)
+    //    {
+    //        Debug.Log($"{GetType()} - {i}, line : {lineNum - 1}");
+    //        // 첫번째 라인
+    //        if (i.Equals(0))
+    //        {
                 
-            }
-            // 마지막 라인
-            else if (i == lineNum - 1)
-            {
+    //        }
+    //        // 마지막 라인
+    //        else if (i == lineNum - 1)
+    //        {
                 
-            }
-            // 보물상자 라인
+    //        }
+    //        // 보물상자 라인
 
-            //일반 라인
-            else
-            {
-                Debug.Log($"{GetType()} - 다른 라인");
+    //        //일반 라인
+    //        else
+    //        {
+    //            Debug.Log($"{GetType()} - 다른 라인");
 
-                icon = Instantiate(Monster, map);
-                moveVec.x += gapWidth;
-                icon.transform.position = moveVec;
-            }
-        }
-    }
+    //            icon = Instantiate(Monster, map);
+    //            moveVec.x += gapWidth;
+    //            icon.transform.position = moveVec;
+    //        }
+    //    }
+    //}
 
 
 
@@ -166,5 +171,5 @@ public class MainMapMaker : MonoBehaviour
         //    GameManager.instance.SaveGame();
         //}
     }
-
+    // 끝
 }
