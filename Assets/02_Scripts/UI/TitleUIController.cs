@@ -56,8 +56,6 @@ public class TitleUIController : MonoBehaviour
     {
         if(currentState.Equals(UiState.Nothing))
         {
-            Debug.Log($"{GetType()} - 새로하기 누름");
-
             CheckNewGamePopUp.SetActive(true);
             currentState = UiState.ShowPopUp;
         }
@@ -67,18 +65,13 @@ public class TitleUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnNewGameYes()
     {
-        Debug.Log($"{GetType()} - 새로하기 누른 후 O 버튼");
-
         UIManager.instance.InputNewGame();
-
     }
     /**********************************************************
     * 새로하기 버튼을 누른 후 X 버튼
     ***********************************************************/
     public void ClickBtnNewGameNo()
     {
-        Debug.Log($"{GetType()} - 새로하기 누른 후 X 버튼");
-
         CheckNewGamePopUp.SetActive(false);
         currentState = UiState.Nothing;
     }

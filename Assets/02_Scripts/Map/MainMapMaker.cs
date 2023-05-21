@@ -21,13 +21,8 @@ public class MainMapMaker : MonoBehaviour
 
 
     // ¸Ê °ü·Ã
-    const int MAP_WIDTH = 14;
-    const int MAP_HEIGHT = 6;
-
-    private float gapWidth = 0;
-    private float gapHeight = 0;
-
-    private GameObject icon;
+    const float MAP_WIDTH = 14f;
+    const float MAP_HEIGHT = 6f;
 
     private StageData stageData;
 
@@ -58,13 +53,20 @@ public class MainMapMaker : MonoBehaviour
         ICON iconType;
         int iconCount;
 
-        Vector2 moveVec = Vector2.zero;
+        Vector2 iconPos = Vector2.zero;
+        iconPos.x = - (MAP_WIDTH / 2);
+        float widthGap = MAP_WIDTH / (stageData.lineCount - 1);
+        
+
+        float heightGap = 0;
 
         for (int i = 0; i < stageData.lineCount; i++)
-        {
-            
+        {          
             iconCount = stageData.iconCounts.Dequeue();
-            for(int j = 0; j < iconCount; j++)
+            heightGap = MAP_HEIGHT / (iconCount + 1);
+            iconPos.y = - (MAP_HEIGHT / 2) + heightGap;
+
+            for (int j = 0; j < iconCount; j++)
             {
                 iconType = stageData.iconTypes.Dequeue();
             
@@ -83,12 +85,10 @@ public class MainMapMaker : MonoBehaviour
                         icon = Instantiate(Chest, map);
                         break;
                 }
-                icon.transform.position = moveVec;
-                moveVec.y += 1;
+                icon.transform.position = iconPos;
+                iconPos.y += heightGap;
             }
-            moveVec.x += 2;
-            moveVec.y = 0;
-
+            iconPos.x += widthGap;
         }
     }
 

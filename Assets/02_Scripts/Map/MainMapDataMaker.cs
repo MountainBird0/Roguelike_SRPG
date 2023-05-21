@@ -43,6 +43,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 새로운 맵 생성을 위한 데이터 만듬
     * - 게임을 처음 시작할 때, 한 stage를 클리어 했을 때 사용
+    * - 상점 가중확률 추가 필요
     ***********************************************************/
     public void MakeMapData()
     {
@@ -107,8 +108,16 @@ public class MainMapDataMaker : MonoBehaviour
                                 stageData.iconTypes.Enqueue(kvp.Key);
                                 switch(kvp.Key)
                                 {
+                                    case ICON.MONSTER:
+                                        if(probabilityMap.ContainsKey(ICON.SHOP))
+                                        {
+                                            probabilityMap[ICON.SHOP] += 10;
+                                        }
+                                        break;
+
                                     case ICON.SHOP:
                                         currentShopCount += 1;
+                                        probabilityMap[ICON.SHOP] = iconProbability.shopChance;
                                         if (currentShopCount == stageLevel.shopCount)
                                         {
                                             probabilityMap.Remove(ICON.SHOP);
@@ -132,13 +141,12 @@ public class MainMapDataMaker : MonoBehaviour
     private void SetData()
     {
         currentStage = GameManager.instance.currentStage;
-        currentStage = 3;
         stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
         iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
 
         // 자동 Add로 변경 나중에
-        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
         probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
+        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
 
         stageData.isSave = false;
         stageData.currentStage = currentStage;
@@ -152,20 +160,20 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 랜덤 아이콘을 고를 때 사용
     ***********************************************************/
-    private ICON PickIcon()
-    {
-        int randomValue = Random.Range(0, 100);
-        int sum = 0;
-        foreach (var kvp in probabilityMap)
-        {
-            sum += kvp.Value;
-            if (randomValue < sum)
-            {
-                return kvp.Key;
-            }
-        }
-        throw new System.Exception($"{GetType()} - 랜덤 아이콘 못 받아옴");
-    }
+    //private ICON PickIcon()
+    //{
+    //    int randomValue = Random.Range(0, 100);
+    //    int sum = 0;
+    //    foreach (var kvp in probabilityMap)
+    //    {
+    //        sum += kvp.Value;
+    //        if (randomValue < sum)
+    //        {
+    //            return kvp.Key;
+    //        }
+    //    }
+    //    throw new System.Exception($"{GetType()} - 랜덤 아이콘 못 받아옴");
+    //}
 
 
     // 끝

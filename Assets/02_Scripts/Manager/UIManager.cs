@@ -34,8 +34,6 @@ public class UIManager : MonoBehaviour
     *******************************************************************************/
     public void InputNewGame()
     {
-        Debug.Log($"{GetType()} - 새로하기 누른 후 O 버튼");
-
         GameManager.instance.StartNewGame();
     }
 }
