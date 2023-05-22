@@ -11,9 +11,6 @@ public class GameManager : MonoBehaviour
 
     public int currentStage;
 
-
-
-
     public void Awake()
     {
         if (instance == null)
