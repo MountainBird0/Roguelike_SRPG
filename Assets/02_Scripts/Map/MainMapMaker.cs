@@ -18,14 +18,12 @@ public class MainMapMaker : MonoBehaviour
 
     private StageData stageData;
 
+    // 노드 추가해보기
+    private List<IconNode> iconNodes;
+
     private void Awake()
     {
-        stageData = new StageData()
-        {
-            iconCounts = new Queue<int>(),
-            iconTypes = new Queue<ICON>(),
-            iconPos = new Queue<Vector2>()
-        };
+        stageData = new StageData();
     }
 
     public void Start()
@@ -41,6 +39,11 @@ public class MainMapMaker : MonoBehaviour
         Debug.Log($"{GetType()} - 맵생성 시작");
 
         stageData = DataManager.instance.stageData;
+
+        // 맵에 안보이는 root하나 추가필요
+        // 노드 추가
+        iconNodes = new List<IconNode>();
+        // 노드 추가
 
         GameObject icon = null;
         ICON iconType;
@@ -70,6 +73,10 @@ public class MainMapMaker : MonoBehaviour
                         break;
                 }
                 icon.transform.position = stageData.iconPos.Dequeue();
+
+                // 노드 추가
+                // iconNodes[0].children.Add();
+                // 노드 추가
             }
         }
     }

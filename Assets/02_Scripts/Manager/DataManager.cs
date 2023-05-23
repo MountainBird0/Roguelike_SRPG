@@ -37,12 +37,7 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         stageLevels = new Dictionary<string, StageLevelData>();
-        stageData = new StageData() // 이거 꼭 해야하나?
-        {
-            iconCounts = new Queue<int>(),
-            iconTypes = new Queue<ICON>(),
-            iconPos = new Queue<Vector2>()
-        };
+        stageData = new StageData();
         iconProbabilitys = new Dictionary<string, IconProbabilityData>();
     }
 

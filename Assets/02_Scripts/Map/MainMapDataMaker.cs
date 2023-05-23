@@ -13,7 +13,8 @@ public class MainMapDataMaker : MonoBehaviour
     private StageData stageData;
     private Dictionary<ICON, int> probabilityMap;
 
-    private List<IconTree> iconTrees;
+    private List<IconData> iconDatas;
+    private List<Tree> iconTrees;
 
     private int currentStage;
 
@@ -24,14 +25,8 @@ public class MainMapDataMaker : MonoBehaviour
     {
         stageLevel = new StageLevelData();
         iconProbability = new IconProbabilityData();
-        stageData = new StageData()
-        {
-            iconCounts = new Queue<int>(),
-            iconTypes = new Queue<ICON>(),
-            iconPos = new Queue<Vector2>()
-        };
+        stageData = new StageData();
         probabilityMap = new Dictionary<ICON, int>();
-        iconTrees = new List<IconTree>();
     }
 
     private void Start()
@@ -68,8 +63,6 @@ public class MainMapDataMaker : MonoBehaviour
             // 첫번째 라인
             if (i == 0) 
             {
-                iconTrees = new List<IconTree>(stageLevel.firstLine);
-
                 stageData.iconCounts.Enqueue(stageLevel.firstLine);
 
                 heightGap = mapHeight / (stageLevel.firstLine + 1);
@@ -77,23 +70,6 @@ public class MainMapDataMaker : MonoBehaviour
 
                 for (int j = 0; j < stageLevel.firstLine; j++)
                 {
-                    //노드 관련?
-                    if( j == 0)
-                    {
-
-                        // 다음 j = 0과 연결
-                    }
-                    else if(j == stageLevel.firstLine - 1)
-                    {
-                        // 다음 j = stageLevel.firstLine - 1과 연결
-                    }
-                    else
-                    {
-
-                    }
-
-
-
                     stageData.iconPos.Enqueue(iconPos);
                     iconPos.y += heightGap;
                     stageData.iconTypes.Enqueue(ICON.MONSTER);
@@ -116,7 +92,7 @@ public class MainMapDataMaker : MonoBehaviour
             }
             else
             {
-                iconCount = Random.Range(2, 5);
+                iconCount = Random.Range(2, 6);
                 stageData.iconCounts.Enqueue(iconCount);
 
                 heightGap = mapHeight / (iconCount + 1);
@@ -177,10 +153,16 @@ public class MainMapDataMaker : MonoBehaviour
     }
 
     /**********************************************************
-    * 라인 그리기를 위한 노드 생성
+    * icon끼리 연결을 위한 노드 생성
     ***********************************************************/
     private void MakeTreeData()
     {
+        stageData.iconGrid[0, 1][0] = 2;
+
+
+        //iconTrees = new List<Tree>(stageLevel.firstLine);
+        //iconTrees[0].AddNode(iconDatas[0], iconDatas[1]);
+
         int preIconCount = 0;
         int iconCount;
         int countGap;
@@ -189,18 +171,37 @@ public class MainMapDataMaker : MonoBehaviour
         {
             iconCount = stageData.iconCounts.Dequeue();
 
-            for (int j = 0; j < iconCount; j++)
+            for (int j = 0; j < iconCount; j++) // 한 라인 안의 아이콘
             {
+                
                 if( i == 0)
                 {
-                    preIconCount = iconCount;
+                    stageData.iconGrid[i, j][0] = 0;
                 }
                 else
                 {
                     countGap = iconCount - preIconCount;
                 }
             }
+
+
+            preIconCount = iconCount;
         }
+
+        //노드 관련?
+        //if (j == 0)
+        //{
+        //    // 다음 j = 0과 연결
+        //}
+        //else if (j == stageLevel.firstLine - 1)
+        //{
+        //    // 다음 j = stageLevel.firstLine - 1과 연결
+        //}
+        //else
+        //{
+
+        //}
+
     }
 
     /**********************************************************
@@ -208,8 +209,11 @@ public class MainMapDataMaker : MonoBehaviour
     ***********************************************************/
     private void SetData()
     {
+        int seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
+        Debug.Log($"{GetType()} - seed - {seed}");
+        Random.InitState(seed);
+
         currentStage = GameManager.instance.currentStage;
-        currentStage = 3;
         stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
         iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
 
