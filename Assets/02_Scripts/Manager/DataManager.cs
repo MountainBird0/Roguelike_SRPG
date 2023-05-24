@@ -21,7 +21,12 @@ public class DataManager : MonoBehaviour
     public TextAsset iconProbabilityText;
     public Dictionary<string, IconProbabilityData> iconProbabilitys;
 
-    public StageData stageData;
+    public GameInfo gameInfo;
+    public List<MapData> mapdatas;
+
+
+
+    public StageDataTempA stageDataTempA;
 
     public void Awake()
     {
@@ -37,8 +42,12 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         stageLevels = new Dictionary<string, StageLevelData>();
-        stageData = new StageData();
         iconProbabilitys = new Dictionary<string, IconProbabilityData>();
+
+
+
+
+        stageDataTempA = new StageDataTempA();
     }
 
     public void Start()
@@ -85,7 +94,6 @@ public class DataManager : MonoBehaviour
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
     }
-
 
 
 

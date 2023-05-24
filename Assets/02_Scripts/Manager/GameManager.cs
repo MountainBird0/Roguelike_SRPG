@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public int currentStage;
 
+    public bool isNewGame;
+
     public void Awake()
     {
         if (instance == null)
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+
+        isNewGame = false;
     }
 
     /******************************************************************************
@@ -33,6 +37,8 @@ public class GameManager : MonoBehaviour
         Debug.Log($"{GetType()} - 새 게임 시작");
 
         currentStage = 1;
+        isNewGame = true;
+
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
  
@@ -52,14 +58,6 @@ public class GameManager : MonoBehaviour
 
         // 맵 매니저 맵 생성
     }
-
-
-
-
-
-
-
-
 
 
 

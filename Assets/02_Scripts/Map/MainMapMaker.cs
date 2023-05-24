@@ -16,14 +16,17 @@ public class MainMapMaker : MonoBehaviour
     public GameObject Shop;
     public GameObject Chest;
 
-    private StageData stageData;
+    private StageDataTempA stageDataTempA;
+
+    private MapData mapData;
 
     // 노드 추가해보기
     private List<IconNode> iconNodes;
 
     private void Awake()
     {
-        stageData = new StageData();
+        stageDataTempA = new StageDataTempA();
+        mapData = new MapData();
     }
 
     public void Start()
@@ -32,13 +35,55 @@ public class MainMapMaker : MonoBehaviour
     }
 
     /**********************************************************
-    * 맵 생성
+    * 맵 생성  
     ***********************************************************/
     private void MakeMap()
     {
         Debug.Log($"{GetType()} - 맵생성 시작");
 
-        stageData = DataManager.instance.stageData;
+        mapData = DataManager.instance.mapdatas[GameManager.instance.currentStage - 1];
+
+        GameObject icon = null;
+        ICON iconType;
+
+        int iconIndex = 0;
+
+        for(int i = 0; i < mapData.lineCount; i++)
+        {
+            for(int j = 0; j < mapData.iconCounts[i]; j++)
+            {
+                iconType = mapData.iconState[iconIndex].Item1;
+                switch (iconType)
+                {
+                    case ICON.MONSTER:
+                        icon = Instantiate(Monster, map);
+                        break;
+                    case ICON.SHOP:
+                        icon = Instantiate(Shop, map);
+                        break;
+                    case ICON.BOSS:
+                        icon = Instantiate(Boss, map);
+                        break;
+                    case ICON.CHEST:
+                        icon = Instantiate(Chest, map);
+                        break;
+                }
+                icon.transform.position = mapData.iconState[iconIndex].Item2;
+
+                iconIndex++;
+            }
+        }
+    }
+
+
+    /**********************************************************
+    * 맵 생성
+    ***********************************************************/
+    private void MakeMapTempA()
+    {
+        Debug.Log($"{GetType()} - 맵생성 시작");
+
+        stageDataTempA = DataManager.instance.stageDataTempA;
 
         // 맵에 안보이는 root하나 추가필요
         // 노드 추가
@@ -49,13 +94,13 @@ public class MainMapMaker : MonoBehaviour
         ICON iconType;
         int iconCount;
 
-        for (int i = 0; i < stageData.lineCount; i++)
+        for (int i = 0; i < stageDataTempA.lineCount; i++)
         {
-            iconCount = stageData.iconCounts.Dequeue();
+            iconCount = stageDataTempA.iconCounts.Dequeue();
 
             for (int j = 0; j < iconCount; j++)
             {
-                iconType = stageData.iconTypes.Dequeue();
+                iconType = stageDataTempA.iconTypes.Dequeue();
 
                 switch (iconType)
                 {
@@ -72,7 +117,7 @@ public class MainMapMaker : MonoBehaviour
                         icon = Instantiate(Chest, map);
                         break;
                 }
-                icon.transform.position = stageData.iconPos.Dequeue();
+                icon.transform.position = stageDataTempA.iconPos.Dequeue();
 
                 // 노드 추가
                 // iconNodes[0].children.Add();

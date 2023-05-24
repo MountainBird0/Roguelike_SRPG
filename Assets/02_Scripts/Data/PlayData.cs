@@ -1,7 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageData
+public class GameInfo
+{
+    public int seed;
+    public int currentStage;
+}
+
+public class MapData
+{
+    public int lineCount; // 라인 수
+    public List<int> iconCounts = new List<int>();  // 한 라인 당 아이콘 수
+
+    public List<(ICON, Vector2)> iconState = new List<(ICON, Vector2)>(); // 각 아이콘의 종류와 위치
+    public int[,][] iconGrid; // 아이콘 좌표화와 어느 부모 노드에 들어갈지
+}
+
+
+
+public class StageDataTempA
 {
     public bool isSave;
     public int currentStage;

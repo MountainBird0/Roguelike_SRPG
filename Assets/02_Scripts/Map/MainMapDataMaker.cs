@@ -8,10 +8,13 @@ using UnityEngine;
 [DefaultExecutionOrder((int)SEO.MainMapDataMaker)]
 public class MainMapDataMaker : MonoBehaviour
 {
+    private List<StageLevelData> stageLevels;
     private StageLevelData stageLevel;
     private IconProbabilityData iconProbability;
-    private StageData stageData;
     private Dictionary<ICON, int> probabilityMap;
+    
+    private StageDataTempA stageDataTempA;
+    private List<MapData> mapdatas;
 
     private List<IconData> iconDatas;
     private List<Tree> iconTrees;
@@ -21,23 +24,227 @@ public class MainMapDataMaker : MonoBehaviour
     private float mapWidth;
     private float mapHeight;
 
+    private int currentShopCount;
+
+
     private void Awake()
     {
         stageLevel = new StageLevelData();
         iconProbability = new IconProbabilityData();
-        stageData = new StageData();
         probabilityMap = new Dictionary<ICON, int>();
+        
+        stageDataTempA = new StageDataTempA();
+
+        stageLevels = new List<StageLevelData>();
+        mapdatas = new List<MapData>();
     }
 
     private void Start()
     {
-        // 새로하기 의미
-        if (!stageData.isSave)
+        if(GameManager.instance.isNewGame)
         {
-            Debug.Log($"{GetType()} - 새로운 맵 데이터 생성");
             MakeMapData();
         }
+        // 새로하기 의미
+        if (!stageDataTempA.isSave)
+        {
+            Debug.Log($"{GetType()} - 새로운 맵 데이터 생성");
+            //MakeMapDataTempA();
+        }
     }
+
+    /**********************************************************
+    * 새로운 맵 생성을 위한 데이터 만듬
+    ***********************************************************/
+    private void MakeMapData()
+    {
+        SetData();
+
+        float mapWidth;
+        float mapHeight;
+
+        float widthGap;
+
+        Vector2 iconPos = Vector2.zero;
+
+        // 각 레벨
+        for (int i = 0; i < stageLevels.Count; i++)
+        {
+            AddProbabilityDic(i + 1);
+
+            mapdatas[i].lineCount = stageLevels[i].lineCount;
+
+            mapWidth = stageLevels[i].mapWidth;
+            mapHeight = stageLevels[i].mapHeight;
+           
+            iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
+            widthGap = mapWidth / (mapdatas[i].lineCount - 1);
+            
+            // 한 레벨의 각 라인
+            for (int j = 0; j < stageLevels[i].lineCount; j++)
+            {
+                // 첫번째 라인
+                if(j == 0)
+                {
+                    SetIcon(i, mapHeight, stageLevels[i].firstLine, ICON.MONSTER, ref iconPos);
+                }
+                // 마지막 라인
+                else if(j == (stageLevels[i].lineCount -1))
+                {
+                    SetIcon(i, mapHeight, stageLevels[i].lastLine, ICON.BOSS, ref iconPos);
+                }
+                else
+                {
+                    // 상자 라인
+                    if (j == (stageLevels[i].chestLine - 1))
+                    {
+                        SetIcon(i, mapHeight, Random.Range(2, 6), ICON.CHEST, ref iconPos);
+                    }
+                    else
+                    {
+                        SetIcon(i, mapHeight, Random.Range(2, 6), ref iconPos);
+                    }
+                }
+                iconPos.x += widthGap;
+            }
+        }
+
+        DataManager.instance.mapdatas = mapdatas;
+    }
+
+
+    /**********************************************************
+    * 고정 아이콘 데이터 넣기
+    ***********************************************************/
+    public void SetIcon(int currentLevel, float mapHeight, int iconCount, ICON icon, ref Vector2 pos)
+    {
+        mapdatas[currentLevel].iconCounts.Add(iconCount);
+
+        float heightGap = mapHeight / (iconCount + 1);
+        pos.y = -(mapHeight / 2) + heightGap;
+
+        for (int i = 0; i < iconCount; i++)
+        {
+            mapdatas[currentLevel].iconState.Add((icon, pos));
+            pos.y += heightGap;
+        }
+    }
+    /**********************************************************
+    * 랜덤 아이콘 데이터 넣기
+    ***********************************************************/
+    public void SetIcon(int currentLevel, float mapHeight, int iconCount, ref Vector2 pos)
+    {
+        mapdatas[currentLevel].iconCounts.Add(iconCount);
+
+        float heightGap = mapHeight / (iconCount + 1);
+        pos.y = -(mapHeight / 2) + heightGap;
+
+        for (int i = 0; i < iconCount; i++)
+        {
+            int randomValue = Random.Range(0, GetTotalProbability());
+
+            int sum = 0;
+
+            foreach (var kvp in probabilityMap)
+            {
+                sum += kvp.Value;
+
+                if (randomValue < sum)
+                {
+                    mapdatas[currentLevel].iconState.Add((kvp.Key, pos));
+                    pos.y += heightGap;
+                    ProbabilityCheck(kvp.Key, currentLevel);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**********************************************************
+    * 랜덤 아이콘 dic관리
+    ***********************************************************/
+    private void ProbabilityCheck(ICON icon, int currentLevel)
+    {
+        switch (icon)
+        {
+            case ICON.MONSTER:
+                if (probabilityMap.ContainsKey(ICON.SHOP))
+                {
+                    probabilityMap[ICON.SHOP] += 10;
+                }
+                break;
+
+            case ICON.SHOP:
+                currentShopCount += 1;
+                probabilityMap[ICON.SHOP] = iconProbability.shopChance;
+                if (currentShopCount == stageLevels[currentLevel].shopCount)
+                {
+                    probabilityMap.Remove(ICON.SHOP);
+                }
+                break;
+        }
+    }
+
+    /**********************************************************
+    * 랜덤 아이콘 dic 추가
+    ***********************************************************/
+    private void AddProbabilityDic(int currentStage)
+    {
+        iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
+
+        probabilityMap.Clear();
+        currentShopCount = 0;
+
+        probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
+        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
+    }
+
+
+    /**********************************************************
+    * 랜덤 아이콘의 전체 확률 구하기
+    ***********************************************************/
+    private int GetTotalProbability()
+    {
+        int totalProbability = 0;
+        foreach (var kvp in probabilityMap)
+        {
+        Debug.Log($"{GetType()} - {kvp}");
+            totalProbability += kvp.Value;
+        }
+        return totalProbability;
+    }
+
+    /**********************************************************
+    * 맵 생성을 위한 default데이터 준비
+    ***********************************************************/
+    private void SetData()
+    {
+        // 시드 생성
+        int seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
+        Random.InitState(seed);
+        //DataManager.instance.gameInfo.seed = seed;
+
+        for(int i = 1; i < DataManager.instance.stageLevels.Count + 1; i++)
+        {
+            stageLevels.Add(DataManager.instance.stageLevels[i.ToString()]);
+        }
+
+        for (int i = 0; i < stageLevels.Count; i++)
+        {
+            MapData mapData = new MapData();
+            mapdatas.Add(mapData);
+        }
+    }
+
+    /**********************************************************
+    * 생성한 아이콘에 좌표값과 어느 부모 노드에 들어갈지 입히기
+    ***********************************************************/
+    private void SetIconGrid()
+    {
+
+    }
+
+
 
 
     /**********************************************************
@@ -45,9 +252,9 @@ public class MainMapDataMaker : MonoBehaviour
     * - 게임을 처음 시작할 때, 한 stage를 클리어 했을 때 사용
     * - 상점 가중확률 추가 필요
     ***********************************************************/
-    public void MakeMapData()
+    public void MakeMapDataTempA()
     {
-        SetData();
+        SetDataTempA();
 
         int iconCount;
 
@@ -63,37 +270,37 @@ public class MainMapDataMaker : MonoBehaviour
             // 첫번째 라인
             if (i == 0) 
             {
-                stageData.iconCounts.Enqueue(stageLevel.firstLine);
+                stageDataTempA.iconCounts.Enqueue(stageLevel.firstLine);
 
                 heightGap = mapHeight / (stageLevel.firstLine + 1);
                 iconPos.y = -(mapHeight / 2) + heightGap;
 
                 for (int j = 0; j < stageLevel.firstLine; j++)
                 {
-                    stageData.iconPos.Enqueue(iconPos);
+                    stageDataTempA.iconPos.Enqueue(iconPos);
                     iconPos.y += heightGap;
-                    stageData.iconTypes.Enqueue(ICON.MONSTER);
+                    stageDataTempA.iconTypes.Enqueue(ICON.MONSTER);
                 }
             }
             // 마지막 라인
             else if (i == (stageLevel.lineCount - 1))
             {
-                stageData.iconCounts.Enqueue(stageLevel.lastLine);
+                stageDataTempA.iconCounts.Enqueue(stageLevel.lastLine);
 
                 heightGap = mapHeight / (stageLevel.lastLine + 1);
                 iconPos.y = -(mapHeight / 2) + heightGap;
 
                 for (int j = 0; j < stageLevel.lastLine; j++)
                 {
-                    stageData.iconPos.Enqueue(iconPos);
+                    stageDataTempA.iconPos.Enqueue(iconPos);
                     iconPos.y += heightGap;
-                    stageData.iconTypes.Enqueue(ICON.BOSS);
+                    stageDataTempA.iconTypes.Enqueue(ICON.BOSS);
                 }
             }
             else
             {
                 iconCount = Random.Range(2, 6);
-                stageData.iconCounts.Enqueue(iconCount);
+                stageDataTempA.iconCounts.Enqueue(iconCount);
 
                 heightGap = mapHeight / (iconCount + 1);
                 iconPos.y = -(mapHeight / 2) + heightGap;
@@ -102,9 +309,9 @@ public class MainMapDataMaker : MonoBehaviour
                 {
                     for (int j = 0; j < iconCount; j++)
                     {
-                        stageData.iconPos.Enqueue(iconPos);
+                        stageDataTempA.iconPos.Enqueue(iconPos);
                         iconPos.y += heightGap;
-                        stageData.iconTypes.Enqueue(ICON.CHEST);
+                        stageDataTempA.iconTypes.Enqueue(ICON.CHEST);
                     }
                 }
                 // 일반 라인
@@ -119,9 +326,9 @@ public class MainMapDataMaker : MonoBehaviour
                             sum += kvp.Value;
                             if (randomValue < sum)
                             {
-                                stageData.iconPos.Enqueue(iconPos);
+                                stageDataTempA.iconPos.Enqueue(iconPos);
                                 iconPos.y += heightGap;
-                                stageData.iconTypes.Enqueue(kvp.Key);
+                                stageDataTempA.iconTypes.Enqueue(kvp.Key);
                                 switch(kvp.Key)
                                 {
                                     case ICON.MONSTER:
@@ -148,8 +355,8 @@ public class MainMapDataMaker : MonoBehaviour
             }
             iconPos.x += widthGap;
         }
-            stageData.isSave = true;
-            DataManager.instance.stageData = stageData;
+            stageDataTempA.isSave = true;
+            DataManager.instance.stageDataTempA = stageDataTempA;
     }
 
     /**********************************************************
@@ -157,7 +364,7 @@ public class MainMapDataMaker : MonoBehaviour
     ***********************************************************/
     private void MakeTreeData()
     {
-        stageData.iconGrid[0, 1][0] = 2;
+        stageDataTempA.iconGrid[0, 1][0] = 2;
 
 
         //iconTrees = new List<Tree>(stageLevel.firstLine);
@@ -167,16 +374,16 @@ public class MainMapDataMaker : MonoBehaviour
         int iconCount;
         int countGap;
 
-        for (int i = 0; i < stageData.lineCount; i++)
+        for (int i = 0; i < stageDataTempA.lineCount; i++)
         {
-            iconCount = stageData.iconCounts.Dequeue();
+            iconCount = stageDataTempA.iconCounts.Dequeue();
 
             for (int j = 0; j < iconCount; j++) // 한 라인 안의 아이콘
             {
                 
                 if( i == 0)
                 {
-                    stageData.iconGrid[i, j][0] = 0;
+                    stageDataTempA.iconGrid[i, j][0] = 0;
                 }
                 else
                 {
@@ -207,10 +414,9 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 맵 생성을 위한 데이터 갱신
     ***********************************************************/
-    private void SetData()
+    private void SetDataTempA()
     {
         int seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
-        Debug.Log($"{GetType()} - seed - {seed}");
         Random.InitState(seed);
 
         currentStage = GameManager.instance.currentStage;
@@ -221,29 +427,17 @@ public class MainMapDataMaker : MonoBehaviour
         mapHeight = stageLevel.mapHeight;
 
         // 자동 Add로 변경 나중에
-        probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
-        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
+        //probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
+        //probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
 
-        stageData.isSave = false;
-        stageData.currentStage = currentStage;
-        stageData.clearCount = 0;
-        stageData.lineCount = stageLevel.lineCount;
-        stageData.iconCounts.Clear();
-        stageData.iconTypes.Clear();
+        stageDataTempA.isSave = false;
+        stageDataTempA.currentStage = currentStage;
+        stageDataTempA.clearCount = 0;
+        stageDataTempA.lineCount = stageLevel.lineCount;
+        stageDataTempA.iconCounts.Clear();
+        stageDataTempA.iconTypes.Clear();
     }
 
-    /**********************************************************
-    * 랜덤 아이콘의 전체 확률
-    ***********************************************************/
-    private int GetTotalProbability()
-    {
-        int totalProbability = 0;
-        foreach (var kvp in probabilityMap)
-        {
-            totalProbability += kvp.Value;
-        }
-        return totalProbability;
-    }
 
 
     /**********************************************************
