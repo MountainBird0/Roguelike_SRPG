@@ -22,7 +22,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, IconProbabilityData> iconProbabilitys;
 
     public GameInfo gameInfo;
-    public List<MapData> mapdatas;
+    public MapData mapdata;
 
 
 

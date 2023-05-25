@@ -8,13 +8,12 @@ using UnityEngine;
 [DefaultExecutionOrder((int)SEO.MainMapDataMaker)]
 public class MainMapDataMaker : MonoBehaviour
 {
-    private List<StageLevelData> stageLevels;
     private StageLevelData stageLevel;
     private IconProbabilityData iconProbability;
     private Dictionary<ICON, int> probabilityMap;
     
     private StageDataTempA stageDataTempA;
-    private List<MapData> mapdatas;
+    private MapData mapdata;
 
     private List<IconData> iconDatas;
     private List<Tree> iconTrees;
@@ -35,8 +34,7 @@ public class MainMapDataMaker : MonoBehaviour
         
         stageDataTempA = new StageDataTempA();
 
-        stageLevels = new List<StageLevelData>();
-        mapdatas = new List<MapData>();
+        mapdata = new MapData();
     }
 
     private void Start()
@@ -66,75 +64,70 @@ public class MainMapDataMaker : MonoBehaviour
         float widthGap;
 
         Vector2 iconPos = Vector2.zero;
+ 
+        AddProbabilityDic();
 
-        // 각 레벨
-        for (int i = 0; i < stageLevels.Count; i++)
-        {
-            AddProbabilityDic(i + 1);
+        mapdata.lineCount = stageLevel.lineCount;
 
-            mapdatas[i].lineCount = stageLevels[i].lineCount;
-
-            mapWidth = stageLevels[i].mapWidth;
-            mapHeight = stageLevels[i].mapHeight;
+        mapWidth = stageLevel.mapWidth;
+        mapHeight = stageLevel.mapHeight;
            
-            iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
-            widthGap = mapWidth / (mapdatas[i].lineCount - 1);
+        iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
+        widthGap = mapWidth / (mapdata.lineCount - 1);
             
-            // 한 레벨의 각 라인
-            for (int j = 0; j < stageLevels[i].lineCount; j++)
+        // 한 레벨의 각 라인
+        for (int j = 0; j < stageLevel.lineCount; j++)
+        {
+            // 첫번째 라인
+            if(j == 0)
             {
-                // 첫번째 라인
-                if(j == 0)
+                SetIcon(mapHeight, stageLevel.firstLine, ICON.MONSTER, ref iconPos);
+            }
+            // 마지막 라인
+            else if(j == (stageLevel.lineCount -1))
+            {
+                SetIcon(mapHeight, stageLevel.lastLine, ICON.BOSS, ref iconPos);
+            }
+            else
+            {
+                // 상자 라인
+                if (j == (stageLevel.chestLine - 1))
                 {
-                    SetIcon(i, mapHeight, stageLevels[i].firstLine, ICON.MONSTER, ref iconPos);
-                }
-                // 마지막 라인
-                else if(j == (stageLevels[i].lineCount -1))
-                {
-                    SetIcon(i, mapHeight, stageLevels[i].lastLine, ICON.BOSS, ref iconPos);
+                    SetIcon(mapHeight, Random.Range(2, 6), ICON.CHEST, ref iconPos);
                 }
                 else
                 {
-                    // 상자 라인
-                    if (j == (stageLevels[i].chestLine - 1))
-                    {
-                        SetIcon(i, mapHeight, Random.Range(2, 6), ICON.CHEST, ref iconPos);
-                    }
-                    else
-                    {
-                        SetIcon(i, mapHeight, Random.Range(2, 6), ref iconPos);
-                    }
+                    SetIcon(mapHeight, Random.Range(2, 6), ref iconPos);
                 }
-                iconPos.x += widthGap;
             }
+            iconPos.x += widthGap;        
         }
-
-        DataManager.instance.mapdatas = mapdatas;
+        DataManager.instance.mapdata = mapdata;
     }
 
 
     /**********************************************************
     * 고정 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(int currentLevel, float mapHeight, int iconCount, ICON icon, ref Vector2 pos)
+    public void SetIcon(float mapHeight, int iconCount, ICON icon, ref Vector2 pos)
     {
-        mapdatas[currentLevel].iconCounts.Add(iconCount);
+        mapdata.iconCounts.Add(iconCount);
 
         float heightGap = mapHeight / (iconCount + 1);
         pos.y = -(mapHeight / 2) + heightGap;
 
         for (int i = 0; i < iconCount; i++)
         {
-            mapdatas[currentLevel].iconState.Add((icon, pos));
+            mapdata.iconState.Add((icon, pos));
             pos.y += heightGap;
         }
     }
     /**********************************************************
     * 랜덤 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(int currentLevel, float mapHeight, int iconCount, ref Vector2 pos)
+    public void SetIcon(float mapHeight, int iconCount, ref Vector2 pos)
     {
-        mapdatas[currentLevel].iconCounts.Add(iconCount);
+        mapdata.iconCounts.Add(iconCount);
 
         float heightGap = mapHeight / (iconCount + 1);
         pos.y = -(mapHeight / 2) + heightGap;
@@ -151,9 +144,9 @@ public class MainMapDataMaker : MonoBehaviour
 
                 if (randomValue < sum)
                 {
-                    mapdatas[currentLevel].iconState.Add((kvp.Key, pos));
+                    mapdata.iconState.Add((kvp.Key, pos));
                     pos.y += heightGap;
-                    ProbabilityCheck(kvp.Key, currentLevel);
+                    ProbabilityCheck(kvp.Key);
                     break;
                 }
             }
@@ -163,7 +156,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 랜덤 아이콘 dic관리
     ***********************************************************/
-    private void ProbabilityCheck(ICON icon, int currentLevel)
+    private void ProbabilityCheck(ICON icon)
     {
         switch (icon)
         {
@@ -177,7 +170,7 @@ public class MainMapDataMaker : MonoBehaviour
             case ICON.SHOP:
                 currentShopCount += 1;
                 probabilityMap[ICON.SHOP] = iconProbability.shopChance;
-                if (currentShopCount == stageLevels[currentLevel].shopCount)
+                if (currentShopCount == stageLevel.shopCount)
                 {
                     probabilityMap.Remove(ICON.SHOP);
                 }
@@ -188,7 +181,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 랜덤 아이콘 dic 추가
     ***********************************************************/
-    private void AddProbabilityDic(int currentStage)
+    private void AddProbabilityDic()
     {
         iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
 
@@ -223,29 +216,55 @@ public class MainMapDataMaker : MonoBehaviour
         int seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
         Random.InitState(seed);
         //DataManager.instance.gameInfo.seed = seed;
+        currentStage = GameManager.instance.currentStage;
 
-        for(int i = 1; i < DataManager.instance.stageLevels.Count + 1; i++)
-        {
-            stageLevels.Add(DataManager.instance.stageLevels[i.ToString()]);
-        }
-
-        for (int i = 0; i < stageLevels.Count; i++)
-        {
-            MapData mapData = new MapData();
-            mapdatas.Add(mapData);
-        }
+        stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
     }
 
+    // https://github.com/silverua/slay-the-spire-map-in-unity
     /**********************************************************
     * 생성한 아이콘에 좌표값과 어느 부모 노드에 들어갈지 입히기
     ***********************************************************/
     private void SetIconGrid()
     {
+        int prevIconCount = 0;
 
+        // 각 라인
+        for(int i = 0; i < stageLevel.lineCount; i++)
+        {
+            for(int j = 0; j < mapdata.iconCounts[i]; j++)
+            {
+                // 첫 라인은 root와 연결
+                if (i == 0)
+                {
+                    prevIconCount = mapdata.iconCounts[i];
+                    mapdata.iconGrid[i, j][0] = 0;
+                }
+                // 마지막 라인은 앞에꺼랑 다 연결
+                else if (i == stageLevel.lineCount - 1)
+                {
+                    for(int k = 0; k < prevIconCount; k++)
+                    {
+                        mapdata.iconGrid[i, j][k] = k;
+                    }
+                }
+                else
+                {
+                    // 한 라인의 첫 아이콘은 이전 라인의 첫 아이콘과 무조건 연결
+                    if (j == 0)
+                    {
+                        mapdata.iconGrid[i, j][0] = 0;
+                    }
+                    // 한 라인의 마지막 아이콘은 이전 라인의 마지막 아이콘과 무조건 연결
+                    if (j == mapdata.iconCounts[i] -1)
+                    {
+                        mapdata.iconGrid[i, j][0] = prevIconCount - 1;
+                    }
+
+                }
+            }
+        }
     }
-
-
-
 
     /**********************************************************
     * 새로운 맵 생성을 위한 데이터 만듬
