@@ -102,6 +102,7 @@ public class MainMapDataMaker : MonoBehaviour
             }
             iconPos.x += widthGap;        
         }
+
         DataManager.instance.mapdata = mapdata;
     }
 
@@ -201,7 +202,6 @@ public class MainMapDataMaker : MonoBehaviour
         int totalProbability = 0;
         foreach (var kvp in probabilityMap)
         {
-        Debug.Log($"{GetType()} - {kvp}");
             totalProbability += kvp.Value;
         }
         return totalProbability;
@@ -216,21 +216,24 @@ public class MainMapDataMaker : MonoBehaviour
         int seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
         Random.InitState(seed);
         //DataManager.instance.gameInfo.seed = seed;
+
         currentStage = GameManager.instance.currentStage;
+        //currentStage = 2;
 
         stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
     }
 
-    // https://github.com/silverua/slay-the-spire-map-in-unity
+
     /**********************************************************
-    * 생성한 아이콘에 좌표값과 어느 부모 노드에 들어갈지 입히기
+    * 생성한 아이콘에 좌표와 어느 부모 노드에 들어갈지 입히기
     ***********************************************************/
     private void SetIconGrid()
     {
         int prevIconCount = 0;
 
+
         // 각 라인
-        for(int i = 0; i < stageLevel.lineCount; i++)
+        for (int i = 0; i < stageLevel.lineCount; i++)
         {
             for(int j = 0; j < mapdata.iconCounts[i]; j++)
             {
@@ -250,21 +253,42 @@ public class MainMapDataMaker : MonoBehaviour
                 }
                 else
                 {
-                    // 한 라인의 첫 아이콘은 이전 라인의 첫 아이콘과 무조건 연결
-                    if (j == 0)
-                    {
-                        mapdata.iconGrid[i, j][0] = 0;
-                    }
-                    // 한 라인의 마지막 아이콘은 이전 라인의 마지막 아이콘과 무조건 연결
-                    if (j == mapdata.iconCounts[i] -1)
-                    {
-                        mapdata.iconGrid[i, j][0] = prevIconCount - 1;
-                    }
-
+                    SetRandomGrid(i, j, prevIconCount);
+                    prevIconCount = mapdata.iconCounts[i];
                 }
             }
         }
     }
+    /**********************************************************
+    * 랜덤으로
+    ***********************************************************/
+    public void SetRandomGrid(int lineCount, int iconCount, int prevCount)
+    {
+        int countGap = prevCount - mapdata.iconCounts[lineCount];
+        int drawCount = Random.Range(1, countGap);
+
+        for (int i = 0; i < drawCount; i++)
+        {
+            mapdata.iconGrid[lineCount, iconCount][i] = i;
+        }
+    }
+
+
+
+        //// 한 라인의 첫 아이콘은 이전 라인의 첫 아이콘과 무조건 연결
+        //if (j == 0)
+        //{
+        //    mapdata.iconGrid[i, j][0] = 0;
+        //}
+        //// 한 라인의 마지막 아이콘은 이전 라인의 마지막 아이콘과 무조건 연결
+        //else if (j == mapdata.iconCounts[i] - 1)
+        //{
+        //    mapdata.iconGrid[i, j][0] = prevCount - 1;
+        //}
+    
+
+
+
 
     /**********************************************************
     * 새로운 맵 생성을 위한 데이터 만듬
