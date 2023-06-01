@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IconNode
+public class IconNodeza
 {
     public GameObject obj;
     public bool isReachable;
 
-    public List<IconNode> children= new List<IconNode>();
+    public List<IconNodeza> children= new List<IconNodeza>();
 }
 
 //public class Tree

@@ -4,7 +4,7 @@
     "mapWidth": 14,
     "mapHeight": 8,
     "lineCount": 5,
-    "FirstLine": 2,
+    "FirstLine": 3,
     "lastLine": 1,
     "chestLine": 3,
     "shopCount": 1
@@ -14,7 +14,7 @@
     "mapWidth": 14,
     "mapHeight": 8,
     "lineCount": 6,
-    "FirstLine": 3,
+    "FirstLine": 4,
     "lastLine": 1,
     "chestLine": 4,
     "shopCount": 2
@@ -24,7 +24,7 @@
     "mapWidth": 14,
     "mapHeight": 8,
     "lineCount": 7,
-    "FirstLine": 3,
+    "FirstLine": 4,
     "lastLine": 1,
     "chestLine": 4,
     "shopCount": 2

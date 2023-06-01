@@ -103,6 +103,7 @@ public class MainMapDataMaker : MonoBehaviour
             iconPos.x += widthGap;        
         }
 
+        SetIconGrid();
         DataManager.instance.mapdata = mapdata;
     }
 
@@ -224,13 +225,82 @@ public class MainMapDataMaker : MonoBehaviour
     }
 
 
+
     /**********************************************************
-    * 생성한 아이콘에 좌표와 어느 부모 노드에 들어갈지 입히기
+    * 노드정보 넣기
     ***********************************************************/
     private void SetIconGrid()
     {
         int prevIconCount = 0;
+        int gap;
+        int prevConnect = 0;
+        
 
+        for (int i = 0; i < stageLevel.lineCount; i++)
+        {
+            gap = prevIconCount - mapdata.iconCounts[i];
+
+            for (int j = 0; j < mapdata.iconCounts[i]; j++)
+            {
+                // 첫 라인은 root와 연결
+                if (i == 0)
+                {
+                    mapdata.nodeDatas.Add((0,1));
+                }
+                // 마지막 라인은 앞에꺼랑 다 연결
+                else if (i == stageLevel.lineCount - 1)
+                {
+                    mapdata.nodeDatas.Add((0, prevIconCount - 1));
+                }
+                // 나머지
+                else
+                {
+                    if(gap >= 0)
+                    {
+                        // 첫 아이콘
+                        if(j == 0)
+                        {
+                            int startNode = 0;
+                            int drawCount = Random.Range(1, gap + 1);
+                            mapdata.nodeDatas.Add((startNode, drawCount));
+                            prevConnect = startNode + drawCount - 1;
+                        }
+                        // 마지막 아이콘
+                        else if (j == mapdata.iconCounts[i] - 1)
+                        {
+                            int startNode = prevConnect + Random.Range(0, 2);
+                            mapdata.nodeDatas.Add((startNode, j - startNode));
+                        }
+                        // 나머지
+                        else
+                        {
+                            int startNode = prevConnect + Random.Range(0,2);
+                            int drawCount = Random.Range(1, gap + 1);
+                            mapdata.nodeDatas.Add((startNode, drawCount));
+                            prevConnect = startNode + drawCount - 1;
+                        } 
+                    }
+                    else
+                    {
+                        mapdata.nodeDatas.Add((0, 1));
+                    }
+                }
+            }
+            prevConnect = 0;
+            prevIconCount = mapdata.iconCounts[i];
+        }
+    }
+
+
+
+
+
+    /**********************************************************
+    * 생성한 아이콘에 좌표와 어느 부모 노드에 들어갈지 입히기
+    ***********************************************************/
+    private void SetIconGridaa()
+    {
+        int prevIconCount = 0;
 
         // 각 라인
         for (int i = 0; i < stageLevel.lineCount; i++)

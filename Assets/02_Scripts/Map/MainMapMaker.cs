@@ -16,19 +16,25 @@ public class MainMapMaker : MonoBehaviour
     public GameObject Shop;
     public GameObject Chest;
 
+    public GameObject Root;
+
     private StageDataTempA stageDataTempA;
 
     private MapData mapData;
+
+    // 노드
+    private List<IconNode> nodes;
 
     private void Awake()
     {
         stageDataTempA = new StageDataTempA();
         mapData = new MapData();
+        nodes = new List<IconNode>();
     }
 
     public void Start()
     {
-        MakeMap();
+        MakeMap(); 
     }
 
     /**********************************************************
@@ -45,7 +51,10 @@ public class MainMapMaker : MonoBehaviour
 
         int iconIndex = 0;
 
-        for(int i = 0; i < mapData.lineCount; i++)
+        IconNode rootNode = new IconNode(Root);
+        nodes.Add(rootNode);
+
+        for (int i = 0; i < mapData.lineCount; i++)
         {
             for(int j = 0; j < mapData.iconCounts[i]; j++)
             {
@@ -67,10 +76,25 @@ public class MainMapMaker : MonoBehaviour
                 }
                 icon.transform.position = mapData.iconState[iconIndex].Item2;
 
+                MakeNode(i, j, iconIndex, icon);
+
                 iconIndex++;
             }
         }
     }
+
+    private void MakeNode(int lineCount, int iconCount, int iconIndex, GameObject icon)
+    {
+        // 레벨마다 루트 포지션 변경 추가
+        
+
+
+
+
+    }
+
+
+
 
     private void MakeMap(int a)
     {
