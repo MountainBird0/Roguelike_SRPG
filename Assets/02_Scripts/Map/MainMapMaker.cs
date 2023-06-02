@@ -86,7 +86,10 @@ public class MainMapMaker : MonoBehaviour
     private void MakeNode(int lineCount, int iconCount, int iconIndex, GameObject icon)
     {
         // 레벨마다 루트 포지션 변경 추가
-        
+        for(int i = 0; i < mapData.nodeDatas[iconIndex].Item2; i++)
+        {
+
+        }
 
 
 

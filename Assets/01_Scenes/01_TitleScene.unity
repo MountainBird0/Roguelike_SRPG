@@ -414,6 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStage: 0
+  isNewGame: 0
 --- !u!1 &315020113
 GameObject:
   m_ObjectHideFlags: 0
