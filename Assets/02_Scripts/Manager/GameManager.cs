@@ -72,4 +72,13 @@ public class GameManager : MonoBehaviour
         DataManager.instance.SaveTemp(); // 데이터 저장
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            int a = Random.Range(1, 3);
+            Debug.Log(a);
+        }
+        
+    }
 }

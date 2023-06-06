@@ -18,8 +18,6 @@ public class MainMapMaker : MonoBehaviour
 
     public GameObject Root;
 
-    private StageDataTempA stageDataTempA;
-
     private MapData mapData;
 
     // 노드
@@ -27,7 +25,6 @@ public class MainMapMaker : MonoBehaviour
 
     private void Awake()
     {
-        stageDataTempA = new StageDataTempA();
         mapData = new MapData();
         nodes = new List<IconNode>();
     }
@@ -76,126 +73,54 @@ public class MainMapMaker : MonoBehaviour
                 }
                 icon.transform.position = mapData.iconState[iconIndex].Item2;
 
-                MakeNode(i, j, iconIndex, icon);
+                IconNode node = new IconNode(icon);
+                nodes.Add(node);
+                MakeNode(iconIndex, icon, node);
 
                 iconIndex++;
             }
         }
-    }
 
-    private void MakeNode(int lineCount, int iconCount, int iconIndex, GameObject icon)
-    {
-        // 레벨마다 루트 포지션 변경 추가
-        for(int i = 0; i < mapData.nodeDatas[iconIndex].Item2; i++)
+        foreach(var a in mapData.nodeDatas)
         {
-
+            Debug.Log($"{GetType()} - 노드 생성 보기 : {a.Item1}, {a.Item2} ");
         }
 
 
 
-
+        //for (int i = 0; i < nodes.Count; i++)
+        //{
+        //    var nodea = nodes[i];
+        //    Debug.Log($"Node {i}: {nodea.icon}");
+        //    foreach (var connection in nodea.connectedNodes)
+        //    {
+        //        int connectedNodeIndex = nodes.IndexOf(connection);
+        //        Debug.Log($"-----Connected to Node {connectedNodeIndex}: {connection.icon}");
+        //    }
+        //}
     }
-
-
-
-
-    private void MakeMap(int a)
-    {
-        Debug.Log($"{GetType()} - 맵생성 시작");
-
-        mapData = DataManager.instance.mapdata;
-
-        GameObject icon = null;
-        ICON iconType;
-
-        int iconIndex = 0;
-
-        for (int i = 0; i < mapData.lineCount; i++)
-        {
-            for (int j = 0; j < mapData.iconCounts[i]; j++)
-            {
-                iconType = mapData.iconState[iconIndex].Item1;
-                switch (iconType)
-                {
-                    case ICON.MONSTER:
-                        icon = Instantiate(Monster, map);
-                        break;
-                    case ICON.SHOP:
-                        icon = Instantiate(Shop, map);
-                        break;
-                    case ICON.BOSS:
-                        icon = Instantiate(Boss, map);
-                        break;
-                    case ICON.CHEST:
-                        icon = Instantiate(Chest, map);
-                        break;
-                }
-                icon.transform.position = mapData.iconState[iconIndex].Item2;
-
-                iconIndex++;
-            }
-        }
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            MakeMap(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            MakeMap(2);
-        }
-    }
-
-
 
     /**********************************************************
-    * 맵 생성
+    * 노드 연결
     ***********************************************************/
-    private void MakeMapTempA()
+    private void MakeNode(int iconIndex, GameObject icon, IconNode node)
     {
-        Debug.Log($"{GetType()} - 맵생성 시작");
-
-        stageDataTempA = DataManager.instance.stageDataTempA;
-
-        GameObject icon = null;
-        ICON iconType;
-        int iconCount;
-
-        for (int i = 0; i < stageDataTempA.lineCount; i++)
+        for (int i = 0; i < mapData.nodeDatas[iconIndex].Item2; i++)
         {
-            iconCount = stageDataTempA.iconCounts.Dequeue();
-
-            for (int j = 0; j < iconCount; j++)
-            {
-                iconType = stageDataTempA.iconTypes.Dequeue();
-
-                switch (iconType)
-                {
-                    case ICON.MONSTER:
-                        icon = Instantiate(Monster, map);
-                        break;
-                    case ICON.SHOP:
-                        icon = Instantiate(Shop, map);
-                        break;
-                    case ICON.BOSS:
-                        icon = Instantiate(Boss, map);
-                        break;
-                    case ICON.CHEST:
-                        icon = Instantiate(Chest, map);
-                        break;
-                }
-                icon.transform.position = stageDataTempA.iconPos.Dequeue();
-
-                // 노드 추가
-                // iconNodes[0].children.Add();
-                // 노드 추가
-            }
+            //Debug.Log($"{GetType()} - 노드 생성 보기 :  부모노드 - {mapData.nodeDatas[iconIndex].Item1 + i}");
+            //Debug.Log($"{GetType()} - 노드 생성 보기 :  들어갈노드 - {iconIndex}");
+            nodes[mapData.nodeDatas[iconIndex].Item1 + i].AddConnection(node);
         }
     }
+
+
+
+
+    
+
+
+
+
 
 
 }

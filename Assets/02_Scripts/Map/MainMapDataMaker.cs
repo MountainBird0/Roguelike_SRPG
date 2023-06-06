@@ -58,40 +58,33 @@ public class MainMapDataMaker : MonoBehaviour
     {
         SetData();
 
-        float mapWidth;
-        float mapHeight;
-
-        float widthGap;
+        float mapWidth = stageLevel.mapWidth;
+        float mapHeight = stageLevel.mapHeight;
 
         Vector2 iconPos = Vector2.zero;
+        
+        iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
+        float widthGap = mapWidth / (mapdata.lineCount - 1);
  
         AddProbabilityDic();
 
-        mapdata.lineCount = stageLevel.lineCount;
-
-        mapWidth = stageLevel.mapWidth;
-        mapHeight = stageLevel.mapHeight;
-           
-        iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
-        widthGap = mapWidth / (mapdata.lineCount - 1);
-            
         // 한 레벨의 각 라인
-        for (int j = 0; j < stageLevel.lineCount; j++)
+        for (int i = 0; i < stageLevel.lineCount; i++)
         {
             // 첫번째 라인
-            if(j == 0)
+            if(i == 0)
             {
                 SetIcon(mapHeight, stageLevel.firstLine, ICON.MONSTER, ref iconPos);
             }
             // 마지막 라인
-            else if(j == (stageLevel.lineCount -1))
+            else if(i == (stageLevel.lineCount -1))
             {
                 SetIcon(mapHeight, stageLevel.lastLine, ICON.BOSS, ref iconPos);
             }
             else
             {
                 // 상자 라인
-                if (j == (stageLevel.chestLine - 1))
+                if (i == (stageLevel.chestLine - 1))
                 {
                     SetIcon(mapHeight, Random.Range(2, 6), ICON.CHEST, ref iconPos);
                 }
@@ -222,6 +215,7 @@ public class MainMapDataMaker : MonoBehaviour
         //currentStage = 2;
 
         stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
+        mapdata.lineCount = stageLevel.lineCount;
     }
 
 
@@ -231,63 +225,49 @@ public class MainMapDataMaker : MonoBehaviour
     ***********************************************************/
     private void SetIconGrid()
     {
-        int prevIconCount = 0;
-        int gap;
-        int prevConnect = 0;
-        
+        int maxIconPos = 0;    // 이전라인 최대로 들어갈 수 있는 아이콘 위치
+        int gap = 0;           // 이전라인과 현재라인의 아이콘 수 차이
+        int parIcon = 0;       // 연결될 부모 아이콘
+        int drawCount = 0;     // 몇 번 연결할지
 
         for (int i = 0; i < stageLevel.lineCount; i++)
         {
-            gap = prevIconCount - mapdata.iconCounts[i];
+            if(i != 0)
+            {
+                gap = mapdata.iconCounts[i - 1] - mapdata.iconCounts[i];
+            }
 
             for (int j = 0; j < mapdata.iconCounts[i]; j++)
             {
-                // 첫 라인은 root와 연결
-                if (i == 0)
+                if (j == mapdata.iconCounts[i] - 1)
                 {
-                    mapdata.nodeDatas.Add((0,1));
+                    mapdata.nodeDatas.Add((parIcon, maxIconPos - parIcon + 1));
+                    Debug.Log($"{GetType()} - parIcon 마지막에 -  {parIcon}");
+                    Debug.Log($"{GetType()} - j - drawCount -  {maxIconPos - parIcon + 1}");
                 }
-                // 마지막 라인은 앞에꺼랑 다 연결
-                else if (i == stageLevel.lineCount - 1)
-                {
-                    mapdata.nodeDatas.Add((0, prevIconCount - 1));
-                }
-                // 나머지
                 else
                 {
-                    if(gap >= 0)
+                    drawCount = Random.Range(1, gap + 1);
+                    if(drawCount < 1)
                     {
-                        // 첫 아이콘
-                        if(j == 0)
-                        {
-                            int startNode = 0;
-                            int drawCount = Random.Range(1, gap + 1);
-                            mapdata.nodeDatas.Add((startNode, drawCount));
-                            prevConnect = startNode + drawCount - 1;
-                        }
-                        // 마지막 아이콘
-                        else if (j == mapdata.iconCounts[i] - 1)
-                        {
-                            int startNode = prevConnect + Random.Range(0, 2);
-                            mapdata.nodeDatas.Add((startNode, j - startNode));
-                        }
-                        // 나머지
-                        else
-                        {
-                            int startNode = prevConnect + Random.Range(0,2);
-                            int drawCount = Random.Range(1, gap + 1);
-                            mapdata.nodeDatas.Add((startNode, drawCount));
-                            prevConnect = startNode + drawCount - 1;
-                        } 
+                        drawCount = 1;
                     }
-                    else
-                    {
-                        mapdata.nodeDatas.Add((0, 1));
-                    }
+                    Debug.Log($"{GetType()} - parIcon 일반 -  {parIcon}");
+                    Debug.Log($"{GetType()} - drawCount 일반 -  {drawCount}");
+                    mapdata.nodeDatas.Add((parIcon, drawCount));
+                    parIcon += drawCount;
+                    parIcon += Random.Range(-1, 1);
                 }
-            }
-            prevConnect = 0;
-            prevIconCount = mapdata.iconCounts[i];
+
+                if(parIcon > maxIconPos)
+                {
+                    parIcon = maxIconPos;
+                    Debug.Log($"{GetType()} - parIcon초기화 {parIcon}");
+                }
+            }          
+            parIcon += maxIconPos + 1;
+            maxIconPos += mapdata.iconCounts[i];
+            drawCount = 0;
         }
     }
 
