@@ -20,8 +20,7 @@ public class MainMapMaker : MonoBehaviour
 
     private MapData mapData;
 
-    // 노드
-    private List<IconNode> nodes;
+    private List<IconNode> nodes;   
 
     private void Awake()
     {
@@ -29,19 +28,15 @@ public class MainMapMaker : MonoBehaviour
         nodes = new List<IconNode>();
     }
 
-    public void Start()
-    {
-        MakeMap(); 
-    }
 
     /**********************************************************
     * 맵 생성  
     ***********************************************************/
-    private void MakeMap()
+    public void MakeMap()
     {
         Debug.Log($"{GetType()} - 맵생성 시작");
 
-        mapData = DataManager.instance.mapdata;
+        mapData = DataManager.instance.mapData;
 
         GameObject icon = null;
         ICON iconType;
@@ -86,19 +81,9 @@ public class MainMapMaker : MonoBehaviour
             Debug.Log($"{GetType()} - 노드 생성 보기 : {a.Item1}, {a.Item2} ");
         }
 
-
-
-        //for (int i = 0; i < nodes.Count; i++)
-        //{
-        //    var nodea = nodes[i];
-        //    Debug.Log($"Node {i}: {nodea.icon}");
-        //    foreach (var connection in nodea.connectedNodes)
-        //    {
-        //        int connectedNodeIndex = nodes.IndexOf(connection);
-        //        Debug.Log($"-----Connected to Node {connectedNodeIndex}: {connection.icon}");
-        //    }
-        //}
+        DataManager.instance.nodes = nodes;
     }
+
 
     /**********************************************************
     * 노드 연결
@@ -107,20 +92,33 @@ public class MainMapMaker : MonoBehaviour
     {
         for (int i = 0; i < mapData.nodeDatas[iconIndex].Item2; i++)
         {
-            //Debug.Log($"{GetType()} - 노드 생성 보기 :  부모노드 - {mapData.nodeDatas[iconIndex].Item1 + i}");
-            //Debug.Log($"{GetType()} - 노드 생성 보기 :  들어갈노드 - {iconIndex}");
             nodes[mapData.nodeDatas[iconIndex].Item1 + i].AddConnection(node);
         }
     }
 
 
+    /**********************************************************
+    * 저장된거 기반으로 불러오기 - 노드 기반
+    ***********************************************************/
+    private void ShowMap()
+    {
+        nodes = DataManager.instance.nodes;
 
+        GameObject icon;
 
-    
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            icon = Instantiate(nodes[i].icon, map);
+        }
+    }
 
-
-
-
+    private void Update()
+    {
+        //if(Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    ShowMap();
+        //}
+    }
 
 
 }

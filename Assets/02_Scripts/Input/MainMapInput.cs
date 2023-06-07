@@ -1,3 +1,6 @@
+/**********************************************************
+* 메인 맵 플레이어 인풋 관리
+***********************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

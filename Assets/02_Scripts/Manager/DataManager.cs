@@ -15,18 +15,19 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
+    // default data
     public TextAsset stageLevelText;
     public Dictionary<string, StageLevelData> stageLevels;
-
     public TextAsset iconProbabilityText;
     public Dictionary<string, IconProbabilityData> iconProbabilitys;
 
+    // playing data
     public GameInfo gameInfo;
-    public MapData mapdata;
+    public MapData mapData;
 
+    public List<IconNode> nodes;
 
-
-    public StageDataTempA stageDataTempA;
+    public bool hasSaveData;
 
     public void Awake()
     {
@@ -43,35 +44,26 @@ public class DataManager : MonoBehaviour
 
         stageLevels = new Dictionary<string, StageLevelData>();
         iconProbabilitys = new Dictionary<string, IconProbabilityData>();
-
-
-
-
-        stageDataTempA = new StageDataTempA();
+        gameInfo = new GameInfo();
+        mapData = new MapData();
+        nodes = new List<IconNode>();
     }
 
     public void Start()
     {
-        LoadData();
-    }
-
-
-    /**********************************************************
-    * 새 게임 json 파일 불러오기
-    ***********************************************************/
-    public void LoadNewData()
-    {
-
+        LoadDefaultData();
+        LoadSaveData();
     }
 
     /**********************************************************
-    * 기존 게임 json 파일 불러오기
+    * TextAsset형식으로 되어있는 데이터들 가지고 오기
     ***********************************************************/
-    public void LoadSaveData()
+    private void LoadDefaultData()
     {
-        
+        stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
+        iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
     }
-
+    
 
     /**********************************************************
     * json에 저장하기
@@ -79,63 +71,73 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void SaveDate()
     {
-
-        //string fileName = "MainMapData";
-        //string path = Application.persistentDataPath + fileName + ".Json";
-        //var setJson = JsonConvert.SerializeObject(dataMainMaps);
-        //File.WriteAllText(path, setJson);
+        string fileName = "MainMapData";
+        string path = Application.persistentDataPath + fileName + ".Json";
+        var setJson = JsonConvert.SerializeObject(mapData, settings);
+        File.WriteAllText(path, setJson);
     }
+    JsonSerializerSettings settings = new JsonSerializerSettings // 순환참조 오류 발생했을 때 사용
+    {
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    };
+
 
     /**********************************************************
-    * TextAsset형식으로 되어있는 데이터들 가지고 오기
+    * 기존 게임 json 파일 불러오기
     ***********************************************************/
-    private void LoadData()
+    public void LoadSaveData()
     {
-        stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
-        iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
+        string fileName = "MainMapData";
+        string path = Application.persistentDataPath + fileName + ".Json";
+
+        FileInfo fileInfo = new FileInfo(path);
+        if (!fileInfo.Exists)
+        {
+            Debug.Log($"{GetType()} - 저장된 데이터 없음");
+            
+            hasSaveData = false;
+        }
+        else
+        {
+            Debug.Log($"{GetType()} - 저장된거 불러옴");
+            
+            string json = File.ReadAllText(path);
+            mapData = JsonConvert.DeserializeObject<MapData>(json);
+            
+            hasSaveData = true;
+        }
     }
 
-
-
-
-    //var a = StageLevels["1"];
-    //StageLevelData b;
-    //// 가지고온거 활용
-    //Debug.Log($"{GetType()} - {a.lineNum}");
-
-    //if(StageLevels.TryGetValue("2", out b))
-    //{
-    //    Debug.Log($"{GetType()} - {b.lineNum}");
-    //    Debug.Log($"{GetType()} - {b.monsterPer}");
-    //    Debug.Log($"{GetType()} - {b.shopNum}");
-    //    Debug.Log($"{GetType()} - {b.stage}");
-    //    Debug.Log($"{GetType()} - {b.lastLine}");
-    //    Debug.Log($"{GetType()} - {b.monsterPer}");
-    //}
-
-
-
-    //lineNums = JsonConvert.DeserializeObject<LineNum>(DefaultlineNum.ToString());
 
     /**********************************************************
-    * json에 레벨 디자인 저장
-    * C:\Users\huy12\AppData\LocalLow\DefaultCompany
+    * 기존 게임 json 파일 삭제하기
     ***********************************************************/
-    public void SaveTemp()
+    public void DeleteSaveData()
     {
-        //lineNum.line = 111;
-        //lineNums.Add(lineNum);
-        //lineNum.line = 222;
-        //lineNums.Add(lineNum);
-        //lineNum.line = 333;
-        //lineNums.Add(lineNum);
-
-
-        //string fileName = "LineNum";
-        //string path = Application.persistentDataPath + fileName + ".Json";
-        //var setJson = JsonConvert.SerializeObject(lineNums);
-        //File.WriteAllText(path, setJson);
+        string fileName = "MainMapData";
+        string path = Application.persistentDataPath + fileName + ".Json";
+        File.Delete(path);
     }
+
+
+
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log($"{GetType()} - 저장함");
+            SaveDate();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log($"{GetType()} - 삭제함");
+            DeleteSaveData();
+        }
+    }
+
 
     // 끝
 }

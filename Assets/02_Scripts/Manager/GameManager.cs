@@ -9,10 +9,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int currentStage;
-
-    public bool isNewGame;
-
     public void Awake()
     {
         if (instance == null)
@@ -25,8 +21,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-
-        isNewGame = false;
     }
 
     /******************************************************************************
@@ -35,9 +29,6 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         Debug.Log($"{GetType()} - 새 게임 시작");
-
-        currentStage = 1;
-        isNewGame = true;
 
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
@@ -69,16 +60,11 @@ public class GameManager : MonoBehaviour
         Debug.Log($"{GetType()} - 저장");
 
         //DataManager.instance.SaveDate(); // 데이터 저장
-        DataManager.instance.SaveTemp(); // 데이터 저장
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            int a = Random.Range(1, 3);
-            Debug.Log(a);
-        }
+
         
     }
 }
