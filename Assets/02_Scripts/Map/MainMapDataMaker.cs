@@ -10,7 +10,7 @@ public class MainMapDataMaker : MonoBehaviour
 {
     private StageLevelData stageLevel;
     private IconProbabilityData iconProbability;
-    private Dictionary<ICON, int> probabilityMap;
+    private Dictionary<Icon, int> probabilityMap;
 
     private MapData mapData;
 
@@ -21,7 +21,7 @@ public class MainMapDataMaker : MonoBehaviour
     {
         stageLevel = new StageLevelData();
         iconProbability = new IconProbabilityData();
-        probabilityMap = new Dictionary<ICON, int>();
+        probabilityMap = new Dictionary<Icon, int>();
 
         mapData = new MapData();
     }
@@ -48,19 +48,19 @@ public class MainMapDataMaker : MonoBehaviour
             // 첫번째 라인
             if (i == 0)
             {
-                SetIcon(mapHeight, stageLevel.firstLine, ICON.MONSTER, ref iconPos);
+                SetIcon(mapHeight, stageLevel.firstLine, Icon.MONSTER, ref iconPos);
             }
             // 마지막 라인
             else if (i == (stageLevel.lineCount - 1))
             {
-                SetIcon(mapHeight, stageLevel.lastLine, ICON.BOSS, ref iconPos);
+                SetIcon(mapHeight, stageLevel.lastLine, Icon.BOSS, ref iconPos);
             }
             else
             {
                 // 상자 라인
                 if (i == (stageLevel.chestLine - 1))
                 {
-                    SetIcon(mapHeight, Random.Range(2, 6), ICON.CHEST, ref iconPos);
+                    SetIcon(mapHeight, Random.Range(2, 6), Icon.CHEST, ref iconPos);
                 }
                 else
                 {
@@ -80,7 +80,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 고정 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(float mapHeight, int iconCount, ICON icon, ref Vector2 pos)
+    public void SetIcon(float mapHeight, int iconCount, Icon icon, ref Vector2 pos)
     {
         mapData.iconCounts.Add(iconCount);
 
@@ -128,23 +128,23 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 랜덤 아이콘 dic관리
     ***********************************************************/
-    private void ProbabilityCheck(ICON icon)
+    private void ProbabilityCheck(Icon icon)
     {
         switch (icon)
         {
-            case ICON.MONSTER:
-                if (probabilityMap.ContainsKey(ICON.SHOP))
+            case Icon.MONSTER:
+                if (probabilityMap.ContainsKey(Icon.SHOP))
                 {
-                    probabilityMap[ICON.SHOP] += 10;
+                    probabilityMap[Icon.SHOP] += 10;
                 }
                 break;
 
-            case ICON.SHOP:
+            case Icon.SHOP:
                 currentShopCount += 1;
-                probabilityMap[ICON.SHOP] = iconProbability.shopChance;
+                probabilityMap[Icon.SHOP] = iconProbability.shopChance;
                 if (currentShopCount == stageLevel.shopCount)
                 {
-                    probabilityMap.Remove(ICON.SHOP);
+                    probabilityMap.Remove(Icon.SHOP);
                 }
                 break;
         }
@@ -181,8 +181,8 @@ public class MainMapDataMaker : MonoBehaviour
         probabilityMap.Clear();
         currentShopCount = 0;
 
-        probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
-        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
+        probabilityMap.Add(Icon.SHOP, iconProbability.shopChance);
+        probabilityMap.Add(Icon.MONSTER, iconProbability.monsterChance);
     }
 
 

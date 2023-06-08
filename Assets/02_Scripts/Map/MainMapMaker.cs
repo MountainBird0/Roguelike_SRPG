@@ -39,7 +39,7 @@ public class MainMapMaker : MonoBehaviour
         mapData = DataManager.instance.mapData;
 
         GameObject icon = null;
-        ICON iconType;
+        Icon iconType;
 
         int iconIndex = 0;
 
@@ -53,16 +53,16 @@ public class MainMapMaker : MonoBehaviour
                 iconType = mapData.iconState[iconIndex].Item1;
                 switch (iconType)
                 {
-                    case ICON.MONSTER:
+                    case Icon.MONSTER:
                         icon = Instantiate(Monster, map);
                         break;
-                    case ICON.SHOP:
+                    case Icon.SHOP:
                         icon = Instantiate(Shop, map);
                         break;
-                    case ICON.BOSS:
+                    case Icon.BOSS:
                         icon = Instantiate(Boss, map);
                         break;
-                    case ICON.CHEST:
+                    case Icon.CHEST:
                         icon = Instantiate(Chest, map);
                         break;
                 }
@@ -70,7 +70,7 @@ public class MainMapMaker : MonoBehaviour
 
                 IconNode node = new IconNode(icon);
                 nodes.Add(node);
-                MakeNode(iconIndex, icon, node);
+                MakeNode(iconIndex, node);
 
                 iconIndex++;
             }
@@ -88,13 +88,20 @@ public class MainMapMaker : MonoBehaviour
     /**********************************************************
     * 노드 연결
     ***********************************************************/
-    private void MakeNode(int iconIndex, GameObject icon, IconNode node)
+    private void MakeNode(int iconIndex, IconNode node)
     {
         for (int i = 0; i < mapData.nodeDatas[iconIndex].Item2; i++)
         {
             nodes[mapData.nodeDatas[iconIndex].Item1 + i].AddConnection(node);
         }
     }
+
+    // 노드 새로 만들기, 만들어진 노드에 icon만 넣기
+
+
+
+
+
 
 
     /**********************************************************
