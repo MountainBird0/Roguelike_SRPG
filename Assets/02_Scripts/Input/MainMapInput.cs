@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class MainMapInput : MonoBehaviour
 {
-
     Ray ray;
     RaycastHit hit;
 
@@ -35,9 +34,21 @@ public class MainMapInput : MonoBehaviour
         if(Physics.Raycast(ray, out hit))
         {
             Debug.Log($"{GetType()} - {hit.transform.gameObject.name}");
-            if(hit.transform.gameObject.CompareTag("Monster"))
+            //if(hit.transform.gameObject.CompareTag("Monster"))
+            //{
+            //    Debug.Log($"{GetType()} - 몬스터 버튼 누름");
+            //}
+
+            foreach(var node in DataManager.instance.nodes)
             {
-                Debug.Log($"{GetType()} - 몬스터 버튼 누름");
+                if (node.icon == hit.transform.gameObject)
+                {
+                    Debug.Log($"{GetType()} - 찾기성공 : {node.icon}");
+                    foreach(var c in node.connectedNodes)
+                    {
+                        Debug.Log($"{GetType()} - {c.icon}");
+                    }
+                }
             }
         }
     }

@@ -29,6 +29,15 @@ public class GlobalSceneManager : MonoBehaviour
     }
 
     /******************************************************************************
+    * 비동기 Scene 이동
+    *******************************************************************************/
+    public AsyncOperation GoScene(int sceneNum)
+    {
+        operation = SceneManager.LoadSceneAsync(sceneNum);
+        return operation;
+    }
+
+    /******************************************************************************
     * 로딩씬으로 이동
     *******************************************************************************/
     public void GoLodingScene()

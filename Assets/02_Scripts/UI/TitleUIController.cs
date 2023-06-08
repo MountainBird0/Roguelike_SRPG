@@ -34,9 +34,12 @@ public class TitleUIController : MonoBehaviour
         }
     }
 
+    public TitleUIManager UIMgr;
 
-    public GameObject CheckNewGamePopUp;
-    // 이어하기, 유물, 업적 등 추가
+    public GameObject NewGamePopUp;
+    public GameObject ContinuePopUp;
+    // 유물, 업적 등 추가
+
 
     /**********************************************************
     * 이어하기 버튼을 눌렀을 때
@@ -45,9 +48,26 @@ public class TitleUIController : MonoBehaviour
     {
         if (currentState.Equals(UiState.Nothing))
         {
-            Debug.Log($"{GetType()} - 이어하기 누름");
+            ContinuePopUp.SetActive(true);
+            currentState = UiState.ShowPopUp;
         }
     }
+    /**********************************************************
+    * 이어하기 버튼을 누른 후 O 버튼
+    ***********************************************************/
+    public void ClickBtnContinueYes()
+    {
+        
+    }
+    /**********************************************************
+    * 이어하기 버튼을 누른 후 X 버튼
+    ***********************************************************/
+    public void ClickBtnContinueNo()
+    {
+        ContinuePopUp.SetActive(false);
+        currentState = UiState.Nothing;
+    }
+
 
     /**********************************************************
     * 새로하기 버튼을 눌렀을 때
@@ -56,7 +76,7 @@ public class TitleUIController : MonoBehaviour
     {
         if(currentState.Equals(UiState.Nothing))
         {
-            CheckNewGamePopUp.SetActive(true);
+            NewGamePopUp.SetActive(true);
             currentState = UiState.ShowPopUp;
         }
     }
@@ -65,16 +85,17 @@ public class TitleUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnNewGameYes()
     {
-        UIManager.instance.InputNewGame();
+        GameManager.instance.StartNewGame();
     }
     /**********************************************************
     * 새로하기 버튼을 누른 후 X 버튼
     ***********************************************************/
     public void ClickBtnNewGameNo()
     {
-        CheckNewGamePopUp.SetActive(false);
+        NewGamePopUp.SetActive(false);
         currentState = UiState.Nothing;
     }
+
 
     /**********************************************************
     * 유물 버튼을 눌렀을 때
@@ -86,6 +107,7 @@ public class TitleUIController : MonoBehaviour
             Debug.Log($"{GetType()} - 유물 누름");
         }
     }
+
 
     /**********************************************************
     * 업적 버튼을 눌렀을 때

@@ -12,10 +12,7 @@ public class MainMapDataMaker : MonoBehaviour
     private IconProbabilityData iconProbability;
     private Dictionary<ICON, int> probabilityMap;
 
-    private GameInfo gameInfo;
     private MapData mapData;
-
-    private int currentStage;
 
     private int currentShopCount;
 
@@ -44,8 +41,6 @@ public class MainMapDataMaker : MonoBehaviour
 
         iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
         float widthGap = mapWidth / (stageLevel.lineCount - 1);
-
-        AddProbabilityDic();
 
         // 한 레벨의 각 라인
         for (int i = 0; i < stageLevel.lineCount; i++)
@@ -76,8 +71,9 @@ public class MainMapDataMaker : MonoBehaviour
         }
 
         SetIconGrid();
-        mapData.lineCount = stageLevel.lineCount;
+        
         DataManager.instance.mapData = mapData;
+        GameManager.instance.hasSaveData = true;
     }
 
 
@@ -156,21 +152,6 @@ public class MainMapDataMaker : MonoBehaviour
 
 
     /**********************************************************
-    * 랜덤 아이콘 dic 추가
-    ***********************************************************/
-    private void AddProbabilityDic()
-    {
-        iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
-
-        probabilityMap.Clear();
-        currentShopCount = 0;
-
-        probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
-        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
-    }
-
-
-    /**********************************************************
     * 랜덤 아이콘의 전체 확률 구하기
     ***********************************************************/
     private int GetTotalProbability()
@@ -181,6 +162,27 @@ public class MainMapDataMaker : MonoBehaviour
             totalProbability += kvp.Value;
         }
         return totalProbability;
+    }
+
+    /**********************************************************
+    * 맵 생성을 위한 default데이터 준비
+    ***********************************************************/
+    private void SetData()
+    {
+        Random.InitState(DataManager.instance.gameInfo.seed);
+        int currentStage = DataManager.instance.gameInfo.currentStage;
+
+        stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
+        iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
+
+        mapData.lineCount = stageLevel.lineCount;
+
+        // dic 관련
+        probabilityMap.Clear();
+        currentShopCount = 0;
+
+        probabilityMap.Add(ICON.SHOP, iconProbability.shopChance);
+        probabilityMap.Add(ICON.MONSTER, iconProbability.monsterChance);
     }
 
 
@@ -223,28 +225,12 @@ public class MainMapDataMaker : MonoBehaviour
                     parIcon = maxIconPos;
                 }
             }
-
             parIcon = maxIconPos + 1;
             maxIconPos += mapData.iconCounts[i];
         }
     }
 
 
-    /**********************************************************
-    * 맵 생성을 위한 default데이터 준비
-    ***********************************************************/
-    private void SetData()
-    {
-        // 시드 생성
-        int seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
-        Random.InitState(seed);
-        DataManager.instance.gameInfo.seed = seed;
-
-        currentStage = DataManager.instance.mapData.currentStage;
-        currentStage = 1;
-
-        stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];     
-    }
 
     // 끝
 }

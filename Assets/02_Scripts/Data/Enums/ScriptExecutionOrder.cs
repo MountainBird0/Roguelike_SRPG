@@ -4,6 +4,8 @@
 public enum SEO
 {
     DataManager,
+    TitleUIManager,
+
     MainMapDataMaker,
     MainMapMaker,
 }

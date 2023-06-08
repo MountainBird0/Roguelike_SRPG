@@ -19,7 +19,7 @@ public class SceneLoad : MonoBehaviour
 
     IEnumerator LoadCoroutine()
     {
-        operation = GlobalSceneManager.instance.GoMainScene();
+        operation = GlobalSceneManager.instance.GoScene(2);
         operation.allowSceneActivation = false;
 
         float timer = 0f;

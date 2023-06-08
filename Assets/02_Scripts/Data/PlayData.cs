@@ -18,7 +18,6 @@ public class GameInfo
 ***********************************************************/
 public class MapData
 {
-    public int currentStage; // 현재 스테이지
     public int lineCount;    // 라인 수
     public List<int> iconCounts = new List<int>();  // 한 라인 당 아이콘 수
 

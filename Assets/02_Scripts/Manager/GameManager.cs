@@ -23,19 +23,14 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    /******************************************************************************
-    * 새로운 게임 시작 - 
-    *******************************************************************************/
-    public void StartNewGame()
+    [HideInInspector]
+    public bool hasSaveData;
+
+    private void Start()
     {
-        Debug.Log($"{GetType()} - 새 게임 시작");
-
-        // 씬 이동
-        GlobalSceneManager.instance.GoLodingScene();
- 
-
-        // 맵 매니저 맵 생성
+        hasSaveData = false;
     }
+
 
     /******************************************************************************
     *  이어하기 시작 - 
@@ -50,6 +45,20 @@ public class GameManager : MonoBehaviour
         // 맵 매니저 맵 생성
     }
 
+
+    /******************************************************************************
+    * 새로운 게임 시작 - 
+    *******************************************************************************/
+    public void StartNewGame()
+    {
+        Debug.Log($"{GetType()} - 새 게임 시작");
+
+        // 씬 이동
+        GlobalSceneManager.instance.GoLodingScene();
+ 
+
+        // 맵 매니저 맵 생성
+    }
 
 
     /******************************************************************************

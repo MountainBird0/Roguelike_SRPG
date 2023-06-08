@@ -27,8 +27,6 @@ public class DataManager : MonoBehaviour
 
     public List<IconNode> nodes;
 
-    public bool hasSaveData;
-
     public void Awake()
     {
         if (instance == null)
@@ -52,7 +50,7 @@ public class DataManager : MonoBehaviour
     public void Start()
     {
         LoadDefaultData();
-        LoadSaveData();
+        LoadPlayingData();
     }
 
     /**********************************************************
@@ -66,14 +64,47 @@ public class DataManager : MonoBehaviour
     
 
     /**********************************************************
-    * json에 저장하기
+    * 이어하기용 json 파일 저장하기
     * C:\Users\huy12\AppData\LocalLow\DefaultCompany
     ***********************************************************/
     public void SaveDate()
     {
-        string fileName = "MainMapData";
+        SaveTool("MainMapData", mapData);
+        SaveTool("GameInfo", gameInfo);
+    }
+
+
+    /**********************************************************
+    * 이어하기용 json 파일 불러오기
+    ***********************************************************/
+    public void LoadPlayingData()
+    {
+        GameManager.instance.hasSaveData = LoadTool("MainMapData", ref mapData);
+        if(!LoadTool("GameInfo", ref gameInfo)) // 못불러오면 gameInfo를 default 상태로
+        {
+            gameInfo.currentStage = 1;
+            gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
+        }
+    }
+
+
+    /**********************************************************
+    * 이어하기용 json 파일 삭제하기
+    ***********************************************************/
+    public void DeleteSaveData()
+    {
+        DeleteTool("MainMapData");
+        DeleteTool("GameInfo");
+    }
+
+
+    /**********************************************************
+    * json 저장 툴
+    ***********************************************************/
+    private void SaveTool<T>(string fileName, T data)
+    {
         string path = Application.persistentDataPath + fileName + ".Json";
-        var setJson = JsonConvert.SerializeObject(mapData, settings);
+        var setJson = JsonConvert.SerializeObject(data, settings);
         File.WriteAllText(path, setJson);
     }
     JsonSerializerSettings settings = new JsonSerializerSettings // 순환참조 오류 발생했을 때 사용
@@ -83,42 +114,34 @@ public class DataManager : MonoBehaviour
 
 
     /**********************************************************
-    * 기존 게임 json 파일 불러오기
+    * json 로드 툴
     ***********************************************************/
-    public void LoadSaveData()
+    private bool LoadTool<T>(string fileName, ref T data)
     {
-        string fileName = "MainMapData";
         string path = Application.persistentDataPath + fileName + ".Json";
 
         FileInfo fileInfo = new FileInfo(path);
         if (!fileInfo.Exists)
         {
-            Debug.Log($"{GetType()} - 저장된 데이터 없음");
-            
-            hasSaveData = false;
+            return fileInfo.Exists;           
         }
         else
         {
-            Debug.Log($"{GetType()} - 저장된거 불러옴");
-            
             string json = File.ReadAllText(path);
-            mapData = JsonConvert.DeserializeObject<MapData>(json);
-            
-            hasSaveData = true;
+            data = JsonConvert.DeserializeObject<T>(json);
+            return fileInfo.Exists;            
         }
     }
 
 
     /**********************************************************
-    * 기존 게임 json 파일 삭제하기
+    * json 삭제 툴
     ***********************************************************/
-    public void DeleteSaveData()
+    private void DeleteTool(string fileName)
     {
-        string fileName = "MainMapData";
         string path = Application.persistentDataPath + fileName + ".Json";
         File.Delete(path);
     }
-
 
 
 
