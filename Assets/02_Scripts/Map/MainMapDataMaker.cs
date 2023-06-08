@@ -89,7 +89,7 @@ public class MainMapDataMaker : MonoBehaviour
 
         for (int i = 0; i < iconCount; i++)
         {
-            mapData.iconState.Add((icon, pos));
+            mapData.iconState.Add((icon, pos, IconState.LOCKED));
             pos.y += heightGap;
         }
     }
@@ -115,7 +115,7 @@ public class MainMapDataMaker : MonoBehaviour
 
                 if (randomValue < sum)
                 {
-                    mapData.iconState.Add((kvp.Key, pos));
+                    mapData.iconState.Add((kvp.Key, pos, IconState.LOCKED));
                     pos.y += heightGap;
                     ProbabilityCheck(kvp.Key);
                     break;

@@ -11,7 +11,6 @@ public enum Icon
 
 public enum IconState
 {
-    // 못가는(못누름), 이미지나온, 갈수있는(누를수있음)
     LOCKED,
     VISITED,
     ATTAINABLE,

@@ -21,7 +21,7 @@ public class MapData
     public int lineCount;    // 라인 수
     public List<int> iconCounts = new List<int>();  // 한 라인 당 아이콘 수
 
-    public List<(Icon, Vector2)> iconState = new List<(Icon, Vector2)>(); // 각 아이콘의 종류와 위치
+    public List<(Icon, Vector2, IconState)> iconState = new List<(Icon, Vector2, IconState)>(); // 각 아이콘의 종류와 위치
     public List<(int, int)> nodeDatas = new List<(int, int)>();           // 이전노드 시작위치, 몇번 들어갈지
 }
 
