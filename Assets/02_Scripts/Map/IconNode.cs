@@ -8,6 +8,7 @@ using UnityEngine;
 public class IconNode
 {
     public GameObject icon;
+    public IconState iconState;
     public List<IconNode> connectedNodes;
 
     public IconNode(GameObject icon)

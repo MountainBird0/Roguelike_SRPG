@@ -17,19 +17,21 @@ public class MainMapManager : MonoBehaviour
 
     private void MapGenerate()
     {
-        if(GameManager.instance.hasSaveData)
+        if(!GameManager.instance.hasSaveData)
         {
-            Debug.Log($"{GetType()} - 저장된 데이터 있음");
+            Debug.Log($"{GetType()} - 저장된 데이터 없어서 새로만듬");
+            dataMaker.MakeMapData();
+        }
+        
+        mapMaker.MakeMap();
+
+        if(true) // 
+        {
+            mapMaker.MakeNode();
         }
         else
         {
-            Debug.Log($"{GetType()} - 저장된 데이터 없음");
-            dataMaker.MakeMapData();
-        }
-        // 스테이지 하나 클리어 하면
-        
-        
-        
-        mapMaker.MakeMap();
+            mapMaker.AddIconToNode();
+        }  
     }
 }
