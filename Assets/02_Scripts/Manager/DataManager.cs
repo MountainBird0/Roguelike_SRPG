@@ -77,14 +77,9 @@ public class DataManager : MonoBehaviour
     /**********************************************************
     * 이어하기용 json 파일 불러오기
     ***********************************************************/
-    public void LoadPlayingData()
+    public bool LoadPlayingData()
     {
-        GameManager.instance.hasSaveData = LoadTool("MainMapData", ref mapData);
-        if(!LoadTool("GameInfo", ref gameInfo)) // 못불러오면 gameInfo를 default 상태로
-        {
-            gameInfo.currentStage = 1;
-            gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
-        }
+        return LoadTool("MainMapData", ref mapData) && LoadTool("GameInfo", ref gameInfo);
     }
 
 
@@ -95,6 +90,7 @@ public class DataManager : MonoBehaviour
     {
         DeleteTool("MainMapData");
         DeleteTool("GameInfo");
+        ResetInfo();
     }
 
 
@@ -123,14 +119,14 @@ public class DataManager : MonoBehaviour
         FileInfo fileInfo = new FileInfo(path);
         if (!fileInfo.Exists)
         {
-            return fileInfo.Exists;           
+            Debug.Log($"{GetType()} - {fileName} : 못불러옴");
         }
         else
         {
             string json = File.ReadAllText(path);
-            data = JsonConvert.DeserializeObject<T>(json);
-            return fileInfo.Exists;            
+            data = JsonConvert.DeserializeObject<T>(json);          
         }
+        return fileInfo.Exists;
     }
 
 
@@ -143,6 +139,15 @@ public class DataManager : MonoBehaviour
         File.Delete(path);
     }
 
+
+    /**********************************************************
+    * gameinfo 초기화
+    ***********************************************************/
+    private void ResetInfo()
+    {
+        gameInfo.currentStage = 1;
+        gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
+    }
 
 
 

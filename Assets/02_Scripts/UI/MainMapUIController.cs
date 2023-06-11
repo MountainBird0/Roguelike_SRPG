@@ -34,10 +34,6 @@ public class MainMapUIController : MonoBehaviour
         }
     }
 
-
-
-
-
     /**********************************************************
     * 몬스터 아이콘을 눌렀을 때
     ***********************************************************/
@@ -49,4 +45,16 @@ public class MainMapUIController : MonoBehaviour
             Debug.Log($"{GetType()} - 몬스터 버튼 누름");
         }
     }
+
+    // 임시
+    /**********************************************************
+    * 저장 후 메인메뉴로
+    ***********************************************************/
+    public void ClickBtnEXID()
+    {
+        GameManager.instance.SaveGame();
+        GlobalSceneManager.instance.GoTitleScene();
+    }
+
+
 }

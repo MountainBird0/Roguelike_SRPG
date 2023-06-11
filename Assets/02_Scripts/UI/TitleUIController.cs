@@ -57,7 +57,7 @@ public class TitleUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnContinueYes()
     {
-        
+        GameManager.instance.StarContinueGame();
     }
     /**********************************************************
     * 이어하기 버튼을 누른 후 X 버튼

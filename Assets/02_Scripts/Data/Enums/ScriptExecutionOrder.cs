@@ -3,6 +3,7 @@
 ***********************************************************/
 public enum SEO
 {
+    GameManager,
     DataManager,
     TitleUIManager,
 

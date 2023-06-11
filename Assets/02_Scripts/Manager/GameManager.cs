@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder((int)SEO.GameManager)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -24,11 +25,11 @@ public class GameManager : MonoBehaviour
     }
 
     [HideInInspector]
-    public bool hasSaveData;
+    public bool hasSaveData = false;
 
     private void Start()
     {
-        hasSaveData = false;
+        hasSaveData = DataManager.instance.LoadPlayingData();
     }
 
 
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         Debug.Log($"{GetType()} - 새 게임 시작");
+        DataManager.instance.DeleteSaveData();
 
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
@@ -67,8 +69,9 @@ public class GameManager : MonoBehaviour
     public void SaveGame()
     {
         Debug.Log($"{GetType()} - 저장");
+        hasSaveData = true;
 
-        //DataManager.instance.SaveDate(); // 데이터 저장
+        DataManager.instance.SaveDate();
     }
 
     private void Update()

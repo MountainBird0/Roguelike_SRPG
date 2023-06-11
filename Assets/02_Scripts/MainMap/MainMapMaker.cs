@@ -95,21 +95,21 @@ public class MainMapMaker : MonoBehaviour
 
 
     /**********************************************************
-    * 노드에 아이콘 넣기
+    * 생성된 노드에 아이콘 넣기
     ***********************************************************/
     public void AddIconToNode()
     {
         nodes = DataManager.instance.nodes;
 
-        for(int i = 0; i < nodes.Count; i++)
+        for(int i = 1; i < nodes.Count; i++)
         {
-            nodes[i].icon = icons[i];
+            nodes[i].icon = icons[i - 1];
         }
     }
 
 
     /**********************************************************
-    * 맵 생성  
+    * 맵 생성 -- 예전
     ***********************************************************/
     public void MakeMap()
     {
