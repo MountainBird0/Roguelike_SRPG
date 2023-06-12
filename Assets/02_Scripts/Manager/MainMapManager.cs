@@ -1,5 +1,5 @@
 /**********************************************************
-* 메인 맵을 관리
+* 메인 맵 관리
 ***********************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +23,9 @@ public class MainMapManager : MonoBehaviour
         MapGenerate();       
     }
 
+    /**********************************************************
+    * 맵 생성하기
+    ***********************************************************/
     private void MapGenerate()
     {
         if(!GameManager.instance.hasSaveData)

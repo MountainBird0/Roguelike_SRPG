@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[DefaultExecutionOrder(-1)]
+[DefaultExecutionOrder((int)SEO.InputManager)]
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
@@ -49,11 +49,13 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        // 누르기 시작
         touchControls.Touch.TouchPress.started += context => StartTouch(context);
         touchControls.Touch.TouchPress.canceled += context => EndTouch(context);
     }
 
+    /**********************************************************
+    * 버튼 눌렀을 때
+    ***********************************************************/
     private void StartTouch(InputAction.CallbackContext context)
     {
         //Debug.Log("touch started" + touchControls.Touch.TouchPosition.ReadValue<Vector2>());
@@ -64,6 +66,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    /**********************************************************
+    * 버튼 누른 손 떨어지면
+    ***********************************************************/
     private void EndTouch(InputAction.CallbackContext context)
     {
         //Debug.Log("touch ended");

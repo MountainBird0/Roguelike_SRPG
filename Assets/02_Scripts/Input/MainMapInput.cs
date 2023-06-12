@@ -19,15 +19,15 @@ public class MainMapInput : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.instance.OnStartTouch += Move;
+        InputManager.instance.OnStartTouch += ScreenTouch;
     }
 
     private void OnDisable()
     {
-        InputManager.instance.OnStartTouch -= Move;
+        InputManager.instance.OnStartTouch -= ScreenTouch;
     }
 
-    public void Move(Vector2 screenPosition, float time)
+    public void ScreenTouch(Vector2 screenPosition, float time)
     {
         ray = Camera.main.ScreenPointToRay(screenPosition);
 

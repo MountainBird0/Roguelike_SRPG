@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         Debug.Log($"{GetType()} - 새 게임 시작");
+        hasSaveData = false;
         DataManager.instance.DeleteSaveData();
 
         // 씬 이동
