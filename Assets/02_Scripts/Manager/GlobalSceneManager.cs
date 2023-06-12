@@ -62,4 +62,12 @@ public class GlobalSceneManager : MonoBehaviour
         return operation;
     }
 
+    /******************************************************************************
+    * 배틀씬으로 이동
+    *******************************************************************************/
+    public void GoBattleScene()
+    {
+        SceneManager.LoadScene(3);
+    }
+
 }

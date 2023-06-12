@@ -24,11 +24,13 @@ public class MainMapLineMaker : MonoBehaviour
                 {
                     if(nodes[i].connectedNodes[j].iconState == IconState.VISITED)
                     {
-
+                        Debug.Log($"{GetType()} - 그림?");
+                        lineRenderer.material.color = Color.black;
                     }
                     else if(nodes[i].connectedNodes[j].iconState == IconState.ATTAINABLE)
                     {
-
+                        Debug.Log($"{GetType()} - 그림?");
+                        lineRenderer.material.color = Color.blue;
                     }
                 }
             }

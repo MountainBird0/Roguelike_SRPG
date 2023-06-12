@@ -78,6 +78,7 @@ public class MainMapMaker : MonoBehaviour
     public void MakeNode()
     {
         IconNode rootNode = new IconNode(Root);
+        rootNode.iconState = IconState.VISITED;
         nodes.Add(rootNode);
 
         for (int i = 0; i < icons.Count; i++)
@@ -177,7 +178,9 @@ public class MainMapMaker : MonoBehaviour
     }
 
 
-
+    /**********************************************************
+    * 마지막 VISITED 노드 찾아서 자식 ATTAINABLE로
+    ***********************************************************/
 
 
 

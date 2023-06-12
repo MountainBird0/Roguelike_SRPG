@@ -43,11 +43,10 @@ public class MainMapInput : MonoBehaviour
             {
                 if (node.icon == hit.transform.gameObject)
                 {
+                    node.iconState = IconState.VISITED;
+
                     Debug.Log($"{GetType()} - 찾기성공 : {node.icon}");
-                    foreach(var c in node.connectedNodes)
-                    {
-                        Debug.Log($"{GetType()} - {c.icon}");
-                    }
+                    GlobalSceneManager.instance.GoBattleScene();
                 }
             }
         }
