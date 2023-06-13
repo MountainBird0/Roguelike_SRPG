@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 488810708}
-  line: {fileID: 3788698366112523683, guid: 9ed56ce20edf1f246b80ca0ef48c1cb1, type: 3}
+  line: {fileID: 5449375527682233826, guid: 53810ff3b64b64149a1ee2d45acaee69, type: 3}
   Monster: {fileID: 1236589927096996267, guid: 447c19d9cb540304eb98f299efe65755, type: 3}
   Boss: {fileID: 1236589927096996267, guid: e6c6b4fc938e0af449b8da72532e7134, type: 3}
   Shop: {fileID: 1236589927096996267, guid: e8901a889a9ec554aa24913ec26a356a, type: 3}

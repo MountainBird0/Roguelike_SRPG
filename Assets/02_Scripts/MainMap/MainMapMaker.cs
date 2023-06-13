@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [DefaultExecutionOrder((int)SEO.MainMapMaker)]
 public class MainMapMaker : MonoBehaviour
@@ -23,6 +24,9 @@ public class MainMapMaker : MonoBehaviour
 
     private List<GameObject> icons;
     private List<IconNode> nodes;
+
+    public float scaleDuration = 1f;
+    public Vector3 maxScale = new Vector3(2f, 2f, 2f);
 
     private void Awake()
     {
@@ -67,6 +71,8 @@ public class MainMapMaker : MonoBehaviour
                 icon.transform.position = mapData.iconState[iconIndex].Item2;
                 icons.Add(icon);
 
+
+
                 iconIndex++;
             }
         }
@@ -90,9 +96,13 @@ public class MainMapMaker : MonoBehaviour
             {
                 nodes[mapData.nodeDatas[i].Item1 + j].AddConnection(node);
             }
+
+            
         }
 
-        DataManager.instance.nodes = nodes;      
+        DataManager.instance.nodes = nodes;
+
+
     }
 
 
@@ -106,6 +116,10 @@ public class MainMapMaker : MonoBehaviour
         for(int i = 1; i < nodes.Count; i++)
         {
             nodes[i].icon = icons[i - 1];
+            if (nodes[i].iconState == IconState.ATTAINABLE)
+            {
+                nodes[i].icon.transform.DOScale(maxScale, scaleDuration).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
+            }
         }
     }
 
@@ -189,6 +203,7 @@ public class MainMapMaker : MonoBehaviour
                 }
                 icon.transform.position = mapData.iconState[iconIndex].Item2;
                 
+
 
                 IconNode node = new IconNode(icon);
                 nodes.Add(node);
