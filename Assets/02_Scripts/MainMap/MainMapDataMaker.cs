@@ -16,6 +16,9 @@ public class MainMapDataMaker : MonoBehaviour
 
     private int currentShopCount;
 
+    private const int minIconCount = 2;
+    private const int maxIconCount = 6;
+
 
     private void Awake()
     {
@@ -60,11 +63,11 @@ public class MainMapDataMaker : MonoBehaviour
                 // 상자 라인
                 if (i == (stageLevel.chestLine - 1))
                 {
-                    SetIcon(mapHeight, Random.Range(2, 6), Icon.CHEST, ref iconPos);
+                    SetIcon(mapHeight, Random.Range(minIconCount, maxIconCount), Icon.CHEST, ref iconPos);
                 }
                 else
                 {
-                    SetIcon(mapHeight, Random.Range(2, 6), ref iconPos);
+                    SetIcon(mapHeight, Random.Range(minIconCount, maxIconCount), ref iconPos);
                 }
             }
             iconPos.x += widthGap;

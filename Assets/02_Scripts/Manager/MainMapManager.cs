@@ -9,13 +9,11 @@ public class MainMapManager : MonoBehaviour
 {
     public MainMapDataMaker dataMaker;
     public MainMapMaker mapMaker;
-    public MainMapLineMaker lineMaker;
-
-    private List<IconNode> nodes;
+    public MainMapInteraction interaction;
 
     private void Awake()
     {
-        nodes = new List<IconNode>();
+        
     }
 
     private void Start()
@@ -28,15 +26,15 @@ public class MainMapManager : MonoBehaviour
     ***********************************************************/
     private void MapGenerate()
     {
-        if(!GameManager.instance.hasSaveData)
+        if (!GameManager.instance.hasSaveData)
         {
             Debug.Log($"{GetType()} - 저장된 데이터 없어서 새로만듬");
             dataMaker.MakeMapData();
         }
-        
+
         mapMaker.MakeIcon();
 
-        if(DataManager.instance.nodes.Count == 0) 
+        if (DataManager.instance.nodes.Count == 0)
         {
             Debug.Log($"{GetType()} - 노드 새로만듬");
             mapMaker.MakeNode();
@@ -47,7 +45,6 @@ public class MainMapManager : MonoBehaviour
             mapMaker.AddIconToNode();
         }
 
-        nodes = DataManager.instance.nodes;
-        lineMaker.DrawLine(nodes);
+        mapMaker.DrawLine();
     }
 }

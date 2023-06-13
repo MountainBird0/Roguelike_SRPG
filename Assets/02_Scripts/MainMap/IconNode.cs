@@ -1,6 +1,7 @@
 /**********************************************************
 * 메인맵에 생성되는 아이콘의 틀
 ***********************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

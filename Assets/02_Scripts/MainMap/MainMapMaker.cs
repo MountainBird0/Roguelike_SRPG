@@ -9,6 +9,7 @@ using UnityEngine;
 public class MainMapMaker : MonoBehaviour
 {
     public Transform map;
+    public GameObject line;
 
     [Header("[ Icon ]")] // 아이콘들
     public GameObject Monster;
@@ -73,7 +74,7 @@ public class MainMapMaker : MonoBehaviour
 
 
     /**********************************************************
-    * 노드 생성 및 연결
+    * 노드 생성 및 연결 후 DataMgr에 저장
     ***********************************************************/
     public void MakeNode()
     {
@@ -91,7 +92,7 @@ public class MainMapMaker : MonoBehaviour
             }
         }
 
-        DataManager.instance.nodes = nodes;
+        DataManager.instance.nodes = nodes;      
     }
 
 
@@ -107,6 +108,46 @@ public class MainMapMaker : MonoBehaviour
             nodes[i].icon = icons[i - 1];
         }
     }
+
+    /**********************************************************
+    * 노드기반으로 라인 그리기
+    ***********************************************************/
+    public void DrawLine()
+    {
+        for (int i = 1; i < nodes.Count; i++)
+        {
+            for (int j = 0; j < nodes[i].connectedNodes.Count; j++)
+            {
+                var lineObject = Instantiate(line);
+                var lineRenderer = lineObject.GetComponent<LineRenderer>();
+
+                var fromPoint = nodes[i].icon.transform.position;
+                var toPoint = nodes[i].connectedNodes[j].icon.transform.position;
+                lineRenderer.SetPosition(0, fromPoint);
+                lineRenderer.SetPosition(1, toPoint);
+
+                if (nodes[i].iconState == IconState.VISITED)
+                {
+                    if (nodes[i].connectedNodes[j].iconState == IconState.VISITED)
+                    {
+                        Debug.Log($"{GetType()} - 그림?");
+                        // lineRenderer.colorGradient = Color.black;
+                        lineRenderer.endColor = Color.black;
+                    }
+                    else if (nodes[i].connectedNodes[j].iconState == IconState.ATTAINABLE)
+                    {
+                        Debug.Log($"{GetType()} - 그림?");
+                        lineRenderer.endColor = Color.blue;
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
 
 
     /**********************************************************

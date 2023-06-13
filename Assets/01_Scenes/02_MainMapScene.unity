@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 488810708}
+  line: {fileID: 3788698366112523683, guid: 9ed56ce20edf1f246b80ca0ef48c1cb1, type: 3}
   Monster: {fileID: 1236589927096996267, guid: 447c19d9cb540304eb98f299efe65755, type: 3}
   Boss: {fileID: 1236589927096996267, guid: e6c6b4fc938e0af449b8da72532e7134, type: 3}
   Shop: {fileID: 1236589927096996267, guid: e8901a889a9ec554aa24913ec26a356a, type: 3}
@@ -4880,7 +4881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataMaker: {fileID: 1412296324}
   mapMaker: {fileID: 63425248}
-  lineMaker: {fileID: 552947979}
+  interaction: {fileID: 0}
 --- !u!1 &381546382
 GameObject:
   m_ObjectHideFlags: 0
@@ -5193,7 +5194,7 @@ GameObject:
   - component: {fileID: 552947980}
   - component: {fileID: 552947979}
   m_Layer: 0
-  m_Name: LineMaker
+  m_Name: Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5211,7 +5212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015c7d60318ca0843a2ab9ce1fcde8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  line: {fileID: 3788698366112523683, guid: 9ed56ce20edf1f246b80ca0ef48c1cb1, type: 3}
 --- !u!4 &552947980
 Transform:
   m_ObjectHideFlags: 0
@@ -5316,6 +5316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe172f4069640f1428f99afc954561a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interaction: {fileID: 552947979}
 --- !u!1 &688689488
 GameObject:
   m_ObjectHideFlags: 0
