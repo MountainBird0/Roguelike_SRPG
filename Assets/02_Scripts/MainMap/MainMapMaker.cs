@@ -55,14 +55,11 @@ public class MainMapMaker : MonoBehaviour
                 nodes[mapData.nodeDatas[i].Item1 + j].AddConnection(node);
             }
             node.iconInfo = mapData.iconInfo[i];
+            node.iconState = mapData.iconStates[i];
         }
 
         DataManager.instance.nodes = nodes;
     }
-
-    /**********************************************************
-    * 마지막 VISITED 노드 찾아서 자식 ATTAINABLE로
-    ***********************************************************/
 
     /**********************************************************
     * 노드에 맞는 아이콘 생성

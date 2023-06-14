@@ -37,6 +37,43 @@ public class MainMapDataMaker : MonoBehaviour
     {
         SetData();
 
+        SetIconInfo();
+
+        SetIconGrid();
+        
+        DataManager.instance.mapData = mapData;
+        GameManager.instance.hasSaveData = true;
+    }
+
+
+    /**********************************************************
+    * 맵 생성을 위한 default데이터 준비
+    ***********************************************************/
+    private void SetData()
+    {
+        Random.InitState(DataManager.instance.gameInfo.seed);
+        int currentStage = DataManager.instance.gameInfo.currentStage;
+
+        currentStage = 3;
+        stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
+        iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
+
+        mapData.lineCount = stageLevel.lineCount;
+
+        // dic 관련
+        probabilityMap.Clear();
+        currentShopCount = 0;
+
+        probabilityMap.Add(IconType.SHOP, iconProbability.shopChance);
+        probabilityMap.Add(IconType.MONSTER, iconProbability.monsterChance);
+    }
+    
+
+    /**********************************************************
+    * 고정 아이콘 데이터 넣기
+    ***********************************************************/
+    private void SetIconInfo()
+    {
         float mapWidth = stageLevel.mapWidth;
         float mapHeight = stageLevel.mapHeight;
 
@@ -51,41 +88,82 @@ public class MainMapDataMaker : MonoBehaviour
             // 첫번째 라인
             if (i == 0)
             {
-                SetIcon(mapHeight, stageLevel.firstLine, IconType.MONSTER, ref iconPos);
+                SetIcon(stageLevel.firstLine, ref iconPos, IconType.MONSTER,  IconState.ATTAINABLE);
             }
             // 마지막 라인
             else if (i == (stageLevel.lineCount - 1))
             {
-                SetIcon(mapHeight, stageLevel.lastLine, IconType.BOSS, ref iconPos);
+                SetIcon(stageLevel.lastLine, ref iconPos, IconType.BOSS, IconState.LOCKED);
             }
             else
             {
                 // 상자 라인
                 if (i == (stageLevel.chestLine - 1))
                 {
-                    SetIcon(mapHeight, Random.Range(minIconCount, maxIconCount), IconType.CHEST, ref iconPos);
+                    SetIcon(Random.Range(minIconCount, maxIconCount), ref iconPos, IconType.CHEST,  IconState.LOCKED);
                 }
                 else
                 {
-                    SetIcon(mapHeight, Random.Range(minIconCount, maxIconCount), ref iconPos);
+                    SetIcon(Random.Range(minIconCount, maxIconCount), ref iconPos, IconState.LOCKED);
                 }
             }
             iconPos.x += widthGap;
         }
+    }
 
-        SetIconGrid();
-        
-        DataManager.instance.mapData = mapData;
-        GameManager.instance.hasSaveData = true;
+
+    /**********************************************************
+    * 노드정보 넣기
+    ***********************************************************/
+    private void SetIconGrid()
+    {
+        int maxIconPos = 0; // 이전라인 최대로 들어갈 수 있는 아이콘 위치
+        int gap = 0;        // 이전라인과 현재라인의 아이콘 수 차이
+        int parIcon = 0;    // 연결될 부모 아이콘
+        int drawCount;      // 몇 번 연결할지
+
+        for (int i = 0; i < stageLevel.lineCount; i++)
+        {
+            if (i != 0)
+            {
+                gap = mapData.iconCounts[i - 1] - mapData.iconCounts[i];
+            }
+
+            for (int j = 0; j < mapData.iconCounts[i]; j++)
+            {
+                if (j == mapData.iconCounts[i] - 1)
+                {
+                    mapData.nodeDatas.Add((parIcon, maxIconPos - parIcon + 1));
+                }
+                else
+                {
+                    drawCount = Random.Range(1, gap + 1);
+                    if (drawCount < 1)
+                    {
+                        drawCount = 1;
+                    }
+                    mapData.nodeDatas.Add((parIcon, drawCount));
+                    parIcon += drawCount + Random.Range(-1, 1);
+                }
+
+                if (parIcon > maxIconPos)
+                {
+                    parIcon = maxIconPos;
+                }
+            }
+            parIcon = maxIconPos + 1;
+            maxIconPos += mapData.iconCounts[i];
+        }
     }
 
 
     /**********************************************************
     * 고정 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(float mapHeight, int iconCount, IconType icon, ref Vector2 pos)
+    public void SetIcon(int iconCount, ref Vector2 pos, IconType icon, IconState iconState)
     {
         mapData.iconCounts.Add(iconCount);
+        float mapHeight = stageLevel.mapHeight;
 
         float heightGap = mapHeight / (iconCount + 1);
         pos.y = -(mapHeight / 2) + heightGap;
@@ -93,15 +171,17 @@ public class MainMapDataMaker : MonoBehaviour
         for (int i = 0; i < iconCount; i++)
         {
             mapData.iconInfo.Add((icon, pos));
+            mapData.iconStates.Add(iconState);
             pos.y += heightGap;
         }
     }
     /**********************************************************
     * 랜덤 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(float mapHeight, int iconCount, ref Vector2 pos)
+    public void SetIcon(int iconCount, ref Vector2 pos, IconState iconState)
     {
         mapData.iconCounts.Add(iconCount);
+        float mapHeight = stageLevel.mapHeight;
 
         float heightGap = mapHeight / (iconCount + 1);
         pos.y = -(mapHeight / 2) + heightGap;
@@ -119,6 +199,7 @@ public class MainMapDataMaker : MonoBehaviour
                 if (randomValue < sum)
                 {
                     mapData.iconInfo.Add((kvp.Key, pos));
+                    mapData.iconStates.Add(iconState);
                     pos.y += heightGap;
                     ProbabilityCheck(kvp.Key);
                     break;
@@ -167,72 +248,10 @@ public class MainMapDataMaker : MonoBehaviour
         return totalProbability;
     }
 
-    /**********************************************************
-    * 맵 생성을 위한 default데이터 준비
-    ***********************************************************/
-    private void SetData()
-    {
-        Random.InitState(DataManager.instance.gameInfo.seed);
-        int currentStage = DataManager.instance.gameInfo.currentStage;
-
-        currentStage = 3;
-        stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
-        iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
-
-        mapData.lineCount = stageLevel.lineCount;
-
-        // dic 관련
-        probabilityMap.Clear();
-        currentShopCount = 0;
-
-        probabilityMap.Add(IconType.SHOP, iconProbability.shopChance);
-        probabilityMap.Add(IconType.MONSTER, iconProbability.monsterChance);
-    }
 
 
-    /**********************************************************
-    * 노드정보 넣기
-    ***********************************************************/
-    private void SetIconGrid()
-    {
-        int maxIconPos = 0; // 이전라인 최대로 들어갈 수 있는 아이콘 위치
-        int gap = 0;        // 이전라인과 현재라인의 아이콘 수 차이
-        int parIcon = 0;    // 연결될 부모 아이콘
-        int drawCount;      // 몇 번 연결할지
 
-        for (int i = 0; i < stageLevel.lineCount; i++)
-        {
-            if (i != 0)
-            {
-                gap = mapData.iconCounts[i - 1] - mapData.iconCounts[i];
-            }
 
-            for (int j = 0; j < mapData.iconCounts[i]; j++)
-            {
-                if (j == mapData.iconCounts[i] - 1)
-                {
-                    mapData.nodeDatas.Add((parIcon, maxIconPos - parIcon + 1));
-                }
-                else
-                {
-                    drawCount = Random.Range(1, gap + 1);
-                    if (drawCount < 1)
-                    {
-                        drawCount = 1;
-                    }
-                    mapData.nodeDatas.Add((parIcon, drawCount));
-                    parIcon += drawCount + Random.Range(-1, 1);
-                }
-
-                if (parIcon > maxIconPos)
-                {
-                    parIcon = maxIconPos;
-                }
-            }
-            parIcon = maxIconPos + 1;
-            maxIconPos += mapData.iconCounts[i];
-        }
-    }
 
 
 
