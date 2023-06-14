@@ -9,7 +9,9 @@ using UnityEngine;
 public class IconNode
 {
     public GameObject icon;
+    public (IconType, Vector2) iconInfo; // 각 아이콘의 종류와 위치
     public IconState iconState;
+
     public List<IconNode> connectedNodes;
 
     public IconNode(GameObject icon)
@@ -21,10 +23,5 @@ public class IconNode
     public void AddConnection(IconNode node)
     {
         connectedNodes.Add(node);
-    }
-
-    public void RemoveConnection(IconNode node)
-    {
-        connectedNodes.Remove(node);
     }
 }

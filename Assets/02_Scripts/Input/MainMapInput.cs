@@ -36,13 +36,12 @@ public class MainMapInput : MonoBehaviour
         if(Physics.Raycast(ray, out hit))
         {
             Debug.Log($"{GetType()} - {hit.transform.gameObject.name}");
-            //if (hit.transform.gameObject.CompareTag("Monster"))
-            //{
-            //    Debug.Log($"{GetType()} - 몬스터 버튼 누름");
-            //}
-
-            IconNode node = DataManager.instance.nodes.Find(node => node.icon == hit.transform.gameObject);
-            interaction.ChangeState(node);
+            if (hit.transform.gameObject.CompareTag("Icon"))
+            {
+                Debug.Log($"{GetType()} - 몬스터 버튼 누름");
+                IconNode node = DataManager.instance.nodes.Find(node => node.icon == hit.transform.gameObject);
+                interaction.ChangeState(node);
+            }
         }
     }
 }

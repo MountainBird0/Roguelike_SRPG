@@ -25,8 +25,8 @@ public class MainMapMaker : MonoBehaviour
     private List<GameObject> icons;
     private List<IconNode> nodes;
 
-    public float scaleDuration = 1f;
-    public Vector3 maxScale = new Vector3(2f, 2f, 2f);
+    private int scaleDuration = 1;
+    private Vector2 maxScale = new Vector3(1.3f, 1.3f);
 
     private void Awake()
     {
@@ -36,14 +36,117 @@ public class MainMapMaker : MonoBehaviour
     }
 
     /**********************************************************
-    * 아이콘 생성
+    * 노드 생성
+    ***********************************************************/
+    public void MakeNode()
+    {
+        mapData = DataManager.instance.mapData;
+
+        IconNode rootNode = new IconNode(Root);
+        nodes.Add(rootNode);
+
+        for (int i = 0; i < mapData.nodeDatas.Count; i++)
+        {
+            IconNode node = new IconNode(null);
+            nodes.Add(node);
+
+            for (int j = 0; j < mapData.nodeDatas[i].Item2; j++)
+            {
+                nodes[mapData.nodeDatas[i].Item1 + j].AddConnection(node);
+            }
+            node.iconInfo = mapData.iconInfo[i];
+        }
+
+        DataManager.instance.nodes = nodes;
+    }
+
+    /**********************************************************
+    * 마지막 VISITED 노드 찾아서 자식 ATTAINABLE로
+    ***********************************************************/
+
+    /**********************************************************
+    * 노드에 맞는 아이콘 생성
     ***********************************************************/
     public void MakeIcon()
+    {
+        nodes = DataManager.instance.nodes;
+     
+        GameObject icon = null;
+        IconType iconType;
+
+        for (int i = 1; i < nodes.Count; i++)
+        {
+            iconType = nodes[i].iconInfo.Item1;
+            switch (iconType)
+            {
+                case IconType.MONSTER:
+                    icon = Instantiate(Monster, map);
+                    break;
+                case IconType.SHOP:
+                    icon = Instantiate(Shop, map);
+                    break;
+                case IconType.BOSS:
+                    icon = Instantiate(Boss, map);
+                    break;
+                case IconType.CHEST:
+                    icon = Instantiate(Chest, map);
+                    break;
+            }
+            icon.transform.position = nodes[i].iconInfo.Item2;
+            if(nodes[i].iconState == IconState.ATTAINABLE)
+            {
+                icon.transform.DOScale(maxScale, scaleDuration).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
+            }
+            nodes[i].icon = icon;
+
+        }
+    }
+
+
+    /**********************************************************
+    * 노드기반으로 라인 그리기
+    ***********************************************************/
+    public void DrawLine()
+    {
+        for (int i = 1; i < nodes.Count; i++)
+        {
+            for (int j = 0; j < nodes[i].connectedNodes.Count; j++)
+            {
+                var lineObject = Instantiate(line);
+                var lineRenderer = lineObject.GetComponent<LineRenderer>();
+
+                var fromPoint = nodes[i].icon.transform.position;
+                var toPoint = nodes[i].connectedNodes[j].icon.transform.position;
+                lineRenderer.SetPosition(0, fromPoint);
+                lineRenderer.SetPosition(1, toPoint);
+
+                if (nodes[i].iconState == IconState.VISITED)
+                {
+                    if (nodes[i].connectedNodes[j].iconState == IconState.VISITED)
+                    {
+                        // lineRenderer.colorGradient = Color.black;
+                        lineRenderer.endColor = Color.black;
+                    }
+                    else if (nodes[i].connectedNodes[j].iconState == IconState.ATTAINABLE)
+                    {
+                        lineRenderer.endColor = Color.blue;
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    /**********************************************************
+    * 아이콘 생성
+    ***********************************************************/
+    public void MakeIconTT()
     {
         mapData = DataManager.instance.mapData;
 
         GameObject icon = null;
-        Icon iconType;
+        IconType iconType;
 
         int iconIndex = 0;
 
@@ -51,24 +154,24 @@ public class MainMapMaker : MonoBehaviour
         {
             for (int j = 0; j < mapData.iconCounts[i]; j++)
             {
-                iconType = mapData.iconState[iconIndex].Item1;
+                iconType = mapData.iconInfo[iconIndex].Item1;
 
                 switch (iconType)
                 {
-                    case Icon.MONSTER:
+                    case IconType.MONSTER:
                         icon = Instantiate(Monster, map);
                         break;
-                    case Icon.SHOP:
+                    case IconType.SHOP:
                         icon = Instantiate(Shop, map);
                         break;
-                    case Icon.BOSS:
+                    case IconType.BOSS:
                         icon = Instantiate(Boss, map);
                         break;
-                    case Icon.CHEST:
+                    case IconType.CHEST:
                         icon = Instantiate(Chest, map);
                         break;
                 }
-                icon.transform.position = mapData.iconState[iconIndex].Item2;
+                icon.transform.position = mapData.iconInfo[iconIndex].Item2;
                 icons.Add(icon);
 
 
@@ -82,7 +185,7 @@ public class MainMapMaker : MonoBehaviour
     /**********************************************************
     * 노드 생성 및 연결 후 DataMgr에 저장
     ***********************************************************/
-    public void MakeNode()
+    public void MakeNodeTT()
     {
         IconNode rootNode = new IconNode(Root);
         rootNode.iconState = IconState.VISITED;
@@ -123,40 +226,6 @@ public class MainMapMaker : MonoBehaviour
         }
     }
 
-    /**********************************************************
-    * 노드기반으로 라인 그리기
-    ***********************************************************/
-    public void DrawLine()
-    {
-        for (int i = 1; i < nodes.Count; i++)
-        {
-            for (int j = 0; j < nodes[i].connectedNodes.Count; j++)
-            {
-                var lineObject = Instantiate(line);
-                var lineRenderer = lineObject.GetComponent<LineRenderer>();
-
-                var fromPoint = nodes[i].icon.transform.position;
-                var toPoint = nodes[i].connectedNodes[j].icon.transform.position;
-                lineRenderer.SetPosition(0, fromPoint);
-                lineRenderer.SetPosition(1, toPoint);
-
-                if (nodes[i].iconState == IconState.VISITED)
-                {
-                    if (nodes[i].connectedNodes[j].iconState == IconState.VISITED)
-                    {
-                        Debug.Log($"{GetType()} - 그림?");
-                        // lineRenderer.colorGradient = Color.black;
-                        lineRenderer.endColor = Color.black;
-                    }
-                    else if (nodes[i].connectedNodes[j].iconState == IconState.ATTAINABLE)
-                    {
-                        Debug.Log($"{GetType()} - 그림?");
-                        lineRenderer.endColor = Color.blue;
-                    }
-                }
-            }
-        }
-    }
 
 
 
@@ -164,99 +233,19 @@ public class MainMapMaker : MonoBehaviour
 
 
 
-    /**********************************************************
-    * 맵 생성 -- 예전
-    ***********************************************************/
-    public void MakeMap()
-    {
-        Debug.Log($"{GetType()} - 맵생성 시작");
-
-        mapData = DataManager.instance.mapData;
-
-        GameObject icon = null;
-        Icon iconType;
-
-        int iconIndex = 0;
-
-        IconNode rootNode = new IconNode(Root);
-        nodes.Add(rootNode);
-
-        for (int i = 0; i < mapData.lineCount; i++)
-        {
-            for(int j = 0; j < mapData.iconCounts[i]; j++)
-            {
-                iconType = mapData.iconState[iconIndex].Item1;
-                switch (iconType)
-                {
-                    case Icon.MONSTER:
-                        icon = Instantiate(Monster, map);
-                        break;
-                    case Icon.SHOP:
-                        icon = Instantiate(Shop, map);
-                        break;
-                    case Icon.BOSS:
-                        icon = Instantiate(Boss, map);
-                        break;
-                    case Icon.CHEST:
-                        icon = Instantiate(Chest, map);
-                        break;
-                }
-                icon.transform.position = mapData.iconState[iconIndex].Item2;
-                
 
 
-                IconNode node = new IconNode(icon);
-                nodes.Add(node);
-                MakeNodea(iconIndex, node);
-
-                iconIndex++;
-            }
-        }
-
-        foreach(var a in mapData.nodeDatas)
-        {
-            Debug.Log($"{GetType()} - 노드 생성 보기 : {a.Item1}, {a.Item2} ");
-        }
-
-        DataManager.instance.nodes = nodes;
-    }
-
-
-    /**********************************************************
-    * 노드 연결
-    ***********************************************************/
-    private void MakeNodea(int iconIndex, IconNode node)
-    {
-        for (int i = 0; i < mapData.nodeDatas[iconIndex].Item2; i++)
-        {
-            nodes[mapData.nodeDatas[iconIndex].Item1 + i].AddConnection(node);
-        }
-    }
-
-
-    /**********************************************************
-    * 마지막 VISITED 노드 찾아서 자식 ATTAINABLE로
-    ***********************************************************/
+    
 
 
 
 
 
 
-    /**********************************************************
-    * 저장된거 기반으로 불러오기 - 노드 기반
-    ***********************************************************/
-    private void ShowMap()
-    {
-        nodes = DataManager.instance.nodes;
 
-        GameObject icon;
 
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            icon = Instantiate(nodes[i].icon, map);
-        }
-    }
+
+
 
     private void Update()
     {

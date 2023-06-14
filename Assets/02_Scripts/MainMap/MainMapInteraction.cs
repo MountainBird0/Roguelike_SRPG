@@ -8,8 +8,6 @@ using DG.Tweening;
 
 public class MainMapInteraction : MonoBehaviour
 {
-    private float scaleDuration = 1f;
-    private Vector3 maxScale = new Vector3(2f, 2f, 2f);
 
     /**********************************************************
     * 클릭했을때 노드 상태 변경
@@ -28,6 +26,14 @@ public class MainMapInteraction : MonoBehaviour
     /**********************************************************
     * 첫 게임 시작 시에만 가장 끝 visited 찾아서 자식들 attainable로 변경
     ***********************************************************/
+
+    /**********************************************************
+    * 누르면 어디로 갈지
+    ***********************************************************/
+    public void GoScenes(IconType icon)
+    {
+
+    }
 
 
 }

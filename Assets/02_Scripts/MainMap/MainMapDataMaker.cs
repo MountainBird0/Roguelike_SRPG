@@ -10,7 +10,7 @@ public class MainMapDataMaker : MonoBehaviour
 {
     private StageLevelData stageLevel;
     private IconProbabilityData iconProbability;
-    private Dictionary<Icon, int> probabilityMap;
+    private Dictionary<IconType, int> probabilityMap;
 
     private MapData mapData;
 
@@ -24,7 +24,7 @@ public class MainMapDataMaker : MonoBehaviour
     {
         stageLevel = new StageLevelData();
         iconProbability = new IconProbabilityData();
-        probabilityMap = new Dictionary<Icon, int>();
+        probabilityMap = new Dictionary<IconType, int>();
 
         mapData = new MapData();
     }
@@ -51,19 +51,19 @@ public class MainMapDataMaker : MonoBehaviour
             // 첫번째 라인
             if (i == 0)
             {
-                SetIcon(mapHeight, stageLevel.firstLine, Icon.MONSTER, ref iconPos);
+                SetIcon(mapHeight, stageLevel.firstLine, IconType.MONSTER, ref iconPos);
             }
             // 마지막 라인
             else if (i == (stageLevel.lineCount - 1))
             {
-                SetIcon(mapHeight, stageLevel.lastLine, Icon.BOSS, ref iconPos);
+                SetIcon(mapHeight, stageLevel.lastLine, IconType.BOSS, ref iconPos);
             }
             else
             {
                 // 상자 라인
                 if (i == (stageLevel.chestLine - 1))
                 {
-                    SetIcon(mapHeight, Random.Range(minIconCount, maxIconCount), Icon.CHEST, ref iconPos);
+                    SetIcon(mapHeight, Random.Range(minIconCount, maxIconCount), IconType.CHEST, ref iconPos);
                 }
                 else
                 {
@@ -83,7 +83,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 고정 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(float mapHeight, int iconCount, Icon icon, ref Vector2 pos)
+    public void SetIcon(float mapHeight, int iconCount, IconType icon, ref Vector2 pos)
     {
         mapData.iconCounts.Add(iconCount);
 
@@ -92,7 +92,7 @@ public class MainMapDataMaker : MonoBehaviour
 
         for (int i = 0; i < iconCount; i++)
         {
-            mapData.iconState.Add((icon, pos, IconState.LOCKED));
+            mapData.iconInfo.Add((icon, pos));
             pos.y += heightGap;
         }
     }
@@ -118,7 +118,7 @@ public class MainMapDataMaker : MonoBehaviour
 
                 if (randomValue < sum)
                 {
-                    mapData.iconState.Add((kvp.Key, pos, IconState.LOCKED));
+                    mapData.iconInfo.Add((kvp.Key, pos));
                     pos.y += heightGap;
                     ProbabilityCheck(kvp.Key);
                     break;
@@ -131,23 +131,23 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 랜덤 아이콘 dic관리
     ***********************************************************/
-    private void ProbabilityCheck(Icon icon)
+    private void ProbabilityCheck(IconType icon)
     {
         switch (icon)
         {
-            case Icon.MONSTER:
-                if (probabilityMap.ContainsKey(Icon.SHOP))
+            case IconType.MONSTER:
+                if (probabilityMap.ContainsKey(IconType.SHOP))
                 {
-                    probabilityMap[Icon.SHOP] += 10;
+                    probabilityMap[IconType.SHOP] += 10;
                 }
                 break;
 
-            case Icon.SHOP:
+            case IconType.SHOP:
                 currentShopCount += 1;
-                probabilityMap[Icon.SHOP] = iconProbability.shopChance;
+                probabilityMap[IconType.SHOP] = iconProbability.shopChance;
                 if (currentShopCount == stageLevel.shopCount)
                 {
-                    probabilityMap.Remove(Icon.SHOP);
+                    probabilityMap.Remove(IconType.SHOP);
                 }
                 break;
         }
@@ -185,8 +185,8 @@ public class MainMapDataMaker : MonoBehaviour
         probabilityMap.Clear();
         currentShopCount = 0;
 
-        probabilityMap.Add(Icon.SHOP, iconProbability.shopChance);
-        probabilityMap.Add(Icon.MONSTER, iconProbability.monsterChance);
+        probabilityMap.Add(IconType.SHOP, iconProbability.shopChance);
+        probabilityMap.Add(IconType.MONSTER, iconProbability.monsterChance);
     }
 
 
