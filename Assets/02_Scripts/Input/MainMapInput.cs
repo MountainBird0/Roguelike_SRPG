@@ -41,6 +41,7 @@ public class MainMapInput : MonoBehaviour
                 Debug.Log($"{GetType()} - 몬스터 버튼 누름");
                 IconNode node = DataManager.instance.nodes.Find(node => node.icon == hit.transform.gameObject);
                 interaction.ChangeState(node);
+                GlobalSceneManager.instance.GoBattleScene();
             }
         }
     }

@@ -43,6 +43,7 @@ public class MainMapMaker : MonoBehaviour
         mapData = DataManager.instance.mapData;
 
         IconNode rootNode = new IconNode(Root);
+        rootNode.iconState = IconState.VISITED;
         nodes.Add(rootNode);
 
         for (int i = 0; i < mapData.nodeDatas.Count; i++)
@@ -60,6 +61,7 @@ public class MainMapMaker : MonoBehaviour
 
         DataManager.instance.nodes = nodes;
     }
+
 
     /**********************************************************
     * 노드에 맞는 아이콘 생성

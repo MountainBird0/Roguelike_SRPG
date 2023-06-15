@@ -75,7 +75,6 @@ public class MainMapDataMaker : MonoBehaviour
     private void SetIconInfo()
     {
         float mapWidth = stageLevel.mapWidth;
-        float mapHeight = stageLevel.mapHeight;
 
         Vector2 iconPos = Vector2.zero;
 
