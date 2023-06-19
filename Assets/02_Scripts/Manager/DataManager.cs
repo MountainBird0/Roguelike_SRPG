@@ -95,6 +95,26 @@ public class DataManager : MonoBehaviour
 
 
     /**********************************************************
+    * gameinfo 초기화
+    ***********************************************************/
+    private void ResetInfo()
+    {
+        gameInfo.currentStage = 1;
+        gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
+        nodes.Clear();
+    }
+
+    /**********************************************************
+    * IconState 동기화 : MapData = Nodes
+    ***********************************************************/
+    public void A()
+    {
+
+    }
+
+
+
+    /**********************************************************
     * json 저장 툴
     ***********************************************************/
     private void SaveTool<T>(string fileName, T data)
@@ -140,15 +160,6 @@ public class DataManager : MonoBehaviour
     }
 
 
-    /**********************************************************
-    * gameinfo 초기화
-    ***********************************************************/
-    private void ResetInfo()
-    {
-        gameInfo.currentStage = 1;
-        gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
-        nodes.Clear();
-    }
 
 
 

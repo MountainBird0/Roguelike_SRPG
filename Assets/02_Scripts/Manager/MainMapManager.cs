@@ -11,10 +11,6 @@ public class MainMapManager : MonoBehaviour
     public MainMapMaker mapMaker;
     public MainMapInteraction interaction;
 
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
