@@ -107,9 +107,12 @@ public class DataManager : MonoBehaviour
     /**********************************************************
     * IconState µø±‚»≠ : MapData = Nodes
     ***********************************************************/
-    public void A()
+    public void OverWriteState()
     {
-
+        for(int i = 0; i < mapData.iconStates.Count; i++)
+        {
+            mapData.iconStates[i] = nodes[i].iconState;
+        }
     }
 
 
