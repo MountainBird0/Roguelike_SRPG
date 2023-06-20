@@ -53,7 +53,8 @@ public class MainMapInteraction : MonoBehaviour
         ChangeToLocked();
 
         node.iconState = IconState.VISITED;
-        node.connectedNodes.ForEach(cn => cn.iconState = IconState.ATTAINABLE);       
+        node.connectedNodes.ForEach(cn => cn.iconState = IconState.ATTAINABLE);
+        DataManager.instance.OverWriteState();
     }
 
 

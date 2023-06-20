@@ -9,6 +9,7 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 [DefaultExecutionOrder((int)SEO.DataManager)]
 public class DataManager : MonoBehaviour
@@ -109,9 +110,9 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void OverWriteState()
     {
-        for(int i = 0; i < mapData.iconStates.Count; i++)
+        for (int i = 0; i < mapData.iconStates.Count; i++)
         {
-            mapData.iconStates[i] = nodes[i].iconState;
+            mapData.iconStates[i] = nodes[i + 1].iconState;
         }
     }
 
