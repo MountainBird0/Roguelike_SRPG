@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 488810708}
-  line: {fileID: 5449375527682233826, guid: 53810ff3b64b64149a1ee2d45acaee69, type: 3}
+  line: {fileID: 5538393321299455231, guid: da04eb3e28601bb44bf01b3f68edf13b, type: 3}
   Monster: {fileID: 1236589927096996267, guid: 447c19d9cb540304eb98f299efe65755, type: 3}
   Boss: {fileID: 1236589927096996267, guid: e6c6b4fc938e0af449b8da72532e7134, type: 3}
   Shop: {fileID: 1236589927096996267, guid: e8901a889a9ec554aa24913ec26a356a, type: 3}
@@ -541,7 +541,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
