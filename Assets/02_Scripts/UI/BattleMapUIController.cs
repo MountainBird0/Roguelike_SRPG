@@ -1,8 +1,6 @@
 /******************************************************************************
 * BattleScene의 UI 컨트롤
 *******************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleMapUIController : MonoBehaviour

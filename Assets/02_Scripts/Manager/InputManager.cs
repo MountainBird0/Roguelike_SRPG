@@ -1,8 +1,6 @@
 /******************************************************************************
 * 사용자 입력 관리
 *******************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,14 +12,12 @@ public class InputManager : MonoBehaviour
     // 터치 관련
     private TouchControls touchControls;
 
-    // 꾹 누를때 사용하고싶음
     public delegate void StartTouchEvent(Vector2 position, float time); // 위치, 시작시간
     public event StartTouchEvent OnStartTouch;
     public delegate void EndTouchEvent(Vector2 position, float time); // 위치, 시작시간
     public event EndTouchEvent OnEndTouch;
 
-
-    public void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -71,7 +67,7 @@ public class InputManager : MonoBehaviour
     ***********************************************************/
     private void EndTouch(InputAction.CallbackContext context)
     {
-        //Debug.Log("touch ended");
+        Debug.Log("touch ended");
 
         if (OnEndTouch != null)
         {

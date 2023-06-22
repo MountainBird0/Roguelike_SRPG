@@ -2,7 +2,6 @@
 * 로딩씬에서 로딩
 *******************************************************************************/
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,14 +11,14 @@ public class SceneLoad : MonoBehaviour
 
     public Image redBar;
 
-    void Start()
+    private void Start()
     {
-        StartCoroutine(LoadCoroutine());
+        StartCoroutine(LoadCoroutine(2));
     }
 
-    IEnumerator LoadCoroutine()
+    IEnumerator LoadCoroutine(int sceneNum)
     {
-        operation = GlobalSceneManager.instance.GoScene(2);
+        operation = GlobalSceneManager.instance.GoScene(sceneNum);
         operation.allowSceneActivation = false;
 
         float timer = 0f;

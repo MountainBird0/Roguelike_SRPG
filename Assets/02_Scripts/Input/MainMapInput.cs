@@ -1,11 +1,7 @@
 /**********************************************************
-* 메인 맵 플레이어 인풋 관리
+* 메인 맵의 입력 관리
 ***********************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class MainMapInput : MonoBehaviour
 {
@@ -13,11 +9,6 @@ public class MainMapInput : MonoBehaviour
     RaycastHit hit;
 
     public MainMapInteraction interaction;
-
-    private void Awake()
-    {
-
-    }
 
     private void OnEnable()
     {
@@ -29,14 +20,13 @@ public class MainMapInput : MonoBehaviour
         InputManager.instance.OnStartTouch -= ScreenTouch;
     }
 
-    public void ScreenTouch(Vector2 screenPosition, float time)
+    private void ScreenTouch(Vector2 screenPosition, float time)
     {
         ray = Camera.main.ScreenPointToRay(screenPosition);
 
         if(Physics.Raycast(ray, out hit))
-        {
-            
-            Debug.Log($"{GetType()} - {hit.transform.gameObject.name}");
+        {            
+            Debug.Log($"{GetType()} - 터치한거 {hit.transform.gameObject.name}");
             if (hit.transform.gameObject.CompareTag("Icon"))
             {
                 interaction.GetIcon(hit.transform.gameObject);

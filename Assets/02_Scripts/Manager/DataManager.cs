@@ -2,14 +2,9 @@
 * 게임 데이터를 관리
 *******************************************************************************/
 using Newtonsoft.Json;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using System.Linq;
 
 [DefaultExecutionOrder((int)SEO.DataManager)]
 public class DataManager : MonoBehaviour
@@ -28,7 +23,7 @@ public class DataManager : MonoBehaviour
 
     public List<IconNode> nodes;
 
-    public void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -43,12 +38,11 @@ public class DataManager : MonoBehaviour
 
         stageLevels = new Dictionary<string, StageLevelData>();
         iconProbabilitys = new Dictionary<string, IconProbabilityData>();
-        gameInfo = new GameInfo();
         mapData = new MapData();
         nodes = new List<IconNode>();
     }
 
-    public void Start()
+    private void Start()
     {
         LoadDefaultData();
         LoadPlayingData();
@@ -91,19 +85,20 @@ public class DataManager : MonoBehaviour
     {
         DeleteTool("MainMapData");
         DeleteTool("GameInfo");
-        ResetInfo();
+        ResetGameInfo();
     }
 
 
     /**********************************************************
     * gameinfo 초기화
     ***********************************************************/
-    private void ResetInfo()
+    private void ResetGameInfo()
     {
         gameInfo.currentStage = 1;
         gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
         nodes.Clear();
     }
+
 
     /**********************************************************
     * IconState 동기화 : MapData = Nodes
@@ -115,7 +110,6 @@ public class DataManager : MonoBehaviour
             mapData.iconStates[i] = nodes[i + 1].iconState;
         }
     }
-
 
 
     /**********************************************************
@@ -162,26 +156,4 @@ public class DataManager : MonoBehaviour
         string path = Application.persistentDataPath + fileName + ".Json";
         File.Delete(path);
     }
-
-
-
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Debug.Log($"{GetType()} - 저장함");
-            SaveDate();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Debug.Log($"{GetType()} - 삭제함");
-            DeleteSaveData();
-        }
-    }
-
-
-    // 끝
 }

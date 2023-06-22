@@ -1,8 +1,6 @@
 /**********************************************************
 * 메인 맵 관리
 ***********************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMapManager : MonoBehaviour
@@ -10,7 +8,6 @@ public class MainMapManager : MonoBehaviour
     public MainMapDataMaker dataMaker;
     public MainMapMaker mapMaker;
     public MainMapInteraction interaction;
-
 
     private void Start()
     {
@@ -27,8 +24,6 @@ public class MainMapManager : MonoBehaviour
             Debug.Log($"{GetType()} - 저장된 데이터 없어서 새로만듬");
             dataMaker.MakeMapData();
         }
-
-        // mapMaker.MakeIconTT();
 
         if (DataManager.instance.nodes.Count == 0)
         {

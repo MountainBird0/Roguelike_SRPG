@@ -1,8 +1,6 @@
 /******************************************************************************
 * TitleSceneÀÇ UI °ü¸®
 *******************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder((int)SEO.TitleUIManager)]

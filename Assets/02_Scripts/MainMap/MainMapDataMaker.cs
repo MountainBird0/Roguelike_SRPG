@@ -1,7 +1,6 @@
 /**********************************************************
 * 메인 맵 관련 데이터를 생성함
 ***********************************************************/
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -158,7 +157,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 고정 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(int iconCount, ref Vector2 pos, IconType icon, IconState iconState)
+    private void SetIcon(int iconCount, ref Vector2 pos, IconType icon, IconState iconState)
     {
         mapData.iconCounts.Add(iconCount);
         float mapHeight = stageLevel.mapHeight;
@@ -176,7 +175,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 랜덤 아이콘 데이터 넣기
     ***********************************************************/
-    public void SetIcon(int iconCount, ref Vector2 pos, IconState iconState)
+    private void SetIcon(int iconCount, ref Vector2 pos, IconState iconState)
     {
         mapData.iconCounts.Add(iconCount);
         float mapHeight = stageLevel.mapHeight;
@@ -245,11 +244,6 @@ public class MainMapDataMaker : MonoBehaviour
         }
         return totalProbability;
     }
-
-
-
-
-
 
 
 

@@ -1,7 +1,6 @@
 /******************************************************************************
 * MainMap 생성
 *******************************************************************************/
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -24,7 +23,8 @@ public class MainMapMaker : MonoBehaviour
 
     private List<GameObject> icons;
     private List<IconNode> nodes;
-
+    
+    // 아이콘 움직임
     private int scaleDuration = 1;
     private Vector2 maxScale = new Vector3(1.3f, 1.3f);
 
@@ -135,123 +135,5 @@ public class MainMapMaker : MonoBehaviour
         }
     }
 
-
-
-    /**********************************************************
-    * 아이콘 생성
-    ***********************************************************/
-    public void MakeIconTT()
-    {
-        mapData = DataManager.instance.mapData;
-
-        GameObject icon = null;
-        IconType iconType;
-
-        int iconIndex = 0;
-
-        for (int i = 0; i < mapData.lineCount; i++)
-        {
-            for (int j = 0; j < mapData.iconCounts[i]; j++)
-            {
-                iconType = mapData.iconInfo[iconIndex].Item1;
-
-                switch (iconType)
-                {
-                    case IconType.MONSTER:
-                        icon = Instantiate(Monster, map);
-                        break;
-                    case IconType.SHOP:
-                        icon = Instantiate(Shop, map);
-                        break;
-                    case IconType.BOSS:
-                        icon = Instantiate(Boss, map);
-                        break;
-                    case IconType.CHEST:
-                        icon = Instantiate(Chest, map);
-                        break;
-                }
-                icon.transform.position = mapData.iconInfo[iconIndex].Item2;
-                icons.Add(icon);
-
-
-
-                iconIndex++;
-            }
-        }
-    }
-
-
-    /**********************************************************
-    * 노드 생성 및 연결 후 DataMgr에 저장
-    ***********************************************************/
-    public void MakeNodeTT()
-    {
-        IconNode rootNode = new IconNode(Root);
-        rootNode.iconState = IconState.VISITED;
-        nodes.Add(rootNode);
-
-        for (int i = 0; i < icons.Count; i++)
-        {
-            IconNode node = new IconNode(icons[i]);
-            nodes.Add(node);
-            for (int j = 0; j < mapData.nodeDatas[i].Item2; j++)
-            {
-                nodes[mapData.nodeDatas[i].Item1 + j].AddConnection(node);
-            }
-
-            
-        }
-
-        DataManager.instance.nodes = nodes;
-
-
-    }
-
-
-    /**********************************************************
-    * 생성된 노드에 아이콘 넣기
-    ***********************************************************/
-    public void AddIconToNode()
-    {
-        nodes = DataManager.instance.nodes;
-
-        for(int i = 1; i < nodes.Count; i++)
-        {
-            nodes[i].icon = icons[i - 1];
-            if (nodes[i].iconState == IconState.ATTAINABLE)
-            {
-                nodes[i].icon.transform.DOScale(maxScale, scaleDuration).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
-            }
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    private void Update()
-    {
-        //if(Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    ShowMap();
-        //}
-    }
 
 }

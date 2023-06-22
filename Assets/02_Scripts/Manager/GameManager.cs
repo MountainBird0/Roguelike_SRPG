@@ -1,8 +1,6 @@
 /******************************************************************************
-* 게임을 전반적으로 관리
+* 전반적인 게임 진행을 관리
 *******************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder((int)SEO.GameManager)]
@@ -10,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -75,9 +73,4 @@ public class GameManager : MonoBehaviour
         DataManager.instance.SaveDate();
     }
 
-    private void Update()
-    {
-
-        
-    }
 }

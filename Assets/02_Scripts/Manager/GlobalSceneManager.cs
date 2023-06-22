@@ -1,11 +1,8 @@
 /******************************************************************************
 * 전반적인 Scene이동 관리
 *******************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-
 
 public class GlobalSceneManager : MonoBehaviour
 {
@@ -13,8 +10,7 @@ public class GlobalSceneManager : MonoBehaviour
 
     private AsyncOperation operation;
 
-
-    public void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -28,6 +24,7 @@ public class GlobalSceneManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+
     /******************************************************************************
     * 비동기 Scene 이동
     *******************************************************************************/
@@ -37,6 +34,7 @@ public class GlobalSceneManager : MonoBehaviour
         return operation;
     }
 
+
     /******************************************************************************
     * 로딩씬으로 이동
     *******************************************************************************/
@@ -44,6 +42,7 @@ public class GlobalSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
 
     /******************************************************************************
     * 타이틀씬으로 이동
@@ -53,6 +52,7 @@ public class GlobalSceneManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+
     /******************************************************************************
     * 메인씬으로 이동
     *******************************************************************************/
@@ -61,6 +61,7 @@ public class GlobalSceneManager : MonoBehaviour
         operation = SceneManager.LoadSceneAsync(2);
         return operation;
     }
+
 
     /******************************************************************************
     * 배틀씬으로 이동

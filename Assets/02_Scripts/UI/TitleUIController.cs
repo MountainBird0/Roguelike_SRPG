@@ -1,8 +1,6 @@
 /******************************************************************************
 * TitleScene의 UI 컨트롤
 *******************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TitleUIController : MonoBehaviour
@@ -10,29 +8,13 @@ public class TitleUIController : MonoBehaviour
     /******************************************************************************
     * UI 상태관리
     *******************************************************************************/
-    public enum UiState
+    private enum UiState
     {
         Nothing,   // 아무것도 뜨지 않은 상태
         ShowPopUp, // 팝업창이 떠있는 상태
     }
 
     private UiState currentState;
-
-    public UiState CurrentState
-    {
-        get { return currentState; }
-        set
-        {
-            currentState = value;
-            switch (currentState)
-            {
-                case UiState.Nothing:
-                    break;
-                case UiState.ShowPopUp:
-                    break;
-            }
-        }
-    }
 
     public TitleUIManager UIMgr;
 
