@@ -34,6 +34,9 @@ public class MainMapDataMaker : MonoBehaviour
     ***********************************************************/
     public void MakeMapData()
     {
+
+
+
         SetData();
 
         SetIconInfo();
@@ -43,7 +46,6 @@ public class MainMapDataMaker : MonoBehaviour
         DataManager.instance.mapData = mapData;
         GameManager.instance.hasSaveData = true;
     }
-
 
     /**********************************************************
     * 맵 생성을 위한 default데이터 준비
@@ -56,8 +58,6 @@ public class MainMapDataMaker : MonoBehaviour
         stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
         iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
 
-        mapData.lineCount = stageLevel.lineCount;
-
         // dic 관련
         probabilityMap.Clear();
         currentShopCount = 0;
@@ -65,10 +65,60 @@ public class MainMapDataMaker : MonoBehaviour
         probabilityMap.Add(IconType.SHOP, iconProbability.shopChance);
         probabilityMap.Add(IconType.MONSTER, iconProbability.monsterChance);
     }
+
+
+    /**********************************************************
+    * 아이콘 종류 정보 넣기
+    ***********************************************************/
+    private void SetIconType(List<IconType> iconType)
+    {
+        for (int i = 0; i < stageLevel.firstLine; i++)
+        {
+            iconType.Add(IconType.MONSTER);
+        }
+
+        // 첫 라인이랑 마지막라인 제외
+        for (int i = 1; i < stageLevel.lineCount - 1; i++)
+        {
+            int ranNum;
+            if (i == stageLevel.chestLine - 1)
+            {
+                ranNum = Random.Range(minIconCount, maxIconCount);
+                for (int j = 0; j < ranNum; j++)
+                {
+                    iconType.Add(IconType.CHEST);
+                }
+            }
+            else
+            {
+                ranNum = Random.Range(minIconCount, maxIconCount);
+                for (int j = 0; j < ranNum; j++)
+                {
+                    iconType.Add(GetRandomIcon());
+                }
+            }
+        }
+
+        iconType.Add(IconType.BOSS);
+    }
+    /**********************************************************
+    * 랜덤 아이콘 받아오기
+    ***********************************************************/
+    private IconType GetRandomIcon()
+    {
+
+
+
+        IconType iconType = IconType.MONSTER;
+        return iconType;
+    }
+
+
+
     
 
     /**********************************************************
-    * 고정 아이콘 데이터 넣기
+    * 아이콘 정보 넣기
     ***********************************************************/
     private void SetIconInfo()
     {
@@ -104,13 +154,14 @@ public class MainMapDataMaker : MonoBehaviour
                     SetIcon(Random.Range(minIconCount, maxIconCount), ref iconPos, IconState.LOCKED);
                 }
             }
+
             iconPos.x += widthGap;
         }
     }
 
 
     /**********************************************************
-    * 노드정보 넣기
+    * 노드 정보 넣기
     ***********************************************************/
     private void SetIconGrid()
     {
@@ -169,7 +220,8 @@ public class MainMapDataMaker : MonoBehaviour
         {
             mapData.iconInfo.Add((icon, pos));
             mapData.iconStates.Add(iconState);
-            pos.y += heightGap;
+            float yRan = Random.Range(-0.5f, 0.5f);
+            pos.y += (heightGap + yRan);
         }
     }
     /**********************************************************
@@ -197,7 +249,8 @@ public class MainMapDataMaker : MonoBehaviour
                 {
                     mapData.iconInfo.Add((kvp.Key, pos));
                     mapData.iconStates.Add(iconState);
-                    pos.y += heightGap;
+                    float yRan = Random.Range(-0.5f, 0.5f);
+                    pos.y += (heightGap + yRan);
                     ProbabilityCheck(kvp.Key);
                     break;
                 }
@@ -244,6 +297,8 @@ public class MainMapDataMaker : MonoBehaviour
         }
         return totalProbability;
     }
+
+
 
 
 
