@@ -4,9 +4,10 @@
 public enum IconType
 {
     MONSTER,
+    ELITE,
     SHOP,   
-    BOSS,
-    CHEST
+    CHEST,
+    BOSS
 }
 
 public enum IconState

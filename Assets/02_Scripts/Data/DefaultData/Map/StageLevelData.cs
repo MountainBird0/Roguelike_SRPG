@@ -13,6 +13,7 @@ public class StageLevelData
     public int chestLine;
 
     public int shopCount;
+    public int eliteCount;
 }
 
 

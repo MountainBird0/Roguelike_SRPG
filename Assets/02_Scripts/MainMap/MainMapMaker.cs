@@ -13,9 +13,10 @@ public class MainMapMaker : MonoBehaviour
 
     [Header("[ Icon ]")] // 아이콘들
     public GameObject Monster;
-    public GameObject Boss;
+    public GameObject Elite;
     public GameObject Shop;
     public GameObject Chest;
+    public GameObject Boss;
 
     public GameObject Root;
 
@@ -86,6 +87,9 @@ public class MainMapMaker : MonoBehaviour
                     break;
                 case IconType.BOSS:
                     icon = Instantiate(Boss, map);
+                    break;
+                case IconType.ELITE:
+                    icon = Instantiate(Elite, map);
                     break;
                 case IconType.CHEST:
                     icon = Instantiate(Chest, map);
