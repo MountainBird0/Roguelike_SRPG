@@ -67,8 +67,6 @@ public class InputManager : MonoBehaviour
     ***********************************************************/
     private void EndTouch(InputAction.CallbackContext context)
     {
-        Debug.Log("touch ended");
-
         if (OnEndTouch != null)
         {
             OnEndTouch(touchControls.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.time);

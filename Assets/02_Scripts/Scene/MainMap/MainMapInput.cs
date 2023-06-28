@@ -6,7 +6,7 @@ using UnityEngine;
 public class MainMapInput : MonoBehaviour
 {
     Ray ray;
-    RaycastHit hit;
+    RaycastHit2D hit;
 
     public MainMapInteraction interaction;
 
@@ -23,8 +23,10 @@ public class MainMapInput : MonoBehaviour
     private void ScreenTouch(Vector2 screenPosition, float time)
     {
         ray = Camera.main.ScreenPointToRay(screenPosition);
+        hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-        if(Physics.Raycast(ray, out hit))
+
+        if (hit.collider != null)
         {            
             Debug.Log($"{GetType()} - 터치한거 {hit.transform.gameObject.name}");
             if (hit.transform.gameObject.CompareTag("Icon"))
@@ -34,3 +36,4 @@ public class MainMapInput : MonoBehaviour
         }
     }
 }
+

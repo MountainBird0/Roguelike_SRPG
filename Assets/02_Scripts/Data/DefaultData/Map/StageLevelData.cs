@@ -8,8 +8,8 @@ public class StageLevelData
 
     public int lineCount;
 
-    public int firstLine;
-    public int lastLine;
+    public int firstCount;
+    public int lastCount;
     public int chestLine;
 
     public int shopCount;

@@ -4,8 +4,8 @@
     "mapWidth": 14,
     "mapHeight": 8,
     "lineCount": 5,
-    "FirstLine": 2,
-    "lastLine": 1,
+    "FirstCount": 2,
+    "lastCount": 1,
     "chestLine": 3,
     "shopCount": 1,
     "eliteCount": 1
@@ -15,8 +15,8 @@
     "mapWidth": 14,
     "mapHeight": 8,
     "lineCount": 6,
-    "FirstLine": 3,
-    "lastLine": 1,
+    "FirstCount": 3,
+    "lastCount": 1,
     "chestLine": 4,
     "shopCount": 2,
     "eliteCount": 2
@@ -26,8 +26,8 @@
     "mapWidth": 14,
     "mapHeight": 8,
     "lineCount": 7,
-    "FirstLine": 3,
-    "lastLine": 1,
+    "FirstCount": 3,
+    "lastCount": 1,
     "chestLine": 4,
     "shopCount": 2,
     "eliteCount": 4

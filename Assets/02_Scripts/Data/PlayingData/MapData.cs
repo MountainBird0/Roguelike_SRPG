@@ -6,8 +6,6 @@ using UnityEngine;
 ***********************************************************/
 public class MapData
 {
-    public List<int> iconCounts = new();  // 한 라인 당 아이콘 수
-
     public List<(IconType, Vector2)> iconInfo = new(); // 각 아이콘의 종류와 위치
     public List<IconState> iconStates = new();
 

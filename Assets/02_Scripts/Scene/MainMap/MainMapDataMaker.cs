@@ -29,24 +29,32 @@ public class MainMapDataMaker : MonoBehaviour
         mapData = new MapData();
     }
 
-
     /**********************************************************
     * 새로운 맵 생성을 위한 데이터 만든 후 DataMgr에 저장
     ***********************************************************/
     public void MakeMapData()
     {
+        List<int> iconCounts = new List<int>();
+        List<IconType> iconTypes = new List<IconType>();
+        List<Vector2> iconPositions = new List<Vector2>();
+
         SetData();
 
         SetProbabilityDic();
 
-        SetIconInfo();
+        SetIconType(iconCounts, iconTypes);
+        SetIconPos(iconCounts, iconPositions);
+        for (int i = 0; i < iconTypes.Count; i++)
+        {
+            mapData.iconInfo.Add((iconTypes[i], iconPositions[i]));
+        }
 
-        SetIconGrid();
-        
+
+        SetIconGrid(iconCounts);
+
         DataManager.instance.mapData = mapData;
         GameManager.instance.hasSaveData = true;
     }
-
 
     /**********************************************************
     * 맵 생성을 위한 default데이터 준비
@@ -82,10 +90,10 @@ public class MainMapDataMaker : MonoBehaviour
     ***********************************************************/
     private void SetIconType(List<int> iconCounts, List<IconType> iconTypes)
     {
-        for (int i = 0; i < stageLevel.firstLine; i++)
+        iconCounts.Add(stageLevel.firstCount);
+        for (int i = 0; i < stageLevel.firstCount; i++)
         {
-            iconTypes.Add(IconType.MONSTER);
-            iconCounts.Add(stageLevel.firstLine);
+            iconTypes.Add(IconType.MONSTER);         
             mapData.iconStates.Add(IconState.ATTAINABLE);
         }
 
@@ -96,29 +104,30 @@ public class MainMapDataMaker : MonoBehaviour
             if (i == stageLevel.chestLine - 1)
             {
                 iconCount = Random.Range(minIconCount, maxIconCount);
+                iconCounts.Add(iconCount);
                 for (int j = 0; j < iconCount; j++)
                 {
-                    iconTypes.Add(IconType.CHEST);
-                    iconCounts.Add(iconCount);
+                    iconTypes.Add(IconType.CHEST);                    
                     mapData.iconStates.Add(IconState.LOCKED);
                 }
             }
             else
             {
                 iconCount = Random.Range(minIconCount, maxIconCount);
+                iconCounts.Add(iconCount);
                 for (int j = 0; j < iconCount; j++)
                 {
-                    iconTypes.Add(GetRandomIcon());
-                    iconCounts.Add(iconCount);
+                    iconTypes.Add(GetRandomIcon());                  
                     mapData.iconStates.Add(IconState.LOCKED);
                 }
             }
         }
 
-        for (int i = 0; i < stageLevel.lastLine; i++)
+        iconCounts.Add(stageLevel.lastCount);
+        for (int i = 0; i < stageLevel.lastCount; i++)
         {
-            iconTypes.Add(IconType.BOSS);
-            iconCounts.Add(stageLevel.lastLine);
+            iconTypes.Add(IconType.BOSS);          
+            mapData.iconStates.Add(IconState.LOCKED);
         }
     }
     /**********************************************************
@@ -128,15 +137,19 @@ public class MainMapDataMaker : MonoBehaviour
     {
 
         int randomValue = Random.Range(0, GetTotalProbability());
+        Debug.Log($"{GetType()} - 랜덤값 - {randomValue}");
 
         int sum = 0;
 
         foreach (var kvp in probabilityMap)
         {
             sum += kvp.Value;
+            Debug.Log($"{GetType()} - sum({sum})에 값 더함{kvp.Value}");
 
             if (randomValue < sum)
             {
+                Debug.Log($"{GetType()} - 걸린거 - {kvp.Key}");
+
                 ProbabilityCheck(kvp.Key);
                 return kvp.Key;
             }
@@ -148,7 +161,7 @@ public class MainMapDataMaker : MonoBehaviour
     /**********************************************************
     * 아이콘 위치 정보 넣기
     ***********************************************************/
-    private void SetIconPos(List<int> iconCounts, List<Vector2> iconPos)
+    private void SetIconPos(List<int> iconCounts, List<Vector2> iconPositions)
     {
         float mapWidth = stageLevel.mapWidth;
         float mapHeight = stageLevel.mapHeight;
@@ -165,9 +178,9 @@ public class MainMapDataMaker : MonoBehaviour
             pos.y = -(mapHeight / 2) + heightGap;
             for (int j = 0; j < iconCounts[i]; j++)
             {
-                ranVec.x = Random.Range(-0.5f, 0.5f);
-                ranVec.y = Random.Range(-0.5f, 0.5f);
-                iconPos.Add(pos + ranVec);
+                ranVec.x = Random.Range(-0.2f, 0.2f);
+                ranVec.y = Random.Range(-0.2f, 0.2f);
+                iconPositions.Add(pos + ranVec);
                 pos.y += heightGap;
             }
             pos.x += widthGap;
@@ -176,52 +189,9 @@ public class MainMapDataMaker : MonoBehaviour
 
 
     /**********************************************************
-    * 아이콘 정보 넣기
-    ***********************************************************/
-    private void SetIconInfo()
-    {
-        float mapWidth = stageLevel.mapWidth;
-
-        Vector2 iconPos = Vector2.zero;
-
-        iconPos.x = -(mapWidth / 2); // 아이콘의 초기 x좌표 값 (가장 아래)
-        float widthGap = mapWidth / (stageLevel.lineCount - 1);
-
-        // 한 레벨의 각 라인
-        for (int i = 0; i < stageLevel.lineCount; i++)
-        {
-            // 첫번째 라인
-            if (i == 0)
-            {
-                SetIcon(stageLevel.firstLine, ref iconPos, IconType.MONSTER, IconState.ATTAINABLE);
-            }
-            // 마지막 라인
-            else if (i == (stageLevel.lineCount - 1))
-            {
-                SetIcon(stageLevel.lastLine, ref iconPos, IconType.BOSS, IconState.LOCKED);
-            }
-            else
-            {
-                // 상자 라인
-                if (i == (stageLevel.chestLine - 1))
-                {
-                    SetIcon(Random.Range(minIconCount, maxIconCount), ref iconPos, IconType.CHEST, IconState.LOCKED);
-                }
-                else
-                {
-                    SetIcon(Random.Range(minIconCount, maxIconCount), ref iconPos, IconState.LOCKED);
-                }
-            }
-
-            iconPos.x += widthGap;
-        }
-    }
-
-
-    /**********************************************************
     * 노드 정보 넣기
     ***********************************************************/
-    private void SetIconGrid()
+    private void SetIconGrid(List<int> iconCounts)
     {
         int maxIconPos = 0; // 이전라인 최대로 들어갈 수 있는 아이콘 위치
         int gap = 0;        // 이전라인과 현재라인의 아이콘 수 차이
@@ -232,12 +202,12 @@ public class MainMapDataMaker : MonoBehaviour
         {
             if (i != 0)
             {
-                gap = mapData.iconCounts[i - 1] - mapData.iconCounts[i];
+                gap = iconCounts[i - 1] - iconCounts[i];
             }
 
-            for (int j = 0; j < mapData.iconCounts[i]; j++)
+            for (int j = 0; j < iconCounts[i]; j++)
             {
-                if (j == mapData.iconCounts[i] - 1)
+                if (j == iconCounts[i] - 1)
                 {
                     mapData.nodeDatas.Add((parIcon, maxIconPos - parIcon + 1));
                 }
@@ -258,61 +228,7 @@ public class MainMapDataMaker : MonoBehaviour
                 }
             }
             parIcon = maxIconPos + 1;
-            maxIconPos += mapData.iconCounts[i];
-        }
-    }
-
-
-    /**********************************************************
-    * 고정 아이콘 데이터 넣기
-    ***********************************************************/
-    private void SetIcon(int iconCount, ref Vector2 pos, IconType icon, IconState iconState)
-    {
-        mapData.iconCounts.Add(iconCount);
-        float mapHeight = stageLevel.mapHeight;
-
-        float heightGap = mapHeight / (iconCount + 1);
-        pos.y = -(mapHeight / 2) + heightGap;
-
-        for (int i = 0; i < iconCount; i++)
-        {
-            mapData.iconInfo.Add((icon, pos));
-            mapData.iconStates.Add(iconState);
-            float yRan = Random.Range(-0.5f, 0.5f);
-            pos.y += (heightGap + yRan);
-        }
-    }
-    /**********************************************************
-    * 랜덤 아이콘 데이터 넣기
-    ***********************************************************/
-    private void SetIcon(int iconCount, ref Vector2 pos, IconState iconState)
-    {
-        mapData.iconCounts.Add(iconCount);
-        float mapHeight = stageLevel.mapHeight;
-
-        float heightGap = mapHeight / (iconCount + 1);
-        pos.y = -(mapHeight / 2) + heightGap;
-
-        for (int i = 0; i < iconCount; i++)
-        {
-            int randomValue = Random.Range(0, GetTotalProbability());
-
-            int sum = 0;
-
-            foreach (var kvp in probabilityMap)
-            {
-                sum += kvp.Value;
-
-                if (randomValue < sum)
-                {
-                    mapData.iconInfo.Add((kvp.Key, pos));
-                    mapData.iconStates.Add(iconState);
-                    float yRan = Random.Range(-0.5f, 0.5f);
-                    pos.y += (heightGap + yRan);
-                    ProbabilityCheck(kvp.Key);
-                    break;
-                }
-            }
+            maxIconPos += iconCounts[i];
         }
     }
 
@@ -345,7 +261,7 @@ public class MainMapDataMaker : MonoBehaviour
                 break;
             case IconType.ELITE:
                 currenteliteCount += 1;
-                probabilityMap[IconType.SHOP] = iconProbability.shopChance;
+                probabilityMap[IconType.ELITE] = iconProbability.eliteChance;
                 if (currenteliteCount == stageLevel.eliteCount)
                 {
                     probabilityMap.Remove(IconType.ELITE);
@@ -364,8 +280,11 @@ public class MainMapDataMaker : MonoBehaviour
 
         foreach (var kvp in probabilityMap)
         {
+            Debug.Log($"{GetType()} - 총확률 - {kvp.Key}, {kvp.Value}");
+
             totalProbability += kvp.Value;
         }
+        Debug.Log($"{GetType()} - 총합 - {totalProbability}");
         return totalProbability;
     }
 
