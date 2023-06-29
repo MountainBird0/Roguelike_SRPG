@@ -13,6 +13,11 @@ public class BattleMapInput : MonoBehaviour
 
     [SerializeField]
     private Tilemap tilemap;
+    [SerializeField]
+    private Tilemap hight;
+    [SerializeField]
+
+    private TileBase newTile;
 
     private void OnEnable()
     {
@@ -26,23 +31,14 @@ public class BattleMapInput : MonoBehaviour
 
     private void ScreenTouch(Vector2 screenPosition, float time)
     {
-        ray = Camera.main.ScreenPointToRay(screenPosition);
-        hit = Physics2D.Raycast(ray.origin, ray.direction);
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+        TileBase tile = tilemap.GetTile(cellPosition);
 
-        if (hit.collider != null)
-        {         
-            Tilemap hitTilemap = hit.collider.GetComponent<Tilemap>();
-
-            if (hitTilemap != null && hitTilemap == tilemap)
-            {
-                Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
-                TileBase tile = tilemap.GetTile(cellPosition);
-
-                if (tile != null)
-                {
-                    Debug.Log($"{GetType()} - 터치한 타일: {tile.name}");
-                }
-            }
+        if (tile != null)
+        {
+            Debug.Log($"{GetType()} - 터치한 타일: {tile.name}");
+            hight.SetTile(cellPosition, newTile);
         }
     }
 }
