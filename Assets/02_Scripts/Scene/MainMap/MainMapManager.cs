@@ -7,7 +7,6 @@ public class MainMapManager : MonoBehaviour
 {
     public MainMapDataMaker dataMaker;
     public MainMapMaker mapMaker;
-    public MainMapInteraction interaction;
 
     private void Start()
     {

@@ -40,7 +40,7 @@ public class GlobalSceneManager : MonoBehaviour
     *******************************************************************************/
     public void GoLodingScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(5);
     }
 
 
@@ -49,7 +49,7 @@ public class GlobalSceneManager : MonoBehaviour
     *******************************************************************************/
     public void GoTitleScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
 
@@ -58,7 +58,7 @@ public class GlobalSceneManager : MonoBehaviour
     *******************************************************************************/
     public AsyncOperation GoMainScene()
     {
-        operation = SceneManager.LoadSceneAsync(2);
+        operation = SceneManager.LoadSceneAsync(1);
         return operation;
     }
 
@@ -68,7 +68,7 @@ public class GlobalSceneManager : MonoBehaviour
     *******************************************************************************/
     public void GoBattleScene()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
 
 }

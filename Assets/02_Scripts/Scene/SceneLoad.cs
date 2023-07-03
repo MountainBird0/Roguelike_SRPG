@@ -13,7 +13,7 @@ public class SceneLoad : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(LoadCoroutine(2));
+        StartCoroutine(LoadCoroutine(1));
     }
 
     IEnumerator LoadCoroutine(int sceneNum)

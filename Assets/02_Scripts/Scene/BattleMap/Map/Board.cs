@@ -7,13 +7,11 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap;
     public Tilemap hightlight;
-
-    public Vector2Int minXY;
-    public Vector2Int maxXY;
+    public Tilemap DeploySpot;
 
     private void Awake()
     {
-
+        
     }
 
     private void Start()
@@ -24,23 +22,27 @@ public class Board : MonoBehaviour
     public List<Vector3Int> LoadTiles()
     {
         List<Vector3Int> tiles = new List<Vector3Int>();
-        for (int i = minXY.x; i <= maxXY.x; i++)
+        Vector3Int currentPos = new Vector3Int();
+        BoundsInt bounds = DeploySpot.cellBounds;
+
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
-            for (int j = minXY.y; j <= maxXY.y; j++)
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
-                Vector3Int currentPos = new Vector3Int(i, j, 0);
-                if (tilemap.HasTile(currentPos))
+                currentPos.x = x;
+                currentPos.y = y;
+
+                if (DeploySpot.HasTile(currentPos))
                 {
                     tiles.Add(currentPos);
                 }
             }
         }
 
-
-        foreach(var t in tiles)
-        {
-            Debug.Log($"{GetType()} - 타일이름 위치 - {t}, {t.x}, {t.y}");
-        }
+        //foreach (var t in tiles)
+        //{
+        //    Debug.Log($"{GetType()} - 타일이름 위치 - {t}, {t.x}, {t.y}");
+        //}
 
         return tiles;
     }
