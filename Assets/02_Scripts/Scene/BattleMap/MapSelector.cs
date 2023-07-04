@@ -1,18 +1,38 @@
+/**********************************************************
+* 배틀 맵에서 불러올 맵을 정함
+***********************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapSelector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public List<GameObject> Stage1Maps;
+    public List<GameObject> Stage2Maps;
+    public List<GameObject> Stage3Maps;
 
-    // Update is called once per frame
-    void Update()
+    public Transform Grid;
+
+    /**********************************************************
+    * 배틀 맵에서 불러올 맵을 정함
+    ***********************************************************/
+    public void SelectMap()
     {
-        
+        //int currentStage = DataManager.instance.gameInfo.currentStage;
+        int currentStage = 1;
+        GameObject icon = null;
+
+        switch (currentStage)
+        {
+            case 1:
+                icon = Instantiate(Stage1Maps[Random.Range(0, Stage1Maps.Count)], Grid);
+                break;
+            case 2:
+                icon = Instantiate(Stage1Maps[Random.Range(0, Stage2Maps.Count)], Grid);
+                break;
+            case 3:
+                icon = Instantiate(Stage1Maps[Random.Range(0, Stage3Maps.Count)], Grid);
+                break;
+        }
     }
 }
