@@ -72,4 +72,12 @@ public class InputManager : MonoBehaviour
             OnEndTouch(touchControls.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.time);
         }     
     }
+
+    /**********************************************************
+    * 현재 마우스 위치
+    ***********************************************************/
+    public Vector2 PrimaryPosition()
+    {
+        return Camera.main.ScreenToWorldPoint(touchControls.Touch.TouchPosition.ReadValue<Vector2>());
+    }
 }

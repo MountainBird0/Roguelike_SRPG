@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+// 삭제할꺼
+
 
 public class BattleMapInput : MonoBehaviour
 {
@@ -30,18 +32,18 @@ public class BattleMapInput : MonoBehaviour
 
     private void ScreenTouch(Vector2 screenPosition, float time)
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-        worldPosition.x += 0.5f;
-        worldPosition.y += 0.5f;
-        Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+        //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        //worldPosition.x += 0.5f;
+        //worldPosition.y += 0.5f;
+        //Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-        TileBase tile = tilemap.GetTile(cellPosition);
+        //TileBase tile = tilemap.GetTile(cellPosition);
 
-        if (tile != null)
-        {
-            Debug.Log($"{GetType()} - 터치한 타일: {tile.name}, {tile}");
-            hight.SetTile(cellPosition, newTile);
-            player.transform.position = cellPosition;
-        }
+        //if (tile != null)
+        //{
+        //    Debug.Log($"{GetType()} - 터치한 타일: {tile.name}, {tile}");
+        //    hight.SetTile(cellPosition, newTile);
+        //    player.transform.position = cellPosition;
+        //}
     }
 }

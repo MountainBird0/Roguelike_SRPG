@@ -11,16 +11,15 @@ using System;
 
 using KeyType = System.String;
 
-[DisallowMultipleComponent]
 public class ObjectPoolManager : MonoBehaviour
 {
     [SerializeField]
-    private List<PoolObjectData> _poolObjectDataList = new List<PoolObjectData>();
+    private List<PoolObjectData> poolObjectDataList = new List<PoolObjectData>();
 
-    private Dictionary<KeyType, GameObject> _sampleDict;   // Key - 복제용 오브젝트 원본
-    private Dictionary<KeyType, PoolObjectData> _dataDict; // Key - 풀 정보
-    private Dictionary<KeyType, Stack<GameObject>> _poolDict;         // Key - 풀
-    private Dictionary<GameObject, Stack<GameObject>> _clonePoolDict; // 복제된 게임오브젝트 - 풀
+    private Dictionary<KeyType, GameObject> sampleDict;   // Key - 복제용 오브젝트 원본
+    private Dictionary<KeyType, PoolObjectData> dataDict; // Key - 풀 정보
+    private Dictionary<KeyType, Stack<GameObject>> poolDict;         // Key - 풀
+    private Dictionary<GameObject, Stack<GameObject>> clonePoolDict; // 복제된 게임오브젝트 - 풀
 
     public static ObjectPoolManager instance;
 
@@ -41,17 +40,20 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void Init()
     {
-        int len = _poolObjectDataList.Count;
-        if (len == 0) return;
+        int len = poolObjectDataList.Count;
+        if (len == 0)
+        {
+            return;
+        }
 
         // 1. Dictionary 생성
-        _sampleDict = new Dictionary<KeyType, GameObject>(len);
-        _dataDict = new Dictionary<KeyType, PoolObjectData>(len);
-        _poolDict = new Dictionary<KeyType, Stack<GameObject>>(len);
-        _clonePoolDict = new Dictionary<GameObject, Stack<GameObject>>(len * PoolObjectData.INITIAL_COUNT);
+        sampleDict = new Dictionary<KeyType, GameObject>(len);
+        dataDict = new Dictionary<KeyType, PoolObjectData>(len);
+        poolDict = new Dictionary<KeyType, Stack<GameObject>>(len);
+        clonePoolDict = new Dictionary<GameObject, Stack<GameObject>>(len * PoolObjectData.INITIAL_COUNT);
 
         // 2. Data로부터 새로운 Pool 오브젝트 정보 생성
-        foreach (var data in _poolObjectDataList)
+        foreach (var data in poolObjectDataList)
         {
             RegisterInternal(data);
         }
@@ -61,7 +63,7 @@ public class ObjectPoolManager : MonoBehaviour
     private void RegisterInternal(PoolObjectData data)
     {
         // 중복 키는 등록 불가능
-        if (_poolDict.ContainsKey(data.key))
+        if (poolDict.ContainsKey(data.key))
         {
             return;
         }
@@ -79,19 +81,19 @@ public class ObjectPoolManager : MonoBehaviour
             clone.SetActive(false);
             pool.Push(clone);
 
-            _clonePoolDict.Add(clone, pool); // Clone-Stack 캐싱
+            clonePoolDict.Add(clone, pool); // Clone-Stack 캐싱
         }
 
         // 3. 딕셔너리에 추가
-        _sampleDict.Add(data.key, sample);
-        _dataDict.Add(data.key, data);
-        _poolDict.Add(data.key, pool);
+        sampleDict.Add(data.key, sample);
+        dataDict.Add(data.key, data);
+        poolDict.Add(data.key, pool);
     }
 
     /// <summary> 샘플 오브젝트 복제하기 </summary>
     private GameObject CloneFromSample(KeyType key)
     {
-        if (!_sampleDict.TryGetValue(key, out GameObject sample)) return null;
+        if (!sampleDict.TryGetValue(key, out GameObject sample)) return null;
 
         return Instantiate(sample);
     }
@@ -100,7 +102,7 @@ public class ObjectPoolManager : MonoBehaviour
     public GameObject Spawn(KeyType key)
     {
         // 키가 존재하지 않는 경우 null 리턴
-        if (!_poolDict.TryGetValue(key, out var pool))
+        if (!poolDict.TryGetValue(key, out var pool))
         {
             return null;
         }
@@ -116,7 +118,7 @@ public class ObjectPoolManager : MonoBehaviour
         else
         {
             go = CloneFromSample(key);
-            _clonePoolDict.Add(go, pool); // Clone-Stack 캐싱
+            clonePoolDict.Add(go, pool); // Clone-Stack 캐싱
         }
 
         go.SetActive(true);
@@ -129,7 +131,7 @@ public class ObjectPoolManager : MonoBehaviour
     public void Despawn(GameObject go)
     {
         // 캐싱된 게임오브젝트가 아닌 경우 파괴
-        if (!_clonePoolDict.TryGetValue(go, out var pool))
+        if (!clonePoolDict.TryGetValue(go, out var pool))
         {
             Destroy(go);
             return;

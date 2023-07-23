@@ -5,25 +5,28 @@ using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
-    public Tilemap tilemap;
-    public Tilemap hightlight;
-    public Tilemap DeploySpot;
+    public Tilemap map;
+    public Tilemap highlight;
+    public Tilemap deploySpot;
 
-    private void Awake()
+    /**********************************************************
+    * 타일들 불러옴
+    * ref 말고 그냥 바로 추가하게 만들기
+    ***********************************************************/
+    public void GetTiles(List<Vector3Int> maps, List<Vector3Int> highlights, List<Vector3Int> deploySpots)
     {
-        
+        LoadTiles(map, maps);
+        LoadTiles(highlight, highlights);
+        LoadTiles(deploySpot, deploySpots);
     }
 
-    private void Start()
+    /**********************************************************
+    * 타일맵 안의 타일들의 위치를 List<Vector3Int>로 반환
+    ***********************************************************/
+    private void LoadTiles(Tilemap tilemap, List<Vector3Int> tiles)
     {
-        LoadTiles();
-    }
-
-    public List<Vector3Int> LoadTiles()
-    {
-        List<Vector3Int> tiles = new List<Vector3Int>();
         Vector3Int currentPos = new Vector3Int();
-        BoundsInt bounds = DeploySpot.cellBounds;
+        BoundsInt bounds = tilemap.cellBounds;
 
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
@@ -32,19 +35,12 @@ public class Board : MonoBehaviour
                 currentPos.x = x;
                 currentPos.y = y;
 
-                if (DeploySpot.HasTile(currentPos))
+                if (tilemap.HasTile(currentPos))
                 {
                     tiles.Add(currentPos);
                 }
             }
         }
-
-        //foreach (var t in tiles)
-        //{
-        //    Debug.Log($"{GetType()} - 타일이름 위치 - {t}, {t.x}, {t.y}");
-        //}
-
-        return tiles;
     }
 
 }

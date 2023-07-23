@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class TileLogic : MonoBehaviour
+public class TileLogic
 {
     public Vector3Int pos;
     public Vector3 worldPos;
-    public GameObject content;
+    public GameObject content; // 타일위의 오브젝트
+
+    public Tilemap tilemap;
+    public Tilemap highlight;
+    public Tilemap deploySpot;
 
     #region pathfinding
     public TileLogic prev;
