@@ -60,10 +60,10 @@ public class BattleMapManager : MonoBehaviour
         // 타일맵 세팅
         board.GetTiles(mainMaps, highlights, deploySpots);
 
-        foreach (var t in deploySpots)
-        {
-            Debug.Log($"{GetType()} - 타일이름 위치 - {t}, {t.x}, {t.y}");
-        }
+        //foreach (var t in deploySpots)
+        //{
+        //    Debug.Log($"{GetType()} - 타일이름 위치 - {t}, {t.x}, {t.y}");
+        //}
 
 
         CreateTile();

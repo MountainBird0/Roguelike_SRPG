@@ -16,15 +16,35 @@ public class StateMachineController : MonoBehaviour
 
     public List<Unit> units; // À¯´Ö ¸®½ºÆ®
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogWarning($"{GetType()} - Destory");
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         ChangeTo<LoadState>();
     }
     public void ChangeTo<T>() where T : State
     {
+
+
         State state = GetState<T>();
+
         if (currentState != state)
+        {
+
+
             ChangeState(state);
+        }
     }
     public T GetState<T>() where T : State
     {
@@ -35,20 +55,36 @@ public class StateMachineController : MonoBehaviour
     }
     protected void ChangeState(State value)
     {
-        if (busy)
-            return;
-        busy = true;
+
+
+        //if (busy)
+        //{
+        //    Debug.Log($"{GetType()} - {busy}");
+
+        //    return;
+        //}
+        //busy = true;
+
+
+
 
         if (currentState != null)
         {
             currentState.Exit();
         }
 
+
+
+
         currentState = value;
         if (currentState != null)
-            currentState.Enter();
+        {
 
-        busy = false;
+
+            currentState.Enter();
+        }
+
+        //busy = false;
     }
 
 }

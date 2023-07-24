@@ -52,7 +52,7 @@ public class DeployUnit : MonoBehaviour
             if (deployTiles[cellPosition].content)
             {
                 preUnitPosition = cellPosition;
-                
+
                 controller.EnableGuide();
                 unitName = deployTiles[cellPosition].content.GetComponent<Unit>().unitName;
                 pickObj = deployTiles[cellPosition].content;
@@ -85,7 +85,6 @@ public class DeployUnit : MonoBehaviour
 
         if (coroutine != null)
         {
-
             StopCoroutine(coroutine);
             coroutine = null;
         

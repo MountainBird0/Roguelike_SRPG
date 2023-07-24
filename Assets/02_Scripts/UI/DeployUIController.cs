@@ -8,6 +8,7 @@ public class DeployUIController : MonoBehaviour
     [HideInInspector]
     public string unitName;
 
+    public Canvas deployCanvas;
     public Canvas guideCanvas;
 
     public Button warriorButton;
@@ -44,6 +45,20 @@ public class DeployUIController : MonoBehaviour
         EnableGuide();
         unitName = clickedButtonName;
     }
+
+    /**********************************************************
+    * 유닛 배치 가이드 활성화/비활성화
+    ***********************************************************/
+    public void EnableWindow()
+    {
+        deployCanvas.gameObject.SetActive(true);
+    }
+    public void DisableWindow()
+    {
+        deployCanvas.gameObject.SetActive(false);
+
+    }
+
 
     /**********************************************************
     * 유닛 배치 가이드 활성화/비활성화

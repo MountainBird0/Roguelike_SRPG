@@ -78,6 +78,8 @@ public class InputManager : MonoBehaviour
     ***********************************************************/
     public Vector2 PrimaryPosition()
     {
+
+        Debug.Log($"{GetType()} - 마우스위치");
         return Camera.main.ScreenToWorldPoint(touchControls.Touch.TouchPosition.ReadValue<Vector2>());
     }
 }
