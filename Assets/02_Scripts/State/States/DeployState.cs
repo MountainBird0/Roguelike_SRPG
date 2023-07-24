@@ -24,23 +24,23 @@ public class DeployState : State
         deployTiles = BattleMapManager.instance.deployTiles;
         controller = BattleMapUIManager.instance.deployUI;
 
+        controller.EnableWindow();
+
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
-
-        //deploy canvas 활성화
-        controller.EnableWindow();
     }
 
     public override void Exit()
     {
         base.Exit();
+        
+        controller.DisableWindow();
+        // deployTIles 삭제 밑 올려둔거 mainTile에 저장 mgr에서 할지?
 
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
 
-
-        // deploy canvas 비활성화
-        // input 빼기
+        board.deploySpot.gameObject.SetActive(false);
     }
 
     /**********************************************************

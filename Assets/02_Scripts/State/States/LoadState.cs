@@ -9,12 +9,7 @@ public class LoadState : State
         //base.Enter();
         Debug.Log($"{GetType()} - ½ÇÇà");
 
-        BattleMapManager.instance.MapLoad();
-        StateMachineController.instance.ChangeTo<DeployState>();
-
-        //StartCoroutine(LoadSequence());
-
-
+        StartCoroutine(LoadSequence());
     }
 
     private IEnumerator LoadSequence()
@@ -24,7 +19,6 @@ public class LoadState : State
         yield return null;
 
         StateMachineController.instance.ChangeTo<DeployState>();
-
     }
 
 

@@ -57,13 +57,13 @@ public class StateMachineController : MonoBehaviour
     {
 
 
-        //if (busy)
-        //{
-        //    Debug.Log($"{GetType()} - {busy}");
+        if (busy)
+        {
+            Debug.Log($"{GetType()} - {busy}");
 
-        //    return;
-        //}
-        //busy = true;
+            return;
+        }
+        busy = true;
 
 
 
@@ -84,7 +84,7 @@ public class StateMachineController : MonoBehaviour
             currentState.Enter();
         }
 
-        //busy = false;
+        busy = false;
     }
 
 }

@@ -90,4 +90,12 @@ public class DeployUIController : MonoBehaviour
             unitButtons[buttonName].interactable = false;
         }
     }
+
+    /**********************************************************
+    * 배치 완료
+    ***********************************************************/
+    public void ClickBtnFinish()
+    {
+        StateMachineController.instance.ChangeTo<TurnBeginState>();
+    }
 }
