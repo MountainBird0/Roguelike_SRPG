@@ -210,38 +210,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!1 &7835806256437189824
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 365245055812796842}
-  m_Layer: 0
-  m_Name: Monsters
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &365245055812796842
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7835806256437189824}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4877424905822298568}
-  m_Father: {fileID: 8710717193491505301}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8710717192582744361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,7 +1743,6 @@ Transform:
   - {fileID: 8710717192851799998}
   - {fileID: 1247473078124012213}
   - {fileID: 8710717192582744362}
-  - {fileID: 365245055812796842}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1791,9 +1758,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da94841f6ed1bc5409792f547e9bf2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 8710717193866040936}
+  mainMap: {fileID: 8710717193866040936}
   highlight: {fileID: 1247473078124012203}
   deploySpot: {fileID: 8710717192582744364}
+  monsterMaker: {fileID: 11400000, guid: 9fce09d3fcb7ff04b9fa74ef1949c181, type: 2}
 --- !u!1 &8710717193866040949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,7 +1774,7 @@ GameObject:
   - component: {fileID: 8710717193866040936}
   - component: {fileID: 8710717193866040951}
   m_Layer: 0
-  m_Name: Map
+  m_Name: MainMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3224,69 +3192,3 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!1001 &8412945049471042269
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 365245055812796842}
-    m_Modifications:
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7821327911808474887, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_Name
-      value: Bat
-      objectReference: {fileID: 0}
-    - target: {fileID: 7892445237026056880, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-      propertyPath: m_SortingOrder
-      value: 30
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
---- !u!4 &4877424905822298568 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3994922593700553493, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
-  m_PrefabInstance: {fileID: 8412945049471042269}
-  m_PrefabAsset: {fileID: 0}

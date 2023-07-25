@@ -929,6 +929,10 @@ MonoBehaviour:
     prefab: {fileID: 2371970616265243010, guid: 1a45c61bfbb441d4f833186695e99855, type: 3}
     initialObjectCount: 1
     maxObjectCount: 1
+  - key: Bat
+    prefab: {fileID: 7821327911808474887, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 10
 --- !u!4 &514604518
 Transform:
   m_ObjectHideFlags: 0

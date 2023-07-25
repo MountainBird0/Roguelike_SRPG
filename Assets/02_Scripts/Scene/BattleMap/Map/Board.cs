@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,20 @@ using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
-    public Tilemap map;
+    public Tilemap mainMap;
     public Tilemap highlight;
     public Tilemap deploySpot;
 
+    public MonsterMaker monsterMaker;
+
+
+
     /**********************************************************
     * 타일들 불러옴
-    * ref 말고 그냥 바로 추가하게 만들기
     ***********************************************************/
     public void GetTiles(List<Vector3Int> maps, List<Vector3Int> highlights, List<Vector3Int> deploySpots)
     {
-        LoadTiles(map, maps);
+        LoadTiles(mainMap, maps);
         LoadTiles(highlight, highlights);
         LoadTiles(deploySpot, deploySpots);
     }
@@ -42,5 +46,7 @@ public class Board : MonoBehaviour
             }
         }
     }
+
+
 
 }

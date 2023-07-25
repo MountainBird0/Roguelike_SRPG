@@ -6,10 +6,14 @@ public class LoadState : State
 {
     public override void Enter()
     {
-        //base.Enter();
-        Debug.Log($"{GetType()} - ½ÇÇà");
+        base.Enter();
 
         StartCoroutine(LoadSequence());
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
     }
 
     private IEnumerator LoadSequence()

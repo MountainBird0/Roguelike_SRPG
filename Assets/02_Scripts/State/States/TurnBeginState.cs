@@ -4,15 +4,56 @@ using UnityEngine;
 
 public class TurnBeginState : State
 {
-    // Start is called before the first frame update
-    void Start()
+    private Dictionary<Vector3Int, TileLogic> mainTiles;
+
+
+
+    public override void Enter()
     {
+        base.Enter();
+
+        mainTiles = BattleMapManager.instance.mainTiles;
+
+        // 움직일 아군 유닛이 없으면 적 자동 이동으로
+        //if()
+
+        Turn.unit = BattleMapManager.instance.units[0];
+
+        InputManager.instance.OnStartTouch += TouchStart;
+        InputManager.instance.OnEndTouch += TouchEnd;
+
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Exit()
     {
-        
+        base.Exit();
+
+        InputManager.instance.OnStartTouch -= TouchStart;
+        InputManager.instance.OnEndTouch -= TouchEnd;
     }
+
+    private void TouchStart(Vector2 screenPosition, float time)
+    {
+        Vector3Int cellPosition = GetCellPosition(screenPosition);
+        if(mainTiles.ContainsKey(cellPosition))
+        {
+            if (mainTiles[cellPosition].content)
+            {
+                Turn.unit = mainTiles[cellPosition].content.GetComponent<Unit>();
+                StateMachineController.instance.ChangeTo<ChooseActionState>();
+            }
+        }
+
+
+    }
+
+    private void TouchEnd(Vector2 screenPosition, float time)
+    {
+
+    }
+
+    
+
+
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DeployState : State
 {
-    private Board board;
     private Dictionary<Vector3Int, TileLogic> deployTiles;
     private DeployUIController controller;
 
@@ -16,11 +15,8 @@ public class DeployState : State
 
     public override void Enter()
     {
-        Debug.Log($"{GetType()} - 실행");
+        base.Enter();
 
-        //base.Enter();
-
-        board = BattleMapManager.instance.board;
         deployTiles = BattleMapManager.instance.deployTiles;
         controller = BattleMapUIManager.instance.deployUI;
 
@@ -40,7 +36,12 @@ public class DeployState : State
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
 
+        BattleMapManager.instance.test(); ////////////////////////
         board.deploySpot.gameObject.SetActive(false);
+
+        // 유닛들 순서대로 unit 리스트에 넣기
+        // 리스트 player먼저로 정렬
+        // 몬스터 속도 정할 필요성
     }
 
     /**********************************************************
@@ -49,12 +50,10 @@ public class DeployState : State
     private void TouchStart(Vector2 screenPosition, float time)
     {
         Vector3Int cellPosition = GetCellPosition(screenPosition);
-        Debug.Log($"{GetType()} - 터치시작");
         if (deployTiles.ContainsKey(cellPosition))
         {
             if (deployTiles[cellPosition].content) // 이미 유닛 있으면 그거 들기
             {
-                Debug.Log($"{GetType()} - 이미있음");
 
                 controller.EnableGuide();
                 
@@ -67,20 +66,13 @@ public class DeployState : State
             }
             else // 없으면 새로 생성
             {
-                Debug.Log($"{GetType()} - 없음");
-
                 unitName = controller.unitName;
                 if (unitName != null)
                 {
-                    GameObject go = ObjectPoolManager.instance.Spawn(unitName);
-                    go.transform.position = cellPosition; 
+                    GameObject ob = ObjectPoolManager.instance.Spawn(unitName);
+                    ob.transform.position = cellPosition; 
 
-                    deployTiles[cellPosition].content = go;
-
-                    //foreach (var t in deployTiles)
-                    //{
-                    //    Debug.Log($"{GetType()} - 타일이름 위치 - {t}");
-                    //}
+                    deployTiles[cellPosition].content = ob;
 
                     controller.DisableButton(unitName);
                     controller.unitName = null;
@@ -94,16 +86,11 @@ public class DeployState : State
     ***********************************************************/
     private void TouchEnd(Vector2 screenPosition, float time)
     {
-        Debug.Log($"{GetType()} - 터치끝");
-
         controller.DisableGuide();
 
         if (coroutine != null)
         {
-            Debug.Log($"{GetType()} - 리얼터치끝");
-
             StopCoroutine(coroutine);
-            Debug.Log($"{GetType()} - 스탑");
 
             coroutine = null;
 
@@ -147,26 +134,10 @@ public class DeployState : State
     ***********************************************************/
     private IEnumerator PickUnit()
     {
-        Debug.Log($"{GetType()} - 들기시작");
-
         while (true)
         {
-            Debug.Log($"{GetType()} - 리얼들기");
-
             pickObj.transform.position = InputManager.instance.PrimaryPosition();
             yield return null;
         }
-    }
-
-    /**********************************************************
-    * 마우스 위치 타일에 맞게 변환
-    ***********************************************************/
-    private Vector3Int GetCellPosition(Vector2 screenPosition)
-    {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-        worldPosition.x += 0.5f;
-        worldPosition.y += 0.5f;
-
-        return board.deploySpot.WorldToCell(worldPosition);
     }
 }
