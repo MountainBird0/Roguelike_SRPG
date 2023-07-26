@@ -12,7 +12,7 @@ public class Board : MonoBehaviour
 
     public MonsterMaker monsterMaker;
 
-
+    public Tile blueHighlightTile;
 
     /**********************************************************
     * 타일들 불러옴
@@ -47,6 +47,25 @@ public class Board : MonoBehaviour
         }
     }
 
+    /**********************************************************
+    * 하이라이트 타일로 변경
+    ***********************************************************/
+    public void SetHighTile(List<TileLogic> tiles)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            highlight.SetTile(tiles[i].pos, blueHighlightTile);
+        }
+    }
 
-
+    /**********************************************************
+    * 하이라이트 타일 지우기
+    ***********************************************************/
+    public void ClearHighTile(List<TileLogic> tiles)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            highlight.SetTile(tiles[i].pos, null);
+        }
+    }
 }

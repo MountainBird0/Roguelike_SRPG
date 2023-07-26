@@ -3,7 +3,12 @@ guid: da94841f6ed1bc5409792f547e9bf2da
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mainMap: {instanceID: 0}
+  - highlight: {instanceID: 0}
+  - deploySpot: {instanceID: 0}
+  - monsterMaker: {instanceID: 0}
+  - blueHighlightTile: {fileID: 11400000, guid: 5c66028d1abb4224d969c78312ef650e, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

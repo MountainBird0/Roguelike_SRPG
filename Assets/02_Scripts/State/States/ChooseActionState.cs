@@ -21,8 +21,9 @@ public class ChooseActionState : State
     {
         base.Enter();
         mainTiles = BattleMapManager.instance.mainTiles;
-
         
+        //tile = BattleMapManager.instance.Search
+        //    (BattleMapManager.instance.GetTile(Turn.unit.gameObject.transform.position), ValidateMovement);
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -31,7 +32,7 @@ public class ChooseActionState : State
     public override void Exit()
     {
         base.Exit();
-
+        BattleMapManager.instance.board.ClearHighTile(tiles);
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
     }
@@ -43,22 +44,38 @@ public class ChooseActionState : State
         {
             if (mainTiles[cellPosition].content != null) // 내 유닛일때만
             {
-                tiles = BattleMapManager.instance.Search(BattleMapManager.instance.GetTile(cellPosition), ValidateMovement);
-
-                foreach (var pair in tiles)
+                if (tiles != null)
                 {
-                    Debug.Log($"{GetType()} main Key: " + pair + ", Value: " + pair.pos);
+                    BattleMapManager.instance.board.ClearHighTile(tiles);
                 }
 
-                //StateMachineController.instance.ChangeTo<TurnBeginState>();
+                tiles = BattleMapManager.instance.Search(BattleMapManager.instance.GetTile(cellPosition), ValidateMovement);
+
+                //foreach (var pair in tiles)
+                //{
+                //    Debug.Log($"{GetType()} main Key: " + pair + ", Value: " + pair.pos);
+                //}
+
+                BattleMapManager.instance.board.SetHighTile(tiles);
+
+                //
             }
+            else
+            {
+                StateMachineController.instance.ChangeTo<TurnBeginState>();
+            }
+
         }
+
+
+
     }
 
     private void TouchEnd(Vector2 screenPosition, float time)
     {
-
+        
     }
+
 
     // test
     public virtual bool ValidateMovement(TileLogic from, TileLogic to)

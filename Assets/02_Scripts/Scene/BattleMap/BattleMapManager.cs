@@ -166,19 +166,19 @@ public class BattleMapManager : MonoBehaviour
         //    Debug.Log($"{GetType()} content: " + value.content);
         //}
 
-        foreach (var pair in mainTiles)
-        {
-            Vector3Int key = pair.Key;
-            TileLogic value = pair.Value;
+        //foreach (var pair in mainTiles)
+        //{
+        //    Vector3Int key = pair.Key;
+        //    TileLogic value = pair.Value;
 
-            Debug.Log($"{GetType()} main Key: " + key + ", Value: " + value);
-            Debug.Log($"{GetType()} main content: " + value.content);
-        }
+        //    Debug.Log($"{GetType()} main Key: " + key + ", Value: " + value);
+        //    Debug.Log($"{GetType()} main content: " + value.content);
+        //}
 
-        foreach(var unit in units)
-        {
-            Debug.Log($"{GetType()} - 유닛체크 - {unit} -- {unit.unitName}");
-        }
+        //foreach(var unit in units)
+        //{
+        //    Debug.Log($"{GetType()} - 유닛체크 - {unit} -- {unit.unitName}");
+        //}
 
         // ObjectPoolManager.instance.Despawn(units[0].gameObject);
 
@@ -202,30 +202,20 @@ public class BattleMapManager : MonoBehaviour
         start.distance = 0;
         checkNow.Enqueue(start);
 
-        Debug.Log($"{GetType()} - {checkNow.Count}");
-
         while (checkNow.Count > 0)
         {
-            Debug.Log($"{GetType()} while문");
-
             TileLogic t = checkNow.Dequeue();
             for (int i = 0; i < 4; i++)
             {
-
                 TileLogic next = GetTile(t.pos + dirs[i]);
-
-
 
                 if (next == null || next.distance <= t.distance + 1)
                 {
-                    Debug.Log($"{GetType()} 넘어감");
 
                     continue;
                 }
                 if(searchType(t, next))
                 {
-                    Debug.Log($"{GetType()} 들어감1");
-
                     next.prev = t;
                     checkNext.Enqueue(next);
                     tilesResult.Add(next);
