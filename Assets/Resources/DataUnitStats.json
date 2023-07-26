@@ -1,0 +1,53 @@
+{
+  "Warrior": {
+    "Level": 1,
+    "MaxHp": 200,
+    "Hp": 200,
+    "ATK": 20,
+    "DEF": 20,
+    "MATK": 5,
+    "MDEF": 20,
+    "HIT": 100,
+    "EVA": 10,
+    "CRI": 30,
+    "RES": 0,
+    "MOV": 3,
+    "SPEED": 110,
+    "reqEXP": 100,
+    "DropEXP": 1
+  },
+  "Mage": {
+    "Level": 1,
+    "MaxHp": 100,
+    "Hp": 100,
+    "ATK": 5,
+    "DEF": 10,
+    "MATK": 30,
+    "MDEF": 20,
+    "HIT": 100,
+    "EVA": 20,
+    "CRI": 30,
+    "RES": 50,
+    "MOV": 3,
+    "SPEED": 109,
+    "reqEXP": 100,
+    "DropEXP": 1
+  },
+  "Rogue": {
+    "Level": 1,
+    "MaxHp": 150,
+    "Hp": 150,
+    "ATK": 15,
+    "DEF": 10,
+    "MATK": 5,
+    "MDEF": 5,
+    "HIT": 100,
+    "EVA": 50,
+    "CRI": 30,
+    "RES": 0,
+    "MOV": 4,
+    "SPEED": 108,
+    "reqEXP": 100,
+    "DropEXP": 1
+  }
+}

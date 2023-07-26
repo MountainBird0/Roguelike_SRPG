@@ -3,7 +3,7 @@
 ***********************************************************/
 public enum StatEnum
 {
-    Lev,
+    Level,
     MaxHP,
     HP,
     ATK,
@@ -14,5 +14,8 @@ public enum StatEnum
     EVA,
     CRI,
     RES,
-    MOV
+    MOV,
+    SPEED,
+    reqEXP,
+    DropEXP
 }

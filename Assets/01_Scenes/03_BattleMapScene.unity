@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &13306883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,8 +1926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4d7a04aff3fad4fae65a139a32a516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSelector: {fileID: 0}
-  units: []
 --- !u!4 &992712576
 Transform:
   m_ObjectHideFlags: 0
@@ -4005,6 +4003,7 @@ MonoBehaviour:
   mainMaps: []
   highlights: []
   deploySpots: []
+  units: []
 --- !u!1 &1648039028
 GameObject:
   m_ObjectHideFlags: 0
