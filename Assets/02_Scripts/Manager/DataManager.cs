@@ -17,6 +17,10 @@ public class DataManager : MonoBehaviour
     public TextAsset iconProbabilityText;
     public Dictionary<string, IconProbabilityData> iconProbabilitys;
 
+    public TextAsset UnitStatsText;
+    public Dictionary<string, StatData> unitStats;
+
+
     // playing data
     public GameInfo gameInfo;
     public MapData mapData;
@@ -38,6 +42,8 @@ public class DataManager : MonoBehaviour
 
         stageLevels = new Dictionary<string, StageLevelData>();
         iconProbabilitys = new Dictionary<string, IconProbabilityData>();
+        unitStats = new Dictionary<string, StatData>();
+
         mapData = new MapData();
         nodes = new List<IconNode>();
     }
@@ -55,6 +61,12 @@ public class DataManager : MonoBehaviour
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
+        unitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(UnitStatsText.ToString());
+
+        foreach(var a in unitStats)
+        {
+            Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.MaxHP}");
+        }
     }
     
 
