@@ -137,18 +137,18 @@ public class MainMapDataMaker : MonoBehaviour
     {
 
         int randomValue = Random.Range(0, GetTotalProbability());
-        Debug.Log($"{GetType()} - ·£´ý°ª - {randomValue}");
+        //Debug.Log($"{GetType()} - ·£´ý°ª - {randomValue}");
 
         int sum = 0;
 
         foreach (var kvp in probabilityMap)
         {
             sum += kvp.Value;
-            Debug.Log($"{GetType()} - sum({sum})¿¡ °ª ´õÇÔ{kvp.Value}");
+            //Debug.Log($"{GetType()} - sum({sum})¿¡ °ª ´õÇÔ{kvp.Value}");
 
             if (randomValue < sum)
             {
-                Debug.Log($"{GetType()} - °É¸°°Å - {kvp.Key}");
+               // Debug.Log($"{GetType()} - °É¸°°Å - {kvp.Key}");
 
                 ProbabilityCheck(kvp.Key);
                 return kvp.Key;
@@ -280,11 +280,11 @@ public class MainMapDataMaker : MonoBehaviour
 
         foreach (var kvp in probabilityMap)
         {
-            Debug.Log($"{GetType()} - ÃÑÈ®·ü - {kvp.Key}, {kvp.Value}");
+            // Debug.Log($"{GetType()} - ÃÑÈ®·ü - {kvp.Key}, {kvp.Value}");
 
             totalProbability += kvp.Value;
         }
-        Debug.Log($"{GetType()} - ÃÑÇÕ - {totalProbability}");
+        // Debug.Log($"{GetType()} - ÃÑÇÕ - {totalProbability}");
         return totalProbability;
     }
 

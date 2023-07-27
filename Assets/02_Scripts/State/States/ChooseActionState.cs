@@ -16,7 +16,6 @@ public class ChooseActionState : State
     int range = 3;
     List<TileLogic> tiles;
 
-
     public override void Enter()
     {
         base.Enter();
@@ -64,11 +63,7 @@ public class ChooseActionState : State
             {
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
             }
-
         }
-
-
-
     }
 
     private void TouchEnd(Vector2 screenPosition, float time)

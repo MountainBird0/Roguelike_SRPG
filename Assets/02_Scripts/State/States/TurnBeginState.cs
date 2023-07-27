@@ -12,17 +12,24 @@ public class TurnBeginState : State
     {
         base.Enter();
 
+        // 현재 turn unit이 있는지 확인
+        if(Turn.unit != null)
+        {
+            StateMachineController.instance.ChangeTo<ChooseActionState>();
+        }
+
+        // 아군 유닛 없으면 적 유닛 속도대로 정렬
+        // 속도 정렬 아직 안함
+        if(!BattleMapManager.instance.IsHuman())
+        {
+            Turn.unit = BattleMapManager.instance.units[0];
+            StateMachineController.instance.ChangeTo<ChooseActionState>();
+        }
+
         mainTiles = BattleMapManager.instance.mainTiles;
-
-        // 움직일 아군 유닛이 없으면 적 자동 이동으로
-        //if()
-
-        Turn.unit = BattleMapManager.instance.units[0];
-
+   
         InputManager.instance.OnStartTouch += TouchStart;
-        InputManager.instance.OnEndTouch += TouchEnd;
-
-        
+        InputManager.instance.OnEndTouch += TouchEnd;     
     }
 
     public override void Exit()
@@ -53,7 +60,8 @@ public class TurnBeginState : State
 
     }
 
-    
-
+    /**********************************************************
+    * 
+    ***********************************************************/
 
 }

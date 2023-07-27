@@ -19,7 +19,7 @@ public class LoadState : State
     private IEnumerator LoadSequence()
     {
         // 甘 积己 殿
-        BattleMapManager.instance.MapLoad();
+        BattleMapManager.instance.MapLoad(); // 甘, 阁胶磐 积己
         yield return null;
 
         StateMachineController.instance.ChangeTo<DeployState>();

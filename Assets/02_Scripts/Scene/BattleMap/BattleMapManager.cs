@@ -64,6 +64,7 @@ public class BattleMapManager : MonoBehaviour
     public void MapLoad()
     {
         selector.SelectMap();
+
         GameObject Map = GameObject.FindGameObjectWithTag("Map");
         board = Map.GetComponent<Board>();
 
@@ -150,8 +151,9 @@ public class BattleMapManager : MonoBehaviour
         }
     }
 
-
-
+    /**********************************************************
+    * 유닛 배치 끝날때 실행 이름 뭘로 할까
+    ***********************************************************/
     public void test()
     {
         CopyContent();
@@ -181,8 +183,6 @@ public class BattleMapManager : MonoBehaviour
         //}
 
         // ObjectPoolManager.instance.Despawn(units[0].gameObject);
-
-
     }
 
 
@@ -259,4 +259,21 @@ public class BattleMapManager : MonoBehaviour
 
     //    return tile;
     //}
+
+
+
+    /**********************************************************
+    * 유닛 리스트에 Player있는지 확인
+    ***********************************************************/
+    public bool IsHuman()
+    {
+        for(int i = 0; i < units.Count; i++)
+        {
+            if(units[i].playerType == PlayerType.Human)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
