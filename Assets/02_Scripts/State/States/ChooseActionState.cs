@@ -20,7 +20,9 @@ public class ChooseActionState : State
     {
         base.Enter();
         mainTiles = BattleMapManager.instance.mainTiles;
-        
+
+        //ShowMoveableTile();
+
         //tile = BattleMapManager.instance.Search
         //    (BattleMapManager.instance.GetTile(Turn.unit.gameObject.transform.position), ValidateMovement);
 
@@ -69,6 +71,15 @@ public class ChooseActionState : State
     private void TouchEnd(Vector2 screenPosition, float time)
     {
         
+    }
+
+    /**********************************************************
+    * 움직일 수 있는 범위 표시
+    ***********************************************************/
+    private void ShowMoveableTile()
+    {
+        tiles = BattleMapManager.instance.Search(BattleMapManager.instance.GetTile(Turn.unit.tile.pos), ValidateMovement);
+        BattleMapManager.instance.board.SetHighTile(tiles);
     }
 
 
