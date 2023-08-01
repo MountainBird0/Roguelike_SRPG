@@ -42,8 +42,6 @@ public class StateMachineController : MonoBehaviour
 
         if (currentState != state)
         {
-
-
             ChangeState(state);
         }
     }
@@ -56,13 +54,15 @@ public class StateMachineController : MonoBehaviour
             target = gameObject.AddComponent<T>();
         return target;
     }
+
+
     protected void ChangeState(State value)
     {
-        if (busy)
-        {
-            return;
-        }
-        busy = true;
+        //if (busy)
+        //{
+        //    return;
+        //}
+        //busy = true;
 
         if (currentState != null)
         {
@@ -70,10 +70,11 @@ public class StateMachineController : MonoBehaviour
         }
 
         currentState = value;
+
         if (currentState != null)
         {
             currentState.Enter();
         }
-        busy = false;
+        // busy = false;
     }
 }

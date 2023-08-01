@@ -7,14 +7,8 @@ public class TileLogic
     public Vector3 worldPos;
     public GameObject content; // 타일위의 오브젝트
 
-    public Tilemap tilemap;
-    public Tilemap highlight;
-    public Tilemap deploySpot;
-
-    #region pathfinding
     public TileLogic prev;
     public float distance;
-    #endregion
 
     //public TileType tileType;
 
@@ -26,6 +20,7 @@ public class TileLogic
         worldPos = worldPosition;
     }
 
+    // 이거 어따쓰는지
     public char GetDirection(TileLogic t2)
     {
         return GetDirection(t2.pos);

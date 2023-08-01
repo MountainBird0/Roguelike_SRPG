@@ -37,7 +37,7 @@ public class DeployState : State
         InputManager.instance.OnEndTouch -= TouchEnd;
 
         BattleMapManager.instance.test(); ////////////////////////
-        board.deploySpot.gameObject.SetActive(false);
+        board.deployMap.gameObject.SetActive(false);
 
         // 유닛들 순서대로 unit 리스트에 넣기
         // 리스트 player먼저로 정렬
@@ -54,7 +54,6 @@ public class DeployState : State
         {
             if (deployTiles[cellPosition].content) // 이미 유닛 있으면 그거 들기
             {
-
                 controller.EnableGuide();
                 
                 oldCoords = cellPosition;

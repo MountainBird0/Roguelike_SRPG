@@ -21,7 +21,7 @@ public class ChooseActionState : State
         base.Enter();
         mainTiles = BattleMapManager.instance.mainTiles;
 
-        //ShowMoveableTile();
+        ShowMoveableTile();
 
         //tile = BattleMapManager.instance.Search
         //    (BattleMapManager.instance.GetTile(Turn.unit.gameObject.transform.position), ValidateMovement);
@@ -76,15 +76,17 @@ public class ChooseActionState : State
     /**********************************************************
     * 움직일 수 있는 범위 표시
     ***********************************************************/
-    private void ShowMoveableTile()
+    public void ShowMoveableTile()
     {
-        tiles = BattleMapManager.instance.Search(BattleMapManager.instance.GetTile(Turn.unit.tile.pos), ValidateMovement);
-        BattleMapManager.instance.board.SetHighTile(tiles);
+
     }
 
 
+    /**********************************************************
+    * 움직일 수 있는 범위 검색
+    ***********************************************************/
     // test
-    public virtual bool ValidateMovement(TileLogic from, TileLogic to)
+    public bool ValidateMovement(TileLogic from, TileLogic to)
     {
         to.distance = from.distance + 1;
         //to.distance = from.distance+from.moveCost;

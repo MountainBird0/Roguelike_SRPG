@@ -20,9 +20,4 @@ public class BattleMapUIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
-
-
-
 }

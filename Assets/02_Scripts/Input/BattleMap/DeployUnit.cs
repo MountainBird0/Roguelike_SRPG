@@ -142,7 +142,7 @@ public class DeployUnit : MonoBehaviour
         worldPosition.x += 0.5f;
         worldPosition.y += 0.5f;
 
-        return board.deploySpot.WorldToCell(worldPosition);
+        return board.deployMap.WorldToCell(worldPosition);
     }
 
 }

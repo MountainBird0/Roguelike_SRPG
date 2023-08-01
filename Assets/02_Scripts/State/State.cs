@@ -16,6 +16,7 @@ public class State : MonoBehaviour
         Debug.Log($"{GetType()} - 실행");
         if (board == null)
         {
+            // 보드넣는거 awake에 넣을까
             Debug.Log($"{GetType()} - 보드 넣기");
             board = BattleMapManager.instance.board;
         }
@@ -37,7 +38,7 @@ public class State : MonoBehaviour
         worldPosition.x += 0.5f;
         worldPosition.y += 0.5f;
 
-        return board.deploySpot.WorldToCell(worldPosition);
+        return board.deployMap.WorldToCell(worldPosition);
     }
 
 }

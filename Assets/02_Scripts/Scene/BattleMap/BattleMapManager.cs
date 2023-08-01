@@ -13,22 +13,19 @@ public class BattleMapManager : MonoBehaviour
     public static BattleMapManager instance;
     
     public MapSelector selector;
-    public Grid grid;
+    public Transform map;
+
+    [HideInInspector]
+    public Board board; // 생성된 맵에서 불러올 board
+     
+    //public List<Vector3Int> mainMaps;
+    //public List<Vector3Int> deploySpots;
+    //public List<Vector3Int> highlights;
 
     public Dictionary<Vector3Int, TileLogic> mainTiles;
     public Dictionary<Vector3Int, TileLogic> deployTiles;
 
-    #region 맵 관련
-    [HideInInspector]
-    public Board board; // 생성된 맵에서 불러올 board
-    # endregion
-     
-    public List<Vector3Int> mainMaps;
-    public List<Vector3Int> highlights;
-    public List<Vector3Int> deploySpots;
-
     public List<Unit> units; // 유닛 리스트
-
 
     private Vector3Int[] dirs = new Vector3Int[4]
     {
@@ -53,9 +50,9 @@ public class BattleMapManager : MonoBehaviour
         mainTiles = new Dictionary<Vector3Int, TileLogic>();
         deployTiles = new Dictionary<Vector3Int, TileLogic>();
 
-        mainMaps = new List<Vector3Int>();
-        highlights = new List<Vector3Int>();
-        deploySpots = new List<Vector3Int>();
+        //mainMaps = new List<Vector3Int>();
+        //highlights = new List<Vector3Int>();
+        //deploySpots = new List<Vector3Int>();
     }
 
     /**********************************************************
@@ -63,64 +60,52 @@ public class BattleMapManager : MonoBehaviour
     ***********************************************************/
     public void MapLoad()
     {
-        selector.SelectMap();
+        selector.SelectMap(map);
 
         GameObject Map = GameObject.FindGameObjectWithTag("Map");
         board = Map.GetComponent<Board>();
-
-        // 타일맵 세팅
-        board.GetTiles(mainMaps, highlights, deploySpots);
-
-        //foreach (var t in deploySpots)
-        //{
-        //    Debug.Log($"{GetType()} - 타일이름 위치 - {t}, {t.x}, {t.y}");
-        //}
-
-
-        CreateTiles();
-        CreateMonters();
     }
 
     /**********************************************************
     * 타일 dic 생성
     ***********************************************************/
-    private void CreateTiles()
-    {
-        for(int i = 0; i < mainMaps.Count; i++)
-        {
-            if (!mainTiles.ContainsKey(mainMaps[i]))
-            {
-                Vector3 worldPos = grid.CellToWorld(mainMaps[i]);
-                TileLogic tileLogic = new TileLogic(mainMaps[i], worldPos);
-                mainTiles.Add(mainMaps[i], tileLogic);
-            }
-        }
+    //private void SetTiles()
+    //{
+    //    for(int i = 0; i < mainMaps.Count; i++)
+    //    {
+    //        if (!mainTiles.ContainsKey(mainMaps[i]))
+    //        {
+    //            Vector3 worldPos = grid.CellToWorld(mainMaps[i]);
+    //            TileLogic tileLogic = new TileLogic(mainMaps[i], worldPos);
+    //            mainTiles.Add(mainMaps[i], tileLogic);
+    //        }
+    //    }
 
-        for (int i = 0; i < deploySpots.Count; i++)
-        {
-            if (!deployTiles.ContainsKey(mainMaps[i]))
-            {
-                Vector3 worldPos = grid.CellToWorld(deploySpots[i]);
-                TileLogic tileLogic = new TileLogic(deploySpots[i], worldPos);
-                deployTiles.Add(deploySpots[i], tileLogic);
-            }
-        }
-    }
+    //    for (int i = 0; i < deploySpots.Count; i++)
+    //    {
+    //        if (!deployTiles.ContainsKey(mainMaps[i]))
+    //        {
+    //            Vector3 worldPos = grid.CellToWorld(deploySpots[i]);
+    //            TileLogic tileLogic = new TileLogic(deploySpots[i], worldPos);
+    //            deployTiles.Add(deploySpots[i], tileLogic);
+    //        }
+    //    }
+    //}
 
     /**********************************************************
     * 몬스터 생성
     ***********************************************************/
-    private void CreateMonters()
-    {
-        for(int i = 0; i < board.monsterMaker.monsters.Count; i++)
-        {
-            var info = board.monsterMaker.monsters[i];
-            GameObject ob = ObjectPoolManager.instance.Spawn(info.name);
-            ob.transform.position = info.pos;
+    //private void CreateMonters()
+    //{
+    //    for(int i = 0; i < board.monsterMaker.monsters.Count; i++)
+    //    {
+    //        var info = board.monsterMaker.monsters[i];
+    //        GameObject ob = ObjectPoolManager.instance.Spawn(info.name);
+    //        ob.transform.position = info.pos;
 
-            mainTiles[info.pos].content = ob;
-        }
-    }
+    //        mainTiles[info.pos].content = ob;
+    //    }
+    //}
 
 
     /**********************************************************

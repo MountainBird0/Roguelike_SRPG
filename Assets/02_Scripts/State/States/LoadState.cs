@@ -16,10 +16,10 @@ public class LoadState : State
         base.Exit();
     }
 
-    private IEnumerator LoadSequence()
+    private IEnumerator LoadSequence() // 内风凭 捞蜡?
     {
         // 甘 积己 殿
-        BattleMapManager.instance.MapLoad(); // 甘, 阁胶磐 积己
+        BattleMapManager.instance.MapLoad(); // 甘 积己
         yield return null;
 
         StateMachineController.instance.ChangeTo<DeployState>();

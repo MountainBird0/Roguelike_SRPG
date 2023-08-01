@@ -6,8 +6,6 @@ public class TurnBeginState : State
 {
     private Dictionary<Vector3Int, TileLogic> mainTiles;
 
-
-
     public override void Enter()
     {
         base.Enter();
@@ -20,13 +18,13 @@ public class TurnBeginState : State
 
         // 아군 유닛 없으면 적 유닛 속도대로 정렬
         // 속도 정렬 아직 안함
-        if(!BattleMapManager.instance.IsHuman())
-        {
-            Turn.unit = BattleMapManager.instance.units[0];
-            StateMachineController.instance.ChangeTo<ChooseActionState>();
-        }
+        //if(!BattleMapManager.instance.IsHuman())
+        //{
+        //    Turn.unit = BattleMapManager.instance.units[0];
+        //    StateMachineController.instance.ChangeTo<ChooseActionState>();
+        //}
 
-        mainTiles = BattleMapManager.instance.mainTiles;
+        mainTiles = BattleMapManager.instance.mainTiles; // 이거 그때그때 안하고 첨 생길 때 가지고있기
    
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;     
@@ -51,8 +49,6 @@ public class TurnBeginState : State
                 StateMachineController.instance.ChangeTo<ChooseActionState>();
             }
         }
-
-
     }
 
     private void TouchEnd(Vector2 screenPosition, float time)

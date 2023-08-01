@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1247473078124012203}
   - component: {fileID: 1247473078124012212}
   m_Layer: 0
-  m_Name: Highlight
+  m_Name: HighlightMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 8710717192582744364}
   - component: {fileID: 8710717192582744363}
   m_Layer: 0
-  m_Name: DeploySpot
+  m_Name: DeployMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1719,7 +1719,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8710717193491505301}
+  - component: {fileID: 3223849187201932588}
   - component: {fileID: 8710717193491505302}
+  - component: {fileID: 5923499455753816783}
   m_Layer: 0
   m_Name: Test_Map
   m_TagString: Map
@@ -1746,6 +1748,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!156049354 &3223849187201932588
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710717193491505300}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 0}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!114 &8710717193491505302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,11 +1772,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da94841f6ed1bc5409792f547e9bf2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMap: {fileID: 8710717193866040936}
-  highlight: {fileID: 1247473078124012203}
-  deploySpot: {fileID: 8710717192582744364}
-  monsterMaker: {fileID: 11400000, guid: 9fce09d3fcb7ff04b9fa74ef1949c181, type: 2}
+  grid: {fileID: 3223849187201932588}
   blueHighlightTile: {fileID: 11400000, guid: 5c66028d1abb4224d969c78312ef650e, type: 2}
+  mainMap: {fileID: 8710717193866040936}
+  highlightMap: {fileID: 1247473078124012203}
+  deployMap: {fileID: 8710717192582744364}
+  monsterMaker: {fileID: 5923499455753816783}
+--- !u!114 &5923499455753816783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710717193491505300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b225b06fdb69c6f4fb964c7c441de455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterList: {fileID: 11400000, guid: 9fce09d3fcb7ff04b9fa74ef1949c181, type: 2}
 --- !u!1 &8710717193866040949
 GameObject:
   m_ObjectHideFlags: 0

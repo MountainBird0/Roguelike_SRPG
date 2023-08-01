@@ -11,12 +11,10 @@ public class MapSelector : MonoBehaviour
     public List<GameObject> Stage2Maps;
     public List<GameObject> Stage3Maps;
 
-    public Transform Grid;
-
     /**********************************************************
     * 배틀 맵에서 불러올 맵을 정함
     ***********************************************************/
-    public void SelectMap()
+    public void SelectMap(Transform pos)
     {
         //int currentStage = DataManager.instance.gameInfo.currentStage;
         int currentStage = 1;
@@ -25,13 +23,13 @@ public class MapSelector : MonoBehaviour
         switch (currentStage)
         {
             case 1:
-                icon = Instantiate(Stage1Maps[Random.Range(0, Stage1Maps.Count)], Grid);
+                icon = Instantiate(Stage1Maps[Random.Range(0, Stage1Maps.Count)], pos);
                 break;
             case 2:
-                icon = Instantiate(Stage1Maps[Random.Range(0, Stage2Maps.Count)], Grid);
+                icon = Instantiate(Stage1Maps[Random.Range(0, Stage2Maps.Count)], pos);
                 break;
             case 3:
-                icon = Instantiate(Stage1Maps[Random.Range(0, Stage3Maps.Count)], Grid);
+                icon = Instantiate(Stage1Maps[Random.Range(0, Stage3Maps.Count)], pos);
                 break;
         }
     }

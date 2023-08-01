@@ -6,22 +6,36 @@ using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
-    public Tilemap mainMap;
-    public Tilemap highlight;
-    public Tilemap deploySpot;
+    public Grid grid;
 
+    [Header("Tile")]
+    public Tile blueHighlightTile;
+
+    [Header("TileMap")]
+    public Tilemap mainMap;
+    public Tilemap highlightMap;
+    public Tilemap deployMap;
+
+    public Dictionary<Vector3Int, TileLogic> mainTiles;
+    public Dictionary<Vector3Int, TileLogic> deployTiles;
+
+    [Header("Maker")]
     public MonsterMaker monsterMaker;
 
-    public Tile blueHighlightTile;
+    private void Awake()
+    {
+        SetTiles();
+    }
+
 
     /**********************************************************
     * 타일들 불러옴
     ***********************************************************/
-    public void GetTiles(List<Vector3Int> maps, List<Vector3Int> highlights, List<Vector3Int> deploySpots)
+    public void SetTilePos(List<Vector3Int> maps, List<Vector3Int> highlights, List<Vector3Int> deploySpots)
     {
         LoadTiles(mainMap, maps);
-        LoadTiles(highlight, highlights);
-        LoadTiles(deploySpot, deploySpots);
+        LoadTiles(highlightMap, highlights);
+        LoadTiles(deployMap, deploySpots);
     }
 
     /**********************************************************
@@ -48,24 +62,52 @@ public class Board : MonoBehaviour
     }
 
     /**********************************************************
-    * 하이라이트 타일로 변경
+    * 타일 Dictionary 생성
+    ***********************************************************/
+    private void SetTiles()
+    {
+        SetTile(mainMap, mainTiles);
+        SetTile(deployMap, deployTiles);
+        
+    }
+    private void SetTile(Tilemap map, Dictionary<Vector3Int, TileLogic> tiles)
+    {
+        Vector3Int currentPos = new Vector3Int();
+        BoundsInt bounds = map.cellBounds;
+
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
+        {
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
+            {
+                currentPos.x = x;
+                currentPos.y = y;
+
+                if (map.HasTile(currentPos))
+                {
+                    Vector3 worldPos = grid.CellToWorld(currentPos);
+                    TileLogic tileLogic = new TileLogic(currentPos, worldPos);
+                    tiles.Add(currentPos, tileLogic);
+                }
+            }
+        }
+    }
+
+
+    /**********************************************************
+    * 하이라이트 타일 생성 / 지우기
     ***********************************************************/
     public void SetHighTile(List<TileLogic> tiles)
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            highlight.SetTile(tiles[i].pos, blueHighlightTile);
+            highlightMap.SetTile(tiles[i].pos, blueHighlightTile);
         }
     }
-
-    /**********************************************************
-    * 하이라이트 타일 지우기
-    ***********************************************************/
     public void ClearHighTile(List<TileLogic> tiles)
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            highlight.SetTile(tiles[i].pos, null);
+            highlightMap.SetTile(tiles[i].pos, null);
         }
     }
 }
