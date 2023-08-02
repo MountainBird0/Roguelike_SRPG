@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class TurnBeginState : State
 {
-    private Dictionary<Vector3Int, TileLogic> mainTiles;
-
     public override void Enter()
     {
         base.Enter();
-
-        // 현재 turn unit이 있는지 확인
+    
         if(Turn.unit != null)
         {
+            // 현재 turn에 unit이 있다면 
             StateMachineController.instance.ChangeTo<ChooseActionState>();
         }
 
@@ -23,8 +21,6 @@ public class TurnBeginState : State
         //    Turn.unit = BattleMapManager.instance.units[0];
         //    StateMachineController.instance.ChangeTo<ChooseActionState>();
         //}
-
-        mainTiles = BattleMapManager.instance.mainTiles; // 이거 그때그때 안하고 첨 생길 때 가지고있기
    
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;     
@@ -41,11 +37,13 @@ public class TurnBeginState : State
     private void TouchStart(Vector2 screenPosition, float time)
     {
         Vector3Int cellPosition = GetCellPosition(screenPosition);
-        if(mainTiles.ContainsKey(cellPosition))
+
+        if(board.mainTiles.ContainsKey(cellPosition))
         {
-            if (mainTiles[cellPosition].content)
+            if (board.mainTiles[cellPosition].content)
             {
-                Turn.unit = mainTiles[cellPosition].content.GetComponent<Unit>();
+                Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+                Turn.prevTile = board.GetTile(cellPosition);
                 StateMachineController.instance.ChangeTo<ChooseActionState>();
             }
         }
@@ -57,7 +55,10 @@ public class TurnBeginState : State
     }
 
     /**********************************************************
-    * 
+    * Turn.unit.tile.pos
+    * mainTiles.content
+    * mainTiles.content.transform.position
+    * Unit만 있는 dic만들까
     ***********************************************************/
 
 }

@@ -7,6 +7,7 @@ public class BattleMapUIManager : MonoBehaviour
     public static BattleMapUIManager instance;
 
     public DeployUIController deployUI;
+    public ChooseActionUIController ActionUI;
 
     private void Awake()
     {

@@ -6,12 +6,7 @@ public class MonsterMaker : MonoBehaviour
 {
     public MonsterList monsterList;
 
-    public void Start()
-    {
-        CreateMonters();
-    }
-
-    private void CreateMonters()
+    public void CreateMonters(Dictionary<Vector3Int, TileLogic> mainTiles)
     {
         for (int i = 0; i < monsterList.monsters.Count; i++)
         {
@@ -19,8 +14,8 @@ public class MonsterMaker : MonoBehaviour
             GameObject ob = ObjectPoolManager.instance.Spawn(info.name);
             ob.transform.position = info.pos;
 
-            // content에 넣기
-            //mainTiles[info.pos].content = ob;
+            mainTiles[info.pos].content = ob; // 이거 안쓸수도
+            BattleMapManager.instance.AddUnit(ob.GetComponent<Unit>(), mainTiles[info.pos]);
         }
     }
 }

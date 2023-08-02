@@ -39,7 +39,7 @@ public class DeployUnit : MonoBehaviour
     private void Start()
     {
         board = BattleMapManager.instance.board;
-        deployTiles = BattleMapManager.instance.deployTiles;
+        // deployTiles = BattleMapManager.instance.deployTiles;
     }
 
     private void TouchForDeploy(Vector2 screenPosition, float time)

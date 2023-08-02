@@ -81,6 +81,7 @@ public class DeployUIController : MonoBehaviour
         if (unitButtons.ContainsKey(buttonName))
         {
             unitButtons[buttonName].interactable = true;
+            unitName = null;
         }
     }
     public void DisableButton(string buttonName)
@@ -88,6 +89,7 @@ public class DeployUIController : MonoBehaviour
         if (unitButtons.ContainsKey(buttonName))
         {
             unitButtons[buttonName].interactable = false;
+            unitName = null;
         }
     }
 

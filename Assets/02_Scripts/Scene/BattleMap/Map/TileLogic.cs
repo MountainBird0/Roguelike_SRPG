@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 public class TileLogic
 {
     public Vector3Int pos;
-    public Vector3 worldPos;
+   // public Vector3 worldPos; // worldPos 삭제가능
     public GameObject content; // 타일위의 오브젝트
 
     public TileLogic prev;
@@ -14,10 +14,10 @@ public class TileLogic
 
     public TileLogic() { }
 
-    public TileLogic(Vector3Int cellPos, Vector3 worldPosition)
+    public TileLogic(Vector3Int cellPos)
     {
         pos = cellPos;
-        worldPos = worldPosition;
+        //worldPos = worldPosition;
     }
 
     // 이거 어따쓰는지

@@ -17,13 +17,6 @@ public class BattleMapManager : MonoBehaviour
 
     [HideInInspector]
     public Board board; // 생성된 맵에서 불러올 board
-     
-    //public List<Vector3Int> mainMaps;
-    //public List<Vector3Int> deploySpots;
-    //public List<Vector3Int> highlights;
-
-    public Dictionary<Vector3Int, TileLogic> mainTiles;
-    public Dictionary<Vector3Int, TileLogic> deployTiles;
 
     public List<Unit> units; // 유닛 리스트
 
@@ -46,13 +39,6 @@ public class BattleMapManager : MonoBehaviour
             Debug.LogWarning($"{GetType()} - Destory");
             Destroy(gameObject);
         }
-
-        mainTiles = new Dictionary<Vector3Int, TileLogic>();
-        deployTiles = new Dictionary<Vector3Int, TileLogic>();
-
-        //mainMaps = new List<Vector3Int>();
-        //highlights = new List<Vector3Int>();
-        //deploySpots = new List<Vector3Int>();
     }
 
     /**********************************************************
@@ -66,177 +52,72 @@ public class BattleMapManager : MonoBehaviour
         board = Map.GetComponent<Board>();
     }
 
-    /**********************************************************
-    * 타일 dic 생성
-    ***********************************************************/
-    //private void SetTiles()
+    ///**********************************************************
+    //* 타일 범위에 맞는 타일 리스트를 반환
+    //***********************************************************/
+    //public List<TileLogic> Search(TileLogic start, Func<TileLogic, TileLogic, bool> searchType)
     //{
-    //    for(int i = 0; i < mainMaps.Count; i++)
+    //    List<TileLogic> tilesResult = new List<TileLogic>();
+
+    //    tilesResult.Add(start);
+    //    ClearSearch();
+
+    //    Queue<TileLogic> checkNext = new Queue<TileLogic>();
+    //    Queue<TileLogic> checkNow = new Queue<TileLogic>();
+
+    //    start.distance = 0;
+    //    checkNow.Enqueue(start);
+
+    //    while (checkNow.Count > 0)
     //    {
-    //        if (!mainTiles.ContainsKey(mainMaps[i]))
+    //        TileLogic t = checkNow.Dequeue();
+    //        for (int i = 0; i < 4; i++)
     //        {
-    //            Vector3 worldPos = grid.CellToWorld(mainMaps[i]);
-    //            TileLogic tileLogic = new TileLogic(mainMaps[i], worldPos);
-    //            mainTiles.Add(mainMaps[i], tileLogic);
+    //            TileLogic next = GetTile(t.pos + dirs[i]);
+
+    //            if (next == null || next.distance <= t.distance + 1)
+    //            {
+
+    //                continue;
+    //            }
+    //            if(searchType(t, next))
+    //            {
+    //                next.prev = t;
+    //                checkNext.Enqueue(next);
+    //                tilesResult.Add(next);
+    //            }
+    //        }
+
+    //        if(checkNow.Count == 0)
+    //        {
+    //            SwapReference(ref checkNow, ref checkNext);
     //        }
     //    }
-
-    //    for (int i = 0; i < deploySpots.Count; i++)
-    //    {
-    //        if (!deployTiles.ContainsKey(mainMaps[i]))
-    //        {
-    //            Vector3 worldPos = grid.CellToWorld(deploySpots[i]);
-    //            TileLogic tileLogic = new TileLogic(deploySpots[i], worldPos);
-    //            deployTiles.Add(deploySpots[i], tileLogic);
-    //        }
-    //    }
+    //    return tilesResult;
     //}
 
-    /**********************************************************
-    * 몬스터 생성
-    ***********************************************************/
-    //private void CreateMonters()
+
+    //private void SwapReference(ref Queue<TileLogic> now, ref Queue<TileLogic> next)
     //{
-    //    for(int i = 0; i < board.monsterMaker.monsters.Count; i++)
-    //    {
-    //        var info = board.monsterMaker.monsters[i];
-    //        GameObject ob = ObjectPoolManager.instance.Spawn(info.name);
-    //        ob.transform.position = info.pos;
+    //    Queue<TileLogic> temp = now;
+    //    now = next;
+    //    next = temp;
+    //}
+    //public TileLogic GetTile(Vector3Int pos)
+    //{
+    //    TileLogic tile = null;
+    //    mainTiles.TryGetValue(pos, out tile);
 
-    //        mainTiles[info.pos].content = ob;
+    //    return tile;
+    //}
+    //void ClearSearch()
+    //{
+    //    foreach (TileLogic t in mainTiles.Values)
+    //    {
+    //        t.prev = null;
+    //        t.distance = int.MaxValue;
     //    }
     //}
-
-
-    /**********************************************************
-    * deployTiles타일의 content를 mainTiles로 복사
-    ***********************************************************/
-    public void CopyContent()
-    {
-        foreach(var pair in deployTiles)
-        {
-            if(pair.Value.content != null)
-            {
-                mainTiles[pair.Key].content = pair.Value.content;
-            }
-        }
-    }
-
-    /**********************************************************
-    * units에 unit추가
-    ***********************************************************/
-    public void AddUnit()
-    {
-        foreach(var pair in mainTiles)
-        {
-            if(pair.Value.content != null && pair.Value.content.CompareTag("Unit"))
-            {
-                units.Add(pair.Value.content.GetComponent<Unit>());
-            }
-        }
-    }
-
-    /**********************************************************
-    * 유닛 배치 끝날때 실행 이름 뭘로 할까
-    ***********************************************************/
-    public void test()
-    {
-        CopyContent();
-        AddUnit();
-
-        //foreach (KeyValuePair<Vector3Int, TileLogic> pair in deployTiles)
-        //{
-        //    Vector3Int key = pair.Key;
-        //    TileLogic value = pair.Value;
-
-        //    Debug.Log($"{GetType()} Key: " + key + ", Value: " + value);
-        //    Debug.Log($"{GetType()} content: " + value.content);
-        //}
-
-        //foreach (var pair in mainTiles)
-        //{
-        //    Vector3Int key = pair.Key;
-        //    TileLogic value = pair.Value;
-
-        //    Debug.Log($"{GetType()} main Key: " + key + ", Value: " + value);
-        //    Debug.Log($"{GetType()} main content: " + value.content);
-        //}
-
-        //foreach(var unit in units)
-        //{
-        //    Debug.Log($"{GetType()} - 유닛체크 - {unit} -- {unit.unitName}");
-        //}
-
-        // ObjectPoolManager.instance.Despawn(units[0].gameObject);
-    }
-
-
-    /**********************************************************
-    * 타일 범위에 맞는 타일 리스트를 반환
-    ***********************************************************/
-    public List<TileLogic> Search(TileLogic start, Func<TileLogic, TileLogic, bool> searchType)
-    {
-        List<TileLogic> tilesResult = new List<TileLogic>();
-
-        tilesResult.Add(start);
-        ClearSearch();
-
-        Queue<TileLogic> checkNext = new Queue<TileLogic>();
-        Queue<TileLogic> checkNow = new Queue<TileLogic>();
-
-        start.distance = 0;
-        checkNow.Enqueue(start);
-
-        while (checkNow.Count > 0)
-        {
-            TileLogic t = checkNow.Dequeue();
-            for (int i = 0; i < 4; i++)
-            {
-                TileLogic next = GetTile(t.pos + dirs[i]);
-
-                if (next == null || next.distance <= t.distance + 1)
-                {
-
-                    continue;
-                }
-                if(searchType(t, next))
-                {
-                    next.prev = t;
-                    checkNext.Enqueue(next);
-                    tilesResult.Add(next);
-                }
-            }
-
-            if(checkNow.Count == 0)
-            {
-                SwapReference(ref checkNow, ref checkNext);
-            }
-        }
-        return tilesResult;
-    }
-
-
-    private void SwapReference(ref Queue<TileLogic> now, ref Queue<TileLogic> next)
-    {
-        Queue<TileLogic> temp = now;
-        now = next;
-        next = temp;
-    }
-    public TileLogic GetTile(Vector3Int pos)
-    {
-        TileLogic tile = null;
-        mainTiles.TryGetValue(pos, out tile);
-
-        return tile;
-    }
-    void ClearSearch()
-    {
-        foreach (TileLogic t in mainTiles.Values)
-        {
-            t.prev = null;
-            t.distance = int.MaxValue;
-        }
-    }
     //public static TileLogic GetTile(Vector3Int pos) // 다른곳에서도 쓸 수 있게 하기 위해
     //{
     //    TileLogic tile = null;
@@ -245,6 +126,14 @@ public class BattleMapManager : MonoBehaviour
     //    return tile;
     //}
 
+    /**********************************************************
+    * 유닛 리스트에 유닛 넣기
+    ***********************************************************/
+    public void AddUnit(Unit unit, TileLogic TL)
+    {
+        units.Add(unit);
+        unit.tile = TL;
+    }
 
 
     /**********************************************************
