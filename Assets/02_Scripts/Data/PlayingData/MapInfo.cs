@@ -4,7 +4,7 @@ using UnityEngine;
 /**********************************************************
 * 현재 생성되어있는 맵의 정보
 ***********************************************************/
-public class MapData
+public class MapInfo
 {
     public List<(IconType, Vector2)> iconInfo = new(); // 각 아이콘의 종류와 위치
     public List<IconState> iconStates = new();

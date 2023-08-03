@@ -12,9 +12,6 @@ public class ChooseActionState : State
     // 움직임스킬 사용 상태
     // 턴 넘기기 버튼
 
-    // test
-    private int range = 3;
-
     private List<TileLogic> tiles;
 
     public override void Enter()
@@ -69,30 +66,34 @@ public class ChooseActionState : State
         }
         // 이동 불가능한 곳을 터치했다면
         else if (board.mainTiles.ContainsKey(cellPosition))
-        {      
+        {
+            board.ClearHighTile(tiles);
+            Turn.hasMoved = false;
+            Turn.unit.gameObject.transform.position = Turn.prevTile.pos;
+
             // 누른곳에 이미 유닛이 있다면
             if (board.mainTiles[cellPosition].content) // 내 유닛일때만 추가
-            {
-                Debug.Log($"{GetType()} - 이 유닛으로 변경");
-                board.ClearHighTile(tiles);
-                Turn.unit.gameObject.transform.position = Turn.prevTile.pos;
-                Turn.hasMoved = false;
-
-                Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+            {                
+                Debug.Log($"{GetType()} - 다른유닛으로");
                 Turn.prevTile = board.GetTile(cellPosition);
+                Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
             }
             else
             {
-                Turn.unit.gameObject.transform.position = Turn.prevTile.pos;
+                Debug.Log($"{GetType()} - 빈공간");
+                Turn.unit = null;
+                Turn.prevTile = null; // 안해도되나
+                StateMachineController.instance.ChangeTo<TurnBeginState>();
             }
         }
-        else
-        {
-            // board.ClearHighTile(tiles);
-            Turn.unit = null;
-            StateMachineController.instance.ChangeTo<TurnBeginState>();
-        }
+        //else
+        //{
+        //    // board.ClearHighTile(tiles);
+        //    Turn.unit = null;
+        //    StateMachineController.instance.ChangeTo<TurnBeginState>();
+        //}
     }
 
     private void TouchEnd(Vector2 screenPosition, float time)
@@ -116,12 +117,11 @@ public class ChooseActionState : State
     // test 이것들은 어디에 있어야할까
     public bool ValidateMovement(TileLogic from, TileLogic to)
     {
-        to.distance = from.distance + 1; // 올리는 이유
-        //to.distance = from.distance+from.moveCost;
+        to.distance = from.distance + 1;
+        int range = Turn.unit.stats.MOV;
 
         if (to.content != null || to.distance > range)
         {
-            // 비어있지않고 범위보다 넓으면
             return false;
         }
         return true;

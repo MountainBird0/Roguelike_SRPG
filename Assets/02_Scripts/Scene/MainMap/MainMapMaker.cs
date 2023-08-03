@@ -20,7 +20,7 @@ public class MainMapMaker : MonoBehaviour
 
     public GameObject Root;
 
-    private MapData mapData;
+    private MapInfo mapData;
 
     private List<GameObject> icons;
     private List<IconNode> nodes;
@@ -31,7 +31,7 @@ public class MainMapMaker : MonoBehaviour
 
     private void Awake()
     {
-        mapData = new MapData();
+        mapData = new MapInfo();
         nodes = new List<IconNode>();
         icons = new List<GameObject>();
     }
@@ -41,7 +41,7 @@ public class MainMapMaker : MonoBehaviour
     ***********************************************************/
     public void MakeNode()
     {
-        mapData = DataManager.instance.mapData;
+        mapData = DataManager.instance.mapInfo;
 
         IconNode rootNode = new IconNode(Root);
         rootNode.iconState = IconState.VISITED;

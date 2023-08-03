@@ -13,19 +13,19 @@ public class DataManager : MonoBehaviour
 
     // default data
     public TextAsset stageLevelText;
-    public Dictionary<string, StageLevelData> stageLevels;
+    public Dictionary<string, StageLevelData> stageLevels = new();
     public TextAsset iconProbabilityText;
-    public Dictionary<string, IconProbabilityData> iconProbabilitys;
-
+    public Dictionary<string, IconProbabilityData> iconProbabilitys = new();
     public TextAsset UnitStatsText;
-    public Dictionary<string, StatData> unitStats;
+    public Dictionary<string, StatData> defaultUnitStats = new();
 
 
     // playing data
     public GameInfo gameInfo;
-    public MapData mapData;
+    public MapInfo mapInfo = new();
+    public Dictionary<string, StatData> currentUnitInfo = new();
 
-    public List<IconNode> nodes;
+    public List<IconNode> nodes = new();
 
     private void Awake()
     {
@@ -39,13 +39,6 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-
-        stageLevels = new Dictionary<string, StageLevelData>();
-        iconProbabilitys = new Dictionary<string, IconProbabilityData>();
-        unitStats = new Dictionary<string, StatData>();
-
-        mapData = new MapData();
-        nodes = new List<IconNode>();
     }
 
     private void Start()
@@ -61,9 +54,11 @@ public class DataManager : MonoBehaviour
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
-        unitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(UnitStatsText.ToString());
+        defaultUnitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(UnitStatsText.ToString());
 
-        foreach(var a in unitStats)
+        currentUnitInfo = defaultUnitStats;
+
+        foreach (var a in defaultUnitStats)
         {
             Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.MaxHP}");
         }
@@ -76,8 +71,9 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void SaveDate()
     {
-        SaveTool("MainMapData", mapData);
         SaveTool("GameInfo", gameInfo);
+        SaveTool("MainMapInfo", mapInfo);
+        SaveTool("UnitInfo", currentUnitInfo);
     }
 
 
@@ -86,7 +82,9 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public bool LoadPlayingData()
     {
-        return LoadTool("MainMapData", ref mapData) && LoadTool("GameInfo", ref gameInfo);
+        return LoadTool("GameInfo", ref gameInfo) && 
+            LoadTool("MainMapInfo", ref mapInfo) &&             
+            LoadTool("UnitInfo", ref currentUnitInfo);
     }
 
 
@@ -95,8 +93,9 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void DeleteSaveData()
     {
-        DeleteTool("MainMapData");
         DeleteTool("GameInfo");
+        DeleteTool("MainMapInfo");
+        DeleteTool("UnitInfo");
         ResetGameInfo();
     }
 
@@ -117,9 +116,9 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void OverWriteState()
     {
-        for (int i = 0; i < mapData.iconStates.Count; i++)
+        for (int i = 0; i < mapInfo.iconStates.Count; i++)
         {
-            mapData.iconStates[i] = nodes[i + 1].iconState;
+            mapInfo.iconStates[i] = nodes[i + 1].iconState;
         }
     }
 

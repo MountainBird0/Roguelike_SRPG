@@ -8,7 +8,7 @@ public class TurnBeginState : State
     {
         base.Enter();
     
-        if(Turn.unit != null)
+        if(Turn.unit)
         {
             // 현재 turn에 unit이 있다면 
             StateMachineController.instance.ChangeTo<ChooseActionState>();

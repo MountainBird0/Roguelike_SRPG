@@ -98,3 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Rogue
+  bigIcon: {fileID: 405706617, guid: da52927e09ecafe47b0d1e550675bfff, type: 3}
+  playerType: 0

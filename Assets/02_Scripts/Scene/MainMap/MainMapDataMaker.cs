@@ -14,7 +14,7 @@ public class MainMapDataMaker : MonoBehaviour
     private IconProbabilityData iconProbability;
     private Dictionary<IconType, int> probabilityMap;
 
-    private MapData mapData;
+    private MapInfo mapData;
 
 
     private int currentShopCount;
@@ -26,7 +26,7 @@ public class MainMapDataMaker : MonoBehaviour
         iconProbability = new IconProbabilityData();
         probabilityMap = new Dictionary<IconType, int>();
 
-        mapData = new MapData();
+        mapData = new MapInfo();
     }
 
     /**********************************************************
@@ -52,7 +52,7 @@ public class MainMapDataMaker : MonoBehaviour
 
         SetIconGrid(iconCounts);
 
-        DataManager.instance.mapData = mapData;
+        DataManager.instance.mapInfo = mapData;
         GameManager.instance.hasSaveData = true;
     }
 

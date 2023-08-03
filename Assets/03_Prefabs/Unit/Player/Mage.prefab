@@ -98,3 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Mage
+  bigIcon: {fileID: -785349671, guid: 2b0f226eaec4a4d419af6ef77ee59242, type: 3}
+  playerType: 0

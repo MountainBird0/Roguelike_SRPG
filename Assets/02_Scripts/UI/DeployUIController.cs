@@ -11,23 +11,7 @@ public class DeployUIController : MonoBehaviour
     public Canvas deployCanvas;
     public Canvas guideCanvas;
 
-    public Button warriorButton;
-    public Button mageButton;
-    public Button rogueButton;
-
-
-    private Dictionary<string, Button> unitButtons;
-
-    private void Start()
-    {
-        unitButtons = new Dictionary<string, Button>
-        {
-            { "Warrior", warriorButton },
-            { "Mage", mageButton },
-            { "Rogue", rogueButton }
-        };
-        InitializeButtons();
-    }
+    public Dictionary<string, Button> unitButtons = new();
 
     private void InitializeButtons()
     {
@@ -52,11 +36,12 @@ public class DeployUIController : MonoBehaviour
     public void EnableWindow()
     {
         deployCanvas.gameObject.SetActive(true);
+        BattleMapUIManager.instance.CreateDeploySlot();
+        InitializeButtons();
     }
     public void DisableWindow()
     {
         deployCanvas.gameObject.SetActive(false);
-
     }
 
 
@@ -70,7 +55,6 @@ public class DeployUIController : MonoBehaviour
     public void DisableGuide()
     {
         guideCanvas.gameObject.SetActive(false);
-
     }
 
     /**********************************************************
@@ -92,6 +76,7 @@ public class DeployUIController : MonoBehaviour
             unitName = null;
         }
     }
+
 
     /**********************************************************
     * 배치 완료
