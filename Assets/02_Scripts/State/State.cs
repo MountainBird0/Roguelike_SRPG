@@ -17,7 +17,6 @@ public class State : MonoBehaviour
         if (board == null)
         {
             // 보드넣는거 awake에 넣을까
-            Debug.Log($"{GetType()} - 보드 넣기");
             board = BattleMapManager.instance.board;
         }
     }

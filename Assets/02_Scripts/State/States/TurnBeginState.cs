@@ -7,11 +7,16 @@ public class TurnBeginState : State
     public override void Enter()
     {
         base.Enter();
+
     
         if(Turn.unit)
         {
-            // 현재 turn에 unit이 있다면 
-            StateMachineController.instance.ChangeTo<ChooseActionState>();
+            StateMachineController.instance.ChangeTo<ChooseActionState>();       
+        }
+        else
+        {
+            InputManager.instance.OnStartTouch += TouchStart;
+            InputManager.instance.OnEndTouch += TouchEnd;
         }
 
         // 아군 유닛 없으면 적 유닛 속도대로 정렬
@@ -21,9 +26,7 @@ public class TurnBeginState : State
         //    Turn.unit = BattleMapManager.instance.units[0];
         //    StateMachineController.instance.ChangeTo<ChooseActionState>();
         //}
-   
-        InputManager.instance.OnStartTouch += TouchStart;
-        InputManager.instance.OnEndTouch += TouchEnd;     
+        
     }
 
     public override void Exit()
@@ -37,8 +40,7 @@ public class TurnBeginState : State
     private void TouchStart(Vector2 screenPosition, float time)
     {
         Vector3Int cellPosition = GetCellPosition(screenPosition);
-
-        if(board.mainTiles.ContainsKey(cellPosition))
+        if (board.mainTiles.ContainsKey(cellPosition))
         {
             if (board.mainTiles[cellPosition].content)
             {

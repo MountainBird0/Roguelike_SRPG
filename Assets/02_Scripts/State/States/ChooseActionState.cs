@@ -71,10 +71,11 @@ public class ChooseActionState : State
             Turn.hasMoved = false;
             Turn.unit.gameObject.transform.position = Turn.prevTile.pos;
 
+            Debug.Log($"{GetType()} <- 여기서 눌렀다.");
+
             // 누른곳에 이미 유닛이 있다면
             if (board.mainTiles[cellPosition].content) // 내 유닛일때만 추가
-            {                
-                Debug.Log($"{GetType()} - 다른유닛으로");
+            {
                 Turn.prevTile = board.GetTile(cellPosition);
                 Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
 
@@ -82,7 +83,6 @@ public class ChooseActionState : State
             }
             else
             {
-                Debug.Log($"{GetType()} - 빈공간");
                 Turn.unit = null;
                 Turn.prevTile = null; // 안해도되나
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
