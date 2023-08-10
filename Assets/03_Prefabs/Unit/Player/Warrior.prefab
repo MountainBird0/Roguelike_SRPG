@@ -98,5 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Warrior
-  bigIcon: {fileID: -1257566929, guid: 6a0cfd3c9ee08f546b8c14a8d095bd06, type: 3}
+  smallIcon: {fileID: -1257566929, guid: 6a0cfd3c9ee08f546b8c14a8d095bd06, type: 3}
+  BigIcon: {fileID: 1424577828, guid: cf980a0d8b852ad42b04ce4b007c85bf, type: 3}
+  skills: []
   playerType: 0

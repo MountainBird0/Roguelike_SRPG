@@ -29,19 +29,22 @@ public class BattleMapUIManager : MonoBehaviour
 
     public void CreateDeploySlot()
     {
-        foreach(var kvp in DataManager.instance.defaultUnitStats)
+        foreach(var kvp in DataManager.instance.currentUnitInfo)
         {
             var ob = Instantiate(deploySlot, deployWindow);
             ob.name = kvp.Key;
             // ¼öÁ¤..
             var temp = ObjectPoolManager.instance.Spawn(kvp.Key);
             temp.transform.position = new Vector3(400, 400, 400);
-            ob.GetComponent<DeploySlot>().bigIcon.sprite = temp.GetComponent<Unit>().bigIcon;
+
+            var set = ob.GetComponent<DeploySlot>();
+
+            set.bigIcon.sprite = temp.GetComponent<Unit>().smallIcon;
             ObjectPoolManager.instance.Despawn(temp);
 
-            ob.GetComponent<DeploySlot>().className.text = kvp.Key;
-            ob.GetComponent<DeploySlot>().level.text = kvp.Value.Level.ToString();
-            ob.GetComponent<DeploySlot>().hp.text = kvp.Value.HP.ToString();
+            set.className.text = kvp.Key;
+            set.level.text = kvp.Value.Level.ToString();
+            set.hp.text = kvp.Value.HP.ToString();
 
             deployUI.unitButtons.Add(kvp.Key, ob.GetComponent<Button>());
         }

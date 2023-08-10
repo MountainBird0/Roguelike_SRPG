@@ -1,12 +1,15 @@
 /**********************************************************
 * ¸ŞÀÎ ¸Ê °ü¸®
 ***********************************************************/
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMapManager : MonoBehaviour
 {
     public MainMapDataMaker dataMaker;
     public MainMapMaker mapMaker;
+
+    public List<Unit> units;
 
     private void Start()
     {

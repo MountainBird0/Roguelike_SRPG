@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        DataManager.instance.LoadDefaultData();
         hasSaveData = DataManager.instance.LoadPlayingData();
     }
 
@@ -51,14 +52,13 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         Debug.Log($"{GetType()} - 새 게임 시작");
+  
         hasSaveData = false;
         DataManager.instance.DeleteSaveData();
+   
 
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
- 
-
-        // 맵 매니저 맵 생성
     }
 
 

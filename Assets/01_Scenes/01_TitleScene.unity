@@ -1554,6 +1554,7 @@ MonoBehaviour:
   stageLevelText: {fileID: 4900000, guid: defa3c3f04bc7ae4e8b9a4f44f98a4e0, type: 3}
   iconProbabilityText: {fileID: 4900000, guid: 9a3d91f5b15638b46924f2512697321c, type: 3}
   UnitStatsText: {fileID: 4900000, guid: b86b7aa61b99c6b469f3120e5855e304, type: 3}
+  SkillsText: {fileID: 4900000, guid: b1b9f24b952f728439a53d63749d1ddb, type: 3}
 --- !u!4 &866180284
 Transform:
   m_ObjectHideFlags: 0

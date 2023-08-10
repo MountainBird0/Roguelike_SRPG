@@ -1,0 +1,56 @@
+{
+  "1": {
+    "name": "NormalAttackS",
+    "explain": "짧 기본공격 어쩌구",
+    "range": 2,
+    "verticalRange": 1,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2
+  },
+  "2": {
+    "name": "NormalAttackL",
+    "explain": "긴 기본공격 어쩌구",
+    "range": 3,
+    "verticalRange": 1,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2
+  },
+  "3": {
+    "name": "Puncture",
+    "explain": "찌르기 어쩌구",
+    "range": 3,
+    "verticalRange": 1,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2
+  },
+  "4": {
+    "name": "FireBall",
+    "explain": "파이어볼 어쩌구",
+    "range": 5,
+    "verticalRange": 1,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2
+  },
+  "5": {
+    "name": "Slash",
+    "explain": "베기 어쩌구",
+    "range": 1,
+    "verticalRange": 3,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2
+  },
+  "6": {
+    "name": "Meteor",
+    "explain": "메테오 어쩌구",
+    "range": 5,
+    "verticalRange": 1,
+    "AOERange": 3,
+    "AOEVerRange": 0,
+    "affectType": 2
+  }
+}

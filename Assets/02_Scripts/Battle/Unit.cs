@@ -5,7 +5,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public string unitName;
-    public Sprite bigIcon;
+    public Sprite smallIcon;
+    public Sprite BigIcon;
 
     // 유닛 방향 좌 우
 
@@ -13,6 +14,7 @@ public class Unit : MonoBehaviour
 
     public StatData maxStats; // 레벨업 등 할 때 마다 maxStat 갱신해서 사용하기
     public StatData stats;
+    public List<Skill> skills;
 
     public PlayerType playerType;
 

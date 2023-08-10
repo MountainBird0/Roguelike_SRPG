@@ -18,6 +18,8 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, IconProbabilityData> iconProbabilitys = new();
     public TextAsset UnitStatsText;
     public Dictionary<string, StatData> defaultUnitStats = new();
+    public TextAsset SkillsText;
+    public Dictionary<string, SkillData> defaultSkills = new();
 
 
     // playing data
@@ -41,27 +43,24 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        LoadDefaultData();
-        LoadPlayingData();
-    }
-
     /**********************************************************
     * TextAsset형식으로 되어있는 데이터들 가지고 오기
     ***********************************************************/
-    private void LoadDefaultData()
+    public void LoadDefaultData()
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
         defaultUnitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(UnitStatsText.ToString());
+        defaultSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillData>>(SkillsText.ToString());
 
         currentUnitInfo = defaultUnitStats;
 
-        foreach (var a in defaultUnitStats)
-        {
-            Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.MaxHP}");
-        }
+        //foreach (var a in defaultSkills)
+        //{
+        //    Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.name}");
+
+        //    Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.explain}");
+        //}
     }
     
 

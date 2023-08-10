@@ -26,7 +26,6 @@ public class DeployUIController : MonoBehaviour
     ***********************************************************/
     private void ClickBtnUnit(string clickedButtonName)
     {
-        EnableGuide();
         unitName = clickedButtonName;
     }
 
