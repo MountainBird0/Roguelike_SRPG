@@ -10,12 +10,21 @@ public class MainMapUIController : MonoBehaviour
     [HideInInspector]
     public string unitName;
 
-    public Canvas unitCanvas;
 
     public Image bigImage;
 
 
     public ImagePool pool;
+
+    [Header("OB_UI")]
+    public GameObject unitCanvas;
+
+    public GameObject ScrollView_Units;
+    public GameObject Image_Unit;
+    public GameObject Panel_StatWindow;
+    public GameObject Panel_SkillWindow;
+    public List<Image> skillSlots;
+
 
     public Dictionary<string, Button> unitButtons = new();
 
@@ -62,7 +71,7 @@ public class MainMapUIController : MonoBehaviour
     {
         if(currentUiState.Equals(UiState.Nothing))
         {
-            unitCanvas.gameObject.SetActive(true);
+            unitCanvas.SetActive(true);
             currentUiState = UiState.ShowUnitWindow;
         }
     }
@@ -71,7 +80,7 @@ public class MainMapUIController : MonoBehaviour
     {
         if (!currentUiState.Equals(UiState.Nothing))
         {
-            unitCanvas.gameObject.SetActive(false);
+            unitCanvas.SetActive(false);
             currentUiState = UiState.ShowUnitWindow;
         }
     }
