@@ -139,6 +139,7 @@ public class ObjectPoolManager : MonoBehaviour
 
         // 집어넣기
         go.SetActive(false);
+        //go.transform.SetParent(null); // 내가추가
         pool.Push(go);
     }
 }

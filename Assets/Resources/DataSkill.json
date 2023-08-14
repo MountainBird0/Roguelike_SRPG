@@ -1,56 +1,82 @@
 {
-  "1": {
-    "name": "NormalAttackS",
-    "explain": "짧 기본공격 어쩌구",
+  "0": {
+    "name": "NormalAttackW",
+    "explain": "warrior 기본공격 어쩌구",
     "range": 2,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
-    "affectType": 2
+    "affectType": 2,
+    "jobType": 0
   },
-  "2": {
-    "name": "NormalAttackL",
-    "explain": "긴 기본공격 어쩌구",
+  "1": {
+    "name": "NormalAttackM",
+    "explain": "mage 기본공격 어쩌구",
     "range": 3,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
-    "affectType": 2
+    "affectType": 2,
+    "jobType": 1
+  },
+  "2": {
+    "name": "NormalAttackR",
+    "explain": "rogue기본공격 어쩌구",
+    "range": 3,
+    "verticalRange": 1,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2,
+    "jobType": 2
   },
   "3": {
+    "name": "NormalAttackA",
+    "explain": "아처 기본공격 어쩌구",
+    "range": 3,
+    "verticalRange": 1,
+    "AOERange": 1,
+    "AOEVerRange": 0,
+    "affectType": 2,
+    "jobType": 3
+  },
+  "4": {
     "name": "Puncture",
     "explain": "찌르기 어쩌구",
     "range": 3,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
-    "affectType": 2
+    "affectType": 2,
+    "jobType": 0
   },
-  "4": {
+  "5": {
     "name": "FireBall",
     "explain": "파이어볼 어쩌구",
     "range": 5,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
-    "affectType": 2
+    "affectType": 2,
+    "jobType": 1
   },
-  "5": {
+  "6": {
     "name": "Slash",
     "explain": "베기 어쩌구",
     "range": 1,
     "verticalRange": 3,
     "AOERange": 1,
     "AOEVerRange": 0,
-    "affectType": 2
+    "affectType": 2,
+    "jobType": 2
   },
-  "6": {
+  "7": {
     "name": "Meteor",
     "explain": "메테오 어쩌구",
     "range": 5,
     "verticalRange": 1,
     "AOERange": 3,
     "AOEVerRange": 0,
-    "affectType": 2
+    "affectType": 2,
+    "jobType": 1
   }
 }

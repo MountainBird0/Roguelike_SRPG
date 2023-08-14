@@ -13,7 +13,9 @@
     "RES": 0,
     "MOV": 3,
     "SPEED": 110,
-    "reqEXP": 100
+    "reqEXP": 100,
+    "dropEXP": 0,
+    "jobType": 0
   },
   "Mage": {
     "Level": 1,
@@ -29,7 +31,9 @@
     "RES": 50,
     "MOV": 3,
     "SPEED": 109,
-    "reqEXP": 100
+    "reqEXP": 100,
+    "dropEXP": 0,
+    "jobType": 1
   },
   "Rogue": {
     "Level": 1,
@@ -45,6 +49,8 @@
     "RES": 0,
     "MOV": 4,
     "SPEED": 108,
-    "reqEXP": 100
+    "reqEXP": 100,
+    "dropEXP": 0,
+    "jobType": 2
   }
 }

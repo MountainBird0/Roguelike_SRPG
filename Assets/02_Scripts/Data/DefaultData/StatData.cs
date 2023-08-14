@@ -14,5 +14,6 @@ public class StatData
     public int MOV;
     public int SPEED;
     public int reqEXP;
-    public int DropEXP;
+    public int dropEXP;
+    public int jobType;
 }

@@ -12,6 +12,7 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
 
     // default data
+    // 앞에 두개 나중에 int로
     public TextAsset stageLevelText;
     public Dictionary<string, StageLevelData> stageLevels = new();
     public TextAsset iconProbabilityText;
@@ -19,13 +20,16 @@ public class DataManager : MonoBehaviour
     public TextAsset UnitStatsText;
     public Dictionary<string, StatData> defaultUnitStats = new();
     public TextAsset SkillsText;
-    public Dictionary<string, SkillData> defaultSkills = new();
-
+    public Dictionary<int, SkillData> defaultSkills = new();
+    public TextAsset UnitAndSkillText;
+    public Dictionary<string, SkillListData> defaultUnitSkills = new();
 
     // playing data
     public GameInfo gameInfo;
     public MapInfo mapInfo = new();
+    
     public Dictionary<string, StatData> currentUnitInfo = new();
+    public Dictionary<string, SkillListData> currentUnitSkills = new();
 
     public List<IconNode> nodes = new();
 
@@ -51,15 +55,21 @@ public class DataManager : MonoBehaviour
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
         defaultUnitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(UnitStatsText.ToString());
-        defaultSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillData>>(SkillsText.ToString());
+        defaultSkills = JsonConvert.DeserializeObject<Dictionary<int, SkillData>>(SkillsText.ToString());
+        defaultUnitSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(UnitAndSkillText.ToString());
 
+        // 이거 이어하기때는 안해도 ㄱㅊ
         currentUnitInfo = defaultUnitStats;
+        currentUnitSkills = defaultUnitSkills;
 
-        //foreach (var a in defaultSkills)
+        //foreach (var a in currentUnitSkills)
         //{
-        //    Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.name}");
-
-        //    Debug.Log($"{GetType()} - key:{a.Key}, value:{a.Value.explain}");
+        //    Debug.Log($"{GetType()} - {a.Key}");
+        //    Debug.Log($"{GetType()} - {a.Value.list.Count}");
+        //    foreach (var b in a.Value.list)
+        //    {
+        //        Debug.Log($"{GetType()} - {b}");
+        //    }
         //}
     }
     
@@ -73,6 +83,7 @@ public class DataManager : MonoBehaviour
         SaveTool("GameInfo", gameInfo);
         SaveTool("MainMapInfo", mapInfo);
         SaveTool("UnitInfo", currentUnitInfo);
+        SaveTool("UnitSkillInfo", currentUnitSkills);
     }
 
 
@@ -83,7 +94,10 @@ public class DataManager : MonoBehaviour
     {
         return LoadTool("GameInfo", ref gameInfo) && 
             LoadTool("MainMapInfo", ref mapInfo) &&             
-            LoadTool("UnitInfo", ref currentUnitInfo);
+            LoadTool("UnitInfo", ref currentUnitInfo) &&
+            LoadTool("UnitSkillInfo", ref currentUnitSkills);
+
+
     }
 
 
@@ -95,6 +109,7 @@ public class DataManager : MonoBehaviour
         DeleteTool("GameInfo");
         DeleteTool("MainMapInfo");
         DeleteTool("UnitInfo");
+        DeleteTool("UnitSkillInfo");
         ResetGameInfo();
     }
 

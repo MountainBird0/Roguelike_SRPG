@@ -11,6 +11,7 @@ public class SkillData
     public int AOERange;
     public int AOEVerRange;
     public int affectType;
+    public int jobType;
     // 공격대상
     // public affectType Enemy; // enum
 }
