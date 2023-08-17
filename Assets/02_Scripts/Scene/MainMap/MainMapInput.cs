@@ -22,9 +22,9 @@ public class MainMapInput : MonoBehaviour
 
     private void ScreenTouch(Vector2 screenPosition, float time)
     {
+        Debug.Log($"{GetType()} - ลอฤกวิ");
         ray = Camera.main.ScreenPointToRay(screenPosition);
         hit = Physics2D.Raycast(ray.origin, ray.direction);
-
 
         if (hit.collider != null)
         {            

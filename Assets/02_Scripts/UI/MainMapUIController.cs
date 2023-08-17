@@ -8,12 +8,12 @@ using DG.Tweening;
 
 public class MainMapUIController : MonoBehaviour
 {
-    [HideInInspector]
-    public string unitName;
+    private string unitName;
 
     public GameObject bigImage;
     //public Image bigImage;
     public MainMapUIManager manager;
+    public GameObject mainMapInput;
 
     public ImagePool pool;
 
@@ -23,8 +23,11 @@ public class MainMapUIController : MonoBehaviour
     public GameObject ScrollView_Units;
     public GameObject Image_Unit;
     public GameObject Panel_StatWindow;
+
+    [Header("Skill")]
     public GameObject Panel_SkillWindow;
-    public List<Image> skillSlots;
+    public GameObject Panel_SkillInfo;
+    public List<GameObject> skillSlots;
 
     [Header("SideBar")]
     public GameObject Button_Skill;
@@ -37,6 +40,7 @@ public class MainMapUIController : MonoBehaviour
 
 
     public Dictionary<string, Button> unitButtons = new();
+    public Dictionary<int, Button> skillButtons = new();
 
     /******************************************************************************
     * UI 상태관리
@@ -64,22 +68,36 @@ public class MainMapUIController : MonoBehaviour
     }
 
 
-    public void InitializeButtons()
+    public void InitializeUnitButtons()
     {
         foreach (var button in unitButtons)
         {
             button.Value.onClick.AddListener(() => ClickBtnUnit(button.Key));
+            if (unitName == null)
+            {
+                unitName = button.Key;
+            }
         }
     }
 
-
     /******************************************************************************
-    * Unit 아이콘 클릭
+    * Unit 클릭
     *******************************************************************************/
     private void ClickBtnUnit(string clickedButtonName)
     {
         unitName = clickedButtonName;
         bigImage.GetComponent<Image>().sprite = pool.bigImages[unitName];
+    }
+    /******************************************************************************
+    * Skill 클릭
+    *******************************************************************************/
+    public void ClickSkill(int skillNum)
+    {
+        if(!Panel_SkillInfo.activeSelf)
+        {
+            Panel_SkillInfo.SetActive(true);
+        }
+        manager.SetSkillWindow(skillNum);
     }
 
 
@@ -92,7 +110,13 @@ public class MainMapUIController : MonoBehaviour
     {
         if(currentUiState.Equals(UiState.Nothing))
         {
+            mainMapInput.SetActive(false);
+
             unitCanvas.SetActive(true);
+
+            ClickBtnUnit(unitName);
+
+
             currentUiState = UiState.ShowUnitWindow;
         }
     }
@@ -105,6 +129,9 @@ public class MainMapUIController : MonoBehaviour
     {
         if (!currentUiState.Equals(UiState.Nothing))
         {
+            mainMapInput.SetActive(true);
+
+
             unitCanvas.SetActive(false);
             currentUiState = UiState.Nothing;
         }
@@ -120,10 +147,12 @@ public class MainMapUIController : MonoBehaviour
         {
             currentUnitWindowState = UnitWindowState.ShowSkill;
 
-            manager.CreateSkillSlot(unitName);
+            manager.CreateSkillSlot(unitName, skillSlots);
             manager.SetStatWindow(unitName);
+            // manager.SetSkillWindow(0);
 
             Panel_SkillWindow.SetActive(true);
+
             Panel_StatWindow.SetActive(true);
             ScrollView_Units.SetActive(false);
             bigImage.transform.DOMove(imagePos_L.position, 0.5f);
@@ -139,9 +168,8 @@ public class MainMapUIController : MonoBehaviour
         {
             currentUnitWindowState = UnitWindowState.Nothing;
 
-            manager.ClearSkillSlot();
-
             Panel_SkillWindow.SetActive(false);
+            Panel_SkillInfo.SetActive(false);
             Panel_StatWindow.SetActive(false);
             ScrollView_Units.SetActive(true);
             bigImage.transform.DOMove(imagePos_R.position, 0.5f);

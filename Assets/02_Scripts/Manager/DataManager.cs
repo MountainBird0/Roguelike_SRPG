@@ -30,6 +30,7 @@ public class DataManager : MonoBehaviour
     
     public Dictionary<string, StatData> currentUnitInfo = new();
     public Dictionary<string, SkillListData> currentUnitSkills = new();
+    public Dictionary<string, SkillListData> currentSlotSkills = new();
 
     public List<IconNode> nodes = new();
 
@@ -62,10 +63,25 @@ public class DataManager : MonoBehaviour
         currentUnitInfo = defaultUnitStats;
         currentUnitSkills = defaultUnitSkills;
 
-        //foreach (var a in currentUnitSkills)
+        // 나중에 다른곳으로
+        
+        foreach (var kvp in defaultUnitSkills)
+        {
+            SkillListData numList = new();
+            for (int i = 0; i < Mathf.Min(3, kvp.Value.list.Count); i++)
+            {
+                numList.list.Add(kvp.Value.list[i]);
+            }
+            currentSlotSkills.Add(kvp.Key, numList);
+        }
+
+
+
+
+        //foreach (var a in currentSlotSkills)
         //{
         //    Debug.Log($"{GetType()} - {a.Key}");
-        //    Debug.Log($"{GetType()} - {a.Value.list.Count}");
+        //    Debug.Log($"{GetType()} - {a.Value.list}");
         //    foreach (var b in a.Value.list)
         //    {
         //        Debug.Log($"{GetType()} - {b}");
@@ -96,8 +112,6 @@ public class DataManager : MonoBehaviour
             LoadTool("MainMapInfo", ref mapInfo) &&             
             LoadTool("UnitInfo", ref currentUnitInfo) &&
             LoadTool("UnitSkillInfo", ref currentUnitSkills);
-
-
     }
 
 

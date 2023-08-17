@@ -8,6 +8,8 @@ TagManager:
   - Icon
   - Map
   - Unit
+  - SkillUI
+  - SkillSlot
   layers:
   - Default
   - TransparentFX

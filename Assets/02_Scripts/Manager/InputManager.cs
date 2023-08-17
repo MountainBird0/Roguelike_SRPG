@@ -74,7 +74,16 @@ public class InputManager : MonoBehaviour
     }
 
     /**********************************************************
-    * 현재 마우스 위치
+    * 현재 마우스 위치 변환
+    ***********************************************************/
+    public Vector2 UITouchPosition()
+    {
+        return touchControls.Touch.TouchPosition.ReadValue<Vector2>();
+    }
+
+
+    /**********************************************************
+    * 현재 마우스 위치 변환
     ***********************************************************/
     public Vector2 PrimaryPosition()
     {

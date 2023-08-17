@@ -1,82 +1,98 @@
-{
+ï»¿{
   "0": {
     "name": "NormalAttackW",
-    "explain": "warrior ±âº»°ø°İ ¾îÂ¼±¸",
+    "explain": "warrior ê¸°ë³¸ê³µê²© ì–´ì©Œêµ¬",
     "range": 2,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 0
+    "jobType": 0,
+    "damageType": 0,
+    "multiplier": 1.2
   },
   "1": {
     "name": "NormalAttackM",
-    "explain": "mage ±âº»°ø°İ ¾îÂ¼±¸",
+    "explain": "mage ê¸°ë³¸ê³µê²© ì–´ì©Œêµ¬",
     "range": 3,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 1
+    "jobType": 1,
+    "damageType": 1,
+    "multiplier": 1.2
   },
   "2": {
     "name": "NormalAttackR",
-    "explain": "rogue±âº»°ø°İ ¾îÂ¼±¸",
+    "explain": "rogueê¸°ë³¸ê³µê²© ì–´ì©Œêµ¬",
     "range": 3,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 2
+    "jobType": 2,
+    "damageType": 0,
+    "multiplier": 1.2
   },
   "3": {
     "name": "NormalAttackA",
-    "explain": "¾ÆÃ³ ±âº»°ø°İ ¾îÂ¼±¸",
+    "explain": "ì•„ì²˜ ê¸°ë³¸ê³µê²© ì–´ì©Œêµ¬",
     "range": 3,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 3
+    "jobType": 3,
+    "damageType": 0,
+    "multiplier": 1.2
   },
   "4": {
     "name": "Puncture",
-    "explain": "Âî¸£±â ¾îÂ¼±¸",
+    "explain": "ì°Œë¥´ê¸° ì–´ì©Œêµ¬",
     "range": 3,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 0
+    "jobType": 0,
+    "damageType": 0,
+    "multiplier": 1.5
   },
   "5": {
     "name": "FireBall",
-    "explain": "ÆÄÀÌ¾îº¼ ¾îÂ¼±¸",
+    "explain": "íŒŒì´ì–´ë³¼ ì–´ì©Œêµ¬",
     "range": 5,
     "verticalRange": 1,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 1
+    "jobType": 1,
+    "damageType": 1,
+    "multiplier": 1.8
   },
   "6": {
     "name": "Slash",
-    "explain": "º£±â ¾îÂ¼±¸",
+    "explain": "ë² ê¸° ì–´ì©Œêµ¬",
     "range": 1,
     "verticalRange": 3,
     "AOERange": 1,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 2
+    "jobType": 2,
+    "damageType": 0,
+    "multiplier": 1.5
   },
   "7": {
     "name": "Meteor",
-    "explain": "¸ŞÅ×¿À ¾îÂ¼±¸",
+    "explain": "ë©”í…Œì˜¤ ì–´ì©Œêµ¬",
     "range": 5,
     "verticalRange": 1,
     "AOERange": 3,
     "AOEVerRange": 0,
     "affectType": 2,
-    "jobType": 1
+    "jobType": 1,
+    "damageType": 1,
+    "multiplier": 1.3
   }
 }
