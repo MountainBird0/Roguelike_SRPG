@@ -14,8 +14,6 @@ public class MainMapUIManager : MonoBehaviour
 
     public GameObject unitSlot;
 
-    private List<GameObject> skillSlots = new();
-
     public StatInfo statInfo;
     public SkillInfo skillInfo;
 
@@ -23,6 +21,9 @@ public class MainMapUIManager : MonoBehaviour
     public Transform unitContent;
     public Transform skillContent;
 
+    private List<GameObject> skillSlots = new();
+    private Dictionary<int, GameObject> currentSkills = new();    
+    
     private void Awake()
     {
         seed.text = DataManager.instance.gameInfo.seed.ToString();
@@ -62,9 +63,9 @@ public class MainMapUIManager : MonoBehaviour
         for (int i = 0; i < slotSkills.list.Count; i++)
         {
             // 이미지 세팅
-            skillSet[i].GetComponent<Image>().sprite = pool.SkillImages[slotSkills.list[i].ToString()];
-            skillSet[i].name = slotSkills.list[i].ToString();
-
+            skillSet[i].GetComponent<SkillSlot>().image.sprite = pool.skillImages[slotSkills.list[i]];
+            skillSet[i].GetComponent<SkillSlot>().id = slotSkills.list[i];
+            // skillSet[i].name = slotSkills.list[i].ToString();
         }
 
 
@@ -78,11 +79,11 @@ public class MainMapUIManager : MonoBehaviour
       
             if (defaultSkills.ContainsKey(unitSkills.list[i]))      // 번호로 스킬 찾음
             {
-                var skillName = unitSkills.list[i].ToString();
-                if (pool.SkillImages.ContainsKey(skillName)) // 이름으로 이미지 찾음
+                var skillName = unitSkills.list[i];
+                if (pool.skillImages.ContainsKey(skillName)) // 이름으로 이미지 찾음
                 {
                     var slotInfo = slot.GetComponent<SkillSlot>();
-                    slotInfo.icon.sprite = pool.SkillImages[skillName];
+                    slotInfo.icon.sprite = pool.skillImages[skillName];
                     slotInfo.imageSlot.name = unitSkills.list[i].ToString();
                     if(i < slotSkills.list.Count)
                     {
@@ -91,6 +92,7 @@ public class MainMapUIManager : MonoBehaviour
                 }
             }
             skillSlots.Add(slot);
+            currentSkills.Add(unitSkills.list[i], slot);
         }
     }
     private void ClearSkillSlot()
@@ -101,6 +103,12 @@ public class MainMapUIManager : MonoBehaviour
             ObjectPoolManager.instance.Despawn(skillSlots[i]);
         }
         skillSlots.Clear();
+
+        foreach(var kvp in currentSkills)
+        {
+
+        }
+        currentSkills.Clear();
     }
 
     /**********************************************************
