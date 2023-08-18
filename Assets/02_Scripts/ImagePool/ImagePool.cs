@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ImagePool : MonoBehaviour
 {
-    [SerializeField]
     public List<StringKeyImageData> unitSmallImage;
     public List<StringKeyImageData> unitBigImage;
     public List<IntKeyImageData> skillImage;
@@ -16,25 +15,24 @@ public class ImagePool : MonoBehaviour
 
     public void MakeDictionarys()
     {
-        //MakeDictionary(unitSmallImage, smallImages);
-        //MakeDictionary(unitBigImage, bigImages);
-        //MakeDictionary(skillImage, skillImages);
+        MakeStringDictionary(unitSmallImage, smallImages);
+        MakeStringDictionary(unitBigImage, bigImages);
+        MakeIntDictionary(skillImage, skillImages);
 
     }
-    //private void MakeDictionary(List<ImageData> data, Dictionary<string, Sprite> dic)
-    //{
-    //    for (int i = 0; i < data.Count; i++)
-    //    {
-    //        dic.Add(data[i].name, data[i].image);
-    //    }
-    //}
-
-    private void MakeDictionary<T>(List<T> data, Dictionary<T, Sprite> dic) where T : ImageData
+    private void MakeStringDictionary(List<StringKeyImageData> data, Dictionary<string, Sprite> dic)
     {
-        //for (int i = 0; i < data.Count; i++)
-        //{
-        //    dic.Add(data[i].name, data[i].image);
-        //}
+        for (int i = 0; i < data.Count; i++)
+        {
+            dic.Add(data[i].name, data[i].image);
+        }
+    }
+    private void MakeIntDictionary(List<IntKeyImageData> data, Dictionary<int, Sprite> dic)
+    {
+        for (int i = 0; i < data.Count; i++)
+        {
+            dic.Add(data[i].id, data[i].image);
+        }
     }
 
 }

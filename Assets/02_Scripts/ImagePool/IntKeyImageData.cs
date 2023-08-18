@@ -1,5 +1,5 @@
-
+[System.Serializable]
 public class IntKeyImageData : ImageData
 {
-    public int name;
+    public int id;
 }
