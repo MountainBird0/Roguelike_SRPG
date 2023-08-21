@@ -17,20 +17,20 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, StageLevelData> stageLevels = new();
     public TextAsset iconProbabilityText;
     public Dictionary<string, IconProbabilityData> iconProbabilitys = new();
-    public TextAsset UnitStatsText;
+    public TextAsset unitStatsText;
     public Dictionary<string, StatData> defaultUnitStats = new();
-    public TextAsset SkillsText;
-    public Dictionary<int, SkillData> defaultSkills = new();
-    public TextAsset UnitAndSkillText;
-    public Dictionary<string, SkillListData> defaultUnitSkills = new();
+    public TextAsset skillStatsText;
+    public Dictionary<int, SkillData> defaultSkillStats = new();
+    public TextAsset usableSkillText;
+    public Dictionary<string, SkillListData> defaultUsableSkills = new();
 
     // playing data
     public GameInfo gameInfo;
     public MapInfo mapInfo = new();
     
-    public Dictionary<string, StatData> currentUnitInfo = new();
-    public Dictionary<string, SkillListData> currentUnitSkills = new();
-    public Dictionary<string, SkillListData> currentSlotSkills = new();
+    public Dictionary<string, StatData> currentUnitStats = new();
+    public Dictionary<string, SkillListData> currentUsableSkills = new();
+    public Dictionary<string, SkillListData> currentEquipSkills = new();
 
     public List<IconNode> nodes = new();
 
@@ -55,24 +55,23 @@ public class DataManager : MonoBehaviour
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
-        defaultUnitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(UnitStatsText.ToString());
-        defaultSkills = JsonConvert.DeserializeObject<Dictionary<int, SkillData>>(SkillsText.ToString());
-        defaultUnitSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(UnitAndSkillText.ToString());
+        defaultUnitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(unitStatsText.ToString());
+        defaultSkillStats = JsonConvert.DeserializeObject<Dictionary<int, SkillData>>(skillStatsText.ToString());
+        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(usableSkillText.ToString());
 
-        // 이거 이어하기때는 안해도 ㄱㅊ
-        currentUnitInfo = defaultUnitStats;
-        currentUnitSkills = defaultUnitSkills;
+        // 이거 이어하기때는 안해도 ㄱㅊ 수정
+        currentUnitStats = defaultUnitStats;
 
-        // 나중에 다른곳으로
-        
-        foreach (var kvp in defaultUnitSkills)
+        // 현재 유닛이 사용 가능한 스킬 목록에서 최대 3개까지 장착 수정
+        currentUsableSkills = defaultUsableSkills;
+        foreach (var kvp in currentUsableSkills)
         {
             SkillListData numList = new();
             for (int i = 0; i < Mathf.Min(3, kvp.Value.list.Count); i++)
             {
                 numList.list.Add(kvp.Value.list[i]);
             }
-            currentSlotSkills.Add(kvp.Key, numList);
+            currentEquipSkills.Add(kvp.Key, numList);
         }
 
 
@@ -98,8 +97,8 @@ public class DataManager : MonoBehaviour
     {
         SaveTool("GameInfo", gameInfo);
         SaveTool("MainMapInfo", mapInfo);
-        SaveTool("UnitInfo", currentUnitInfo);
-        SaveTool("UnitSkillInfo", currentUnitSkills);
+        SaveTool("UnitInfo", currentUnitStats);
+        SaveTool("UnitSkillInfo", currentUsableSkills);
     }
 
 
@@ -110,8 +109,8 @@ public class DataManager : MonoBehaviour
     {
         return LoadTool("GameInfo", ref gameInfo) && 
             LoadTool("MainMapInfo", ref mapInfo) &&             
-            LoadTool("UnitInfo", ref currentUnitInfo) &&
-            LoadTool("UnitSkillInfo", ref currentUnitSkills);
+            LoadTool("UnitInfo", ref currentUnitStats) &&
+            LoadTool("UnitSkillInfo", ref currentUsableSkills);
     }
 
 

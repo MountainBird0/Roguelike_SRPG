@@ -60,9 +60,9 @@ public class BattleMapManager : MonoBehaviour
     {
         units.Add(unit);
         unit.tile = TL;
-        if(DataManager.instance.currentUnitInfo.ContainsKey(unit.unitName))
+        if(DataManager.instance.currentUnitStats.ContainsKey(unit.unitName))
         {
-            unit.stats = DataManager.instance.currentUnitInfo[unit.unitName];
+            unit.stats = DataManager.instance.currentUnitStats[unit.unitName];
         }
         // 몬스터도 나중에 추가
     }

@@ -29,7 +29,7 @@ public class BattleMapUIManager : MonoBehaviour
 
     public void CreateDeploySlot()
     {
-        foreach(var kvp in DataManager.instance.currentUnitInfo)
+        foreach(var kvp in DataManager.instance.currentUnitStats)
         {
             var ob = Instantiate(deploySlot, deployWindow);
             ob.name = kvp.Key;

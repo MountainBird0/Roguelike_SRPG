@@ -35,7 +35,7 @@ public class MainMapUIManager : MonoBehaviour
     ***********************************************************/
     public void CreateUnitSlot(MainMapUIController controller)
     {
-        foreach (var kvp in DataManager.instance.currentUnitInfo)
+        foreach (var kvp in DataManager.instance.currentUnitStats)
         {
             var ob = Instantiate(unitSlot, unitContent);
             ob.name = kvp.Key;
@@ -56,21 +56,21 @@ public class MainMapUIManager : MonoBehaviour
 
         GameObject slot;
 
-        var defaultSkills = DataManager.instance.defaultSkills; // 전체 스킬 dic
+        var defaultSkills = DataManager.instance.defaultSkillStats; // 전체 스킬 dic
 
-        // 슬롯 스킬
-        var slotSkills = DataManager.instance.currentSlotSkills[unitName];
-        for (int i = 0; i < slotSkills.list.Count; i++)
+        // 장착한 스킬
+        var equipSkills = DataManager.instance.currentEquipSkills[unitName];
+        for (int i = 0; i < equipSkills.list.Count; i++)
         {
             // 이미지 세팅
-            skillSet[i].GetComponent<SkillSlot>().image.sprite = pool.skillImages[slotSkills.list[i]];
-            skillSet[i].GetComponent<SkillSlot>().id = slotSkills.list[i];
+            skillSet[i].GetComponent<SkillSlot>().image.sprite = pool.skillImages[equipSkills.list[i]];
+            skillSet[i].GetComponent<SkillSlot>().id = equipSkills.list[i];
             // skillSet[i].name = slotSkills.list[i].ToString();
         }
 
 
         // 전체 스킬
-        var unitSkills = DataManager.instance.currentUnitSkills[unitName]; // 현재 유닛의 사용가능 스킬 리스트
+        var unitSkills = DataManager.instance.currentUsableSkills[unitName]; // 현재 유닛의 사용가능 스킬 리스트
         for(int i = 0; i < unitSkills.list.Count; i++)
         {
             slot = ObjectPoolManager.instance.Spawn("SkillSlot");
@@ -85,7 +85,7 @@ public class MainMapUIManager : MonoBehaviour
                     var slotInfo = slot.GetComponent<SkillSlot>();
                     slotInfo.icon.sprite = pool.skillImages[skillName];
                     slotInfo.imageSlot.name = unitSkills.list[i].ToString();
-                    if(i < slotSkills.list.Count)
+                    if(i < equipSkills.list.Count)
                     {
                         slotInfo.check.SetActive(true);
                     }
@@ -116,7 +116,7 @@ public class MainMapUIManager : MonoBehaviour
     ***********************************************************/
     public void SetStatWindow(string unitName)
     {
-        var statData = DataManager.instance.currentUnitInfo[unitName];
+        var statData = DataManager.instance.currentUnitStats[unitName];
         
         statInfo.className.text = unitName;
         statInfo.level.text = statData.Level.ToString();
@@ -137,7 +137,7 @@ public class MainMapUIManager : MonoBehaviour
     ***********************************************************/
     public void SetSkillWindow(int skillNum)
     {
-        var skillData = DataManager.instance.defaultSkills[skillNum];
+        var skillData = DataManager.instance.defaultSkillStats[skillNum];
 
         skillInfo.skillName.text = skillData.name;
         skillInfo.explain.text = skillData.explain;

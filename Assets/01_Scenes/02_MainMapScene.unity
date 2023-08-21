@@ -10672,7 +10672,7 @@ GameObject:
   - component: {fileID: 1356316910}
   - component: {fileID: 1356316909}
   m_Layer: 5
-  m_Name: Panel_SkillSet
+  m_Name: Panel_EquipSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
