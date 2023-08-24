@@ -8,7 +8,7 @@ public class SkillSlot : MonoBehaviour
     public int id;
     public Image image;
 
-    public GameObject imageSlot;
+    public bool isEquipment = false;
+
     public GameObject check;
-    public Image icon; 
 }

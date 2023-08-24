@@ -745,7 +745,7 @@ MonoBehaviour:
   Panel_StatWindow: {fileID: 542300506670868454}
   Panel_SkillWindow: {fileID: 2091307404}
   Panel_SkillInfo: {fileID: 1500959083}
-  skillSlots:
+  equipSkillSlots:
   - {fileID: 386877694}
   - {fileID: 1239928569}
   - {fileID: 1094285953}
@@ -6230,7 +6230,7 @@ GameObject:
   - component: {fileID: 381546384}
   - component: {fileID: 381546383}
   m_Layer: 5
-  m_Name: MainCanvas
+  m_Name: Canvas_Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6425,8 +6425,8 @@ GameObject:
   - component: {fileID: 386877696}
   - component: {fileID: 386877699}
   m_Layer: 5
-  m_Name: SkillSlot1
-  m_TagString: Untagged
+  m_Name: EquipSlot1
+  m_TagString: EquipSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6548,9 +6548,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   image: {fileID: 493405346}
-  imageSlot: {fileID: 493405344}
+  isEquipment: 1
   check: {fileID: 0}
-  icon: {fileID: 0}
 --- !u!1 &399330851
 GameObject:
   m_ObjectHideFlags: 0
@@ -9046,6 +9045,8 @@ MonoBehaviour:
   - image: {fileID: 456659063, guid: 8e231652835481e46b54f6d1dafbed3a, type: 3}
     name: Rogue
   skillImage:
+  - image: {fileID: 21300000, guid: 6e9db02add9f3d14eacd923d8a6da296, type: 3}
+    id: -1
   - image: {fileID: 21300000, guid: e352666fdbe5aa347a20143961d461db, type: 3}
     id: 0
   - image: {fileID: 21300000, guid: 25b2239a91a02cc4eb8ba7f4701bca4a, type: 3}
@@ -9391,7 +9392,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38b12a12c20c4e4cab7b35b2ce09da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 559069107}
   controller: {fileID: 146175193}
   moveIcon: {fileID: 12506054}
   unitCanvas: {fileID: 2074287817}
@@ -9410,8 +9410,8 @@ GameObject:
   - component: {fileID: 1094285955}
   - component: {fileID: 1094285958}
   m_Layer: 5
-  m_Name: SkillSlot3
-  m_TagString: Untagged
+  m_Name: EquipSlot3
+  m_TagString: EquipSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9533,9 +9533,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   image: {fileID: 31109183}
-  imageSlot: {fileID: 31109181}
+  isEquipment: 1
   check: {fileID: 0}
-  icon: {fileID: 0}
 --- !u!1 &1097640297
 GameObject:
   m_ObjectHideFlags: 0
@@ -10227,8 +10226,8 @@ GameObject:
   - component: {fileID: 1239928571}
   - component: {fileID: 1239928574}
   m_Layer: 5
-  m_Name: SkillSlot2
-  m_TagString: Untagged
+  m_Name: EquipSlot2
+  m_TagString: EquipSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10350,9 +10349,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   image: {fileID: 1198530019}
-  imageSlot: {fileID: 1198530017}
+  isEquipment: 1
   check: {fileID: 0}
-  icon: {fileID: 0}
 --- !u!1 &1259457458
 GameObject:
   m_ObjectHideFlags: 0
@@ -12859,7 +12857,7 @@ GameObject:
   - component: {fileID: 2074287819}
   - component: {fileID: 2074287818}
   m_Layer: 5
-  m_Name: UnitCanvas
+  m_Name: Canvas_Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -75,7 +75,7 @@ public class BattleMapManager : MonoBehaviour
     {
         for(int i = 0; i < units.Count; i++)
         {
-            if(units[i].playerType == PlayerType.Human)
+            if(units[i].playerType == PlayerType.HUMAN)
             {
                 return true;
             }

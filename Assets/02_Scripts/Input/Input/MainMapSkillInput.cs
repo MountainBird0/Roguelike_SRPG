@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class MainMapSkillInput : MonoBehaviour
 {
-    public MainMapUIManager manager;
     public MainMapUIController controller;
 
     public GameObject moveIcon;
@@ -15,14 +14,12 @@ public class MainMapSkillInput : MonoBehaviour
     public GameObject unitCanvas;
     public GraphicRaycaster raycaster;
 
-    PointerEventData clickData = new PointerEventData(EventSystem.current);
+    private PointerEventData clickData = new PointerEventData(EventSystem.current);
     private List<RaycastResult> clickResults = new();
 
     private Coroutine coroutine;
-    private Sprite curSprite;
 
-    private string skillName;
-    private GameObject preOb;
+    private GameObject prevSlot;
 
     private void OnEnable()
     {
@@ -38,80 +35,138 @@ public class MainMapSkillInput : MonoBehaviour
 
     private void TouchStart(Vector2 screenPosition, float time)
     {
+        prevSlot = null;
+
         clickResults.Clear();
         clickData.position = screenPosition;
         raycaster.Raycast(clickData, clickResults);
-        Debug.Log($"{GetType()} - {clickResults[0]}");
 
-        var icon = clickResults[0].gameObject;
-        // 누른게 스킬이면
-        if (clickResults[0].gameObject.CompareTag("SkillUI"))
+        //Debug.Log($"{GetType()} - 누른거 이름 {clickResults[0]}");
+
+        var ob = clickResults[1].gameObject;
+        if (ob.CompareTag("SkillSlot") || ob.CompareTag("EquipSlot"))
         {
-            preOb = clickResults[1].gameObject; // 이전 슬롯
-            skillName = icon.name;
-            Debug.Log($"{GetType()} - 스킬이름 {skillName}");
-            controller.ClickSkill(int.Parse(skillName));
-            coroutine = StartCoroutine(PickUnit(icon.GetComponent<Image>().sprite));
+            TouchSkillSlot(ob);
         }
-        else if(clickResults[0].gameObject.CompareTag("SkillSlot"))
-        {
-
-        }
-
-        //foreach (RaycastResult result in clickResults)
-        //{
-        //    GameObject ui_element = result.gameObject;
-
-        //    Debug.Log(ui_element.name);
-        //}
-        
-
-        
-
     }
+
 
     private void TouchEnd(Vector2 screenPosition, float time)
-    {
-        moveIcon.SetActive(false);
-        StopCoroutine(coroutine);
-
-        clickResults.Clear();
-        clickData.position = screenPosition;
-        raycaster.Raycast(clickData, clickResults);
-        Debug.Log($"{GetType()} - {clickResults[2]}");
-
-        var icon = clickResults[0].gameObject;
-        // 놓은곳이 스킬장착
-        if (clickResults[2].gameObject.name == "Panel_SkillSet")
+    {      
+        if(coroutine != null)
         {
-            icon.GetComponent<Image>().sprite = curSprite;
-            icon.name = skillName;
-            preOb.GetComponent<SkillSlot>().check.SetActive(true);
+            moveIcon.SetActive(false);
+
+            StopCoroutine(coroutine);
+
+            clickResults.Clear();
+            clickData.position = screenPosition;
+            raycaster.Raycast(clickData, clickResults);
+
+            if(clickResults.Count > 2)
+            {
+                var ob = clickResults[1].gameObject;
+                if (ob.CompareTag("EquipSlot"))
+                {
+                    DropToEquipSlot(ob);
+                }
+                else
+                {
+                    DropToEmpty();
+                }
+            }
+
+            coroutine = null;
         }
-        // 놓은곳이 스킬목록
+    }
+
+
+    /**********************************************************
+    * 스킬을 터치 했을 때
+    ***********************************************************/
+    private void TouchSkillSlot(GameObject slot)
+    {
+        prevSlot = slot;
+        var prevSlotInfo = prevSlot.GetComponent<SkillSlot>();
+
+        coroutine = StartCoroutine(Pickicon(prevSlotInfo.image.sprite));
+    }
+
+
+    /**********************************************************
+    * 스킬 장착 칸에 스킬을 드랍 했을 때
+    ***********************************************************/
+    private void DropToEquipSlot(GameObject slot)
+    {
+        var prevSlotInfo = prevSlot.GetComponent<SkillSlot>();
+        var equipSlotInfo = slot.GetComponent<SkillSlot>();
+
+        if (prevSlotInfo.isEquipment)
+        {
+            SwapSkill(slot, prevSlot);
+        }
         else
         {
+            prevSlotInfo.check.SetActive(true);
 
+            if(equipSlotInfo.id != -1)
+            {
+                controller.ChangeToTouchable(equipSlotInfo.id);
+            }
+            
+            equipSlotInfo.id = prevSlotInfo.id;
+            equipSlotInfo.image.sprite = prevSlotInfo.image.sprite;
         }
-        // 놓은곳이 밖
+    }
+    private void SwapSkill(GameObject currentSlot, GameObject prevSlot)
+    {
+        int id = currentSlot.GetComponent<SkillSlot>().id;
+        Sprite image = currentSlot.GetComponent<SkillSlot>().image.sprite;
 
+        currentSlot.GetComponent<SkillSlot>().id = prevSlot.GetComponent<SkillSlot>().id;
+        currentSlot.GetComponent<SkillSlot>().image.sprite = prevSlot.GetComponent<SkillSlot>().image.sprite;
+
+        prevSlot.GetComponent<SkillSlot>().id = id;
+        prevSlot.GetComponent<SkillSlot>().image.sprite = image;
 
     }
 
 
-    private IEnumerator PickUnit(Sprite image)
+    /**********************************************************
+    * 빈공간에 스킬을 드랍했을 때
+    ***********************************************************/
+    private void DropToEmpty()
     {
+        var prevSlotInfo = prevSlot.GetComponent<SkillSlot>();
+        if (prevSlotInfo.isEquipment)
+        {
+            controller.ChangeToTouchable(prevSlotInfo.id);
+
+            var slot = prevSlot.GetComponent<SkillSlot>();
+
+            slot.id = -1;
+            slot.image.sprite = controller.pool.skillImages[slot.id];
+        }
+    }
+
+
+    /**********************************************************
+    * 터치한 이미지에 맞는 아이콘 들기
+    ***********************************************************/
+    private IEnumerator Pickicon(Sprite image)
+    {
+        var skillSlot = prevSlot.GetComponent<SkillSlot>();
+        controller.ClickSkill(skillSlot.id);
+
         yield return new WaitForSeconds(0.1f);
+
         moveIcon.SetActive(true);
         moveIcon.GetComponent<Image>().sprite = image;
-        curSprite = image;
+
         while (true)
         {
             moveIcon.transform.position = InputManager.instance.UITouchPosition();
-            // moveIcon.transform.position = Input.mousePosition;
             yield return null;
         }
     }
-
-
 }

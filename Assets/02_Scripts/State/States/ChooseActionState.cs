@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ChooseActionState : State
 {
-    private ChooseActionUIController uiController = BattleMapUIManager.instance.ActionUI;
+    private ChooseActionUIController uiController = BattleMapUIManager.instance.ChooseActionUIController;
     
+    private List<TileLogic> tiles;
+
+    private GraphicRaycaster raycaster;
+    private PointerEventData clickData = new PointerEventData(EventSystem.current);
+    private List<RaycastResult> clickResults = new();
+
     // 움직일수있는 범위 표시
     // 움직이기
     // 움직인 위치에서 
     // 움직임스킬 사용 상태
     // 턴 넘기기 버튼
 
-    private List<TileLogic> tiles;
+    private void OnEnable()
+    {
+        raycaster = uiController.raycaster;
+    }
+
 
     public override void Enter()
     {
@@ -20,7 +32,7 @@ public class ChooseActionState : State
 
         uiController.EnableCanvas();
 
-        if(!Turn.hasMoved)
+        if(!Turn.isMoving)
         {
             ShowMoveableTile();
         }
@@ -41,8 +53,33 @@ public class ChooseActionState : State
 
     private void TouchStart(Vector2 screenPosition, float time)
     {
-        Vector3Int cellPosition = GetCellPosition(screenPosition);
+        // UI 눌렀을 때
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            clickResults.Clear();
+            clickData.position = screenPosition;
+            raycaster.Raycast(clickData, clickResults);
 
+            var ob = clickResults[0].gameObject;
+            if (ob.CompareTag("EquipSlot"))
+            {
+                board.ClearHighTile(tiles);
+
+                // selectedTile에 실제 유닛 위치 박음
+                board.mainTiles[Turn.selectedTile.pos].content = board.mainTiles[Turn.prevTile.pos].content;
+                board.mainTiles[Turn.prevTile.pos].content = null;
+                Turn.prevTile = Turn.selectedTile;
+
+                Turn.isMoving = false;
+
+                Turn.currentSkill = DataManager.instance.defaultSkillStats[ob.GetComponent<SkillSlot>().id];
+                StateMachineController.instance.ChangeTo<SkillSelectionState>();
+
+                return;
+            }
+        }
+
+        Vector3Int cellPosition = GetCellPosition(screenPosition);
         // 1. 누른곳이 아무곳도 아닐때
         // -> 그냥 TurnBeginState로 
 
@@ -68,10 +105,8 @@ public class ChooseActionState : State
         else if (board.mainTiles.ContainsKey(cellPosition))
         {
             board.ClearHighTile(tiles);
-            Turn.hasMoved = false;
+            Turn.isMoving = false;
             Turn.unit.gameObject.transform.position = Turn.prevTile.pos;
-
-            Debug.Log($"{GetType()} <- 여기서 눌렀다.");
 
             // 누른곳에 이미 유닛이 있다면
             if (board.mainTiles[cellPosition].content) // 내 유닛일때만 추가
@@ -104,9 +139,9 @@ public class ChooseActionState : State
     /**********************************************************
     * 움직일 수 있는 범위 표시
     ***********************************************************/
-    public void ShowMoveableTile()
+    private void ShowMoveableTile()
     {
-        tiles = board.Search(board.GetTile(Turn.prevTile.pos), ValidateMovement);
+        tiles = board.Search(board.GetTile(Turn.prevTile.pos), ISMovement);
         board.ShowHighTile(tiles);
     }
 
@@ -115,15 +150,12 @@ public class ChooseActionState : State
     * 움직일 수 있는 범위 검색
     ***********************************************************/
     // test 이것들은 어디에 있어야할까
-    public bool ValidateMovement(TileLogic from, TileLogic to)
+    private bool ISMovement(TileLogic from, TileLogic to)
     {
         to.distance = from.distance + 1;
         int range = Turn.unit.stats.MOV;
+        Debug.Log($"{GetType()} - {to.content}");
 
-        if (to.content != null || to.distance > range)
-        {
-            return false;
-        }
-        return true;
+        return (to.content == null && to.distance <= range);
     }
 }

@@ -1,5 +1,5 @@
 public enum PlayerType
 {
-    Human,
-    Computer,
+    HUMAN,
+    COMPUTER,
 }

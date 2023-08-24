@@ -21,8 +21,7 @@ public class MainMapUIManager : MonoBehaviour
     public Transform unitContent;
     public Transform skillContent;
 
-    private List<GameObject> skillSlots = new();
-    private Dictionary<int, GameObject> currentSkills = new();    
+    public Dictionary<int, GameObject> skillSlots = new();    
     
     private void Awake()
     {
@@ -38,78 +37,76 @@ public class MainMapUIManager : MonoBehaviour
         foreach (var kvp in DataManager.instance.currentUnitStats)
         {
             var ob = Instantiate(unitSlot, unitContent);
-            ob.name = kvp.Key;
-            ob.GetComponent<UnitSlot>().icon.sprite = pool.smallImages[kvp.Key];
+            // ob.name = kvp.Key;
+            var slot = ob.GetComponent<UnitSlot>();
+            slot.icon.sprite = pool.smallImages[kvp.Key];
+            slot.name = kvp.Key;
 
-            controller.unitButtons.Add(kvp.Key, ob.GetComponent<Button>());
+            controller.unitButtons.Add(slot.name, ob.GetComponent<Button>());
         }
 
         controller.InitializeUnitButtons();
     }
 
+
     /**********************************************************
     * 스킬슬롯 생성 / 삭제
     ***********************************************************/
-    public void CreateSkillSlot(string unitName, List<GameObject> skillSet)
+    public void CreateSkillSlot(string unitName, List<GameObject> equipSkillSlots)
     {
         ClearSkillSlot();
 
-        GameObject slot;
+        // 전체 사용가능한 스킬 보이게
+        GameObject ob;
+        var usableSkills = DataManager.instance.currentUsableSkills[unitName];
+        for(int i = 0; i < usableSkills.list.Count; i++)
+        {    
+            var SkillId = usableSkills.list[i];
+            if (pool.skillImages.ContainsKey(SkillId)) // 이름으로 이미지 찾음
+            {
+                ob = ObjectPoolManager.instance.Spawn("SkillSlot");
+                ob.transform.SetParent(skillContent);
+                ob.transform.localScale = new Vector3(1f, 1f, 1f); // 수정
 
-        var defaultSkills = DataManager.instance.defaultSkillStats; // 전체 스킬 dic
+                var slot = ob.GetComponent<SkillSlot>();
+                slot.image.sprite = pool.skillImages[SkillId];
+                slot.id = SkillId;
+                slot.check.SetActive(false);
+               
+                skillSlots.Add(SkillId, ob);
+            }          
+        }
 
-        // 장착한 스킬
+        // 장착한 스킬 보이게
         var equipSkills = DataManager.instance.currentEquipSkills[unitName];
         for (int i = 0; i < equipSkills.list.Count; i++)
         {
-            // 이미지 세팅
-            skillSet[i].GetComponent<SkillSlot>().image.sprite = pool.skillImages[equipSkills.list[i]];
-            skillSet[i].GetComponent<SkillSlot>().id = equipSkills.list[i];
-            // skillSet[i].name = slotSkills.list[i].ToString();
-        }
-
-
-        // 전체 스킬
-        var unitSkills = DataManager.instance.currentUsableSkills[unitName]; // 현재 유닛의 사용가능 스킬 리스트
-        for(int i = 0; i < unitSkills.list.Count; i++)
-        {
-            slot = ObjectPoolManager.instance.Spawn("SkillSlot");
-            slot.transform.SetParent(skillContent);
-            slot.transform.localScale = new Vector3(1f, 1f, 1f); // 수정
-      
-            if (defaultSkills.ContainsKey(unitSkills.list[i]))      // 번호로 스킬 찾음
+            var SkillId = equipSkills.list[i];
+            if (skillSlots.ContainsKey(SkillId))
             {
-                var skillName = unitSkills.list[i];
-                if (pool.skillImages.ContainsKey(skillName)) // 이름으로 이미지 찾음
-                {
-                    var slotInfo = slot.GetComponent<SkillSlot>();
-                    slotInfo.icon.sprite = pool.skillImages[skillName];
-                    slotInfo.imageSlot.name = unitSkills.list[i].ToString();
-                    if(i < equipSkills.list.Count)
-                    {
-                        slotInfo.check.SetActive(true);
-                    }
-                }
+                var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
+                slot.image.sprite = pool.skillImages[SkillId];
+                slot.id = SkillId;
+
+                skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
             }
-            skillSlots.Add(slot);
-            currentSkills.Add(unitSkills.list[i], slot);
+            else
+            {
+                var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
+                slot.image.sprite = pool.skillImages[SkillId];
+                slot.id = SkillId;
+            }
         }
     }
     private void ClearSkillSlot()
     {
-        for(int i = 0; i < skillSlots.Count; i++)
+        foreach(var kvp in skillSlots)
         {
-            skillSlots[i].GetComponent<SkillSlot>().check.gameObject.SetActive(false);
-            ObjectPoolManager.instance.Despawn(skillSlots[i]);
+            ObjectPoolManager.instance.Despawn(kvp.Value);
         }
         skillSlots.Clear();
-
-        foreach(var kvp in currentSkills)
-        {
-
-        }
-        currentSkills.Clear();
     }
+
 
     /**********************************************************
     * 스탯 윈도우 세팅
@@ -132,15 +129,18 @@ public class MainMapUIManager : MonoBehaviour
         statInfo.speed.text = statData.SPEED.ToString();
     }
 
+
     /**********************************************************
     * 스킬 윈도우 세팅
     ***********************************************************/
     public void SetSkillWindow(int skillNum)
     {
-        var skillData = DataManager.instance.defaultSkillStats[skillNum];
+        if(DataManager.instance.defaultSkillStats.ContainsKey(skillNum))
+        {
+            var skillData = DataManager.instance.defaultSkillStats[skillNum];
 
-        skillInfo.skillName.text = skillData.name;
-        skillInfo.explain.text = skillData.explain;
+            skillInfo.skillName.text = skillData.name;
+            skillInfo.explain.text = skillData.explain;
+        }
     }
-
 }

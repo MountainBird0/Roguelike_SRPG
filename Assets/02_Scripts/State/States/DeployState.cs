@@ -18,7 +18,7 @@ public class DeployState : State
         base.Enter();
 
         board.SetTile(board.deployMap, deployTiles);
-        uiController = BattleMapUIManager.instance.deployUI;
+        uiController = BattleMapUIManager.instance.deployUIController;
 
         uiController.EnableWindow();
 
@@ -160,12 +160,15 @@ public class DeployState : State
     ***********************************************************/
     private void AddUnits()
     {
+        Unit unit;
+        TileLogic tileLogic;
+
         foreach (var pair in deployTiles)
         {
             if(pair.Value.content != null)
             {
-                var unit = pair.Value.content.GetComponent<Unit>();
-                var tileLogic = pair.Value;
+                unit = pair.Value.content.GetComponent<Unit>();
+                tileLogic = pair.Value;
                 BattleMapManager.instance.AddUnit(unit, tileLogic);
             }
         }

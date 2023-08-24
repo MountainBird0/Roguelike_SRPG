@@ -10,9 +10,10 @@ public class BattleMapUIManager : MonoBehaviour
     public GameObject deploySlot;
     public Transform deployWindow;
 
-    [Header("Controller")]
-    public DeployUIController deployUI;
-    public ChooseActionUIController ActionUI;
+    [Header("Controller")] // getcomponent·Î º¯°æ
+    public DeployUIController deployUIController;
+    public ChooseActionUIController ChooseActionUIController;
+    public SkillSelectionUIController skillSelectionUIController;
 
     private void Awake()
     {
@@ -25,6 +26,11 @@ public class BattleMapUIManager : MonoBehaviour
             Debug.LogWarning($"{GetType()} - Destory");
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        ChooseActionUIController.imagePool.MakeDictionarys();
     }
 
     public void CreateDeploySlot()
@@ -46,7 +52,7 @@ public class BattleMapUIManager : MonoBehaviour
             set.level.text = kvp.Value.Level.ToString();
             set.hp.text = kvp.Value.HP.ToString();
 
-            deployUI.unitButtons.Add(kvp.Key, ob.GetComponent<Button>());
+            deployUIController.unitButtons.Add(kvp.Key, ob.GetComponent<Button>());
         }
     }
 }

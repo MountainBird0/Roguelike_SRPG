@@ -10,14 +10,19 @@ public class Board : MonoBehaviour
 
     [Header("Tile")]
     public Tile blueHighlightTile;
+    public Tile redAimingTile;
+    public Tile GreenAimingTile;
+
 
     [Header("TileMap")]
     public Tilemap mainMap;
     public Tilemap highlightMap;
     public Tilemap deployMap;
+    public Tilemap aimingMap;
 
     public Dictionary<Vector3Int, TileLogic> mainTiles = new();
     public Dictionary<Vector3Int, TileLogic> highlightTiles = new();
+    public Dictionary<Vector3Int, TileLogic> AimingTiles = new();
 
     [Header("Maker")]
     public MonsterMaker monsterMaker;
@@ -78,8 +83,18 @@ public class Board : MonoBehaviour
         for (int i = 0; i < tiles.Count; i++)
         {
             highlightMap.SetTile(tiles[i].pos, blueHighlightTile);
+
+            if(mainTiles[tiles[i].pos].content != null)
+            {
+                if(mainTiles[tiles[i].pos].content.GetComponent<Unit>().playerType == PlayerType.COMPUTER)
+                {
+                    aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                }
+            }
+
         }
         SetTile(highlightMap, highlightTiles);
+        SetTile(aimingMap, AimingTiles);
 
     }
     public void ClearHighTile(List<TileLogic> tiles)
@@ -87,8 +102,12 @@ public class Board : MonoBehaviour
         for (int i = 0; i < tiles.Count; i++)
         {
             highlightMap.SetTile(tiles[i].pos, null);
+
+            aimingMap.SetTile(tiles[i].pos, null);
         }
+
         highlightTiles.Clear();
+        AimingTiles.Clear();
     }
 
 

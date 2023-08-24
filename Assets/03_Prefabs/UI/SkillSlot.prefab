@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4330395042747969189}
   m_Layer: 5
   m_Name: SkillSlot
-  m_TagString: Untagged
+  m_TagString: SkillSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f82033333ad56444981cbcca280fe40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  image: {fileID: 4330395043353296724}
   imageSlot: {fileID: 4330395043353296714}
   check: {fileID: 6196705547338198575}
   icon: {fileID: 4330395043353296724}

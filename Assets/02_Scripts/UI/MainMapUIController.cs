@@ -8,7 +8,7 @@ using DG.Tweening;
 
 public class MainMapUIController : MonoBehaviour
 {
-    private string unitName;
+    
 
     public GameObject bigImage;
     //public Image bigImage;
@@ -27,7 +27,7 @@ public class MainMapUIController : MonoBehaviour
     [Header("Skill")]
     public GameObject Panel_SkillWindow;
     public GameObject Panel_SkillInfo;
-    public List<GameObject> skillSlots;
+    public List<GameObject> equipSkillSlots;
 
     [Header("SideBar")]
     public GameObject Button_Skill;
@@ -39,8 +39,14 @@ public class MainMapUIController : MonoBehaviour
     public Transform imagePos_R;
 
 
+    private string unitName;
+
     public Dictionary<string, Button> unitButtons = new();
     public Dictionary<int, Button> skillButtons = new();
+
+    private Dictionary<int, GameObject> skillSlots = new();
+
+
 
     /******************************************************************************
     * UI 상태관리
@@ -147,7 +153,8 @@ public class MainMapUIController : MonoBehaviour
         {
             currentUnitWindowState = UnitWindowState.ShowSkill;
 
-            manager.CreateSkillSlot(unitName, skillSlots);
+            skillSlots = manager.skillSlots; // 이거 나중에 private로 사용하게
+            manager.CreateSkillSlot(unitName, equipSkillSlots);
             manager.SetStatWindow(unitName);
             // manager.SetSkillWindow(0);
 
@@ -173,14 +180,36 @@ public class MainMapUIController : MonoBehaviour
             Panel_StatWindow.SetActive(false);
             ScrollView_Units.SetActive(true);
             bigImage.transform.DOMove(imagePos_R.position, 0.5f);
+
+            SetEquipSkills();
         }
     }
 
 
 
+    /******************************************************************************
+    * skill check 활성화
+    *******************************************************************************/
+    public void ChangeToTouchable(int skillID)
+    {
+        skillSlots[skillID].GetComponent<SkillSlot>().check.SetActive(false);
+    }
 
 
+    /**********************************************************
+    * currentEquipSkills에 저장
+    ***********************************************************/
+    private void SetEquipSkills()
+    {
+        SkillListData skillList = new();
 
+        for (int i = 0; i < equipSkillSlots.Count; i++)
+        {
+            skillList.list.Add(equipSkillSlots[i].GetComponent<SkillSlot>().id);
+        }
+
+        DataManager.instance.currentEquipSkills[unitName] = skillList;
+    }
 
 
 
@@ -190,6 +219,8 @@ public class MainMapUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnEXID()
     {
+
+
         GameManager.instance.SaveGame();
         GlobalSceneManager.instance.GoTitleScene();
     }

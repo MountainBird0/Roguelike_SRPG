@@ -4,11 +4,14 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - mainMap: {instanceID: 0}
-  - highlight: {instanceID: 0}
-  - deploySpot: {instanceID: 0}
-  - monsterMaker: {instanceID: 0}
+  - grid: {instanceID: 0}
   - blueHighlightTile: {fileID: 11400000, guid: 5c66028d1abb4224d969c78312ef650e, type: 2}
+  - redAimingTile: {fileID: 11400000, guid: a0e3032494a95fe47ab5fc0a8d64932f, type: 2}
+  - GreenAimingTile: {fileID: 11400000, guid: d3034ad2b20a4bd4884ccf2cd2a57192, type: 2}
+  - mainMap: {instanceID: 0}
+  - highlightMap: {instanceID: 0}
+  - deployMap: {instanceID: 0}
+  - monsterMaker: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

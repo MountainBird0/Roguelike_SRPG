@@ -8,7 +8,9 @@ public static class Turn
     public static TileLogic prevTile;
     public static TileLogic selectedTile;
 
-    public static bool hasMoved = false;
+    public static SkillData currentSkill;
+
+    public static bool isMoving = false;
 
     //public static Skill skill;
     //public static Item isItem;

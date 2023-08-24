@@ -66,10 +66,19 @@ public class DataManager : MonoBehaviour
         currentUsableSkills = defaultUsableSkills;
         foreach (var kvp in currentUsableSkills)
         {
+            Debug.Log($"{GetType()} - üũ {kvp.Key}");
             SkillListData numList = new();
-            for (int i = 0; i < Mathf.Min(3, kvp.Value.list.Count); i++)
+
+            for(int i = 0; i < 3; i++)
             {
-                numList.list.Add(kvp.Value.list[i]);
+                if( i < kvp.Value.list.Count)
+                {
+                    numList.list.Add(kvp.Value.list[i]);
+                }
+                else
+                {
+                    numList.list.Add(-1);
+                }
             }
             currentEquipSkills.Add(kvp.Key, numList);
         }

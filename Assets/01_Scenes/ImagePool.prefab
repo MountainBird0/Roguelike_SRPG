@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6827489515655923148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6827489515655923186}
+  - component: {fileID: 6827489515655923187}
+  m_Layer: 0
+  m_Name: ImagePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6827489515655923186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6827489515655923148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 111.5, y: 304.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6827489515655923187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6827489515655923148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 129b25beb9258a94fa870e2ff144987e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSmallImage:
+  - image: {fileID: -1257566929, guid: 6a0cfd3c9ee08f546b8c14a8d095bd06, type: 3}
+    name: Warrior
+  - image: {fileID: -785349671, guid: 2b0f226eaec4a4d419af6ef77ee59242, type: 3}
+    name: Mage
+  - image: {fileID: 405706617, guid: da52927e09ecafe47b0d1e550675bfff, type: 3}
+    name: Rogue
+  unitBigImage:
+  - image: {fileID: 1424577828, guid: cf980a0d8b852ad42b04ce4b007c85bf, type: 3}
+    name: Warrior
+  - image: {fileID: -2067037262, guid: 79cd5c2e0331a2c46be3c01a5e0b3e1f, type: 3}
+    name: Mage
+  - image: {fileID: 456659063, guid: 8e231652835481e46b54f6d1dafbed3a, type: 3}
+    name: Rogue
+  skillImage:
+  - image: {fileID: 21300000, guid: 6e9db02add9f3d14eacd923d8a6da296, type: 3}
+    id: -1
+  - image: {fileID: 21300000, guid: e352666fdbe5aa347a20143961d461db, type: 3}
+    id: 0
+  - image: {fileID: 21300000, guid: 25b2239a91a02cc4eb8ba7f4701bca4a, type: 3}
+    id: 1
+  - image: {fileID: 21300000, guid: d809b41e372159440ba3f17da98c06dc, type: 3}
+    id: 2
+  - image: {fileID: 21300000, guid: c07bafa78bfae3f4286daba8707637ba, type: 3}
+    id: 3
+  - image: {fileID: 21300000, guid: 4afef28749cae0c488c669e89d8368ee, type: 3}
+    id: 4
+  - image: {fileID: 21300000, guid: aa6aa753613b9a04eb865fb4bccca95d, type: 3}
+    id: 5
+  - image: {fileID: 21300000, guid: 8a5eea76ccfaeb64bb6b35e81dc147e0, type: 3}
+    id: 6
+  - image: {fileID: 21300000, guid: 444b6a7155b12054e93c1dd74f50a9a1, type: 3}
+    id: 7

@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121566704}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.000015258789, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1563,9 +1563,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageLevelText: {fileID: 4900000, guid: defa3c3f04bc7ae4e8b9a4f44f98a4e0, type: 3}
   iconProbabilityText: {fileID: 4900000, guid: 9a3d91f5b15638b46924f2512697321c, type: 3}
-  UnitStatsText: {fileID: 4900000, guid: b86b7aa61b99c6b469f3120e5855e304, type: 3}
-  SkillsText: {fileID: 4900000, guid: b1b9f24b952f728439a53d63749d1ddb, type: 3}
-  UnitAndSkillText: {fileID: 4900000, guid: b944c9eb522f4bb47b94d82501ceb5b3, type: 3}
+  unitStatsText: {fileID: 4900000, guid: b86b7aa61b99c6b469f3120e5855e304, type: 3}
+  skillStatsText: {fileID: 4900000, guid: b1b9f24b952f728439a53d63749d1ddb, type: 3}
+  usableSkillText: {fileID: 4900000, guid: b944c9eb522f4bb47b94d82501ceb5b3, type: 3}
 --- !u!4 &866180284
 Transform:
   m_ObjectHideFlags: 0
@@ -2586,7 +2586,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709310942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 368, y: 207, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
