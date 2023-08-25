@@ -21,12 +21,22 @@ public class MainMapUIManager : MonoBehaviour
     public Transform unitContent;
     public Transform skillContent;
 
-    public Dictionary<int, GameObject> skillSlots = new();    
-    
+    public Dictionary<int, GameObject> skillSlots = new();
+
+    [Header("ImagePool")]
+    public StringKeyImagePool unitSmallImages;
+    public StringKeyImagePool unitBigImages;
+    public IntKeyImagePool skillIcons;
+
+
     private void Awake()
     {
         seed.text = DataManager.instance.gameInfo.seed.ToString();
         pool.MakeDictionarys();
+
+        unitSmallImages.MakeDictionary();
+        unitBigImages.MakeDictionary();
+        skillIcons.MakeDictionary();
     }
 
     /**********************************************************
