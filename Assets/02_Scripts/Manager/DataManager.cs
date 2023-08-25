@@ -97,7 +97,6 @@ public class DataManager : MonoBehaviour
         //}
     }
     
-
     /**********************************************************
     * 이어하기용 json 파일 저장하기
     * C:\Users\huy12\AppData\LocalLow\DefaultCompany
@@ -110,7 +109,6 @@ public class DataManager : MonoBehaviour
         SaveTool("UnitSkillInfo", currentUsableSkills);
     }
 
-
     /**********************************************************
     * 이어하기용 json 파일 불러오기
     ***********************************************************/
@@ -121,7 +119,6 @@ public class DataManager : MonoBehaviour
             LoadTool("UnitInfo", ref currentUnitStats) &&
             LoadTool("UnitSkillInfo", ref currentUsableSkills);
     }
-
 
     /**********************************************************
     * 이어하기용 json 파일 삭제하기
@@ -135,7 +132,6 @@ public class DataManager : MonoBehaviour
         ResetGameInfo();
     }
 
-
     /**********************************************************
     * gameinfo 초기화
     ***********************************************************/
@@ -145,7 +141,6 @@ public class DataManager : MonoBehaviour
         gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
         nodes.Clear();
     }
-
 
     /**********************************************************
     * IconState 동기화 : MapData = Nodes
@@ -157,7 +152,6 @@ public class DataManager : MonoBehaviour
             mapInfo.iconStates[i] = nodes[i + 1].iconState;
         }
     }
-
 
     /**********************************************************
     * json 저장 툴
@@ -172,7 +166,6 @@ public class DataManager : MonoBehaviour
     {
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
     };
-
 
     /**********************************************************
     * json 로드 툴
@@ -193,7 +186,6 @@ public class DataManager : MonoBehaviour
         }
         return fileInfo.Exists;
     }
-
 
     /**********************************************************
     * json 삭제 툴

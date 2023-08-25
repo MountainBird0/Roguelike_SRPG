@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+/**********************************************************
+* 전투 State 관리
+***********************************************************/
 using UnityEngine;
 
 public class StateMachineController : MonoBehaviour
@@ -35,7 +36,9 @@ public class StateMachineController : MonoBehaviour
         ChangeTo<LoadState>();
     }
 
-
+    /**********************************************************
+    * asdsad
+    ***********************************************************/
     public void ChangeTo<T>() where T : State
     {
         State state = GetState<T>();
@@ -46,7 +49,9 @@ public class StateMachineController : MonoBehaviour
         }
     }
 
-
+    /**********************************************************
+    * asdsad
+    ***********************************************************/
     public T GetState<T>() where T : State
     {
         T target = GetComponent<T>();
@@ -55,8 +60,10 @@ public class StateMachineController : MonoBehaviour
         return target;
     }
 
-
-    protected void ChangeState(State value)
+    /**********************************************************
+    * 현재 전투 State 변경
+    ***********************************************************/
+    private void ChangeState(State value)
     {
         //if (busy)
         //{

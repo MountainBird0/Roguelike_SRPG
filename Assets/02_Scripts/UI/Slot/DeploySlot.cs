@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+/******************************************************************************
+* DeploySlot에 들어갈 정보
+*******************************************************************************/
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

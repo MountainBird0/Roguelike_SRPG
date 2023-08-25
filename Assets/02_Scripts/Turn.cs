@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+/**********************************************************
+* 현재 턴의 정보(유닛, 선택한 스킬 등)
+***********************************************************/
 public static class Turn
 {
     public static Unit unit;

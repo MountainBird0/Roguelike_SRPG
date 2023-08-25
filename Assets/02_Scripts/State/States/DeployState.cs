@@ -1,3 +1,6 @@
+/**********************************************************
+* unit을 배치하는 State
+***********************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,7 +47,7 @@ public class DeployState : State
     }
 
     /**********************************************************
-    * 터치 시작
+    * 스크린 터치 시작 / 종료
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
@@ -53,21 +56,15 @@ public class DeployState : State
         if (deployTiles.ContainsKey(cellPosition))
         {
             if (deployTiles[cellPosition].content) 
-            {
-                // 이미 유닛 있으면 그거 들기
-                coroutine = StartCoroutine(PickUnit(cellPosition));
+            {               
+                coroutine = StartCoroutine(PickUnit(cellPosition)); // 이미 유닛 있으면 그거 들기
             }
             else 
-            {
-                // 없으면 새로 생성해서 배치
-                DeployNewUnit(cellPosition);
+            {              
+                DeployNewUnit(cellPosition); // 없으면 새로 생성해서 배치
             }
         }
     }
-
-    /**********************************************************
-    * 터치 종료
-    ***********************************************************/
     private void TouchEnd(Vector2 screenPosition, float time)
     {
         uiController.DisableGuide();
@@ -102,7 +99,6 @@ public class DeployState : State
         }
     }
 
-
     /**********************************************************
     * 타일 위의 유닛 들기
     ***********************************************************/
@@ -122,7 +118,6 @@ public class DeployState : State
         }
     }
 
-
     /**********************************************************
     * 새 유닛 배치
     ***********************************************************/
@@ -140,7 +135,6 @@ public class DeployState : State
         }
     }
     
-
     /**********************************************************
     * 타일 위의 유닛과 서로 바꿈
     ***********************************************************/
@@ -153,7 +147,6 @@ public class DeployState : State
         deployTiles[cellPosition].content.transform.position = cellPosition;
         deployTiles[oldCoords].content.transform.position = oldCoords;
     }
-
 
     /**********************************************************
     * units에 unit추가
@@ -173,7 +166,6 @@ public class DeployState : State
             }
         }
     }
-
 
     /**********************************************************
     * deployTiles타일의 content를 mainTiles로 복사

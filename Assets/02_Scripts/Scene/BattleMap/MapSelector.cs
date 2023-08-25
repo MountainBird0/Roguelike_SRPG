@@ -1,7 +1,6 @@
 /**********************************************************
 * 배틀 맵에서 불러올 맵을 정함
 ***********************************************************/
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

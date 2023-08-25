@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
         hasSaveData = DataManager.instance.LoadPlayingData();
     }
 
-
     /******************************************************************************
     *  이어하기 시작 - 
     *******************************************************************************/
@@ -45,7 +44,6 @@ public class GameManager : MonoBehaviour
         // 맵 매니저 맵 생성
     }
 
-
     /******************************************************************************
     * 새로운 게임 시작 - 
     *******************************************************************************/
@@ -56,11 +54,9 @@ public class GameManager : MonoBehaviour
         hasSaveData = false;
         DataManager.instance.DeleteSaveData();
    
-
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
     }
-
 
     /******************************************************************************
     * 게임 저장 - 메인Scene

@@ -34,7 +34,6 @@ public class GlobalSceneManager : MonoBehaviour
         return operation;
     }
 
-
     /******************************************************************************
     * 로딩씬으로 이동
     *******************************************************************************/
@@ -43,7 +42,6 @@ public class GlobalSceneManager : MonoBehaviour
         SceneManager.LoadScene(5);
     }
 
-
     /******************************************************************************
     * 타이틀씬으로 이동
     *******************************************************************************/
@@ -51,7 +49,6 @@ public class GlobalSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
-
 
     /******************************************************************************
     * 메인씬으로 이동
@@ -62,7 +59,6 @@ public class GlobalSceneManager : MonoBehaviour
         return operation;
     }
 
-
     /******************************************************************************
     * 배틀씬으로 이동
     *******************************************************************************/
@@ -70,5 +66,4 @@ public class GlobalSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
-
 }

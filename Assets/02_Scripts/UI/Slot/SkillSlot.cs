@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+/******************************************************************************
+* SkillSlot에 들어갈 정보
+*******************************************************************************/
 using UnityEngine;
 using UnityEngine.UI;
 

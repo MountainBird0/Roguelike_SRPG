@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+/**********************************************************
+* 각 유닛의 정보 저장
+***********************************************************/
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -16,7 +17,7 @@ public class Unit : MonoBehaviour
     public StatData stats;
 
     public PlayerType playerType;
-
+    // 동맹 추가
 
 }
 

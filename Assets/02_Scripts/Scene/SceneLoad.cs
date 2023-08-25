@@ -13,6 +13,7 @@ public class SceneLoad : MonoBehaviour
 
     private void Start()
     {
+        // 어디든 가도록 수정
         StartCoroutine(LoadCoroutine(1));
     }
 

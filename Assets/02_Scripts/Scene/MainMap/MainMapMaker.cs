@@ -22,7 +22,6 @@ public class MainMapMaker : MonoBehaviour
 
     private MapInfo mapData;
 
-    private List<GameObject> icons;
     private List<IconNode> nodes;
     
     // 아이콘 움직임
@@ -33,7 +32,6 @@ public class MainMapMaker : MonoBehaviour
     {
         mapData = new MapInfo();
         nodes = new List<IconNode>();
-        icons = new List<GameObject>();
     }
 
     /**********************************************************
@@ -63,7 +61,6 @@ public class MainMapMaker : MonoBehaviour
 
         DataManager.instance.nodes = nodes;
     }
-
 
     /**********************************************************
     * 노드에 맞는 아이콘 생성
@@ -102,10 +99,8 @@ public class MainMapMaker : MonoBehaviour
                 icon.transform.DOScale(maxScale, scaleDuration).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
             }
             nodes[i].icon = icon;
-
         }
     }
-
 
     /**********************************************************
     * 노드기반으로 라인 그리기
@@ -139,6 +134,4 @@ public class MainMapMaker : MonoBehaviour
             }
         }
     }
-
-
 }

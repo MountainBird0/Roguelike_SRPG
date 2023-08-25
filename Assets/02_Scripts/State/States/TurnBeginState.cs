@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+/**********************************************************
+* 한 unit을 골라 그 unit의 turn을 시작하기 위한 State
+***********************************************************/
 using UnityEngine;
 
 public class TurnBeginState : State
@@ -8,7 +9,6 @@ public class TurnBeginState : State
     {
         base.Enter();
 
-    
         if(Turn.unit)
         {
             StateMachineController.instance.ChangeTo<ChooseActionState>();       
@@ -37,6 +37,9 @@ public class TurnBeginState : State
         InputManager.instance.OnEndTouch -= TouchEnd;
     }
 
+    /**********************************************************
+    * 스크린 터치 시작 / 종료
+    ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
         Vector3Int cellPosition = GetCellPosition(screenPosition);
@@ -50,7 +53,6 @@ public class TurnBeginState : State
             }
         }
     }
-
     private void TouchEnd(Vector2 screenPosition, float time)
     {
 

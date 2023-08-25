@@ -1,4 +1,6 @@
-using System.Collections;
+/**********************************************************
+* unit의 행동을 결정하는 State
+***********************************************************/
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,7 +27,6 @@ public class ChooseActionState : State
         raycaster = uiController.raycaster;
     }
 
-
     public override void Enter()
     {
         base.Enter();
@@ -51,6 +52,9 @@ public class ChooseActionState : State
         InputManager.instance.OnEndTouch -= TouchEnd;
     }
 
+    /**********************************************************
+    * 스크린 터치 시작 / 종료
+    ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
         // UI 눌렀을 때
@@ -130,7 +134,6 @@ public class ChooseActionState : State
         //    StateMachineController.instance.ChangeTo<TurnBeginState>();
         //}
     }
-
     private void TouchEnd(Vector2 screenPosition, float time)
     {
         
@@ -144,7 +147,6 @@ public class ChooseActionState : State
         tiles = board.Search(board.GetTile(Turn.prevTile.pos), ISMovement);
         board.ShowHighTile(tiles);
     }
-
 
     /**********************************************************
     * 움직일 수 있는 범위 검색

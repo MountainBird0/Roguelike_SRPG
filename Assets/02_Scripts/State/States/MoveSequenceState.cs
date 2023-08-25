@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+/**********************************************************
+* unit의 움직임이 이루어지는 State
+***********************************************************/
 public class MoveSequenceState : State
 {
     public override void Enter()

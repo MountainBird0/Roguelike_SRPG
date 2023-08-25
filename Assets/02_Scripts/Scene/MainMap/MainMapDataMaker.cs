@@ -68,7 +68,6 @@ public class MainMapDataMaker : MonoBehaviour
         iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];
     }
 
-
     /**********************************************************
     * 랜덤 아이콘 생성을 위한 dic 세팅
     ***********************************************************/
@@ -83,7 +82,6 @@ public class MainMapDataMaker : MonoBehaviour
         probabilityMap.Add(IconType.ELITE, iconProbability.eliteChance);
         probabilityMap.Add(IconType.MONSTER, iconProbability.monsterChance);
     }
-
 
     /**********************************************************
     * 아이콘 종류 정보 넣기
@@ -157,7 +155,6 @@ public class MainMapDataMaker : MonoBehaviour
         throw new System.Exception("아이콘 못찾음");
     }
 
-
     /**********************************************************
     * 아이콘 위치 정보 넣기
     ***********************************************************/
@@ -186,7 +183,6 @@ public class MainMapDataMaker : MonoBehaviour
             pos.x += widthGap;
         }
     }
-
 
     /**********************************************************
     * 노드 정보 넣기
@@ -232,7 +228,6 @@ public class MainMapDataMaker : MonoBehaviour
         }
     }
 
-
     /**********************************************************
     * 랜덤 아이콘 dic관리
     ***********************************************************/
@@ -269,7 +264,6 @@ public class MainMapDataMaker : MonoBehaviour
                 break;
         }
     }
-
 
     /**********************************************************
     * 랜덤 아이콘의 전체 확률 구하기

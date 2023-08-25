@@ -41,7 +41,6 @@ public class MainMapInteraction : MonoBehaviour
         GlobalSceneManager.instance.GoBattleScene();
     }
 
-
     /**********************************************************
     * 클릭했을때 노드 상태 변경
     ***********************************************************/
@@ -54,7 +53,6 @@ public class MainMapInteraction : MonoBehaviour
         DataManager.instance.OverWriteState();
     }
 
-
     /**********************************************************
     * 현재 ATTAINABLE노드들을 Locked로 변경
     ***********************************************************/
@@ -65,7 +63,6 @@ public class MainMapInteraction : MonoBehaviour
 
         lastVisited.connectedNodes.ForEach(cn => cn.iconState = IconState.LOCKED);
     }
-
     private IconNode FindLastVisitedNode(IconNode node)
     {
         Stack<IconNode> stack = new Stack<IconNode>();
@@ -90,10 +87,8 @@ public class MainMapInteraction : MonoBehaviour
                 }
             }
         }
-
         return lastVisitedNode;
     }
-
 
     /**********************************************************
     * 누르면 어디로 갈지
@@ -102,6 +97,4 @@ public class MainMapInteraction : MonoBehaviour
     {
 
     }
-
-
 }
