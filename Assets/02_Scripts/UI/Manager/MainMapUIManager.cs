@@ -10,8 +10,6 @@ public class MainMapUIManager : MonoBehaviour
 {
     public TextMeshProUGUI seed;
 
-    public ImagePool pool;
-
     public GameObject unitSlot;
 
     public StatInfo statInfo;
@@ -24,19 +22,14 @@ public class MainMapUIManager : MonoBehaviour
     public Dictionary<int, GameObject> skillSlots = new();
 
     [Header("ImagePool")]
-    public StringKeyImagePool unitSmallImages;
-    public StringKeyImagePool unitBigImages;
-    public IntKeyImagePool skillIcons;
+    public StringKeyImagePool unitSmallPool;
+    public StringKeyImagePool unitBigPool;
+    public IntKeyImagePool skillIconPool;
 
 
     private void Awake()
     {
         seed.text = DataManager.instance.gameInfo.seed.ToString();
-        pool.MakeDictionarys();
-
-        unitSmallImages.MakeDictionary();
-        unitBigImages.MakeDictionary();
-        skillIcons.MakeDictionary();
     }
 
     /**********************************************************
@@ -49,7 +42,7 @@ public class MainMapUIManager : MonoBehaviour
             var ob = Instantiate(unitSlot, unitContent);
             // ob.name = kvp.Key;
             var slot = ob.GetComponent<UnitSlot>();
-            slot.icon.sprite = pool.smallImages[kvp.Key];
+            slot.icon.sprite = unitSmallPool.images[kvp.Key];
             slot.name = kvp.Key;
 
             controller.unitButtons.Add(slot.name, ob.GetComponent<Button>());
@@ -71,14 +64,14 @@ public class MainMapUIManager : MonoBehaviour
         for(int i = 0; i < usableSkills.list.Count; i++)
         {    
             var SkillId = usableSkills.list[i];
-            if (pool.skillImages.ContainsKey(SkillId)) // 이름으로 이미지 찾음
+            if (skillIconPool.images.ContainsKey(SkillId)) // 이름으로 이미지 찾음
             {
                 ob = ObjectPoolManager.instance.Spawn("SkillSlot");
                 ob.transform.SetParent(skillContent);
                 ob.transform.localScale = new Vector3(1f, 1f, 1f); // 수정
 
                 var slot = ob.GetComponent<SkillSlot>();
-                slot.image.sprite = pool.skillImages[SkillId];
+                slot.image.sprite = skillIconPool.images[SkillId];
                 slot.id = SkillId;
                 slot.check.SetActive(false);
                
@@ -94,7 +87,7 @@ public class MainMapUIManager : MonoBehaviour
             if (skillSlots.ContainsKey(SkillId))
             {
                 var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-                slot.image.sprite = pool.skillImages[SkillId];
+                slot.image.sprite = skillIconPool.images[SkillId];
                 slot.id = SkillId;
 
                 skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
@@ -102,7 +95,7 @@ public class MainMapUIManager : MonoBehaviour
             else
             {
                 var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-                slot.image.sprite = pool.skillImages[SkillId];
+                slot.image.sprite = skillIconPool.images[SkillId];
                 slot.id = SkillId;
             }
         }

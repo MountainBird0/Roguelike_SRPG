@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tile_Aiming_Red
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 1045475896, guid: 0c782acc481a4fc40981ddd5b4638551, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7607843}
   m_Transform:
     e00: 1
     e01: 0

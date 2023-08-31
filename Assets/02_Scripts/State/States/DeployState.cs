@@ -132,6 +132,7 @@ public class DeployState : State
             deployTiles[cellPosition].content = ob;
 
             uiController.DisableButton(unitName);
+            uiController.DisableGuide();
         }
     }
     

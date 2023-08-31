@@ -61,5 +61,11 @@ MonoBehaviour:
     id: 6
   - image: {fileID: 21300000, guid: 444b6a7155b12054e93c1dd74f50a9a1, type: 3}
     id: 7
+  - image: {fileID: 21300000, guid: 292ac3825dbdc2541a011514bf0522b1, type: 3}
+    id: 8
+  - image: {fileID: 21300000, guid: 57db64e23a2cbf942a9b0fec43d47aaa, type: 3}
+    id: 9
+  - image: {fileID: 21300000, guid: 2125f9bd3c95fa14186ceb1105b21704, type: 3}
+    id: 10
   - image: {fileID: 21300000, guid: 6e9db02add9f3d14eacd923d8a6da296, type: 3}
     id: -1

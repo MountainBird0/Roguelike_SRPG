@@ -7,22 +7,19 @@ using UnityEngine;
 public class BattleMapManager : MonoBehaviour
 {
     public static BattleMapManager instance;
-    
+
+    [Header("Map")]
     public MapSelector selector;
     public Transform map;
+
+    [Header("Machine")]
+    public RangeSearchMachine rangeSearchMachine;
+
 
     [HideInInspector]
     public Board board; // 생성된 맵에서 불러올 board
 
     public List<Unit> units; // 유닛 리스트
-
-    private Vector3Int[] dirs = new Vector3Int[4]
-    {
-        Vector3Int.up,
-        Vector3Int.down,
-        Vector3Int.left,
-        Vector3Int.right
-    };
 
     private void Awake()
     {
@@ -54,7 +51,7 @@ public class BattleMapManager : MonoBehaviour
     public void AddUnit(Unit unit, TileLogic TL)
     {
         units.Add(unit);
-        unit.tile = TL;
+        unit.tile = TL; // 이거 쓸까
         if(DataManager.instance.currentUnitStats.ContainsKey(unit.unitName))
         {
             unit.stats = DataManager.instance.currentUnitStats[unit.unitName];

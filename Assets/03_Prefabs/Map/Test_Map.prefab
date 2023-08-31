@@ -1985,8 +1985,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 3223849187201932588}
   blueHighlightTile: {fileID: 11400000, guid: 5c66028d1abb4224d969c78312ef650e, type: 2}
+  redHighlightTile: {fileID: 11400000, guid: 7b2e1149221c01b469b4b71b830d6ce7, type: 2}
   redAimingTile: {fileID: 11400000, guid: a0e3032494a95fe47ab5fc0a8d64932f, type: 2}
-  GreenAimingTile: {fileID: 11400000, guid: d3034ad2b20a4bd4884ccf2cd2a57192, type: 2}
+  greenAimingTile: {fileID: 11400000, guid: d3034ad2b20a4bd4884ccf2cd2a57192, type: 2}
+  arrowTiles:
+  - {fileID: 11400000, guid: 3ca0eb923bf9f44458910417723b80e3, type: 2}
+  - {fileID: 11400000, guid: b3b7d976d21d35546b137d2594c7346b, type: 2}
+  - {fileID: 11400000, guid: 347ad1ef7ad495f46b4669683d37eab8, type: 2}
+  - {fileID: 11400000, guid: 3358c6e67a2cc0241bdf17ede9d92a8c, type: 2}
   mainMap: {fileID: 8710717193866040936}
   highlightMap: {fileID: 1247473078124012203}
   deployMap: {fileID: 8710717192582744364}

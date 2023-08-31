@@ -100,5 +100,6 @@ MonoBehaviour:
   unitName: Mage
   smallIcon: {fileID: -785349671, guid: 2b0f226eaec4a4d419af6ef77ee59242, type: 3}
   BigIcon: {fileID: 813287033, guid: 79cd5c2e0331a2c46be3c01a5e0b3e1f, type: 3}
-  skills: []
   playerType: 0
+  allianceType: 0
+  faction: 0

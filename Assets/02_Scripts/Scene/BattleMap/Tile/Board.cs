@@ -12,8 +12,10 @@ public class Board : MonoBehaviour
 
     [Header("Tile")]
     public Tile blueHighlightTile;
+    public Tile redHighlightTile;
     public Tile redAimingTile;
-    public Tile GreenAimingTile;
+    public Tile greenAimingTile;
+    public List<Tile> arrowTiles;
 
     [Header("TileMap")]
     public Tilemap mainMap;
@@ -23,7 +25,7 @@ public class Board : MonoBehaviour
 
     public Dictionary<Vector3Int, TileLogic> mainTiles = new();
     public Dictionary<Vector3Int, TileLogic> highlightTiles = new();
-    public Dictionary<Vector3Int, TileLogic> AimingTiles = new();
+    public Dictionary<Vector3Int, TileLogic> aimingTiles = new();
 
     [Header("Maker")]
     public MonsterMaker monsterMaker;
@@ -38,7 +40,7 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
-        SetTiles();
+        SetTile(mainMap, mainTiles);
     }
 
     private void Start()
@@ -49,11 +51,6 @@ public class Board : MonoBehaviour
     /**********************************************************
     * 타일 Dictionary 생성
     ***********************************************************/
-    private void SetTiles()
-    {
-        SetTile(mainMap, mainTiles);
-        
-    }
     public void SetTile(Tilemap map, Dictionary<Vector3Int, TileLogic> tiles)
     {
         Vector3Int currentPos = new Vector3Int();
@@ -76,44 +73,50 @@ public class Board : MonoBehaviour
     }
 
     /**********************************************************
-    * 하이라이트 타일 생성 / 지우기
+    * 이동 타일 보이기 / 지우기
     ***********************************************************/
-    public void ShowHighTile(List<TileLogic> tiles)
+    public void ShowMovableTile(List<TileLogic> tiles)
     {
         for (int i = 0; i < tiles.Count; i++)
         {
             highlightMap.SetTile(tiles[i].pos, blueHighlightTile);
+        }
+        SetTile(highlightMap, highlightTiles);
+    }
+    /**********************************************************
+    * 스킬 타일 보이기 / 지우기
+    ***********************************************************/
+    public void ShowSkillRangeTile(List<TileLogic> tiles)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            highlightMap.SetTile(tiles[i].pos, redHighlightTile);
 
             if(mainTiles[tiles[i].pos].content != null)
             {
-                if(mainTiles[tiles[i].pos].content.GetComponent<Unit>().playerType == PlayerType.COMPUTER)
+                if (mainTiles[Turn.currentTile.pos].content.GetComponent<Unit>().faction != 
+                    mainTiles[tiles[i].pos].content.GetComponent<Unit>().faction)
                 {
                     aimingMap.SetTile(tiles[i].pos, redAimingTile);
                 }
             }
-
         }
         SetTile(highlightMap, highlightTiles);
-        SetTile(aimingMap, AimingTiles);
-
+        SetTile(aimingMap, aimingTiles);
     }
-    public void ClearHighTile(List<TileLogic> tiles)
+    public void ClearTile()
     {
-        for (int i = 0; i < tiles.Count; i++)
-        {
-            highlightMap.SetTile(tiles[i].pos, null);
-
-            aimingMap.SetTile(tiles[i].pos, null);
-        }
-
+        highlightMap.ClearAllTiles();
         highlightTiles.Clear();
-        AimingTiles.Clear();
+        
+        aimingMap.ClearAllTiles();
+        aimingTiles.Clear();
     }
 
     /**********************************************************
     * 타일 범위에 맞는 타일 리스트를 반환
     ***********************************************************/
-    public List<TileLogic> Search(TileLogic start, Func<TileLogic, TileLogic, bool> searchType)
+    public List<TileLogic> Search(TileLogic start, int range, Func<TileLogic, TileLogic, int, bool> searchType)
     {
         List<TileLogic> tilesResult = new List<TileLogic>(); // 결과 반환할 타일
 
@@ -139,7 +142,7 @@ public class Board : MonoBehaviour
                     // 다음타일이 없거나 다음 타일과의 거리가 1 이상 차이난다면 
                     continue;
                 }
-                if (searchType(t, next))
+                if (searchType(t, next, range))
                 {
                     next.prev = t; // 이거 이유? 길찾을려고?
                     checkNext.Enqueue(next);
@@ -180,4 +183,31 @@ public class Board : MonoBehaviour
 
         return tile;
     }
+
+    /**********************************************************
+    * 화살표 타일 생성 / 삭제
+    ***********************************************************/
+    public void ShowArrowTile(Vector3Int pos)
+    {
+        Vector3Int currentPos;
+
+        for (int i = 0; i < 4; i++)
+        {
+            currentPos = pos + dirs[i];
+            aimingMap.SetTile(currentPos, arrowTiles[i]);
+
+            TileLogic tileLogic = new TileLogic(currentPos); // 수정?
+            aimingTiles.Add(currentPos, tileLogic);
+        }
+    }
+    public void ClearArrowTile()
+    {
+        aimingMap.ClearAllTiles();
+        aimingTiles.Clear();
+    }
+
+
+
+
+
 }

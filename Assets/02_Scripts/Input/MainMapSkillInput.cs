@@ -16,6 +16,9 @@ public class MainMapSkillInput : MonoBehaviour
     public GameObject unitCanvas;
     public GraphicRaycaster raycaster;
 
+    [Header("ImagePool")]
+    public IntKeyImagePool skillIconPool;
+
     private PointerEventData clickData = new PointerEventData(EventSystem.current);
     private List<RaycastResult> clickResults = new();
 
@@ -89,10 +92,15 @@ public class MainMapSkillInput : MonoBehaviour
     private void TouchSkillSlot(GameObject slot)
     {
         prevSlot = slot;
-        var prevSlotInfo = prevSlot.GetComponent<SkillSlot>();
+        
+        var SlotInfo = prevSlot.GetComponent<SkillSlot>();
 
-        // -1 인거 터치했을때는 막기
-        coroutine = StartCoroutine(Pickicon(prevSlotInfo.image.sprite));
+        if (SlotInfo.id.Equals(-1))
+        {
+            return;    
+        }
+
+        coroutine = StartCoroutine(Pickicon(SlotInfo.image.sprite));
     }
 
     /**********************************************************
@@ -146,7 +154,7 @@ public class MainMapSkillInput : MonoBehaviour
             var slot = prevSlot.GetComponent<SkillSlot>();
 
             slot.id = -1;
-            slot.image.sprite = controller.pool.skillImages[slot.id];
+            slot.image.sprite = controller.manager.skillIconPool.images[slot.id];
         }
     }
 

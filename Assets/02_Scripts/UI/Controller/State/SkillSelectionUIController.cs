@@ -7,12 +7,16 @@ public class SkillSelectionUIController : MonoBehaviour
 {
     public Canvas skillSelectionCanvas;
 
-
     /**********************************************************
     * 스킬 취소 버튼
     ***********************************************************/
     public void ClickBtnCancel()
     {
+        if(Turn.currentSkill.isDirectional)
+        {
+            StateMachineController.instance.ChangeTo<ArrowSelectionState>();
+            return;
+        }
         StateMachineController.instance.ChangeTo<ChooseActionState>();
     }
 

@@ -88,7 +88,7 @@ public class MainMapUIController : MonoBehaviour
     private void ClickBtnUnit(string clickedButtonName)
     {
         unitName = clickedButtonName;
-        bigImage.GetComponent<Image>().sprite = pool.bigImages[unitName];
+        bigImage.GetComponent<Image>().sprite = manager.unitBigPool.images[unitName];
     }
 
     /******************************************************************************

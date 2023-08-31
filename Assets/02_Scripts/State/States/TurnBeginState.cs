@@ -25,8 +25,7 @@ public class TurnBeginState : State
         //{
         //    Turn.unit = BattleMapManager.instance.units[0];
         //    StateMachineController.instance.ChangeTo<ChooseActionState>();
-        //}
-        
+        //}       
     }
 
     public override void Exit()
@@ -48,7 +47,8 @@ public class TurnBeginState : State
             if (board.mainTiles[cellPosition].content)
             {
                 Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
-                Turn.prevTile = board.GetTile(cellPosition);
+                Turn.selectedTile = board.GetTile(cellPosition);
+                Turn.currentTile = Turn.selectedTile;
                 StateMachineController.instance.ChangeTo<ChooseActionState>();
             }
         }

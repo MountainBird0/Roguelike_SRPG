@@ -2,6 +2,7 @@
 * ChooseActionState의 UI 컨트롤
 ***********************************************************/
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,27 @@ public class ChooseActionUIController : MonoBehaviour
 {
     public Canvas actionCanvas;
     public GraphicRaycaster raycaster;
-
-    public ImagePool imagePool;
-
+    
+    [Header("SkillSlot")]
     public List<GameObject> skillSlots;
+
+    [Header("StatWindow")]
+    public Image unitImage;
+    public Image redBar;
+    public TextMeshProUGUI className;
+    public TextMeshProUGUI level;
+    public TextMeshProUGUI hp;
+
+    private StringKeyImagePool unitBigPool;
+    private IntKeyImagePool skillIconPool;
+
+    private void Start()
+    {
+        // awake에 넣으면 안댐 순서 신경쓰기
+        //unitImagePool = BattleMapUIManager.instance.unitbt
+        skillIconPool = BattleMapUIManager.instance.skillIconPool;
+        unitBigPool = BattleMapUIManager.instance.unitBigPool;
+    }
 
     /**********************************************************
     * 턴 종료 버튼
@@ -29,6 +47,7 @@ public class ChooseActionUIController : MonoBehaviour
     {
         actionCanvas.gameObject.SetActive(true);
         SetSkillIcon();
+        SetStatWindow();
     }
     public void DisableCanvas()
     {
@@ -36,7 +55,7 @@ public class ChooseActionUIController : MonoBehaviour
     }
 
     /**********************************************************
-    * 플레이어 별 스킬 세팅
+    * 스킬 세팅
     ***********************************************************/
     private void SetSkillIcon()
     {
@@ -47,17 +66,30 @@ public class ChooseActionUIController : MonoBehaviour
             var id = skill.list[i];
             var slotInfo = skillSlots[i].GetComponent<SkillSlot>();
             slotInfo.id = id;
-            slotInfo.image.sprite = imagePool.skillImages[id];
+            slotInfo.image.sprite = skillIconPool.images[id];
         }
     }
 
     /**********************************************************
-    * 스킬 아이콘 누름
+    * 스탯윈도우 세팅
     ***********************************************************/
-    public void ClickBtnSkill()
+    private void SetStatWindow()
     {
-        StateMachineController.instance.ChangeTo<SkillSelectionState>();
+        var unitName = Turn.unit.unitName;
+        unitImage.sprite = unitBigPool.images[unitName];
+        className.text = unitName;
+
+        var statInfo = Turn.unit.stats;
+        level.text = statInfo.Level.ToString();
+        hp.text = statInfo.HP.ToString() + " / " + statInfo.MaxHP.ToString();
+
+        float hpRatio = (float)statInfo.HP / statInfo.MaxHP;
+        redBar.fillAmount = hpRatio;
     }
 
-
+    public void ClickBtnttt()
+    {
+        // 테스트좀하자
+        Debug.Log($"{GetType()} - 버튼은 눌림");
+    }
 }

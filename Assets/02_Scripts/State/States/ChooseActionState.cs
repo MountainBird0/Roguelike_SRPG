@@ -57,33 +57,47 @@ public class ChooseActionState : State
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
-        // UI 눌렀을 때
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            clickResults.Clear();
-            clickData.position = screenPosition;
-            raycaster.Raycast(clickData, clickResults);
+        // Debug.Log($"{GetType()} - 터치 시작");
 
+        clickResults.Clear();
+        clickData.position = screenPosition;
+        raycaster.Raycast(clickData, clickResults);
+
+        //Debug.Log($"{GetType()} - ui 터치했는지 {EventSystem.current.IsPointerOverGameObject()}");
+        // UI 눌렀을 때
+        if (clickResults.Count != 0)
+        {
             var ob = clickResults[0].gameObject;
             if (ob.CompareTag("EquipSlot"))
             {
-                board.ClearHighTile(tiles);
+                board.ClearTile();
 
                 // selectedTile에 실제 유닛 위치 박음
-                board.mainTiles[Turn.selectedTile.pos].content = board.mainTiles[Turn.prevTile.pos].content;
-                board.mainTiles[Turn.prevTile.pos].content = null;
-                Turn.prevTile = Turn.selectedTile;
+                //if(!Turn.selectedTile.pos.Equals(Turn.currentTile.pos))
+                //{
+                //    board.mainTiles[Turn.selectedTile.pos].content = board.mainTiles[Turn.currentTile.pos].content;
+                //    board.mainTiles[Turn.currentTile.pos].content = null;
+                //}
+                //Turn.currentTile = Turn.selectedTile;
 
                 Turn.isMoving = false;
 
                 Turn.currentSkill = DataManager.instance.defaultSkillStats[ob.GetComponent<SkillSlot>().id];
-                StateMachineController.instance.ChangeTo<SkillSelectionState>();
 
+                if(Turn.currentSkill.isDirectional)
+                {
+                    StateMachineController.instance.ChangeTo<ArrowSelectionState>();
+                    return;
+                }
+            
+                StateMachineController.instance.ChangeTo<SkillSelectionState>();
                 return;
             }
         }
+        // 이동타일 - 파랑, 스킬범위타일 - 노랑, 범위스킬타일  - 빨강
+        //                  타게팅 표시          유닛 자체 깜빡임
 
-        Vector3Int cellPosition = GetCellPosition(screenPosition);
+
         // 1. 누른곳이 아무곳도 아닐때
         // -> 그냥 TurnBeginState로 
 
@@ -99,6 +113,7 @@ public class ChooseActionState : State
         // 5. 스킬 아이콘 누르면
         // -> 실제 unit의 position(selectedTile)로 content의 unit 변경해야할듯?
 
+        Vector3Int cellPosition = GetCellPosition(screenPosition);
         // 이동가능한 타일을 터치했다면
         if (board.highlightTiles.ContainsKey(cellPosition))
         {
@@ -108,14 +123,15 @@ public class ChooseActionState : State
         // 이동 불가능한 곳을 터치했다면
         else if (board.mainTiles.ContainsKey(cellPosition))
         {
-            board.ClearHighTile(tiles);
+            board.ClearTile();
             Turn.isMoving = false;
-            Turn.unit.gameObject.transform.position = Turn.prevTile.pos;
+            Turn.unit.gameObject.transform.position = Turn.currentTile.pos; // 원래위치로 돌아옴
 
             // 누른곳에 이미 유닛이 있다면
-            if (board.mainTiles[cellPosition].content) // 내 유닛일때만 추가
+            if (board.mainTiles[cellPosition].content) // 유닛이 Human일 때만 작동하는 조건 추가하기
             {
-                Turn.prevTile = board.GetTile(cellPosition);
+                Turn.currentTile = board.GetTile(cellPosition);
+                Turn.selectedTile = Turn.currentTile;
                 Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
 
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
@@ -123,7 +139,7 @@ public class ChooseActionState : State
             else
             {
                 Turn.unit = null;
-                Turn.prevTile = null; // 안해도되나
+                Turn.currentTile = null; // 안해도되나
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
             }
         }
@@ -144,19 +160,17 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ShowMoveableTile()
     {
-        tiles = board.Search(board.GetTile(Turn.prevTile.pos), ISMovement);
-        board.ShowHighTile(tiles);
+        tiles = board.Search(board.GetTile(Turn.currentTile.pos), Turn.unit.stats.MOV, ISMovement);
+        board.ShowMovableTile(tiles);
     }
 
     /**********************************************************
     * 움직일 수 있는 범위 검색
     ***********************************************************/
     // test 이것들은 어디에 있어야할까
-    private bool ISMovement(TileLogic from, TileLogic to)
+    private bool ISMovement(TileLogic from, TileLogic to, int range)
     {
         to.distance = from.distance + 1;
-        int range = Turn.unit.stats.MOV;
-        Debug.Log($"{GetType()} - {to.content}");
 
         return (to.content == null && to.distance <= range);
     }

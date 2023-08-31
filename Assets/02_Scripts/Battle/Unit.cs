@@ -17,7 +17,8 @@ public class Unit : MonoBehaviour
     public StatData stats;
 
     public PlayerType playerType;
+    public AllianceType allianceType;
     // µ¿¸Í Ãß°¡
-
+    public int faction;
 }
 

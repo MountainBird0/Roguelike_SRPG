@@ -15,6 +15,13 @@ public class BattleMapUIManager : MonoBehaviour
     public DeployUIController deployUIController;
     public ChooseActionUIController ChooseActionUIController;
     public SkillSelectionUIController skillSelectionUIController;
+    public ArrowSelectionUIController arrowSelectionUIController;
+    public SkillTargetUIController skillTargetUIController;
+
+    [Header("ImagePool")]
+    public StringKeyImagePool unitSmallPool;
+    public StringKeyImagePool unitBigPool;
+    public IntKeyImagePool skillIconPool;
 
     private void Awake()
     {
@@ -29,11 +36,6 @@ public class BattleMapUIManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        ChooseActionUIController.imagePool.MakeDictionarys();
-    }
-
     /**********************************************************
     * 배치가능한 유닛 생성
     ***********************************************************/
@@ -42,16 +44,9 @@ public class BattleMapUIManager : MonoBehaviour
         foreach(var kvp in DataManager.instance.currentUnitStats)
         {
             var ob = Instantiate(deploySlot, deployWindow);
-            ob.name = kvp.Key;
-            // 수정..
-            var temp = ObjectPoolManager.instance.Spawn(kvp.Key);
-            temp.transform.position = new Vector3(400, 400, 400);
 
             var set = ob.GetComponent<DeploySlot>();
-
-            set.bigIcon.sprite = temp.GetComponent<Unit>().smallIcon;
-            ObjectPoolManager.instance.Despawn(temp);
-
+            set.image.sprite = unitSmallPool.images[kvp.Key];
             set.className.text = kvp.Key;
             set.level.text = kvp.Value.Level.ToString();
             set.hp.text = kvp.Value.HP.ToString();

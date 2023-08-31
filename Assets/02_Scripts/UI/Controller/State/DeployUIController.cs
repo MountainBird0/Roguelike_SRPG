@@ -29,10 +29,11 @@ public class DeployUIController : MonoBehaviour
     private void ClickBtnUnit(string clickedButtonName)
     {
         unitName = clickedButtonName;
+        EnableGuide();
     }
 
     /**********************************************************
-    * 유닛 배치 가이드 활성화/비활성화
+    * 배치 가능한 유닛 활성화/비활성화
     ***********************************************************/
     public void EnableWindow()
     {

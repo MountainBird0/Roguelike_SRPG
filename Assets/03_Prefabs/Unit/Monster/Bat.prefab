@@ -101,3 +101,5 @@ MonoBehaviour:
   smallIcon: {fileID: 0}
   BigIcon: {fileID: 0}
   playerType: 1
+  allianceType: 2
+  faction: 1

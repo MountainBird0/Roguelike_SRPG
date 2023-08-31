@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class DeploySlot : MonoBehaviour
 {
-    public Image bigIcon;
+    public Image image;
 
     [Header("Stat")]
     public TextMeshProUGUI className;

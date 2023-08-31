@@ -8,12 +8,18 @@ public class SkillSelectionState : State
 {
     private List<TileLogic> tiles;
     private SkillSelectionUIController uiController = BattleMapUIManager.instance.skillSelectionUIController;
+    private RangeSearchMachine searchMachine;
+
+    private void OnEnable()
+    {
+        searchMachine = BattleMapManager.instance.rangeSearchMachine;
+    }
 
     public override void Enter()
     {
         base.Enter();
         uiController.EnableCanvas();
-        ShowSkillTile();
+        ShowRangeTile();
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -22,8 +28,12 @@ public class SkillSelectionState : State
     public override void Exit()
     {
         base.Exit();
-        board.ClearHighTile(tiles);
         uiController.DisableCanvas();
+
+        if(tiles != null)
+        {
+            board.ClearTile();
+        }
 
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
@@ -37,6 +47,17 @@ public class SkillSelectionState : State
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
+        // 여기도 ui먼저 누르는거 추가
+        Vector3Int cellPosition = GetCellPosition(screenPosition);
+
+        if (board.aimingTiles.ContainsKey(cellPosition))
+        {
+            Turn.selectedTile = new TileLogic(cellPosition);
+            Debug.Log($"{GetType()} - 때릴수있는거 누름");
+            StateMachineController.instance.ChangeTo<SkillTargetState>();
+
+        }
+
         // 타게팅 가능하거나
 
         // 그 타겟으로부터 범위가 또 있는거
@@ -51,46 +72,30 @@ public class SkillSelectionState : State
     /**********************************************************
     * 선택된 스킬의 범위 표시
     ***********************************************************/
-    private void ShowSkillTile()
+    private void ShowRangeTile()
     {
-        RangeType rangeType = (RangeType)Turn.currentSkill.rangeType;
-
-        switch(rangeType)
-        {
-            case RangeType.CONSTANT:
-                tiles = board.Search(board.GetTile(Turn.selectedTile.pos), ConstantRange);
-                break;
+        tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.range);
+        board.ShowSkillRangeTile(tiles);
+        // constant면 여기서 스킬 범위 보여주고
+        // 단일이면
 
 
-            case RangeType.LINE:
-                break;
 
-
-            case RangeType.CONE:
-                break;
-
-
-            case RangeType.INFINITE:
-                break;
-
-
-            case RangeType.SELF:
-                break;
-        }
-
-        board.ShowHighTile(tiles);
+        // 방향 정해야하는 스킬
+        // 그냥 자기자신 범위스킬
+        // 선택한 위치 범위스킬
     }
 
     /**********************************************************
     * 스킬 범위 검색
     ***********************************************************/
-    private bool ConstantRange(TileLogic from, TileLogic to)
-    {
-        to.distance = from.distance + 1;
-        int range = Turn.currentSkill.range;
+    //private bool ConstantRange(TileLogic from, TileLogic to)
+    //{
+    //    to.distance = from.distance + 1;
+    //    int range = Turn.currentSkill.range;
 
-        return to.distance <= range;
-    }
+    //    return to.distance <= range;
+    //}
 
 
 

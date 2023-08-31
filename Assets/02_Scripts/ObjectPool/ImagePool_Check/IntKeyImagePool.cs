@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class IntKeyImagePool : MonoBehaviour
 {
-    public List<IntKeyImageData> imageList;
+    [SerializeField]
+    private List<IntKeyImageData> imageList;
 
     public Dictionary<int, Sprite> images = new();
 
-
-    public void MakeDictionary()
+    private void Awake()
     {
         MakeDictionary(imageList, images);
     }

@@ -19,3 +19,11 @@ MonoBehaviour:
     pos: {x: 6, y: 0, z: 0}
   - name: Bat
     pos: {x: 6, y: 1, z: 0}
+  - name: Bat
+    pos: {x: -4, y: -1, z: 0}
+  - name: Bat
+    pos: {x: -4, y: 0, z: 0}
+  - name: Bat
+    pos: {x: -4, y: 1, z: 0}
+  - name: Bat
+    pos: {x: -3, y: 0, z: 0}

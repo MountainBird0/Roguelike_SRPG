@@ -1,11 +1,16 @@
 /**********************************************************
 * 현재 턴의 정보(유닛, 선택한 스킬 등)
 ***********************************************************/
+using UnityEngine;
+
 public static class Turn
 {
     public static Unit unit;
-    public static TileLogic prevTile;
+
+    public static TileLogic currentTile;
     public static TileLogic selectedTile;
+
+    public static Vector3Int direction;
 
     public static SkillData currentSkill;
 

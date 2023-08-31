@@ -9,17 +9,18 @@ public class SkillData
     // public int verticalRange;
     public int AOERange;
     // public int AOEVerRange;
-    public int affectType;
+    public string affectType;
     public int jobType;
-    public int rangeType;
-    public int damageType;
+    public string rangeType;
+    public string damageType;
     public float multiplier;
+    public bool isDirectional;
     // 공격대상
     // public affectType Enemy; // enum
 }
 // affectType
 // 0 - Default
-// 1 - A
+// 1 - ALLY
 // 2 - Enemy
 
 // jobType

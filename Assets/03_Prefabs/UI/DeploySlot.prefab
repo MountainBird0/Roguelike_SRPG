@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e5c6b1bb17dcc949bf5e56b6ccf9ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bigIcon: {fileID: 7895969076186146276}
+  image: {fileID: 7895969076186146276}
   className: {fileID: 7895969076136037272}
   level: {fileID: 7895969075136698722}
   hp: {fileID: 7895969075485623231}
