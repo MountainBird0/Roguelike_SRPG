@@ -7,7 +7,6 @@ public class MoveSequenceState : State
     {
         base.Enter();
         MoveUnit();
-
     }
 
     public override void Exit()

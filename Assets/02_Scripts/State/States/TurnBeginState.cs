@@ -11,13 +11,14 @@ public class TurnBeginState : State
 
         if(Turn.unit)
         {
-            StateMachineController.instance.ChangeTo<ChooseActionState>();       
+            SelectUnit(Turn.selectedTile.pos);
+            StateMachineController.instance.ChangeTo<ChooseActionState>();
+            return;
         }
-        else
-        {
-            InputManager.instance.OnStartTouch += TouchStart;
-            InputManager.instance.OnEndTouch += TouchEnd;
-        }
+
+        InputManager.instance.OnStartTouch += TouchStart;
+        InputManager.instance.OnEndTouch += TouchEnd;
+        
 
         // 아군 유닛 없으면 적 유닛 속도대로 정렬
         // 속도 정렬 아직 안함
@@ -46,10 +47,7 @@ public class TurnBeginState : State
         {
             if (board.mainTiles[cellPosition].content)
             {
-                Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
-                Turn.selectedTile = board.GetTile(cellPosition);
-                Turn.currentTile = Turn.selectedTile;
-                StateMachineController.instance.ChangeTo<ChooseActionState>();
+                SelectUnit(cellPosition);
             }
         }
     }
@@ -59,10 +57,15 @@ public class TurnBeginState : State
     }
 
     /**********************************************************
-    * Turn.unit.tile.pos
-    * mainTiles.content
-    * mainTiles.content.transform.position
-    * Unit만 있는 dic만들까
+    * 유닛 선택하기
     ***********************************************************/
+    private void SelectUnit(Vector3Int cellPosition)
+    {
+        Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+        Turn.originTile = board.GetTile(cellPosition);
+        Turn.currentTile = Turn.originTile;
+        Turn.selectedTile = Turn.originTile;
 
+        StateMachineController.instance.ChangeTo<ChooseActionState>();
+    }
 }

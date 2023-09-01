@@ -10,8 +10,6 @@ public class SkillTargetState : State
 
     private void OnEnable()
     {
-        
-
         uiController = BattleMapUIManager.instance.skillTargetUIController;
         searchMachine = BattleMapManager.instance.rangeSearchMachine;
     }
@@ -35,6 +33,13 @@ public class SkillTargetState : State
     {
         base.Exit();
         uiController.DisableCanvas();
+
+        Turn.selectedTile = Turn.currentTile;
+
+        if (tiles != null)
+        {
+            board.ClearTile();
+        }
 
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;

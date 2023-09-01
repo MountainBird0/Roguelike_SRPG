@@ -10,7 +10,7 @@ public class ArrowSelectionState : State
     {
         base.Enter();
 
-        board.ShowArrowTile(Turn.selectedTile.pos);
+        board.ShowArrowTile(Turn.currentTile.pos);
         uiController.EnableCanvas();
 
         InputManager.instance.OnStartTouch += TouchStart;
@@ -39,7 +39,9 @@ public class ArrowSelectionState : State
 
         if(board.aimingTiles.ContainsKey(cellPosition))
         {
-            Turn.direction = cellPosition - Turn.selectedTile.pos;
+            Turn.selectedTile = Turn.currentTile;
+
+            Turn.direction = cellPosition - Turn.currentTile.pos;
 
             StateMachineController.instance.ChangeTo<SkillSelectionState>();
         }
@@ -49,6 +51,17 @@ public class ArrowSelectionState : State
 
     }
 
-  
+    /**********************************************************
+    * 방향 고르기 
+    ***********************************************************/
+    private void SelectArrow(Vector3Int cellPosition)
+    {
+        // Turn.selectedTile = Turn.currentTile;
+
+        Turn.direction = cellPosition - Turn.currentTile.pos;
+
+        StateMachineController.instance.ChangeTo<SkillSelectionState>();
+    }
+
 
 }

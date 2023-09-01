@@ -90,14 +90,17 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            highlightMap.SetTile(tiles[i].pos, redHighlightTile);
-
-            if(mainTiles[tiles[i].pos].content != null)
+            if(mainTiles.ContainsKey(tiles[i].pos))
             {
-                if (mainTiles[Turn.currentTile.pos].content.GetComponent<Unit>().faction != 
-                    mainTiles[tiles[i].pos].content.GetComponent<Unit>().faction)
+                highlightMap.SetTile(tiles[i].pos, redHighlightTile);
+
+                if(mainTiles[tiles[i].pos].content != null)
                 {
-                    aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                    if (mainTiles[Turn.originTile.pos].content.GetComponent<Unit>().faction != 
+                        mainTiles[tiles[i].pos].content.GetComponent<Unit>().faction)
+                    {
+                        aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                    }
                 }
             }
         }
