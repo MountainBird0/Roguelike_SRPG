@@ -24,6 +24,4 @@ public class LoadState : State
 
         StateMachineController.instance.ChangeTo<DeployState>();
     }
-
-
 }

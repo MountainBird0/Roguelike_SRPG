@@ -13,16 +13,30 @@ public class DataManager : MonoBehaviour
 
     // default data
     // 앞에 두개 나중에 int로
+    [Header("stage")]
     public TextAsset stageLevelText;
     public Dictionary<string, StageLevelData> stageLevels = new();
     public TextAsset iconProbabilityText;
     public Dictionary<string, IconProbabilityData> iconProbabilitys = new();
+
+    [Header("stat")]
     public TextAsset unitStatsText;
     public Dictionary<string, StatData> defaultUnitStats = new();
+    public TextAsset unitGrowText;
+    public Dictionary<string, StatGrowData> defaultUnitGrowStats = new();
+    public TextAsset monsterStatsText;
+    public Dictionary<string, StatData> defaultMonsterStats = new();
+    public TextAsset monsterGrowText;
+    public Dictionary<string, StatGrowData> defaultMonsterGrowStats = new();
+
+    [Header("skill")]
     public TextAsset skillStatsText;
     public Dictionary<int, SkillData> defaultSkillStats = new();
-    public TextAsset usableSkillText;
+    public TextAsset usableSkillsText;
     public Dictionary<string, SkillListData> defaultUsableSkills = new();
+    public TextAsset monsterSkillsText;
+    public Dictionary<string, SkillListData> defaultMonsterEquipSkills = new();
+
 
     // playing data
     public GameInfo gameInfo;
@@ -55,9 +69,15 @@ public class DataManager : MonoBehaviour
     {
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
+
         defaultUnitStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(unitStatsText.ToString());
+        defaultUnitGrowStats = JsonConvert.DeserializeObject<Dictionary<string, StatGrowData>>(unitGrowText.ToString());
+        defaultMonsterStats = JsonConvert.DeserializeObject<Dictionary<string, StatData>>(monsterStatsText.ToString());
+        defaultMonsterGrowStats = JsonConvert.DeserializeObject<Dictionary<string, StatGrowData>>(monsterGrowText.ToString());
+
         defaultSkillStats = JsonConvert.DeserializeObject<Dictionary<int, SkillData>>(skillStatsText.ToString());
-        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(usableSkillText.ToString());
+        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(usableSkillsText.ToString());
+        defaultMonsterEquipSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(monsterSkillsText.ToString());
 
         // 이거 이어하기때는 안해도 ㄱㅊ 수정
         currentUnitStats = defaultUnitStats;

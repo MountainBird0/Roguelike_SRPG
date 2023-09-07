@@ -64,7 +64,9 @@ public class ChooseActionUIController : MonoBehaviour
         for(int i = 0; i < skillSlots.Count; i++)
         {
             var id = skill.list[i];
-            var slotInfo = skillSlots[i].GetComponent<SkillSlot>();
+            //var slotInfo = skillSlots[i].GetComponent<SkillSlot>();
+            var slotInfo = skillSlots[i].GetComponent<BattleSkillSlot>();
+            slotInfo.slotNum = i;
             slotInfo.id = id;
             slotInfo.image.sprite = skillIconPool.images[id];
         }

@@ -84,7 +84,7 @@ public class Board : MonoBehaviour
         SetTile(highlightMap, highlightTiles);
     }
     /**********************************************************
-    * 스킬 타일 보이기 / 지우기
+    * 스킬 범위 타일 보이기 / 지우기
     ***********************************************************/
     public void ShowSkillRangeTile(List<TileLogic> tiles)
     {
@@ -105,7 +105,7 @@ public class Board : MonoBehaviour
             }
         }
         SetTile(highlightMap, highlightTiles);
-        SetTile(aimingMap, aimingTiles);
+        
     }
     public void ClearTile()
     {
@@ -115,6 +115,56 @@ public class Board : MonoBehaviour
         aimingMap.ClearAllTiles();
         aimingTiles.Clear();
     }
+
+    /**********************************************************
+    * 타겟 타일 보이기 / 지우기
+    ***********************************************************/
+    public void ShowAimingTile(List<TileLogic> tiles)
+    {
+        AffectType affectType = (AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true);
+
+        if (Turn.targets != null)
+        {
+            Turn.targets.Clear();
+        }
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+
+            if (mainTiles[tiles[i].pos].content != null)
+            {
+                var originUnit = mainTiles[Turn.originTile.pos].content.GetComponent<Unit>();
+                var targetUnit = mainTiles[tiles[i].pos].content.GetComponent<Unit>();
+
+                switch (affectType)
+                {
+                    case AffectType.ALL:
+                        break;
+
+                    case AffectType.ALLY:
+                        if (originUnit.faction.Equals(targetUnit.faction))
+                        {
+                            aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                            Turn.targets.Add(targetUnit);
+                        }
+                        break;
+
+                    case AffectType.ENEMY:
+                        if (!originUnit.faction.Equals(targetUnit.faction))
+                        {
+                            aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                            Turn.targets.Add(targetUnit);
+                        }
+                        break;
+
+                    case AffectType.SELF:
+                        break;
+                }
+            }
+        }
+        SetTile(aimingMap, aimingTiles);
+    }
+
 
     /**********************************************************
     * 타일 범위에 맞는 타일 리스트를 반환

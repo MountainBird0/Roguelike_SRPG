@@ -5,16 +5,22 @@ public class SkillData
 {
     public string name;
     public string explain;
+
     public int range;
-    // public int verticalRange;
     public int AOERange;
-    // public int AOEVerRange;
+
     public string affectType;
     public int jobType;
     public string rangeType;
     public string damageType;
+
     public float multiplier;
+
     public bool isDirectional;
+    public bool isAOE;
+
+
+
     // 공격대상
     // public affectType Enemy; // enum
 }

@@ -1577,8 +1577,12 @@ MonoBehaviour:
   stageLevelText: {fileID: 4900000, guid: defa3c3f04bc7ae4e8b9a4f44f98a4e0, type: 3}
   iconProbabilityText: {fileID: 4900000, guid: 9a3d91f5b15638b46924f2512697321c, type: 3}
   unitStatsText: {fileID: 4900000, guid: b86b7aa61b99c6b469f3120e5855e304, type: 3}
+  unitGrowText: {fileID: 4900000, guid: 2503cb12637a89c47955193028e41d53, type: 3}
+  monsterStatsText: {fileID: 4900000, guid: 6067e3931b0715a408cdd0b80e530b21, type: 3}
+  monsterGrowText: {fileID: 4900000, guid: 693deedd4d4e52048808d9d442e2ec20, type: 3}
   skillStatsText: {fileID: 4900000, guid: b1b9f24b952f728439a53d63749d1ddb, type: 3}
-  usableSkillText: {fileID: 4900000, guid: b944c9eb522f4bb47b94d82501ceb5b3, type: 3}
+  usableSkillsText: {fileID: 4900000, guid: b944c9eb522f4bb47b94d82501ceb5b3, type: 3}
+  monsterSkillsText: {fileID: 4900000, guid: 91d3e81dfa9154a4e8974776b7b774b0, type: 3}
 --- !u!4 &866180284
 Transform:
   m_ObjectHideFlags: 0

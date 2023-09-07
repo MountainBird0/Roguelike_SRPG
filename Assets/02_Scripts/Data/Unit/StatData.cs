@@ -1,7 +1,7 @@
 /**********************************************************
 * 각 유닛별 스탯 정보 저장
 ***********************************************************/
-public class StatData
+public struct StatData
 {
     public int Level;
     public int MaxHP;

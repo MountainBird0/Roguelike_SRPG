@@ -12,7 +12,7 @@ public class SkillTargetUIController : MonoBehaviour
     public void ClickBtnCancel()
     {
         Debug.Log($"{GetType()} - 취소 누름");
-        StateMachineController.instance.ChangeTo<SkillSelectionState>();
+        StateMachineController.instance.ChangeTo<SkillSelectedState>();
     }
 
 

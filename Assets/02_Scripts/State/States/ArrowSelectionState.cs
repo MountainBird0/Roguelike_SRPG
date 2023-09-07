@@ -43,7 +43,7 @@ public class ArrowSelectionState : State
 
             Turn.direction = cellPosition - Turn.currentTile.pos;
 
-            StateMachineController.instance.ChangeTo<SkillSelectionState>();
+            StateMachineController.instance.ChangeTo<SkillSelectedState>();
         }
     }
     private void TouchEnd(Vector2 screenPosition, float time)
@@ -60,7 +60,7 @@ public class ArrowSelectionState : State
 
         Turn.direction = cellPosition - Turn.currentTile.pos;
 
-        StateMachineController.instance.ChangeTo<SkillSelectionState>();
+        StateMachineController.instance.ChangeTo<SkillSelectedState>();
     }
 
 

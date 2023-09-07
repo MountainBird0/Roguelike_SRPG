@@ -58,8 +58,8 @@ public class ChooseActionState : State
         clickData.position = screenPosition;
         raycaster.Raycast(clickData, clickResults);
        
-        if (clickResults.Count != 0)
-        { // UI 눌렀을 때
+        if (clickResults.Count != 0) // UI 눌렀을 때
+        {
             SelectSkill();
             return;
         }
@@ -68,18 +68,18 @@ public class ChooseActionState : State
 
         Vector3Int cellPosition = GetCellPosition(screenPosition);
         
-        if (board.highlightTiles.ContainsKey(cellPosition))
-        { // 이동가능한 타일을 터치했다면
+        if (board.highlightTiles.ContainsKey(cellPosition)) // 이동가능한 타일을 터치했다면
+        { 
             MoveUnit(cellPosition);
             return;
         }  
-        else if (board.mainTiles.ContainsKey(cellPosition))
-        { // 이동 불가능한 곳을 터치했다면
+        else if (board.mainTiles.ContainsKey(cellPosition)) // 이동 불가능한 곳을 터치했다면
+        { 
             board.ClearTile();
+
             Turn.isMoving = false;
             Turn.unit.gameObject.transform.position = Turn.originTile.pos; // 원래위치로 돌아옴
-
-            
+ 
             if (board.mainTiles[cellPosition].content)
             { // 누른곳에 이미 유닛이 있다면 //유닛이 Human일 때만 작동하는 조건 추가하기
                 ChangeUnit(cellPosition);
@@ -108,7 +108,9 @@ public class ChooseActionState : State
             Turn.isMoving = false;
             board.ClearTile();
 
-            Turn.currentSkill = DataManager.instance.defaultSkillStats[ob.GetComponent<SkillSlot>().id];
+            var slot = ob.GetComponent<BattleSkillSlot>();
+            Turn.slotNum = slot.slotNum;
+            Turn.currentSkill = DataManager.instance.defaultSkillStats[slot.id];
 
             if (Turn.currentSkill.isDirectional)
             {
@@ -116,7 +118,7 @@ public class ChooseActionState : State
             }
             else
             {
-                StateMachineController.instance.ChangeTo<SkillSelectionState>();
+                StateMachineController.instance.ChangeTo<SkillSelectedState>();
             }
             return;
         }

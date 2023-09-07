@@ -2,86 +2,93 @@
   "0": {
     "name": "NormalAttackW",
     "explain": "warrior 기본공격 어쩌구",
-    "range": 2,
-    "AOERange": 1,
+    "range": 1,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 0,
     "damageType": "physics",
     "rangeType": "constant",
     "multiplier": 1.2,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   },
   "1": {
     "name": "NormalAttackM",
     "explain": "mage 기본공격 어쩌구",
-    "range": 3,
-    "AOERange": 1,
+    "range": 2,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 1,
     "damageType": "magic",
     "rangeType": "constant",
     "multiplier": 1.2,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   },
   "2": {
     "name": "NormalAttackR",
     "explain": "rogue기본공격 어쩌구",
-    "range": 3,
-    "AOERange": 1,
+    "range": 1,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 2,
     "damageType": "physics",
     "rangeType": "constant",
     "multiplier": 1.2,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   },
   "3": {
     "name": "NormalAttackA",
     "explain": "아처 기본공격 어쩌구",
-    "range": 3,
-    "AOERange": 1,
+    "range": 2,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 3,
     "damageType": "physics",
     "rangeType": "constant",
     "multiplier": 1.2,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   },
   "4": {
     "name": "Puncture",
     "explain": "찌르기 어쩌구",
-    "range": 3,
-    "AOERange": 1,
+    "range": 2,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 0,
     "damageType": "physics",
     "rangeType": "line",
     "multiplier": 1.5,
-    "isDirectional": 1
+    "isDirectional": 1,
+    "isAOE": 1
   },
   "5": {
     "name": "FireBall",
     "explain": "파이어볼 어쩌구",
     "range": 5,
-    "AOERange": 1,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 1,
     "damageType": "magic",
     "rangeType": "constant",
     "multiplier": 1.8,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   },
   "6": {
     "name": "Slash",
     "explain": "베기 어쩌구",
     "range": 3,
-    "AOERange": 1,
+    "AOERange": 0,
     "affectType": "enemy",
     "jobType": 2,
     "damageType": "physics",
     "rangeType": "cone",
     "multiplier": 1.5,
-    "isDirectional": 1
+    "isDirectional": 1,
+    "isAOE": 1
   },
   "7": {
     "name": "Meteor",
@@ -93,7 +100,8 @@
     "damageType": "magic",
     "rangeType": "constant",
     "multiplier": 1.3,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 1
   },
   "8": {
     "name": "Healing",
@@ -105,30 +113,33 @@
     "damageType": "magic",
     "rangeType": "constant",
     "multiplier": 2.2,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 1
   },
   "9": {
     "name": "Buff",
     "explain": "강화 어쩌구",
     "range": 1,
-    "AOERange": 1,
+    "AOERange": 0,
     "affectType": "ally",
     "jobType": 1,
     "damageType": "magic",
     "rangeType": "infinite",
     "multiplier": 1.5,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   },
   "10": {
     "name": "Agro",
     "explain": "도발 어쩌구",
     "range": 1,
-    "AOERange": 1,
+    "AOERange": 0,
     "affectType": "ally",
     "jobType": 0,
     "damageType": "physics",
     "rangeType": "self",
     "multiplier": 1.5,
-    "isDirectional": 0
+    "isDirectional": 0,
+    "isAOE": 0
   }
 }

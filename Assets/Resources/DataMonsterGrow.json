@@ -1,0 +1,14 @@
+{
+  "Bat": {
+    "HpGrow": 10,
+    "ATKGrow": 10,
+    "DEFGrow": 10,
+    "MATKGrow": 10,
+    "MDEFGrow": 10,
+    "HITGrow": 10,
+    "EVAGrow": 10,
+    "CRIGrow": 10,
+    "RESGrow": 10,
+    "reqEXPGrow": 10
+  }
+}

@@ -1,10 +1,10 @@
 /**********************************************************
-* 사용할 스킬의 타겟을 지정할 수 있는 State
+* 고른 스킬의 타겟을 지정할 수 있는 State
 ***********************************************************/
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillSelectionState : State
+public class SkillSelectedState : State
 {
     private List<TileLogic> tiles;
     private SkillSelectionUIController uiController = BattleMapUIManager.instance.skillSelectionUIController;
@@ -54,7 +54,7 @@ public class SkillSelectionState : State
         {
             Turn.selectedTile = new TileLogic(cellPosition);
             Debug.Log($"{GetType()} - 때릴수있는거 누름");
-            StateMachineController.instance.ChangeTo<SkillTargetState>();
+            StateMachineController.instance.ChangeTo<SkillTargetingState>();
 
         }
 
@@ -76,6 +76,7 @@ public class SkillSelectionState : State
     {
         tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.range);
         board.ShowSkillRangeTile(tiles);
+        board.ShowAimingTile(tiles);
         // constant면 여기서 스킬 범위 보여주고
         // 단일이면
 

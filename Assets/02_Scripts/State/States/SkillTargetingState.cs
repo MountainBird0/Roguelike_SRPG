@@ -1,8 +1,11 @@
+/**********************************************************
+* 타겟을 지정한 후 확인하는 state
+***********************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillTargetState : State
+public class SkillTargetingState : State
 {
     private List<TileLogic> tiles;
     private RangeSearchMachine searchMachine;
@@ -19,11 +22,20 @@ public class SkillTargetState : State
         base.Enter();
         uiController.EnableCanvas();
 
-        if (!Turn.currentSkill.AOERange.Equals(1))
+        // 때린위치 정보가 있으므로 그곳의 유닛 받아오기
+
+        // 단일이면 유닛 정보 ui나옴
+
+        // 범위면 AOE Range 이용
+
+        if (!Turn.currentSkill.AOERange.Equals(0))
         {
             tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.AOERange);
+            
             board.ShowSkillRangeTile(tiles);
         }
+
+       
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -53,9 +65,8 @@ public class SkillTargetState : State
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
-        // 단일이면 유닛 정보 ui나옴
+        // 쓸 일 없음
 
-        // 범위면 AOE Range 이용
 
 
 

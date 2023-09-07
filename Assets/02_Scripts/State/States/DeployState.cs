@@ -35,12 +35,13 @@ public class DeployState : State
         
         uiController.DisableWindow();
         board.deployMap.gameObject.SetActive(false);
-        // deployTIles 삭제 밑 올려둔거 mainTile에 저장 mgr에서 할지?
+        // deployTiles 삭제 밑 올려둔거 mainTile에 저장 mgr에서 할지?
 
         AddUnits();
         CopyContent();
 
-        // 유닛들 순서대로 unit 리스트에 넣기
+        // 유닛이랑 몬스터 선택된 스킬 프리팹 미리 생성해서 넣어두기?
+
         // 몬스터 속도 정할 필요성
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
@@ -55,13 +56,13 @@ public class DeployState : State
 
         if (deployTiles.ContainsKey(cellPosition))
         {
-            if (deployTiles[cellPosition].content) 
-            {               
-                coroutine = StartCoroutine(PickUnit(cellPosition)); // 이미 유닛 있으면 그거 들기
+            if (deployTiles[cellPosition].content)
+            { // 이미 유닛 있으면 그거 들기            
+                coroutine = StartCoroutine(PickUnit(cellPosition));
             }
-            else 
-            {              
-                DeployNewUnit(cellPosition); // 없으면 새로 생성해서 배치
+            else
+            { // 없으면 새로 생성해서 배치             
+                DeployNewUnit(cellPosition);
             }
         }
     }
@@ -78,16 +79,7 @@ public class DeployState : State
 
             if (deployTiles.ContainsKey(cellPosition))
             {
-                if (deployTiles[cellPosition].content)
-                {
-                    ChangeUnit(cellPosition);
-                }
-                else
-                {
-                    deployTiles[cellPosition].content = deployTiles[oldCoords].content;
-                    deployTiles[cellPosition].content.transform.position = cellPosition;
-                    deployTiles[oldCoords].content = null;
-                }
+                DropUnit(cellPosition);
             }
             else
             {
@@ -119,7 +111,7 @@ public class DeployState : State
     }
 
     /**********************************************************
-    * 새 유닛 배치
+    * 새 유닛 타일에 배치
     ***********************************************************/
     private void DeployNewUnit(Vector3Int cellPosition)
     {
@@ -135,7 +127,23 @@ public class DeployState : State
             uiController.DisableGuide();
         }
     }
-    
+
+    /**********************************************************
+    * 타일 위에 유닛 떨구기
+    ***********************************************************/
+    private void DropUnit(Vector3Int cellPosition)
+    {
+        if (deployTiles[cellPosition].content)
+        {
+            ChangeUnit(cellPosition);
+        }
+        else
+        {
+            deployTiles[cellPosition].content = deployTiles[oldCoords].content;
+            deployTiles[cellPosition].content.transform.position = cellPosition;
+            deployTiles[oldCoords].content = null;
+        }
+    }
     /**********************************************************
     * 타일 위의 유닛과 서로 바꿈
     ***********************************************************/
