@@ -75,8 +75,8 @@ public class SkillSelectedState : State
     private void ShowRangeTile()
     {
         tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.range);
-        board.ShowSkillRangeTile(tiles);
-        board.ShowAimingTile(tiles);
+        board.ShowHighlightTile(tiles, 2);
+        board.ShowAimingTile(tiles, 2);
         // constant면 여기서 스킬 범위 보여주고
         // 단일이면
 

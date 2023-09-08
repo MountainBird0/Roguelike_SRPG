@@ -151,7 +151,7 @@ public class ChooseActionState : State
     private void ShowMoveableTile()
     {
         tiles = board.Search(board.GetTile(Turn.originTile.pos), Turn.unit.stats.MOV, ISMovement);
-        board.ShowMovableTile(tiles);
+        board.ShowHighlightTile(tiles, 0);
     }
 
     /**********************************************************

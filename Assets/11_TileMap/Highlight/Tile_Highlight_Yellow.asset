@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Tile_Aiming_Yellow
+  m_Name: Tile_Highlight_Yellow
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -203860880, guid: decb19de4b3162e4aa2bb3caeb9c175a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 1094826024, guid: 498ec7cf00f2346498ec7fba16e2aed9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.26666668}
   m_Transform:
     e00: 1
     e01: 0

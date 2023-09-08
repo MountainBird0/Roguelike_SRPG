@@ -11,11 +11,16 @@ public class Board : MonoBehaviour
     public Grid grid;
 
     [Header("Tile")]
+    public List<Tile> highTiles;
+    public List<Tile> aimTiles;
+    public List<Tile> arrowTiles;
+
     public Tile blueHighlightTile;
     public Tile redHighlightTile;
+    public Tile yellowHighlightTile;
+    public Tile yellowSelectableTile;
     public Tile redAimingTile;
     public Tile greenAimingTile;
-    public List<Tile> arrowTiles;
 
     [Header("TileMap")]
     public Tilemap mainMap;
@@ -73,39 +78,18 @@ public class Board : MonoBehaviour
     }
 
     /**********************************************************
-    * 이동 타일 보이기 / 지우기
+    * 하이라이트 타일 보이기 / 지우기
     ***********************************************************/
-    public void ShowMovableTile(List<TileLogic> tiles)
-    {
-        for (int i = 0; i < tiles.Count; i++)
-        {
-            highlightMap.SetTile(tiles[i].pos, blueHighlightTile);
-        }
-        SetTile(highlightMap, highlightTiles);
-    }
-    /**********************************************************
-    * 스킬 범위 타일 보이기 / 지우기
-    ***********************************************************/
-    public void ShowSkillRangeTile(List<TileLogic> tiles)
+    public void ShowHighlightTile(List<TileLogic> tiles, int num)
     {
         for (int i = 0; i < tiles.Count; i++)
         {
             if(mainTiles.ContainsKey(tiles[i].pos))
             {
-                highlightMap.SetTile(tiles[i].pos, redHighlightTile);
-
-                if(mainTiles[tiles[i].pos].content != null)
-                {
-                    if (mainTiles[Turn.originTile.pos].content.GetComponent<Unit>().faction != 
-                        mainTiles[tiles[i].pos].content.GetComponent<Unit>().faction)
-                    {
-                        aimingMap.SetTile(tiles[i].pos, redAimingTile);
-                    }
-                }
+                highlightMap.SetTile(tiles[i].pos, highTiles[num]);
             }
         }
-        SetTile(highlightMap, highlightTiles);
-        
+        SetTile(highlightMap, highlightTiles);     
     }
     public void ClearTile()
     {
@@ -119,7 +103,7 @@ public class Board : MonoBehaviour
     /**********************************************************
     * 타겟 타일 보이기 / 지우기
     ***********************************************************/
-    public void ShowAimingTile(List<TileLogic> tiles)
+    public void ShowAimingTile(List<TileLogic> tiles, int num)
     {
         AffectType affectType = (AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true);
 
@@ -144,7 +128,7 @@ public class Board : MonoBehaviour
                     case AffectType.ALLY:
                         if (originUnit.faction.Equals(targetUnit.faction))
                         {
-                            aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
                             Turn.targets.Add(targetUnit);
                         }
                         break;
@@ -152,7 +136,7 @@ public class Board : MonoBehaviour
                     case AffectType.ENEMY:
                         if (!originUnit.faction.Equals(targetUnit.faction))
                         {
-                            aimingMap.SetTile(tiles[i].pos, redAimingTile);
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
                             Turn.targets.Add(targetUnit);
                         }
                         break;

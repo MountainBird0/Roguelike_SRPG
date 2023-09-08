@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tile_Highlight_Red1
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 945852591, guid: 6bea284c0182c1444875e3dd72e68e2b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.79607844}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.63529414}
   m_Transform:
     e00: 1
     e01: 0

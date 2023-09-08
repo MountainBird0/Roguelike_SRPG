@@ -1,6 +1,7 @@
 /**********************************************************
 * 타겟을 지정한 후 확인하는 state
 ***********************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,11 @@ public class SkillTargetingState : State
         if (!Turn.currentSkill.AOERange.Equals(0))
         {
             tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.AOERange);
-            
-            board.ShowSkillRangeTile(tiles);
+
+            // Debug.Log($"{GetType()} - 머 뜨는지 {(int)(AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true)}");
+
+            board.ShowHighlightTile(tiles, 1);
+            board.ShowAimingTile(tiles, (int)(AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true));
         }
 
        
