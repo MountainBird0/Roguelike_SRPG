@@ -45,7 +45,8 @@ public class TurnBeginState : State
         Vector3Int cellPosition = GetCellPosition(screenPosition);
         if (board.mainTiles.ContainsKey(cellPosition))
         {
-            if (board.mainTiles[cellPosition].content)
+            if (board.mainTiles[cellPosition].content &&
+                board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN))
             {
                 SelectUnit(cellPosition);
             }

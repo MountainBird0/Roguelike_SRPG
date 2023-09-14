@@ -39,8 +39,7 @@ public class SkillTargetingState : State
             board.ShowAimingTile(tiles, (int)(AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true));
         }
 
-       
-
+        AddTarget();
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
     }
@@ -69,15 +68,37 @@ public class SkillTargetingState : State
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
-        // 쓸 일 없음
-
-
-
-
-       
+        // 쓸 일 없음     
     }
     private void TouchEnd(Vector2 screenPosition, float time)
     {
 
+    }
+
+
+    /**********************************************************
+    * 타겟 넣기
+    ***********************************************************/
+    private void AddTarget()
+    {
+        if (Turn.targets != null)
+        {
+            Turn.targets.Clear();
+        }
+
+        if (Turn.currentSkill.AOERange.Equals(0))
+        {
+            Turn.targets.Add(board.mainTiles[Turn.selectedTile.pos].content.GetComponent<Unit>());
+        }
+        else
+        {
+            foreach (var kvp in board.aimingTiles)
+            {
+                if (board.mainTiles[kvp.Value.pos].content != null)
+                {
+                    Turn.targets.Add(board.mainTiles[kvp.Value.pos].content.GetComponent<Unit>());
+                }
+            }
+        }
     }
 }

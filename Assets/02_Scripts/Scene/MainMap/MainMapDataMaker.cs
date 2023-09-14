@@ -63,6 +63,7 @@ public class MainMapDataMaker : MonoBehaviour
     {
         Random.InitState(DataManager.instance.gameInfo.seed);
         int currentStage = DataManager.instance.gameInfo.currentStage;
+        currentStage = 3;
 
         stageLevel = DataManager.instance.stageLevels[currentStage.ToString()];
         iconProbability = DataManager.instance.iconProbabilitys[currentStage.ToString()];

@@ -107,17 +107,14 @@ public class Board : MonoBehaviour
     {
         AffectType affectType = (AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true);
 
-        if (Turn.targets != null)
-        {
-            Turn.targets.Clear();
-        }
+        int originFaction = mainTiles[Turn.originTile.pos].content.GetComponent<Unit>().faction;
 
         for (int i = 0; i < tiles.Count; i++)
         {
 
             if (mainTiles[tiles[i].pos].content != null)
             {
-                var originUnit = mainTiles[Turn.originTile.pos].content.GetComponent<Unit>();
+                
                 var targetUnit = mainTiles[tiles[i].pos].content.GetComponent<Unit>();
 
                 switch (affectType)
@@ -126,18 +123,16 @@ public class Board : MonoBehaviour
                         break;
 
                     case AffectType.ALLY:
-                        if (originUnit.faction.Equals(targetUnit.faction))
+                        if (originFaction.Equals(targetUnit.faction))
                         {
                             aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
-                            Turn.targets.Add(targetUnit);
                         }
                         break;
 
                     case AffectType.ENEMY:
-                        if (!originUnit.faction.Equals(targetUnit.faction))
+                        if (!originFaction.Equals(targetUnit.faction))
                         {
                             aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
-                            Turn.targets.Add(targetUnit);
                         }
                         break;
 
