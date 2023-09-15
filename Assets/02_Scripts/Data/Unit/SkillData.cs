@@ -16,6 +16,8 @@ public class SkillData
 
     public float multiplier;
 
+    public int coolTime;
+
     public bool isDirectional;
     public bool isAOE;
 

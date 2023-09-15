@@ -13,6 +13,8 @@ public class ChooseActionUIController : MonoBehaviour
     
     [Header("SkillSlot")]
     public List<GameObject> skillSlots;
+    public List<GameObject> coolTimeImage;
+    public List<TextMeshProUGUI> coolTimeText;
 
     [Header("StatWindow")]
     public Image unitImage;

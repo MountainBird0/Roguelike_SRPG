@@ -8,12 +8,14 @@ public class TurnEndState : State
     {
         base.Enter();
 
-
+        StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
 
     public override void Exit()
     {
         base.Exit();
-
     }
+
+    // À¯´Ö ºñÈ°¼ºÈ­, turn ±ú²ýÇÏ°Ô, 
+
 }
