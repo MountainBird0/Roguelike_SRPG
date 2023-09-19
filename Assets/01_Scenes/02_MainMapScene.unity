@@ -13323,6 +13323,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   className: {fileID: 542300507150004302}
   level: {fileID: 542300508426101428}
+  hp: {fileID: 0}
+  redBar: {fileID: 0}
   atk: {fileID: 542300508647602281}
   def: {fileID: 144194477}
   matk: {fileID: 995393101}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7892445237026056880}
   - component: {fileID: 6850951832539166568}
   m_Layer: 0
-  m_Name: Bat
+  m_Name: Brute
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1302966891, guid: 444d04e52c58bcf448818352389a5a78, type: 3}
+  m_Sprite: {fileID: -1161769086, guid: 28315554411529648a1d15476725acb4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3314e0a03ee16c347af0ef444c460acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Bat
-  image: {fileID: -1302966891, guid: 444d04e52c58bcf448818352389a5a78, type: 3}
+  unitName: Brute
+  image: {fileID: -1161769086, guid: 28315554411529648a1d15476725acb4, type: 3}
   playerType: 1
   allianceType: 2
   faction: 1

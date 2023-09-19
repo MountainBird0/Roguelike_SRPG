@@ -16,12 +16,11 @@ public class ChooseActionUIController : MonoBehaviour
     public List<GameObject> coolTimeImage;
     public List<TextMeshProUGUI> coolTimeText;
 
+    public StatInfo statInfo;
+
     [Header("StatWindow")]
     public Image unitImage;
-    public Image redBar;
-    public TextMeshProUGUI className;
-    public TextMeshProUGUI level;
-    public TextMeshProUGUI hp;
+
 
     private StringKeyImagePool unitBigPool;
     private IntKeyImagePool skillIconPool;
@@ -57,6 +56,23 @@ public class ChooseActionUIController : MonoBehaviour
     }
 
     /**********************************************************
+    * 스탯윈도우 세팅
+    ***********************************************************/
+    private void SetStatWindow()
+    {
+        var unitName = Turn.unit.unitName;
+        unitImage.sprite = unitBigPool.images[unitName];
+        statInfo.className.text = unitName;
+
+        var statData = Turn.unit.stats;
+        statInfo.level.text = statData.Level.ToString();
+        statInfo.hp.text = statData.HP.ToString() + " / " + statData.MaxHP.ToString();
+
+        float hpRatio = (float)statData.HP / statData.MaxHP;
+        statInfo.redBar.fillAmount = hpRatio;
+    }
+
+    /**********************************************************
     * 스킬 세팅
     ***********************************************************/
     private void SetSkillIcon()
@@ -75,21 +91,36 @@ public class ChooseActionUIController : MonoBehaviour
     }
 
     /**********************************************************
-    * 스탯윈도우 세팅
+    * 쿨타임 세팅
     ***********************************************************/
-    private void SetStatWindow()
+    public void SetCoolTime(int slotNum)
     {
-        var unitName = Turn.unit.unitName;
-        unitImage.sprite = unitBigPool.images[unitName];
-        className.text = unitName;
-
-        var statInfo = Turn.unit.stats;
-        level.text = statInfo.Level.ToString();
-        hp.text = statInfo.HP.ToString() + " / " + statInfo.MaxHP.ToString();
-
-        float hpRatio = (float)statInfo.HP / statInfo.MaxHP;
-        redBar.fillAmount = hpRatio;
+        for(int i = 0; i < coolTimeImage.Count; i++)
+        {
+            if(slotNum.Equals(i))
+            {
+                if(Turn.currentSkill.coolTime != 0)
+                {
+                    coolTimeImage[i].SetActive(true);
+                    coolTimeText[i].text = Turn.currentSkill.coolTime.ToString();
+                }
+            }
+            else if(coolTimeImage[i].activeSelf)
+            {
+                int currentCoolTime = int.Parse(coolTimeText[i].text);
+                currentCoolTime -= 1;
+                if(currentCoolTime <= 0)
+                {
+                    coolTimeImage[i].SetActive(false);
+                }
+                else
+                {
+                    coolTimeText[i].text = currentCoolTime.ToString();
+                }
+            }
+        }
     }
+
 
     public void ClickBtnttt()
     {

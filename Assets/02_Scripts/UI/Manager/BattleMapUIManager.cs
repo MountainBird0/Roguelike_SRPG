@@ -13,6 +13,7 @@ public class BattleMapUIManager : MonoBehaviour
 
     [Header("Controller")] // getcomponent·Î º¯°æ
     public DeployUIController deployUIController;
+    public TurnBeginUIController turnBeginUIController;
     public ChooseActionUIController ChooseActionUIController;
     public SkillSelectionUIController skillSelectionUIController;
     public ArrowSelectionUIController arrowSelectionUIController;

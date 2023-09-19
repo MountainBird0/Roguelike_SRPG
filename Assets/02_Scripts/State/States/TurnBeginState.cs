@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TurnBeginState : State
 {
+    private TurnBeginUIController uiController = BattleMapUIManager.instance.turnBeginUIController;
+
     public override void Enter()
     {
         base.Enter();
@@ -13,7 +15,7 @@ public class TurnBeginState : State
         {
             SelectUnit(Turn.selectedTile.pos);
             StateMachineController.instance.ChangeTo<ChooseActionState>();
-            return;
+            return;                   
         }
 
         InputManager.instance.OnStartTouch += TouchStart;
@@ -33,6 +35,8 @@ public class TurnBeginState : State
     {
         base.Exit();
 
+        uiController.DisableCanvas();
+
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
     }
@@ -45,10 +49,17 @@ public class TurnBeginState : State
         Vector3Int cellPosition = GetCellPosition(screenPosition);
         if (board.mainTiles.ContainsKey(cellPosition))
         {
-            if (board.mainTiles[cellPosition].content &&
-                board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN))
+            if (board.mainTiles[cellPosition].content)
             {
-                SelectUnit(cellPosition);
+                var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+                if (unit.playerType.Equals(PlayerType.HUMAN))
+                {
+                    SelectUnit(cellPosition);
+                }
+                else
+                {                   
+                    uiController.ShowStatWindow(unit); // 정보창 보여주기
+                }
             }
         }
     }
@@ -63,6 +74,7 @@ public class TurnBeginState : State
     private void SelectUnit(Vector3Int cellPosition)
     {
         Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+
         Turn.originTile = board.GetTile(cellPosition);
         Turn.currentTile = Turn.originTile;
         Turn.selectedTile = Turn.originTile;

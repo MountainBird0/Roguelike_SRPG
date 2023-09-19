@@ -3,12 +3,17 @@
 ***********************************************************/
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatInfo : MonoBehaviour
 {
-    [Header("Stat")]
     public TextMeshProUGUI className;
     public TextMeshProUGUI level;
+    public TextMeshProUGUI hp;
+    public Image redBar;
+
+
+    [Header("Stat")]
     public TextMeshProUGUI atk;
     public TextMeshProUGUI def;
     public TextMeshProUGUI matk;

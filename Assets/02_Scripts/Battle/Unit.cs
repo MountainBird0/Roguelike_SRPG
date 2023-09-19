@@ -7,6 +7,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public string unitName;
+    public Sprite image;
+
     public PlayerType playerType;
     public AllianceColorType allianceType;
     public int faction;

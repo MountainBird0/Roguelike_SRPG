@@ -80,10 +80,10 @@ public class ChooseActionState : State
             Turn.isMoving = false;
             Turn.unit.gameObject.transform.position = Turn.originTile.pos; // 원래위치로 돌아옴
  
-            if (board.mainTiles[cellPosition].content)
-            { // 누른곳에 이미 유닛이 있다면 //유닛이 Human일 때만 작동하는 조건 추가하기
+            if (board.mainTiles[cellPosition].content != null &&
+                board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)) // 누른곳에 이미 유닛이 있다면
+            {
                 ChangeUnit(cellPosition);
-                return;
             }
             else
             { // 유닛 없는곳 누름
@@ -120,8 +120,8 @@ public class ChooseActionState : State
             {
                 StateMachineController.instance.ChangeTo<SkillSelectedState>();
             }
-            return;
         }
+        
     }
 
     /**********************************************************
@@ -132,7 +132,7 @@ public class ChooseActionState : State
         Turn.currentTile = new TileLogic(cellPosition);
         Turn.selectedTile = Turn.currentTile;
 
-        StateMachineController.instance.ChangeTo<MoveSequenceState>();
+        StateMachineController.instance.ChangeTo<MoveSequenceState>();     
     }
 
     /**********************************************************

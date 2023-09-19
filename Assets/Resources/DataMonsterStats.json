@@ -1,8 +1,26 @@
 {
   "Bat": {
     "Level": 1,
-    "MaxHp": 100,
-    "Hp": 100,
+    "MaxHp": 30,
+    "Hp": 30,
+    "ATK": 20,
+    "DEF": 20,
+    "MATK": 5,
+    "MDEF": 20,
+    "HIT": 100,
+    "EVA": 10,
+    "CRI": 30,
+    "RES": 0,
+    "MOV": 3,
+    "SPEED": 5,
+    "reqEXP": 9999,
+    "DropEXP": 100,
+    "jobType": 0
+  },
+  "Brute": {
+    "Level": 1,
+    "MaxHp": 80,
+    "Hp": 80,
     "ATK": 20,
     "DEF": 20,
     "MATK": 5,
