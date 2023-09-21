@@ -2179,23 +2179,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolObjectDataList:
   - key: Warrior
-    prefab: {fileID: 2371970616265243010, guid: cf37e454d7066114ebccba89fb0ac7e2, type: 3}
+    prefab: {fileID: 7178219426333454511, guid: 47f98e03d085cc4459dc1bcdb52e5881, type: 3}
     initialObjectCount: 1
     maxObjectCount: 1
   - key: Mage
-    prefab: {fileID: 2371970616265243010, guid: 2d9d07ef5f2e1854da24e164327235c2, type: 3}
+    prefab: {fileID: 1509295126638843662, guid: 7dca3dd332268af4691738c1aa8daaad, type: 3}
     initialObjectCount: 1
     maxObjectCount: 1
   - key: Rogue
-    prefab: {fileID: 2371970616265243010, guid: 1a45c61bfbb441d4f833186695e99855, type: 3}
+    prefab: {fileID: 3166226702527022368, guid: b490f198001e3c0469715a36f5e79035, type: 3}
     initialObjectCount: 1
     maxObjectCount: 1
   - key: Bat
-    prefab: {fileID: 7821327911808474887, guid: 918ca0b0e080b52488020de09625a8a7, type: 3}
+    prefab: {fileID: 7048241894008068452, guid: 0d81251f0287ba542a2ab2960e0218ab, type: 3}
     initialObjectCount: 5
     maxObjectCount: 10
   - key: Brute
-    prefab: {fileID: 7821327911808474887, guid: fdb52758f10bf4649a6912dd70ad3063, type: 3}
+    prefab: {fileID: 9031873237375807018, guid: b6ca3c97d9f6c53498897a3e0dda4f5a, type: 3}
     initialObjectCount: 5
     maxObjectCount: 10
 --- !u!4 &514604518
@@ -9472,7 +9472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986c0bf20a82de447924cca9f028a560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillEffects:
+  skills:
   - {fileID: 4710686493140972260, guid: dcdd3b5d37365734eb4ddecbacb9b50b, type: 3}
   - {fileID: 4710686493140972260, guid: 3ec062e2463fecb4988e8f0a59e7cb9b, type: 3}
   - {fileID: 4710686493140972260, guid: 79d327c115e102f4aa10a5ad2818e327, type: 3}

@@ -64,14 +64,16 @@ public class BattleMapManager : MonoBehaviour
             for(int i = 0; i < skillList.Count; i++)
             {
                 GameObject ob;
+                
                 if(skillList[i].Equals(-1))
-                {
-                    ob = skillPool.skillEffects.Last(); 
+                {                   
+                    ob = Instantiate(skillPool.skills.Last());
                 }
                 else
                 {
-                    ob = skillPool.skillEffects[skillList[i]];
+                    ob = Instantiate(skillPool.skills[skillList[i]]);
                 }
+                ob.GetComponent<Skill>().id = skillList[i];
                 unit.skills.Add(ob);          
             }
             unit.stats = DataManager.instance.currentUnitStats[unitName];
@@ -97,11 +99,11 @@ public class BattleMapManager : MonoBehaviour
                 GameObject ob;
                 if (skillList[i].Equals(-1))
                 {
-                    ob = skillPool.skillEffects[skillList.Last()];
+                    ob = Instantiate(skillPool.skills.Last());
                 }
                 else
                 {
-                    ob = skillPool.skillEffects[skillList[i]];
+                    ob = Instantiate(skillPool.skills[skillList[i]]);
                 }
                 unit.skills.Add(ob);
             }

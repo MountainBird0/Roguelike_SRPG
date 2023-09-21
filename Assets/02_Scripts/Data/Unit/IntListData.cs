@@ -3,7 +3,7 @@
 ***********************************************************/
 using System.Collections.Generic;
 
-public class SkillListData
+public class IntListData
 {
     public List<int> list = new();
 }

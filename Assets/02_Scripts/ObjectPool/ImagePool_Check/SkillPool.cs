@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class SkillPool : MonoBehaviour
 {
-    public List<GameObject> skillEffects;
+    public List<GameObject> skills;
 }

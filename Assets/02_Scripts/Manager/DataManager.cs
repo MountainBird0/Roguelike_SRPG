@@ -33,9 +33,9 @@ public class DataManager : MonoBehaviour
     public TextAsset skillStatsText;
     public Dictionary<int, SkillData> defaultSkillStats = new();
     public TextAsset usableSkillsText;
-    public Dictionary<string, SkillListData> defaultUsableSkills = new();
+    public Dictionary<string, IntListData> defaultUsableSkills = new();
     public TextAsset monsterSkillsText;
-    public Dictionary<string, SkillListData> defaultMonsterEquipSkills = new();
+    public Dictionary<string, IntListData> defaultMonsterEquipSkills = new();
 
 
     // playing data
@@ -43,8 +43,8 @@ public class DataManager : MonoBehaviour
     public MapInfo mapInfo = new();
     
     public Dictionary<string, StatData> currentUnitStats = new();
-    public Dictionary<string, SkillListData> currentUsableSkills = new();
-    public Dictionary<string, SkillListData> currentEquipSkills = new();
+    public Dictionary<string, IntListData> currentUsableSkills = new();
+    public Dictionary<string, IntListData> currentEquipSkills = new();
 
     public List<IconNode> nodes = new();
 
@@ -76,8 +76,8 @@ public class DataManager : MonoBehaviour
         defaultMonsterGrowStats = JsonConvert.DeserializeObject<Dictionary<string, StatGrowData>>(monsterGrowText.ToString());
 
         defaultSkillStats = JsonConvert.DeserializeObject<Dictionary<int, SkillData>>(skillStatsText.ToString());
-        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(usableSkillsText.ToString());
-        defaultMonsterEquipSkills = JsonConvert.DeserializeObject<Dictionary<string, SkillListData>>(monsterSkillsText.ToString());
+        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, IntListData>>(usableSkillsText.ToString());
+        defaultMonsterEquipSkills = JsonConvert.DeserializeObject<Dictionary<string, IntListData>>(monsterSkillsText.ToString());
 
         // 이거 이어하기때는 안해도 ㄱㅊ 수정
         currentUnitStats = defaultUnitStats;
@@ -87,7 +87,7 @@ public class DataManager : MonoBehaviour
         foreach (var kvp in currentUsableSkills)
         {
             Debug.Log($"{GetType()} - 체크 {kvp.Key}");
-            SkillListData numList = new();
+            IntListData numList = new();
 
             for(int i = 0; i < 3; i++)
             {

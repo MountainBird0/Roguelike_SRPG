@@ -81,7 +81,8 @@ public class ChooseActionState : State
             Turn.unit.gameObject.transform.position = Turn.originTile.pos; // 원래위치로 돌아옴
  
             if (board.mainTiles[cellPosition].content != null &&
-                board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)) // 누른곳에 이미 유닛이 있다면
+                board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
+                && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd) // 누른곳에 이미 유닛이 있다면
             {
                 ChangeUnit(cellPosition);
             }

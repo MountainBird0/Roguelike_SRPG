@@ -190,7 +190,7 @@ public class MainMapUIController : MonoBehaviour
     ***********************************************************/
     private void SetEquipSkills()
     {
-        SkillListData skillList = new();
+        IntListData skillList = new();
 
         for (int i = 0; i < equipSkillSlots.Count; i++)
         {

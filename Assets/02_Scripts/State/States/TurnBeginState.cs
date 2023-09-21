@@ -52,7 +52,8 @@ public class TurnBeginState : State
             if (board.mainTiles[cellPosition].content)
             {
                 var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
-                if (unit.playerType.Equals(PlayerType.HUMAN))
+                if (unit.playerType.Equals(PlayerType.HUMAN)
+                    && !unit.isTurnEnd)
                 {
                     SelectUnit(cellPosition);
                 }

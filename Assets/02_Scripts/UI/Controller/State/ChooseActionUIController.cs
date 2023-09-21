@@ -77,49 +77,27 @@ public class ChooseActionUIController : MonoBehaviour
     ***********************************************************/
     private void SetSkillIcon()
     {
-        var skill = DataManager.instance.currentEquipSkills[Turn.unit.unitName];
-
-        for(int i = 0; i < skillSlots.Count; i++)
+        for(int i = 0; i < Turn.unit.skills.Count; i++)
         {
-            var id = skill.list[i];
-            //var slotInfo = skillSlots[i].GetComponent<SkillSlot>();
+            var skill = Turn.unit.skills[i].GetComponent<Skill>();
+            
             var slotInfo = skillSlots[i].GetComponent<BattleSkillSlot>();
             slotInfo.slotNum = i;
-            slotInfo.id = id;
-            slotInfo.image.sprite = skillIconPool.images[id];
+            slotInfo.id = skill.id;
+            slotInfo.image.sprite = skill.image;
+
+            if (skill.coolTime > 0)
+            {
+                coolTimeImage[i].SetActive(true);
+                coolTimeText[i].text = skill.coolTime.ToString();
+            }
+            else
+            {
+                coolTimeImage[i].SetActive(false);
+            }
         }
     }
 
-    /**********************************************************
-    * ÄðÅ¸ÀÓ ¼¼ÆÃ
-    ***********************************************************/
-    public void SetCoolTime(int slotNum)
-    {
-        for(int i = 0; i < coolTimeImage.Count; i++)
-        {
-            if(slotNum.Equals(i))
-            {
-                if(Turn.currentSkill.coolTime != 0)
-                {
-                    coolTimeImage[i].SetActive(true);
-                    coolTimeText[i].text = Turn.currentSkill.coolTime.ToString();
-                }
-            }
-            else if(coolTimeImage[i].activeSelf)
-            {
-                int currentCoolTime = int.Parse(coolTimeText[i].text);
-                currentCoolTime -= 1;
-                if(currentCoolTime <= 0)
-                {
-                    coolTimeImage[i].SetActive(false);
-                }
-                else
-                {
-                    coolTimeText[i].text = currentCoolTime.ToString();
-                }
-            }
-        }
-    }
 
 
     public void ClickBtnttt()

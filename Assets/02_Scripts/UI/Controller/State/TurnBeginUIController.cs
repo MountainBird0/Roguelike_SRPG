@@ -35,5 +35,8 @@ public class TurnBeginUIController : MonoBehaviour
         statInfo.eva.text = statData.EVA.ToString();
         statInfo.cri.text = statData.CRI.ToString();
         statInfo.res.text = statData.RES.ToString();
+
+        float hpRatio = (float)statData.HP / statData.MaxHP;
+        statInfo.redBar.fillAmount = hpRatio;
     }
 }

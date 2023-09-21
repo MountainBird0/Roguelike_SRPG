@@ -14,6 +14,7 @@ public class DamageEffect : SkillEffect
             int damage = (int)(Turn.unit.stats.ATK * Turn.currentSkill.multiplier);
 
             Turn.targets[i].stats.HP -= damage;
+            Turn.targets[i].SetHealthBar();
 
             Debug.Log($"{GetType()} - ¶§¸° ÈÄ {Turn.targets[i].stats.HP}");
         }
