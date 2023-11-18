@@ -74,6 +74,7 @@ public class SkillSelectedState : State
     ***********************************************************/
     private void ShowRangeTile()
     {
+
         tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.range);
         board.ShowHighlightTile(tiles, 2);
         board.ShowAimingTile(tiles, 2);

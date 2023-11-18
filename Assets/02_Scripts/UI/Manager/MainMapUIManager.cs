@@ -4,6 +4,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class MainMapUIManager : MonoBehaviour
@@ -42,7 +44,10 @@ public class MainMapUIManager : MonoBehaviour
             var ob = Instantiate(unitSlot, unitContent);
             // ob.name = kvp.Key;
             var slot = ob.GetComponent<UnitSlot>();
+
+
             slot.icon.sprite = unitSmallPool.images[kvp.Key];
+
             slot.name = kvp.Key;
 
             controller.unitButtons.Add(slot.name, ob.GetComponent<Button>());
@@ -71,7 +76,9 @@ public class MainMapUIManager : MonoBehaviour
                 ob.transform.localScale = new Vector3(1f, 1f, 1f); // ¼öÁ¤
 
                 var slot = ob.GetComponent<SkillSlot>();
-                slot.image.sprite = skillIconPool.images[SkillId];
+
+                slot.image.sprite = AddressableManager.instance.GetImage(SkillId.ToString());
+                // slot.image.sprite = skillIconPool.images[SkillId];
                 slot.id = SkillId;
                 slot.check.SetActive(false);
                
@@ -87,7 +94,8 @@ public class MainMapUIManager : MonoBehaviour
             if (skillSlots.ContainsKey(SkillId))
             {
                 var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-                slot.image.sprite = skillIconPool.images[SkillId];
+                slot.image.sprite = AddressableManager.instance.GetImage(SkillId.ToString());
+                // slot.image.sprite = skillIconPool.images[SkillId];
                 slot.id = SkillId;
 
                 skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
@@ -95,7 +103,8 @@ public class MainMapUIManager : MonoBehaviour
             else
             {
                 var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-                slot.image.sprite = skillIconPool.images[SkillId];
+                slot.image.sprite = AddressableManager.instance.GetImage(SkillId.ToString());
+                // slot.image.sprite = skillIconPool.images[SkillId];
                 slot.id = SkillId;
             }
         }

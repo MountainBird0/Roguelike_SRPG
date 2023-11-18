@@ -8,9 +8,10 @@ public class TurnEndState : State
     {
         base.Enter();
 
+        ClearCheck();
         SetUnitPos();
         SetCoolTime();
-        TurnClear();
+        ActableUnitCheck();
         StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
 
@@ -18,6 +19,12 @@ public class TurnEndState : State
     {
         base.Exit();
     }
+
+    public void ClearCheck()
+    {
+        // BattleMapManager.instance.GameCheck()
+    }
+
 
     private void SetUnitPos()
     {
@@ -36,7 +43,7 @@ public class TurnEndState : State
         {
             var skill = Turn.unit.skills[i].GetComponent<Skill>();
 
-            if (Turn.slotNum.Equals(i))
+            if (Turn.skillSlotNum.Equals(i))
             {
                 if (defaultCoolTime != 0) // 쿨타임이 0인 스킬은 넘어감
                 {
@@ -50,14 +57,31 @@ public class TurnEndState : State
         }
     }
 
-    private void TurnClear()
+    private void ActableUnitCheck()
     {
-        // Turn.unit.isTurnEnd = true;
-        Turn.slotNum = -1;
-        Turn.currentSkill = null;
-        
-        Turn.unit = null;
+        if(Turn.isHumanTurn)
+        {
+            Turn.isHumanTurn = BattleMapManager.instance.isHumanTurnFinish(Turn.unit.unitNum);
+        }
+        else
+        {
+            if(BattleMapManager.instance.isAITurnFinish(Turn.unit.unitNum))
+            {
+                // 턴 오르는 ui // 다음 턴 시작
+
+                Turn.turnCount++;
+            }
+
+        }
+
+
+
+        Turn.Clear();
+
+
     }
+
+
 
 
 

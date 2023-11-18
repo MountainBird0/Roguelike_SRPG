@@ -17,6 +17,10 @@ public class TurnBeginState : State
             StateMachineController.instance.ChangeTo<ChooseActionState>();
             return;                   
         }
+        // 움직일 수 있는 아군유닛 있는지 확인
+        //if()
+
+
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;

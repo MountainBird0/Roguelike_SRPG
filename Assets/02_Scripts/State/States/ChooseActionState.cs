@@ -27,7 +27,7 @@ public class ChooseActionState : State
 
         uiController.EnableCanvas();
 
-        if (!Turn.isMoving)
+        if (!Turn.hasMoved)
         {
             ShowMoveableTile();
         }
@@ -77,7 +77,7 @@ public class ChooseActionState : State
         { 
             board.ClearTile();
 
-            Turn.isMoving = false;
+            Turn.hasMoved = false;
             Turn.unit.gameObject.transform.position = Turn.originTile.pos; // 원래위치로 돌아옴
  
             if (board.mainTiles[cellPosition].content != null &&
@@ -106,12 +106,18 @@ public class ChooseActionState : State
         var ob = clickResults[0].gameObject;
         if (ob.CompareTag("EquipSlot"))
         {
-            Turn.isMoving = false;
+            Turn.hasMoved = false;
             board.ClearTile();
 
             var slot = ob.GetComponent<BattleSkillSlot>();
-            Turn.slotNum = slot.slotNum;
+            Turn.skillSlotNum = slot.slotNum;
+
+            Debug.Log($"{GetType()} - 슬롯아디{slot.id}");
+
             Turn.currentSkill = DataManager.instance.defaultSkillStats[slot.id];
+
+            Debug.Log($"{GetType()} - 범위{Turn.currentSkill.range}");
+            Debug.Log($"{GetType()} - 범위{Turn.currentSkill.name}");
 
             if (Turn.currentSkill.isDirectional)
             {

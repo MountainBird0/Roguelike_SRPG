@@ -13,14 +13,69 @@ public class TitleUIController : MonoBehaviour
         Nothing,   // 아무것도 뜨지 않은 상태
         ShowPopUp, // 팝업창이 떠있는 상태
     }
-
     private UiState currentState;
 
-    public TitleUIManager UIMgr;
-
-    public GameObject NewGamePopUp;
-    public GameObject ContinuePopUp;
+    #region 팝업
+    [SerializeField]
+    private GameObject NewGamePopUp;
+    [SerializeField]
+    private GameObject ContinuePopUp;
+    [SerializeField]
+    private GameObject DownloadPopUp;
+    [SerializeField]
+    private GameObject CheckPopUp;
+    #endregion
     // 유물, 업적 등 추가
+
+    private void Awake()
+    {
+        currentState = UiState.ShowPopUp;
+    }
+
+    /**********************************************************
+    * 리소스 확인 팝업 비활성화
+    ***********************************************************/
+    public void HideCheckPopUp()
+    {
+        CheckPopUp.SetActive(false);
+        currentState = UiState.Nothing;
+    }
+
+    /**********************************************************
+    * 리소스 다운로드 팝업 활성화
+    ***********************************************************/
+    public void ShowDownloadPopUp()
+    {
+        DownloadPopUp.SetActive(true);
+    }
+
+
+
+    /**********************************************************
+    * 리소스 다운로드 확인버튼
+    ***********************************************************/
+    public void ClickBtnDownloadYes()
+    {
+        if (currentState.Equals(UiState.ShowPopUp))
+        {
+            Debug.LogWarning($"{GetType()} - 다운로드 누름");
+            DownloadManager.instance.Download();
+            currentState = UiState.Nothing;
+        }
+    }
+    /**********************************************************
+    * 리소스 다운로드 종료버튼
+    ***********************************************************/
+    public void ClickBtnDownloadNo()
+    {
+        if (currentState.Equals(UiState.ShowPopUp))
+        {
+
+        }
+    }
+
+
+
 
     /**********************************************************
     * 이어하기 버튼을 눌렀을 때
@@ -38,15 +93,21 @@ public class TitleUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnContinueYes()
     {
-        GameManager.instance.StarContinueGame();
+        if (currentState.Equals(UiState.ShowPopUp))
+        {
+            GameManager.instance.StarContinueGame();
+        }
     }
     /**********************************************************
     * 이어하기 버튼을 누른 후 X 버튼
     ***********************************************************/
     public void ClickBtnContinueNo()
     {
-        ContinuePopUp.SetActive(false);
-        currentState = UiState.Nothing;
+        if (currentState.Equals(UiState.ShowPopUp))
+        {
+            ContinuePopUp.SetActive(false);
+            currentState = UiState.Nothing;
+        }
     }
 
     /**********************************************************
@@ -56,6 +117,7 @@ public class TitleUIController : MonoBehaviour
     {
         if(currentState.Equals(UiState.Nothing))
         {
+            Debug.Log($"{GetType()} - 새로하기 누름");
             NewGamePopUp.SetActive(true);
             currentState = UiState.ShowPopUp;
         }
@@ -65,15 +127,21 @@ public class TitleUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnNewGameYes()
     {
-        GameManager.instance.StartNewGame();
+        if (currentState.Equals(UiState.ShowPopUp))
+        {
+            GameManager.instance.StartNewGame();
+        }
     }
     /**********************************************************
     * 새로하기 버튼을 누른 후 X 버튼
     ***********************************************************/
     public void ClickBtnNewGameNo()
     {
-        NewGamePopUp.SetActive(false);
-        currentState = UiState.Nothing;
+        if (currentState.Equals(UiState.ShowPopUp))
+        {
+            NewGamePopUp.SetActive(false);
+            currentState = UiState.Nothing; 
+        }
     }
 
     /**********************************************************

@@ -27,7 +27,7 @@ public class PerformSkillState : State
     {
         //var ob = Turn.unit.skills[Turn.slotNum];
         //var skill = Turn.unit.skills[Turn.slotNum].GetComponent<SkillEffect>();
-        Turn.unit.skills[Turn.slotNum].GetComponent<SkillEffect>().Apply();
+        Turn.unit.skills[Turn.skillSlotNum].GetComponent<SkillEffect>().Apply();
     }
 
 }

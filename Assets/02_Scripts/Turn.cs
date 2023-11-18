@@ -6,6 +6,12 @@ using UnityEngine;
 
 public static class Turn
 {
+    // 전체
+    public static int turnCount = 0;
+    public static bool isHumanTurn = true;
+    
+    
+    // 지금 움직이는 유닛에 대해
     public static Unit unit;
 
     public static TileLogic originTile;    // 턴 시작 시 유닛의 위치
@@ -14,14 +20,32 @@ public static class Turn
 
     public static Vector3Int direction;
 
-    public static int slotNum;
+    public static int skillSlotNum;
     public static SkillData currentSkill;
 
-    public static bool isMoving = false;
+    public static bool hasMoved = false;
 
     // 둘 중 하나 쓸 듯
-    public static List<TileLogic> targetTiles = new();
+    //public static List<TileLogic> targetTiles = new();
     public static List<Unit> targets = new();
+
+    public static void Clear()
+    {
+        unit = null;
+        originTile = null;
+        currentTile = null;
+        selectedTile = null;
+
+        direction = Vector3Int.zero;
+
+        skillSlotNum = -1;
+
+        currentSkill = null;
+
+        hasMoved = false;
+
+        targets = null;
+    }
 
 
 

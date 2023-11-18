@@ -86,7 +86,6 @@ public class DataManager : MonoBehaviour
         currentUsableSkills = defaultUsableSkills;
         foreach (var kvp in currentUsableSkills)
         {
-            Debug.Log($"{GetType()} - üũ {kvp.Key}");
             IntListData numList = new();
 
             for(int i = 0; i < 3; i++)

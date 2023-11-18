@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UnitIcon
+  m_EditorClassIdentifier: 
+  m_GroupName: UnitIcon
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 15bb396de03f833479b2da155af701be
+  m_SerializeEntries:
+  - m_GUID: 111bf6fb6b0cfcf40a79f7d3cb0bebe9
+    m_Address: Warrior
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UnitIcon
+  - m_GUID: c388721e42a622a4593bccf2f2c2eea8
+    m_Address: Mage
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UnitIcon
+  - m_GUID: c511377a9b12e4843a0a0b38bd33a1f7
+    m_Address: Huntress
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UnitIcon
+  - m_GUID: 2e8942cbc8b947d4dae8de964adcf9d0
+    m_Address: Rogue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UnitIcon
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 306a0cd4b28bca94985dbb4ed09cc2d7, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bedbe4af022122c4388195588941b9c1, type: 2}
+    - {fileID: 11400000, guid: 0f37f91a765def946b43499895a92080, type: 2}

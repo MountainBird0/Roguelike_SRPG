@@ -18,12 +18,9 @@ public class MonsterMaker : MonoBehaviour
             var info = monsterList.monsters[i];
             GameObject ob = ObjectPoolManager.instance.Spawn(info.name);
             ob.transform.position = info.pos;
+            mainTiles[info.pos].content = ob;
 
-            Debug.Log($"{GetType()} - 만들어질때 {DataManager.instance.defaultMonsterStats[info.name].HP}");
-            mainTiles[info.pos].content = ob; // 이거 안쓸수도
-            ob.GetComponent<Unit>().stats = DataManager.instance.defaultMonsterStats[info.name];
-            Debug.Log($"{GetType()} - 만들어질때 {ob.GetComponent<Unit>().stats.HP}");
-            BattleMapManager.instance.AddMonster(ob.GetComponent<Unit>(), mainTiles[info.pos]);
+            BattleMapManager.instance.UnitSetting(ob.GetComponent<Unit>());
         }
     }
 }

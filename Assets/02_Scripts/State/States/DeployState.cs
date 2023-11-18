@@ -35,7 +35,7 @@ public class DeployState : State
         
         uiController.DisableWindow();
         board.deployMap.gameObject.SetActive(false);
-        // deployTiles 삭제 밑 올려둔거 mainTile에 저장 mgr에서 할지?
+        // deployTiles 삭제 올려둔거 mainTile에 저장 mgr에서 할지?
 
         AddUnits();
         CopyContent();
@@ -170,8 +170,7 @@ public class DeployState : State
             if(pair.Value.content != null)
             {
                 unit = pair.Value.content.GetComponent<Unit>();
-                tileLogic = pair.Value;
-                BattleMapManager.instance.AddUnit(unit, tileLogic);
+                BattleMapManager.instance.UnitSetting(unit);
             }
         }
     }

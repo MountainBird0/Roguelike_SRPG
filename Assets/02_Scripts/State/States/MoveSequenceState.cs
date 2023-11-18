@@ -18,7 +18,7 @@ public class MoveSequenceState : State
     private void MoveUnit()
     {
         Turn.unit.gameObject.transform.position = Turn.selectedTile.pos;
-        Turn.isMoving = true;
+        Turn.hasMoved = true;
         // 움직이는 ani 추가
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();

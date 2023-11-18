@@ -22,6 +22,8 @@ public class SceneLoad : MonoBehaviour
         operation = GlobalSceneManager.instance.GoScene(sceneNum);
         operation.allowSceneActivation = false;
 
+        AddressableManager.instance.MakeImageAsync();
+
         float timer = 0f;
         while (!operation.isDone)
         {

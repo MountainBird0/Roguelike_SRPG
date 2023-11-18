@@ -22,8 +22,13 @@ public class BattleMapManager : MonoBehaviour
     [HideInInspector]
     public Board board; // 생성된 맵에서 불러올 board
 
-    [HideInInspector]
-    public List<Unit> units; // 유닛 리스트
+    private int unitNum;
+    private Dictionary<int, Unit> allyUnits = new();
+    private Dictionary<int, Unit> enemyUnits = new();
+
+    private Dictionary<int, Unit> HumanUnits = new();
+    private Dictionary<int, Unit> AIUnits = new();
+
 
     private void Awake()
     {
@@ -36,6 +41,9 @@ public class BattleMapManager : MonoBehaviour
             Debug.LogWarning($"{GetType()} - Destory");
             Destroy(gameObject);
         }
+
+        Debug.Log($"{GetType()} - 실행");
+        unitNum = 0;
     }
 
     /**********************************************************
@@ -50,78 +58,120 @@ public class BattleMapManager : MonoBehaviour
     }
 
     /**********************************************************
-    * 유닛 리스트에 플레이어 넣기
+    * 생성된 유닛 스텟, 스킬 세팅하기
     ***********************************************************/
-    public void AddUnit(Unit unit, TileLogic TL)
+    public void UnitSetting(Unit unit)
     {
-        units.Add(unit);
-        string unitName = unit.unitName;
+        string name = unit.unitName;
+        unit.unitNum = unitNum++;
+        List<int> skillList = null;
 
-        unit.tile = TL; // 이거 쓸까
-        if(DataManager.instance.currentUnitStats.ContainsKey(unitName))
+        if (DataManager.instance.currentUnitStats.ContainsKey(name))
         {
-            var skillList = DataManager.instance.currentEquipSkills[unitName].list;
-            for(int i = 0; i < skillList.Count; i++)
-            {
-                GameObject ob;
-                
-                if(skillList[i].Equals(-1))
-                {                   
-                    ob = Instantiate(skillPool.skills.Last());
-                }
-                else
-                {
-                    ob = Instantiate(skillPool.skills[skillList[i]]);
-                }
-                ob.GetComponent<Skill>().id = skillList[i];
-                unit.skills.Add(ob);          
-            }
-            unit.stats = DataManager.instance.currentUnitStats[unitName];
-            unit.maxStats = unit.stats;
+            unit.stats = DataManager.instance.currentUnitStats[name];
+            skillList = DataManager.instance.currentEquipSkills[name].list;
+            allyUnits.Add(unit.unitNum, unit);
         }
-        // 몬스터도 나중에 추가
+        else if(DataManager.instance.defaultMonsterStats.ContainsKey(name))
+        {
+            unit.stats = DataManager.instance.defaultMonsterStats[name];
+            skillList = DataManager.instance.defaultMonsterEquipSkills[name].list;
+            enemyUnits.Add(unit.unitNum, unit);
+        }
+
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            GameObject ob;
+            if (skillList[i].Equals(-1))
+            {
+                ob = Instantiate(skillPool.skills.Last());
+            }
+            else
+            {
+                ob = Instantiate(skillPool.skills[skillList[i]]);
+            }
+            ob.GetComponent<Skill>().id = skillList[i];
+            unit.skills.Add(ob);
+        }       
     }
 
     /**********************************************************
-    * 유닛 리스트에 몬스터 넣기
+    * 행동 가능한 유닛 초기화
     ***********************************************************/
-    public void AddMonster(Unit unit, TileLogic TL)
+    public void ResetUnit()
     {
-        units.Add(unit);
-        string unitName = unit.unitName;
-
-        unit.tile = TL; // 이거 쓸까
-        if (DataManager.instance.defaultMonsterStats.ContainsKey(unitName))
-        {
-            var skillList = DataManager.instance.defaultMonsterEquipSkills[unitName].list;
-            for (int i = 0; i < skillList.Count; i++)
-            {
-                GameObject ob;
-                if (skillList[i].Equals(-1))
-                {
-                    ob = Instantiate(skillPool.skills.Last());
-                }
-                else
-                {
-                    ob = Instantiate(skillPool.skills[skillList[i]]);
-                }
-                unit.skills.Add(ob);
-            }
-        }
+        HumanUnits = allyUnits;
+        AIUnits = enemyUnits; 
     }
 
+
+
     /**********************************************************
-    * 유닛 리스트에 Player있는지 확인
+    * 행동 끝난 아군유닛 빼고 아군턴 다 끝났는지 확인
     ***********************************************************/
-    public bool IsHuman()
+    public bool isHumanTurnFinish(int num)
     {
-        for(int i = 0; i < units.Count; i++)
+        if(HumanUnits.ContainsKey(num))
         {
-            if(units[i].playerType == PlayerType.HUMAN)
-            {
-                return true;
-            }
+            HumanUnits.Remove(num);
+        }
+
+        if(HumanUnits.Count.Equals(0))
+        {
+            return false;
+        }
+        return true;
+    }
+    /**********************************************************
+    * 행동 끝난 적 유닛 빼고 턴 끝났는지 확인
+    ***********************************************************/
+    public bool isAITurnFinish(int num)
+    {
+        if(AIUnits.ContainsKey(num))
+        {
+            AIUnits.Remove(num);
+        }
+
+        if(AIUnits.Count.Equals(0))
+        {
+            ResetUnit();
+            return true;
         }
         return false;
     }
+
+    /**********************************************************
+    * 죽은유닛 빼기
+    ***********************************************************/
+    public void DeleteUnit(Unit unit)
+    {
+        int num = unit.unitNum;
+
+        if (allyUnits.ContainsKey(num))
+        {
+            allyUnits.Remove(num);
+        }
+        else if (enemyUnits.ContainsKey(num))
+        {
+            enemyUnits.Remove(num);
+        }
+    }
+
+    /**********************************************************
+    * 게임 클리어여부 확인
+    ***********************************************************/
+    public void GameCheck()
+    {
+        if (allyUnits.Count.Equals(0))
+        {
+            // 패배
+
+        }
+        else if (enemyUnits.Count.Equals(0))
+        {
+            // 승리
+
+        }
+    }
+
 }

@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(DownloadManager.instance.InitAddressable());
+        StartCoroutine(DownloadManager.instance.CheckUpdateFiles());
+
         DataManager.instance.LoadDefaultData();
         hasSaveData = DataManager.instance.LoadPlayingData();
     }

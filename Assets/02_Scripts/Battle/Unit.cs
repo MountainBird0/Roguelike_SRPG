@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
-
     public string unitName;
+    public int unitNum;
+
     public GameObject body;
     public Sprite image;
     public Image redBar;
@@ -30,12 +31,24 @@ public class Unit : MonoBehaviour
     public StatData maxStats; // 레벨업 등 할 때 마다 maxStat 갱신해서 사용하기
     public StatData stats;
 
+    public void SetStat()
+    {
+
+    }
+
+
 
     public void SetHealthBar()
     {
         float hpRatio = (float)stats.HP / stats.MaxHP;
         redBar.fillAmount = hpRatio;
     }
+
+    public void Die()
+    {
+
+    }
+
 
 }
 
