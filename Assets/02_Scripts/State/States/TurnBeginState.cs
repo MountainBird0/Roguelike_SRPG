@@ -18,7 +18,16 @@ public class TurnBeginState : State
             return;                   
         }
         // 움직일 수 있는 아군유닛 있는지 확인
-        //if()
+        if(!Turn.isHumanTurn)
+        {
+            Debug.Log($"{GetType()} - AI턴");
+            foreach(var kvp in BattleMapManager.instance.AIUnits)
+            {
+                SelectUnit(kvp.Value.currentPos);
+                break;
+            }
+            StateMachineController.instance.ChangeTo<ChooseActionState>();
+        }
 
 
 
@@ -56,8 +65,7 @@ public class TurnBeginState : State
             if (board.mainTiles[cellPosition].content)
             {
                 var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
-                if (unit.playerType.Equals(PlayerType.HUMAN)
-                    && !unit.isTurnEnd)
+                if(BattleMapManager.instance.HumanUnits.ContainsKey(unit.unitNum))
                 {
                     SelectUnit(cellPosition);
                 }

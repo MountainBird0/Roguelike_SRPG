@@ -105,7 +105,7 @@ public class Board : MonoBehaviour
     ***********************************************************/
     public void ShowAimingTile(List<TileLogic> tiles, int num)
     {
-        AffectType affectType = (AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true);
+        AffectType affectType = Turn.currentSkill.affectType;
 
         int originFaction = mainTiles[Turn.originTile.pos].content.GetComponent<Unit>().faction;
 
@@ -129,7 +129,28 @@ public class Board : MonoBehaviour
                         }
                         break;
 
+                    case AffectType.HEAL:
+                        if (originFaction.Equals(targetUnit.faction))
+                        {
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
+                        }
+                        break;
+
+                    case AffectType.BUFF:
+                        if (originFaction.Equals(targetUnit.faction))
+                        {
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
+                        }
+                        break;
+
                     case AffectType.ENEMY:
+                        if (!originFaction.Equals(targetUnit.faction))
+                        {
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
+                        }
+                        break;
+
+                    case AffectType.ATTACK:
                         if (!originFaction.Equals(targetUnit.faction))
                         {
                             aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
@@ -203,6 +224,12 @@ public class Board : MonoBehaviour
             t.prev = null;
             t.distance = int.MaxValue;
         }
+    }
+    public bool ISMovable(TileLogic from, TileLogic to, int range)
+    {
+        to.distance = from.distance + 1;
+
+        return (to.content == null && to.distance <= range);
     }
 
     /**********************************************************

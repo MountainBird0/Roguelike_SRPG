@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class LineRange : MonoBehaviour
 {
-    public List<TileLogic> GetTilesInRange(Board board, int range)
-    {
-        Vector3Int currentPos = Turn.selectedTile.pos;
-        
+    public List<TileLogic> GetTilesInRange(Board board, Vector3Int currentPos, int range)
+    {       
         List<TileLogic> tileLogics = new();
         TileLogic tile;
 

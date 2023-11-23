@@ -11,6 +11,8 @@ public class Skill : MonoBehaviour
     [HideInInspector]
     public int id;
 
+    public SkillData data;
+
     public void SetCoolTime(int coolTime)
     {
         this.coolTime = coolTime;

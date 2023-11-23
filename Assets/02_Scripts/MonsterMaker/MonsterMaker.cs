@@ -20,7 +20,9 @@ public class MonsterMaker : MonoBehaviour
             ob.transform.position = info.pos;
             mainTiles[info.pos].content = ob;
 
-            BattleMapManager.instance.UnitSetting(ob.GetComponent<Unit>());
+            var unit = ob.GetComponent<Unit>();
+            unit.currentPos = info.pos;
+            BattleMapManager.instance.UnitSetting(unit);
         }
     }
 }

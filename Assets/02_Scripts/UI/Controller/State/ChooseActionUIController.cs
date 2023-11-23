@@ -38,7 +38,7 @@ public class ChooseActionUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnEnd()
     {
-        StateMachineController.instance.ChangeTo<TurnBeginState>();
+        StateMachineController.instance.ChangeTo<TurnEndState>();
     }
 
     /**********************************************************
@@ -83,7 +83,6 @@ public class ChooseActionUIController : MonoBehaviour
             
             var slotInfo = skillSlots[i].GetComponent<BattleSkillSlot>();
             slotInfo.slotNum = i;
-            Debug.Log($"{GetType()} - 스킬아디{skill.id}");
             slotInfo.id = skill.id;
             slotInfo.image.sprite = skill.image;
 

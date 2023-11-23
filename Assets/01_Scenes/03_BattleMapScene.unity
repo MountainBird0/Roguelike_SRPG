@@ -7266,9 +7266,9 @@ MonoBehaviour:
   selector: {fileID: 746837344}
   map: {fileID: 645704671}
   rangeSearchMachine: {fileID: 1608171932}
+  aiController: {fileID: 1606703026}
   skillPool: {fileID: 2094683849}
   board: {fileID: 0}
-  units: []
 --- !u!1 &1648039028
 GameObject:
   m_ObjectHideFlags: 0

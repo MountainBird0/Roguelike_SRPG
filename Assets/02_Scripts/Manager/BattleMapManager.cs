@@ -15,6 +15,7 @@ public class BattleMapManager : MonoBehaviour
 
     [Header("Machine")]
     public RangeSearchMachine rangeSearchMachine;
+    public AIController aiController;
 
     [Header("SkillPool")]
     public SkillPool skillPool;
@@ -26,8 +27,8 @@ public class BattleMapManager : MonoBehaviour
     private Dictionary<int, Unit> allyUnits = new();
     private Dictionary<int, Unit> enemyUnits = new();
 
-    private Dictionary<int, Unit> HumanUnits = new();
-    private Dictionary<int, Unit> AIUnits = new();
+    public Dictionary<int, Unit> HumanUnits = new();
+    public Dictionary<int, Unit> AIUnits = new();
 
 
     private void Awake()
@@ -55,6 +56,8 @@ public class BattleMapManager : MonoBehaviour
 
         GameObject Map = GameObject.FindGameObjectWithTag("Map");
         board = Map.GetComponent<Board>();
+        rangeSearchMachine.SetBoard(board);
+        aiController.SetMachineBoard(rangeSearchMachine, board);
     }
 
     /**********************************************************
@@ -71,6 +74,7 @@ public class BattleMapManager : MonoBehaviour
             unit.stats = DataManager.instance.currentUnitStats[name];
             skillList = DataManager.instance.currentEquipSkills[name].list;
             allyUnits.Add(unit.unitNum, unit);
+            Debug.Log($"{GetType()} - 들어간유닛수{allyUnits.Count}");
         }
         else if(DataManager.instance.defaultMonsterStats.ContainsKey(name))
         {
@@ -84,24 +88,38 @@ public class BattleMapManager : MonoBehaviour
             GameObject ob;
             if (skillList[i].Equals(-1))
             {
-                ob = Instantiate(skillPool.skills.Last());
+                // ob = Instantiate(skillPool.skills.Last());
+                ob = skillPool.skills.Last();
             }
             else
             {
-                ob = Instantiate(skillPool.skills[skillList[i]]);
+                // ob = Instantiate(skillPool.skills[skillList[i]]);
+                ob = skillPool.skills[skillList[i]];
+                ob.GetComponent<Skill>().data = DataManager.instance.defaultSkillStats[skillList[i]];
             }
             ob.GetComponent<Skill>().id = skillList[i];
+            
             unit.skills.Add(ob);
         }       
     }
+
 
     /**********************************************************
     * 행동 가능한 유닛 초기화
     ***********************************************************/
     public void ResetUnit()
     {
-        HumanUnits = allyUnits;
-        AIUnits = enemyUnits; 
+        foreach(var kvp in allyUnits)
+        {
+            kvp.Value.isTurnEnd = false;
+        }
+        foreach (var kvp in AIUnits)
+        {
+            kvp.Value.isTurnEnd = false;
+        }
+
+        HumanUnits = new(allyUnits);
+        AIUnits = new(enemyUnits); 
     }
 
 
@@ -113,6 +131,7 @@ public class BattleMapManager : MonoBehaviour
     {
         if(HumanUnits.ContainsKey(num))
         {
+            HumanUnits[num].isTurnEnd = true;
             HumanUnits.Remove(num);
         }
 
@@ -129,6 +148,7 @@ public class BattleMapManager : MonoBehaviour
     {
         if(AIUnits.ContainsKey(num))
         {
+            AIUnits[num].isTurnEnd = true;
             AIUnits.Remove(num);
         }
 
@@ -160,18 +180,37 @@ public class BattleMapManager : MonoBehaviour
     /**********************************************************
     * 게임 클리어여부 확인
     ***********************************************************/
-    public void GameCheck()
+    public void ClearCheck()
     {
         if (allyUnits.Count.Equals(0))
         {
-            // 패배
-
+            Debug.Log($"{GetType()} - 패배");
+            StateMachineController.instance.ChangeTo<StageEndState>();
         }
         else if (enemyUnits.Count.Equals(0))
         {
-            // 승리
-
+            Debug.Log($"{GetType()} - 승리");
+            StateMachineController.instance.ChangeTo<StageEndState>();
         }
+    }
+
+    /**********************************************************
+    * 현재 맵에 있는 모든 유닛을 불러옴
+    ***********************************************************/
+    public List<Unit> GetAllUnit()
+    {
+        List<Unit> units = new();
+
+        foreach (var kvp in allyUnits)
+        {
+            units.Add(kvp.Value);
+        }
+        foreach (var kvp in enemyUnits)
+        {
+            units.Add(kvp.Value);
+        }
+
+        return units;
     }
 
 }

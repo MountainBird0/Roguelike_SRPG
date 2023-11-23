@@ -10,9 +10,25 @@ public class RangeSearchMachine : MonoBehaviour
     public LineRange lineRange;
     public ConeRange coneRange;
 
-    public List<TileLogic> SearchRange(Board board, Vector3Int pos, int range)
+    private Board board;
+
+    public void SetBoard(Board board)
     {
-        RangeType rangeType = (RangeType)Enum.Parse(typeof(RangeType), Turn.currentSkill.rangeType, true);
+        this.board = board;
+    }
+
+    public List<TileLogic> SearchRange(Vector3Int pos, SkillData data, bool isAOE)
+    {
+        int range;
+        if (isAOE)
+        {
+            range = data.AOERange;
+        }
+        else
+        {
+            range = data.range;
+        }
+        RangeType rangeType = data.rangeType;
 
         switch (rangeType)
         {
@@ -20,14 +36,13 @@ public class RangeSearchMachine : MonoBehaviour
                 return board.Search(board.GetTile(pos), range, constantRange.SearchType);
 
             case RangeType.LINE:
-                return lineRange.GetTilesInRange(board, range);
+                return lineRange.GetTilesInRange(board, pos, range);
 
             case RangeType.CONE:
-                return coneRange.GetTilesInRange(board, range);
+                return coneRange.GetTilesInRange(board, pos, range);
 
             case RangeType.INFINITE:
                 break;
-
 
             case RangeType.SELF:
                 break;

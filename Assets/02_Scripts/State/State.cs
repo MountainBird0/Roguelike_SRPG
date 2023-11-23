@@ -8,6 +8,8 @@ public class State : MonoBehaviour
     // input에 접근
     // board에 접근
     protected Board board;
+    protected AIController aiController;
+    protected AIPlan aiPlan;
 
     //protected StateMachineController machine { get { return StateMachineController.instance; } };
 
@@ -15,9 +17,12 @@ public class State : MonoBehaviour
     {
         Debug.Log($"{GetType()} - 실행");
         if (board == null)
+        {          
+            board = BattleMapManager.instance.board; // 보드넣는거 awake에 넣을까
+        }
+        if(aiController == null)
         {
-            // 보드넣는거 awake에 넣을까
-            board = BattleMapManager.instance.board;
+            aiController = BattleMapManager.instance.aiController;
         }
     }
 

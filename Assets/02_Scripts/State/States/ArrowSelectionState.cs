@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ public class ArrowSelectionState : State
     public override void Enter()
     {
         base.Enter();
+
+        if (!Turn.isHumanTurn)
+        {
+            StartCoroutine(AIArrowSelected());
+        }
 
         board.ShowArrowTile(Turn.currentTile.pos);
         uiController.EnableCanvas();
@@ -41,6 +47,8 @@ public class ArrowSelectionState : State
         {
             Turn.selectedTile = Turn.currentTile;
 
+            Vector3Int check = cellPosition - Turn.currentTile.pos;
+
             Turn.direction = cellPosition - Turn.currentTile.pos;
 
             StateMachineController.instance.ChangeTo<SkillSelectedState>();
@@ -63,5 +71,12 @@ public class ArrowSelectionState : State
         StateMachineController.instance.ChangeTo<SkillSelectedState>();
     }
 
+    private IEnumerator AIArrowSelected()
+    {
+        board.ShowArrowTile(aiPlan.movePos);
+
+        yield return new WaitForSeconds(1f);
+        StateMachineController.instance.ChangeTo<SkillSelectedState>();
+    }
 
 }

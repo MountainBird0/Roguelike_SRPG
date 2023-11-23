@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class ConeRange : MonoBehaviour
 {
-    public List<TileLogic> GetTilesInRange(Board board, int range)
+    public List<TileLogic> GetTilesInRange(Board board, Vector3Int currentPos, int range)
     {
-        Vector3Int currentPos = Turn.selectedTile.pos;
         Vector3Int next;
 
         List<TileLogic> tileLogics = new();

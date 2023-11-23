@@ -1,6 +1,7 @@
 /**********************************************************
 * 고른 스킬의 타겟을 지정할 수 있는 State
 ***********************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,12 @@ public class SkillSelectedState : State
     public override void Enter()
     {
         base.Enter();
+
+        if(!Turn.isHumanTurn)
+        {
+            StartCoroutine(AISkillSelected());
+        }
+
         uiController.EnableCanvas();
         ShowRangeTile();
 
@@ -74,34 +81,28 @@ public class SkillSelectedState : State
     ***********************************************************/
     private void ShowRangeTile()
     {
-
-        tiles = searchMachine.SearchRange(board, Turn.selectedTile.pos, Turn.currentSkill.range);
+        tiles = searchMachine.SearchRange(Turn.selectedTile.pos, Turn.currentSkill, false);
         board.ShowHighlightTile(tiles, 2);
         board.ShowAimingTile(tiles, 2);
-        // constant면 여기서 스킬 범위 보여주고
-        // 단일이면
+    }
 
+    /**********************************************************
+    * AI
+    ***********************************************************/
+    private IEnumerator AISkillSelected()
+    {
+        tiles = searchMachine.SearchRange(aiPlan.targetPos, aiPlan.skill.data, false);
+        board.ShowHighlightTile(tiles, 2);
+        board.ShowAimingTile(tiles, 2);
 
+        yield return new WaitForSeconds(1);
 
-        // 방향 정해야하는 스킬
-        // 그냥 자기자신 범위스킬
-        // 선택한 위치 범위스킬
+        StateMachineController.instance.ChangeTo<SkillTargetingState>();
     }
 
 
 
 
-
-    /**********************************************************
-    * 스킬 범위 검색
-    ***********************************************************/
-    //private bool ConstantRange(TileLogic from, TileLogic to)
-    //{
-    //    to.distance = from.distance + 1;
-    //    int range = Turn.currentSkill.range;
-
-    //    return to.distance <= range;
-    //}
 
 
 

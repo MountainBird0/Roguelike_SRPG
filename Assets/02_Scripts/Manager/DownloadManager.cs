@@ -21,8 +21,6 @@ public class DownloadManager : MonoBehaviour
     private long patchSize; // 받을 파일의 Size
     private Dictionary<string, long> patchMap = new();
 
-    public GameObject DownloadPopUp;
-
     public static DownloadManager instance;
     private void Awake()
     {
@@ -166,7 +164,7 @@ public class DownloadManager : MonoBehaviour
             if (total == patchSize)
             {
                 Debug.Log($"{GetType()} - 다운 끝");
-                Destroy(DownloadPopUp);
+                uiController.HideDownloadPopUp();
                 // 다운 완료시 종료
                 break;
             }

@@ -47,8 +47,16 @@ public class TitleUIController : MonoBehaviour
     public void ShowDownloadPopUp()
     {
         DownloadPopUp.SetActive(true);
+        currentState = UiState.ShowPopUp;
     }
-
+    /**********************************************************
+    * 리소스 다운로드 팝업 비활성화
+    ***********************************************************/
+    public void HideDownloadPopUp()
+    {
+        DownloadPopUp.SetActive(false);
+        currentState = UiState.Nothing;
+    }
 
 
     /**********************************************************

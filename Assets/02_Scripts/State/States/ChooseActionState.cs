@@ -1,6 +1,7 @@
 /**********************************************************
 * unit의 행동을 결정하는 State
 ***********************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,7 +26,14 @@ public class ChooseActionState : State
     {
         base.Enter();
 
-        uiController.EnableCanvas();
+        if(!Turn.isHumanTurn)
+        {
+            StartCoroutine(AIChooseAction());
+        }  
+        else
+        {// 나중에 몬스터용 ui 나오게
+            uiController.EnableCanvas();
+        }
 
         if (!Turn.hasMoved)
         {
@@ -112,12 +120,12 @@ public class ChooseActionState : State
             var slot = ob.GetComponent<BattleSkillSlot>();
             Turn.skillSlotNum = slot.slotNum;
 
-            Debug.Log($"{GetType()} - 슬롯아디{slot.id}");
+            if(slot.id.Equals(-1))
+            {
+                return;
+            }
 
             Turn.currentSkill = DataManager.instance.defaultSkillStats[slot.id];
-
-            Debug.Log($"{GetType()} - 범위{Turn.currentSkill.range}");
-            Debug.Log($"{GetType()} - 범위{Turn.currentSkill.name}");
 
             if (Turn.currentSkill.isDirectional)
             {
@@ -157,18 +165,43 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ShowMoveableTile()
     {
-        tiles = board.Search(board.GetTile(Turn.originTile.pos), Turn.unit.stats.MOV, ISMovement);
+        tiles = board.Search(board.GetTile(Turn.originTile.pos), Turn.unit.stats.MOV, board.ISMovable);
         board.ShowHighlightTile(tiles, 0);
     }
 
     /**********************************************************
-    * 움직일 수 있는 범위 검색
+    * AI
     ***********************************************************/
-    // test 이것들은 어디에 있어야할까
-    private bool ISMovement(TileLogic from, TileLogic to, int range)
+    private IEnumerator AIChooseAction()
     {
-        to.distance = from.distance + 1;
+        aiController.Evaluate();
 
-        return (to.content == null && to.distance <= range);
+        yield return new WaitForSeconds(1f);
+
+        if (aiController.aiPlan == null)
+        {
+            Debug.Log($"{GetType()} - 나중에 그냥 이동으로");
+            StateMachineController.instance.ChangeTo<TurnEndState>();
+        }
+        else
+        {
+            aiPlan = aiController.aiPlan;
+            Debug.Log($"{GetType()} - 2{aiPlan.movePos}");
+            if (!aiPlan.movePos.Equals(Turn.unit.currentPos))
+            {
+                StateMachineController.instance.ChangeTo<MoveSequenceState>();
+            }
+            else
+            {
+                if (aiPlan.direction.Equals(Vector3Int.zero))
+                {
+                    StateMachineController.instance.ChangeTo<SkillSelectedState>();
+                }
+                else
+                {
+                    StateMachineController.instance.ChangeTo<ArrowSelectionState>();
+                }
+            }
+        }
     }
 }

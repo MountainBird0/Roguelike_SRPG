@@ -39,6 +39,7 @@ public class DeployState : State
 
         AddUnits();
         CopyContent();
+        BattleMapManager.instance.ResetUnit();
 
         // 유닛이랑 몬스터 선택된 스킬 프리팹 미리 생성해서 넣어두기?
 
@@ -158,18 +159,18 @@ public class DeployState : State
     }
 
     /**********************************************************
-    * units에 unit추가
+    * 배치한 유닛 Manager에 추가
     ***********************************************************/
     private void AddUnits()
     {
         Unit unit;
-        TileLogic tileLogic;
 
-        foreach (var pair in deployTiles)
+        foreach (var kvp in deployTiles)
         {
-            if(pair.Value.content != null)
+            if(kvp.Value.content != null)
             {
-                unit = pair.Value.content.GetComponent<Unit>();
+                unit = kvp.Value.content.GetComponent<Unit>();
+                unit.currentPos = kvp.Key;
                 BattleMapManager.instance.UnitSetting(unit);
             }
         }

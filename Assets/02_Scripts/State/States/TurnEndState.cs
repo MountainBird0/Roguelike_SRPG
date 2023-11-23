@@ -8,10 +8,14 @@ public class TurnEndState : State
     {
         base.Enter();
 
+        board.ClearTile();
         ClearCheck();
         SetUnitPos();
         SetCoolTime();
         ActableUnitCheck();
+
+        aiController.aiPlan = null;
+
         StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
 
@@ -20,9 +24,9 @@ public class TurnEndState : State
         base.Exit();
     }
 
-    public void ClearCheck()
+    private void ClearCheck()
     {
-        // BattleMapManager.instance.GameCheck()
+        BattleMapManager.instance.ClearCheck();
     }
 
 
@@ -32,11 +36,18 @@ public class TurnEndState : State
         {
             board.mainTiles[Turn.currentTile.pos].content = board.mainTiles[Turn.originTile.pos].content;
             board.mainTiles[Turn.originTile.pos].content = null;
+
+            Turn.unit.currentPos = Turn.currentTile.pos;
         }
     }
 
     private void SetCoolTime()
     {
+        if(Turn.currentSkill == null)
+        {
+            return;
+        }
+
         int defaultCoolTime = Turn.currentSkill.coolTime;
 
         for (int i = 0; i < 3; i++)
@@ -68,8 +79,8 @@ public class TurnEndState : State
             if(BattleMapManager.instance.isAITurnFinish(Turn.unit.unitNum))
             {
                 // 턴 오르는 ui // 다음 턴 시작
-
                 Turn.turnCount++;
+                Debug.Log($"{GetType()} - {Turn.turnCount}번째 턴 시작");
             }
 
         }

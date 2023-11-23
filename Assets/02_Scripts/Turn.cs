@@ -7,7 +7,7 @@ using UnityEngine;
 public static class Turn
 {
     // ÀüÃ¼
-    public static int turnCount = 0;
+    public static int turnCount = 1;
     public static bool isHumanTurn = true;
     
     
@@ -44,7 +44,7 @@ public static class Turn
 
         hasMoved = false;
 
-        targets = null;
+        targets.Clear();
     }
 
 

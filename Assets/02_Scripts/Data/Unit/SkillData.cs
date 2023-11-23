@@ -9,10 +9,11 @@ public class SkillData
     public int range;
     public int AOERange;
 
-    public string affectType;
+    public AffectType affectType;
+
     public int jobType;
-    public string rangeType;
-    public string damageType;
+    public RangeType rangeType;
+    public DamageType damageType;
 
     public float multiplier;
 

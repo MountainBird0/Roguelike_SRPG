@@ -3,6 +3,11 @@
 ***********************************************************/
 public enum AffectType
 {
+    HEAL,
+    ATTACK,
+    BUFF,
+
+
     ENEMY,
     ALLY,
     ALL,
