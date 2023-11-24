@@ -14,11 +14,10 @@ public class MoveSequenceState : State
         if (!Turn.isHumanTurn)
         {
             StartCoroutine(AIChooseAction());
+            return;
         }
-        else
-        {
-            MoveUnit();
-        }
+
+         MoveUnit();      
     }
 
     public override void Exit()
@@ -26,13 +25,11 @@ public class MoveSequenceState : State
         base.Exit();
 
     }
-    // 광역 힐같은거 할때 자기자신도 할려면 이동할때마다 스킬범위 검색할때 검색되도록 값 넣기 
+    // 광역 힐같은거 할때 자기자신도 하려면 이동할때마다 스킬범위 검색할때 검색되도록 값 넣기 
     private void MoveUnit()
     {
-        Debug.Log($"{GetType()} - 이동 전{Turn.unit.gameObject.transform.position}");
         Turn.unit.gameObject.transform.position = Turn.selectedTile.pos;
-        Debug.Log($"{GetType()} - 이동 후{Turn.unit.gameObject.transform.position}");
-
+        Turn.unit.pos = Turn.selectedTile.pos;
 
         Turn.hasMoved = true;
         // 움직이는 ani 추가
@@ -46,10 +43,13 @@ public class MoveSequenceState : State
 
         Debug.Log($"{GetType()} - 2{aiController.aiPlan.movePos}");
         Debug.Log($"{GetType()} - 1{Turn.unit.gameObject.transform.position}");
+
         Turn.unit.gameObject.transform.position = aiController.aiPlan.movePos;
+
         Debug.Log($"{GetType()} - 이동 후{aiController.aiPlan.movePos}");
         Debug.Log($"{GetType()} - 이동 후{Turn.unit.gameObject.transform.position}");
-        Turn.unit.currentPos = aiController.aiPlan.movePos;
+
+        Turn.unit.pos = aiController.aiPlan.movePos;
         Turn.hasMoved = true;
 
         yield return new WaitForSeconds(1f);

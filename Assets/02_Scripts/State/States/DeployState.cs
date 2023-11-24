@@ -170,7 +170,7 @@ public class DeployState : State
             if(kvp.Value.content != null)
             {
                 unit = kvp.Value.content.GetComponent<Unit>();
-                unit.currentPos = kvp.Key;
+                unit.pos = kvp.Key;
                 BattleMapManager.instance.UnitSetting(unit);
             }
         }

@@ -15,7 +15,7 @@ public static class Turn
     public static Unit unit;
 
     public static TileLogic originTile;    // 턴 시작 시 유닛의 위치
-    public static TileLogic currentTile;   // CAS에서 움직이는 유닛의 위치
+    public static TileLogic currentTile;   // CAS에서 움직이는 유닛의 위치, 방향 선택했을 때 등
     public static TileLogic selectedTile;  // 선택한 타일
 
     public static Vector3Int direction;

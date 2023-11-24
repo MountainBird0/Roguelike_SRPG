@@ -43,31 +43,30 @@ public class AIController : MonoBehaviour
     private bool ChooseSkill()
     {
         int highestScore = 0;
-        Debug.Log($"{GetType()} - 현재유닛 : {Turn.unit.name}");
+        Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
         var skills = SortSkills(Turn.unit.skills);
 
         if (skills.Count.Equals(0)) return false; // 이동하러가기 bool 값 쓸듯
 
         for (int i = 0; i < skills.Count; i++) // 스킬 순회
         {
-            Debug.Log($"{GetType()} - 스킬이름 : {skills[i].data.name}");
-
+            Debug.Log($"{GetType()} - 순회할 스킬 이름 : {skills[i].name}");
             var targetUnits = SearchUnit(skills[i].data.affectType);
             if (targetUnits.Count.Equals(0)) continue; // 타겟 유닛이 하나도 없으면 다음 스킬로 이동
 
             for(int j = 0; j < targetUnits.Count; j++) // 타겟 유닛 순회
             {
-                Debug.Log($"{GetType()} - 타겟유닛이름 : {targetUnits[j].name}");
-                var reachableTiles = SearchTileInRange(targetUnits[j].currentPos, skills[i].data);
+                Debug.Log($"{GetType()} - 타겟 유닛 이름 : {targetUnits[j].name}");
+                var reachableTiles = SearchTileInRange(targetUnits[j].pos, skills[i].data);
                 if (reachableTiles.Count.Equals(0)) continue; // 가능한 스킬 범위가 하나도 없으면 다음 유닛으로 이동
-                Debug.Log($"{GetType()} - 가능한 스킬 범위 : {reachableTiles.Count}");
+
                 for (int k = 0; k < reachableTiles.Count; k++)
                 {
                     int score = 0;
 
                     if(skills[i].data.isDirectional)
                     {
-                        Turn.direction = SearchDir(targetUnits[j].currentPos, reachableTiles[k], skills[i].data);                     
+                        Turn.direction = SearchDir(targetUnits[j].pos, reachableTiles[k], skills[i].data);                     
                     }
                     else
                     {
@@ -85,7 +84,7 @@ public class AIController : MonoBehaviour
                     if (highestScore < score)
                     {
                         highestScore = score;
-                        SetAIPlan(skills[i], reachableTiles[k].pos, targetUnits[j].currentPos);
+                        SetAIPlan(skills[i], reachableTiles[k].pos, targetUnits[j].pos);
                     }
                 }
             }
@@ -119,7 +118,7 @@ public class AIController : MonoBehaviour
 
         var units = BattleMapManager.instance.GetAllUnit();
         int originFaction = Turn.unit.GetComponent<Unit>().faction;
-        Vector3Int originPos = Turn.unit.GetComponent<Unit>().currentPos;
+        Vector3Int originPos = Turn.unit.GetComponent<Unit>().pos;
 
         for (int i = 0; i < units.Count; i++)
         {
@@ -159,7 +158,7 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            validTargets = validTargets.OrderBy(unit => Vector3Int.Distance(unit.currentPos, originPos)).ToList();
+            validTargets = validTargets.OrderBy(unit => Vector3Int.Distance(unit.pos, originPos)).ToList();
         }
 
         return validTargets;
@@ -184,7 +183,7 @@ public class AIController : MonoBehaviour
         {
             tiles = searchMachine.SearchRange(targetPos, data, false);
         }
-        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.currentPos), Turn.unit.stats.MOV, board.ISMovable);
+        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
 
         return tiles.Intersect(moveableTiles).ToList();      
     }
@@ -219,7 +218,7 @@ public class AIController : MonoBehaviour
     {
         var tiles = searchMachine.SearchRange(targetTile.pos, data, true);
 
-        return targetUnits.Count(unit => tiles.Any(tile => tile.pos == unit.currentPos));
+        return targetUnits.Count(unit => tiles.Any(tile => tile.pos == unit.pos));
     }
 
     /**********************************************************
@@ -235,9 +234,9 @@ public class AIController : MonoBehaviour
         aiPlan.skill = skill;
         aiPlan.movePos = movePos;
         aiPlan.targetPos = targetPos;
-        Debug.Log($"{GetType()} - 1 : {aiPlan.skill}");
-        Debug.Log($"{GetType()} - 2 : {aiPlan.movePos}");
-        Debug.Log($"{GetType()} - 3 : {aiPlan.targetPos}");
+        Debug.Log($"{GetType()} - 정한 스킬 : {aiPlan.skill}");
+        Debug.Log($"{GetType()} - 움직일 곳 : {aiPlan.movePos}");
+        Debug.Log($"{GetType()} - 타겟 위치 : {aiPlan.targetPos}");
     }
 
     /**********************************************************

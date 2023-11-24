@@ -37,7 +37,7 @@ public class TurnEndState : State
             board.mainTiles[Turn.currentTile.pos].content = board.mainTiles[Turn.originTile.pos].content;
             board.mainTiles[Turn.originTile.pos].content = null;
 
-            Turn.unit.currentPos = Turn.currentTile.pos;
+            Turn.unit.pos = Turn.currentTile.pos;
         }
     }
 
@@ -50,7 +50,7 @@ public class TurnEndState : State
 
         int defaultCoolTime = Turn.currentSkill.coolTime;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < Turn.unit.skills.Count; i++)
         {
             var skill = Turn.unit.skills[i].GetComponent<Skill>();
 
@@ -80,20 +80,10 @@ public class TurnEndState : State
             {
                 // 턴 오르는 ui // 다음 턴 시작
                 Turn.turnCount++;
+                Turn.isHumanTurn = true;
                 Debug.Log($"{GetType()} - {Turn.turnCount}번째 턴 시작");
             }
-
         }
-
-
-
         Turn.Clear();
-
-
     }
-
-
-
-
-
 }

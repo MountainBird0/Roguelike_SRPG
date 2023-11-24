@@ -21,6 +21,13 @@ public class SkillTargetingState : State
     public override void Enter()
     {
         base.Enter();
+
+        if(!Turn.isHumanTurn)
+        {
+            StartCoroutine(AISkillTargeting());
+            return;
+        }
+
         uiController.EnableCanvas();
 
         // 때린위치 정보가 있으므로 그곳의 유닛 받아오기
@@ -103,4 +110,24 @@ public class SkillTargetingState : State
             }
         }
     }
+
+    private IEnumerator AISkillTargeting()
+    {
+        if(Turn.currentSkill.isAOE)
+        {
+            tiles = searchMachine.SearchRange(aiController.aiPlan.targetPos, Turn.currentSkill, true);
+
+            board.ShowHighlightTile(tiles, 1);
+            board.ShowAimingTile(tiles, (int)Turn.currentSkill.affectType);
+        }
+        Turn.selectedTile.pos = aiController.aiPlan.targetPos;
+
+        AddTarget();
+
+        yield return new WaitForSeconds(1f);
+
+        StateMachineController.instance.ChangeTo<PerformSkillState>();
+    }
+
+
 }

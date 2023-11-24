@@ -148,12 +148,14 @@ public class BattleMapManager : MonoBehaviour
     {
         if(AIUnits.ContainsKey(num))
         {
+            Debug.Log($"{GetType()} - À¯´ÖÁö¿ò");
             AIUnits[num].isTurnEnd = true;
             AIUnits.Remove(num);
         }
 
         if(AIUnits.Count.Equals(0))
         {
+            Debug.Log($"{GetType()} - ¸ðµçÀ¯´Ö ³¡");
             ResetUnit();
             return true;
         }

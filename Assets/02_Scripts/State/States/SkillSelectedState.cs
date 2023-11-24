@@ -23,6 +23,7 @@ public class SkillSelectedState : State
         if(!Turn.isHumanTurn)
         {
             StartCoroutine(AISkillSelected());
+            return;
         }
 
         uiController.EnableCanvas();
@@ -91,7 +92,10 @@ public class SkillSelectedState : State
     ***********************************************************/
     private IEnumerator AISkillSelected()
     {
-        tiles = searchMachine.SearchRange(aiPlan.targetPos, aiPlan.skill.data, false);
+        Debug.Log($"{GetType()} - ai가 선택한 스킬 실행");
+        // tiles = searchMachine.SearchRange(Turn.selectedTile.pos, Turn.currentSkill, false);
+        tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.currentSkill, false);
+
         board.ShowHighlightTile(tiles, 2);
         board.ShowAimingTile(tiles, 2);
 

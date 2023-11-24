@@ -14,6 +14,7 @@ public class ArrowSelectionState : State
         if (!Turn.isHumanTurn)
         {
             StartCoroutine(AIArrowSelected());
+            return;
         }
 
         board.ShowArrowTile(Turn.currentTile.pos);
@@ -73,7 +74,8 @@ public class ArrowSelectionState : State
 
     private IEnumerator AIArrowSelected()
     {
-        board.ShowArrowTile(aiPlan.movePos);
+        //board.ShowArrowTile(aiController.aiPlan.movePos);
+        board.ShowArrowTile(Turn.unit.pos);
 
         yield return new WaitForSeconds(1f);
         StateMachineController.instance.ChangeTo<SkillSelectedState>();

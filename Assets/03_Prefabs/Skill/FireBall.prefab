@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1960770709344552247}
   - component: {fileID: 8296270185172419928}
-  - component: {fileID: 6282330885969887198}
+  - component: {fileID: 2766037808416332918}
   m_Layer: 0
-  m_Name: 02_NomalAttackR
+  m_Name: FireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fee09461d25504f86060756c68a195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6282330885969887198
+--- !u!114 &2766037808416332918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,5 +57,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf791265a432714abc8dda961b013a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: d809b41e372159440ba3f17da98c06dc, type: 3}
+  image: {fileID: 21300000, guid: aa6aa753613b9a04eb865fb4bccca95d, type: 3}
   coolTime: 0

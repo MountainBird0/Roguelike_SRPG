@@ -8,6 +8,12 @@ public class PerformSkillState : State
     {
         base.Enter();
 
+        if(!Turn.isHumanTurn)
+        {
+            StartCoroutine(AIPerformSkill());
+        }
+
+
         DoSkill();
 
         StateMachineController.instance.ChangeTo<TurnEndState>();
@@ -28,6 +34,16 @@ public class PerformSkillState : State
         //var ob = Turn.unit.skills[Turn.slotNum];
         //var skill = Turn.unit.skills[Turn.slotNum].GetComponent<SkillEffect>();
         Turn.unit.skills[Turn.skillSlotNum].GetComponent<SkillEffect>().Apply();
+    }
+
+    private IEnumerator AIPerformSkill()
+    {
+        // 나중에 CAS에서 스킬 오브젝트 넣는것으로 변경
+        // 간소화 ui추가
+        DoSkill();
+
+        yield return new WaitForSeconds(1f);
+        StateMachineController.instance.ChangeTo<TurnEndState>();
     }
 
 }

@@ -23,18 +23,15 @@ public class TurnBeginState : State
             Debug.Log($"{GetType()} - AI턴");
             foreach(var kvp in BattleMapManager.instance.AIUnits)
             {
-                SelectUnit(kvp.Value.currentPos);
+                SelectUnit(kvp.Value.pos);
                 break;
             }
             StateMachineController.instance.ChangeTo<ChooseActionState>();
         }
 
-
-
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
         
-
         // 아군 유닛 없으면 적 유닛 속도대로 정렬
         // 속도 정렬 아직 안함
         //if(!BattleMapManager.instance.IsHuman())

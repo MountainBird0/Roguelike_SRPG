@@ -19,9 +19,9 @@ public class Unit : MonoBehaviour
     public int faction;
 
     [HideInInspector]
-    public bool isTurnEnd = false; // 안쓸듯
+    public bool isTurnEnd = false; // 안쓸듯 -> 다른방법이 있나
 
-    public Vector3Int currentPos;
+    public Vector3Int pos;
 
     public List<GameObject> skills;
 

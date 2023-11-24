@@ -26,19 +26,20 @@ public class ChooseActionState : State
     {
         base.Enter();
 
-        if(!Turn.isHumanTurn)
-        {
-            StartCoroutine(AIChooseAction());
-        }  
-        else
-        {// 나중에 몬스터용 ui 나오게
-            uiController.EnableCanvas();
-        }
-
         if (!Turn.hasMoved)
         {
             ShowMoveableTile();
         }
+        
+        if(!Turn.isHumanTurn)
+        {
+            StartCoroutine(AIChooseAction());
+            return;
+        }  
+
+        uiController.EnableCanvas();
+        
+
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -49,6 +50,7 @@ public class ChooseActionState : State
         base.Exit();
 
         uiController.DisableCanvas();
+        board.ClearTile(); // 이것만남기고 다른 clear지우기
 
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
@@ -87,7 +89,8 @@ public class ChooseActionState : State
 
             Turn.hasMoved = false;
             Turn.unit.gameObject.transform.position = Turn.originTile.pos; // 원래위치로 돌아옴
- 
+            Turn.unit.pos = Turn.originTile.pos;
+
             if (board.mainTiles[cellPosition].content != null &&
                 board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
                 && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd) // 누른곳에 이미 유닛이 있다면
@@ -165,7 +168,8 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ShowMoveableTile()
     {
-        tiles = board.Search(board.GetTile(Turn.originTile.pos), Turn.unit.stats.MOV, board.ISMovable);
+        //tiles = board.Search(board.GetTile(Turn.originTile.pos), Turn.unit.stats.MOV, board.ISMovable);
+        tiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
         board.ShowHighlightTile(tiles, 0);
     }
 
@@ -174,20 +178,39 @@ public class ChooseActionState : State
     ***********************************************************/
     private IEnumerator AIChooseAction()
     {
-        aiController.Evaluate();
+        if(aiPlan == null)
+        {
+            aiController.Evaluate();
+            aiPlan = aiController.aiPlan;
+        }
 
         yield return new WaitForSeconds(1f);
 
-        if (aiController.aiPlan == null)
+        if (aiPlan == null)
         {
             Debug.Log($"{GetType()} - 나중에 그냥 이동으로");
             StateMachineController.instance.ChangeTo<TurnEndState>();
         }
         else
         {
-            aiPlan = aiController.aiPlan;
             Debug.Log($"{GetType()} - 2{aiPlan.movePos}");
-            if (!aiPlan.movePos.Equals(Turn.unit.currentPos))
+            //Turn.skillSlotNum
+            for (int i = 0; i < Turn.unit.skills.Count; i++)
+            {
+                Debug.Log($"{GetType()} - 1 - {Turn.unit.skills[i].name}");
+                Debug.Log($"{GetType()} - 2 - {aiPlan.skill.name}");
+                if (Turn.unit.skills[i].name.Equals(aiPlan.skill.name))
+                {
+                    Debug.Log($"{GetType()} - 같은거 찾음");
+                    Turn.skillSlotNum = i;
+                    Turn.currentSkill = aiPlan.skill.data;
+                    break;
+                }
+            }
+            Turn.selectedTile = new(aiPlan.targetPos);
+
+            // if (!aiPlan.movePos.Equals(Turn.unit.pos)) 움직임 두번 들어가는거 확인 필요
+            if (!Turn.hasMoved)
             {
                 StateMachineController.instance.ChangeTo<MoveSequenceState>();
             }
