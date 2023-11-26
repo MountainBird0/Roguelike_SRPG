@@ -86,10 +86,10 @@ public class ChooseActionUIController : MonoBehaviour
             slotInfo.id = skill.id;
             slotInfo.image.sprite = skill.image;
 
-            if (skill.coolTime > 0)
+            if (skill.data.currentCoolTime > 0)
             {
                 coolTimeImage[i].SetActive(true);
-                coolTimeText[i].text = skill.coolTime.ToString();
+                coolTimeText[i].text = skill.data.currentCoolTime.ToString();
             }
             else
             {

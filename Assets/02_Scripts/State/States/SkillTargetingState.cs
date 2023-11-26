@@ -38,14 +38,10 @@ public class SkillTargetingState : State
 
         // Turn.currentSkill.isAOE
 
-        if (!Turn.currentSkill.AOERange.Equals(0))
+        if (Turn.skill.data.isAOE)
         {
-            tiles = searchMachine.SearchRange(Turn.selectedTile.pos, Turn.currentSkill, true);
-
-            // Debug.Log($"{GetType()} - 머 뜨는지 {(int)(AffectType)Enum.Parse(typeof(AffectType), Turn.currentSkill.affectType, true)}");
-
-            board.ShowHighlightTile(tiles, 1);
-            board.ShowAimingTile(tiles, (int)Turn.currentSkill.affectType);
+            Debug.Log($"{GetType()} - 범위타일 보여줌");
+            ShowAOERange();
         }
 
         AddTarget();
@@ -58,7 +54,7 @@ public class SkillTargetingState : State
         base.Exit();
         uiController.DisableCanvas();
 
-        Turn.selectedTile = Turn.currentTile;
+        Turn.selectedPos = Turn.currentPos;
 
         if (tiles != null)
         {
@@ -95,9 +91,9 @@ public class SkillTargetingState : State
             Turn.targets.Clear();
         }
 
-        if (Turn.currentSkill.AOERange.Equals(0))
+        if (!Turn.skill.data.isAOE)
         {
-            Turn.targets.Add(board.mainTiles[Turn.selectedTile.pos].content.GetComponent<Unit>());
+            Turn.targets.Add(board.mainTiles[Turn.selectedPos].content.GetComponent<Unit>());
         }
         else
         {
@@ -105,22 +101,42 @@ public class SkillTargetingState : State
             {
                 if (board.mainTiles[kvp.Value.pos].content != null)
                 {
+                    Debug.Log($"{GetType()} - {board.mainTiles[kvp.Value.pos].content} 넣기");
+                    Debug.Log($"{GetType()} - {board.mainTiles[Turn.selectedPos].content}");
                     Turn.targets.Add(board.mainTiles[kvp.Value.pos].content.GetComponent<Unit>());
                 }
             }
         }
     }
 
+    /**********************************************************
+    * 범위스킬 범위 보이도록
+    ***********************************************************/
+    private void ShowAOERange()
+    {
+        if(Turn.skill.data.AOERange.Equals(0))
+        {
+            tiles = searchMachine.SearchRange(Turn.currentPos, Turn.skill.data, false);
+        }
+        else
+        {
+            tiles = searchMachine.SearchRange(Turn.selectedPos, Turn.skill.data, true);
+        }
+
+        board.ShowHighlightTile(tiles, 1);
+        board.ShowAimingTile(tiles, (int)Turn.skill.data.affectType);
+    }
+
+
+
     private IEnumerator AISkillTargeting()
     {
-        if(Turn.currentSkill.isAOE)
-        {
-            tiles = searchMachine.SearchRange(aiController.aiPlan.targetPos, Turn.currentSkill, true);
+        Debug.Log($"{GetType()} - AI : STS");
 
-            board.ShowHighlightTile(tiles, 1);
-            board.ShowAimingTile(tiles, (int)Turn.currentSkill.affectType);
+        if (Turn.skill.data.isAOE)
+        {
+            ShowAOERange();
         }
-        Turn.selectedTile.pos = aiController.aiPlan.targetPos;
 
         AddTarget();
 

@@ -74,7 +74,6 @@ public class BattleMapManager : MonoBehaviour
             unit.stats = DataManager.instance.currentUnitStats[name];
             skillList = DataManager.instance.currentEquipSkills[name].list;
             allyUnits.Add(unit.unitNum, unit);
-            Debug.Log($"{GetType()} - µé¾î°£À¯´Ö¼ö{allyUnits.Count}");
         }
         else if(DataManager.instance.defaultMonsterStats.ContainsKey(name))
         {
@@ -88,12 +87,10 @@ public class BattleMapManager : MonoBehaviour
             GameObject ob;
             if (skillList[i].Equals(-1))
             {
-                // ob = Instantiate(skillPool.skills.Last());
                 ob = skillPool.skills.Last();
             }
             else
             {
-                // ob = Instantiate(skillPool.skills[skillList[i]]);
                 ob = skillPool.skills[skillList[i]];
                 ob.GetComponent<Skill>().data = DataManager.instance.defaultSkillStats[skillList[i]];
             }
@@ -148,7 +145,6 @@ public class BattleMapManager : MonoBehaviour
     {
         if(AIUnits.ContainsKey(num))
         {
-            Debug.Log($"{GetType()} - À¯´ÖÁö¿ò");
             AIUnits[num].isTurnEnd = true;
             AIUnits.Remove(num);
         }

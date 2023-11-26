@@ -20,6 +20,8 @@ public class SkillSelectedState : State
     {
         base.Enter();
 
+        ShowRangeTile();
+        
         if(!Turn.isHumanTurn)
         {
             StartCoroutine(AISkillSelected());
@@ -27,7 +29,6 @@ public class SkillSelectedState : State
         }
 
         uiController.EnableCanvas();
-        ShowRangeTile();
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -47,9 +48,6 @@ public class SkillSelectedState : State
         InputManager.instance.OnEndTouch -= TouchEnd;
     }
 
-    // 스킬 범위 종류에 따라 구분, 플레이어 방향도 필요
-    // 타게팅 가능한 몬스터 표시
-
     /**********************************************************
     * 스크린 터치 시작 / 종료
     ***********************************************************/
@@ -60,17 +58,9 @@ public class SkillSelectedState : State
 
         if (board.aimingTiles.ContainsKey(cellPosition))
         {
-            Turn.selectedTile = new TileLogic(cellPosition);
-            Debug.Log($"{GetType()} - 때릴수있는거 누름");
+            Turn.selectedPos = cellPosition;
             StateMachineController.instance.ChangeTo<SkillTargetingState>();
-
         }
-
-        // 타게팅 가능하거나
-
-        // 그 타겟으로부터 범위가 또 있는거
-
-        // 어쨋든 skillTargetState로 가서 뭐라도 하기
     }
     private void TouchEnd(Vector2 screenPosition, float time)
     {
@@ -82,7 +72,7 @@ public class SkillSelectedState : State
     ***********************************************************/
     private void ShowRangeTile()
     {
-        tiles = searchMachine.SearchRange(Turn.selectedTile.pos, Turn.currentSkill, false);
+        tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.skill.data, false);
         board.ShowHighlightTile(tiles, 2);
         board.ShowAimingTile(tiles, 2);
     }
@@ -92,22 +82,11 @@ public class SkillSelectedState : State
     ***********************************************************/
     private IEnumerator AISkillSelected()
     {
-        Debug.Log($"{GetType()} - ai가 선택한 스킬 실행");
-        // tiles = searchMachine.SearchRange(Turn.selectedTile.pos, Turn.currentSkill, false);
-        tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.currentSkill, false);
-
-        board.ShowHighlightTile(tiles, 2);
-        board.ShowAimingTile(tiles, 2);
+        Debug.Log($"{GetType()} - AI : SSS");
+        Debug.Log($"{GetType()} - 선택한 스킬 {Turn.skill.data.name}");
 
         yield return new WaitForSeconds(1);
 
         StateMachineController.instance.ChangeTo<SkillTargetingState>();
     }
-
-
-
-
-
-
-
 }

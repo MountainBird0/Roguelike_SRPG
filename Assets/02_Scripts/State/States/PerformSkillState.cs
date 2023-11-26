@@ -11,14 +11,13 @@ public class PerformSkillState : State
         if(!Turn.isHumanTurn)
         {
             StartCoroutine(AIPerformSkill());
+            return;
         }
 
-
         DoSkill();
+        SetCoolTime();
 
         StateMachineController.instance.ChangeTo<TurnEndState>();
-
-        // 스킬 실행 후 턴 종료
     }
 
     public override void Exit()
@@ -31,19 +30,50 @@ public class PerformSkillState : State
     ***********************************************************/
     private void DoSkill()
     {
-        //var ob = Turn.unit.skills[Turn.slotNum];
-        //var skill = Turn.unit.skills[Turn.slotNum].GetComponent<SkillEffect>();
-        Turn.unit.skills[Turn.skillSlotNum].GetComponent<SkillEffect>().Apply();
+        var effects = Turn.skill.effects;
+
+        for(int i = 0; i < effects.Count; i++)
+        {
+            effects[i].Apply();
+        }
     }
+
+    /**********************************************************
+    * 스킬 쿨타임 세팅
+    ***********************************************************/
+    private void SetCoolTime()
+    {
+        int defaultCoolTime = Turn.skill.data.coolTime;
+
+        for (int i = 0; i < Turn.unit.skills.Count; i++)
+        {
+            var skill = Turn.unit.skills[i].GetComponent<Skill>();
+
+            if (Turn.skillSlotNum.Equals(i))
+            {
+                if (defaultCoolTime != 0) // 쿨타임이 0인 스킬은 넘어감
+                {
+                    skill.SetCoolTime(defaultCoolTime);
+                }
+            }
+            else if (skill.data.currentCoolTime > 0)
+            {
+                skill.ReduceCoolTime();
+            }
+        }
+    }
+
 
     private IEnumerator AIPerformSkill()
     {
         // 나중에 CAS에서 스킬 오브젝트 넣는것으로 변경
         // 간소화 ui추가
         DoSkill();
-
+        
         yield return new WaitForSeconds(1f);
+
+        SetCoolTime();
+
         StateMachineController.instance.ChangeTo<TurnEndState>();
     }
-
 }

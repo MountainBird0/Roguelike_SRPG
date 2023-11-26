@@ -3434,7 +3434,6 @@ MonoBehaviour:
     m_LabelString: SkillIcon
   unitIconLabel:
     m_LabelString: UnitIcon
-  DownloadPopUp: {fileID: 1570741208}
 --- !u!4 &1484634254
 Transform:
   m_ObjectHideFlags: 0

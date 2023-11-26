@@ -10,7 +10,8 @@ using UnityEngine.UI;
 public class ChooseActionState : State
 {
     private ChooseActionUIController uiController = BattleMapUIManager.instance.ChooseActionUIController;
-    
+    private AIController aiController;
+
     private List<TileLogic> tiles;
 
     private GraphicRaycaster raycaster;
@@ -20,13 +21,14 @@ public class ChooseActionState : State
     private void OnEnable()
     {
         raycaster = uiController.raycaster;
+        aiController = BattleMapManager.instance.aiController;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        if (!Turn.hasMoved)
+        if (!Turn.isMoving)
         {
             ShowMoveableTile();
         }
@@ -39,8 +41,6 @@ public class ChooseActionState : State
 
         uiController.EnableCanvas();
         
-
-
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
     }
@@ -50,7 +50,10 @@ public class ChooseActionState : State
         base.Exit();
 
         uiController.DisableCanvas();
-        board.ClearTile(); // 이것만남기고 다른 clear지우기
+        if(!Turn.isMoving)
+        {
+            board.ClearTile();
+        }
 
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
@@ -61,9 +64,6 @@ public class ChooseActionState : State
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
-        // Debug.Log($"{GetType()} - 터치 시작");
-        //Debug.Log($"{GetType()} - ui 터치했는지 {EventSystem.current.IsPointerOverGameObject()}");
-
         clickResults.Clear();
         clickData.position = screenPosition;
         raycaster.Raycast(clickData, clickResults);
@@ -73,34 +73,26 @@ public class ChooseActionState : State
             SelectSkill();
             return;
         }
-        // 이동타일 - 파랑, 스킬범위타일 - 노랑, 범위스킬타일  - 빨강
-        //                  타게팅 표시          유닛 자체 깜빡임
 
-        Vector3Int cellPosition = GetCellPosition(screenPosition);
-        
+        Vector3Int cellPosition = GetCellPosition(screenPosition);       
         if (board.highlightTiles.ContainsKey(cellPosition)) // 이동가능한 타일을 터치했다면
         { 
             MoveUnit(cellPosition);
             return;
         }  
         else if (board.mainTiles.ContainsKey(cellPosition)) // 이동 불가능한 곳을 터치했다면
-        { 
-            board.ClearTile();
+        {
+            ReturnUnit();
 
-            Turn.hasMoved = false;
-            Turn.unit.gameObject.transform.position = Turn.originTile.pos; // 원래위치로 돌아옴
-            Turn.unit.pos = Turn.originTile.pos;
-
-            if (board.mainTiles[cellPosition].content != null &&
-                board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
-                && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd) // 누른곳에 이미 유닛이 있다면
+            if(!board.mainTiles[cellPosition].content)
             {
-                ChangeUnit(cellPosition);
-            }
-            else
-            { // 유닛 없는곳 누름
                 Turn.unit = null;
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
+            }
+            else if(board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
+                && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd)
+            {
+                ChangeUnit(cellPosition);
             }
         }
     }
@@ -117,29 +109,35 @@ public class ChooseActionState : State
         var ob = clickResults[0].gameObject;
         if (ob.CompareTag("EquipSlot"))
         {
-            Turn.hasMoved = false;
-            board.ClearTile();
+            Turn.isMoving = false;
 
             var slot = ob.GetComponent<BattleSkillSlot>();
-            Turn.skillSlotNum = slot.slotNum;
 
-            if(slot.id.Equals(-1))
+            if(slot.id.Equals(-1)) // 나중에 다른방식으로 수정
             {
                 return;
             }
 
-            Turn.currentSkill = DataManager.instance.defaultSkillStats[slot.id];
+            SkillSetting(slot.slotNum);
+        }      
+    }
 
-            if (Turn.currentSkill.isDirectional)
-            {
-                StateMachineController.instance.ChangeTo<ArrowSelectionState>();
-            }
-            else
-            {
-                StateMachineController.instance.ChangeTo<SkillSelectedState>();
-            }
+    /**********************************************************
+    * 스킬 세팅
+    ***********************************************************/
+    private void SkillSetting(int slotNum)
+    {
+        Turn.skillSlotNum = slotNum;
+        Turn.skill = Turn.unit.skills[slotNum].GetComponent<Skill>();
+
+        if (Turn.skill.data.isDirectional)
+        {
+            StateMachineController.instance.ChangeTo<ArrowSelectionState>();
         }
-        
+        else
+        {
+            StateMachineController.instance.ChangeTo<SkillSelectedState>();
+        }
     }
 
     /**********************************************************
@@ -147,10 +145,32 @@ public class ChooseActionState : State
     ***********************************************************/
     private void MoveUnit(Vector3Int cellPosition)
     {
-        Turn.currentTile = new TileLogic(cellPosition);
-        Turn.selectedTile = Turn.currentTile;
+        Debug.Log($"{GetType()} - 유닛위치 콘텐츠 {board.mainTiles[Turn.unit.pos].content}");
+        board.mainTiles[cellPosition].content = board.mainTiles[Turn.unit.pos].content;
+        board.mainTiles[Turn.unit.pos].content = null;
+
+        Turn.currentPos = cellPosition;
+        Turn.selectedPos = Turn.currentPos;
+        Turn.unit.pos = Turn.currentPos;
+        Turn.isMoving = true;
 
         StateMachineController.instance.ChangeTo<MoveSequenceState>();     
+    }
+    /**********************************************************
+    * 유닛 제자리로
+    ***********************************************************/
+    private void ReturnUnit()
+    {
+        if(!Turn.originPos.Equals(Turn.unit.pos))
+        {
+            board.mainTiles[Turn.originPos].content = board.mainTiles[Turn.unit.pos].content;
+            board.mainTiles[Turn.unit.pos].content = null;
+        }
+
+        Turn.unit.pos = Turn.originPos;
+        Turn.unit.gameObject.transform.position = Turn.originPos; // 원래위치로 돌아옴
+
+        Turn.isMoving = false;
     }
 
     /**********************************************************
@@ -158,7 +178,7 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ChangeUnit(Vector3Int cellPosition)
     {
-        Turn.selectedTile = board.GetTile(cellPosition);
+        Turn.selectedPos = cellPosition;
 
         StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
@@ -168,8 +188,7 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ShowMoveableTile()
     {
-        //tiles = board.Search(board.GetTile(Turn.originTile.pos), Turn.unit.stats.MOV, board.ISMovable);
-        tiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
+        tiles = board.Search(board.GetTile(Turn.originPos), Turn.unit.stats.MOV, board.ISMovable);
         board.ShowHighlightTile(tiles, 0);
     }
 
@@ -178,53 +197,47 @@ public class ChooseActionState : State
     ***********************************************************/
     private IEnumerator AIChooseAction()
     {
-        if(aiPlan == null)
+        Debug.Log($"{GetType()} - AI : CAS");
+        
+        AIPlan plan = aiController.currentAiPlan;
+
+        if(plan == null)
         {
-            aiController.Evaluate();
-            aiPlan = aiController.aiPlan;
+            Debug.Log($"{GetType()} - 플랜새로 만듬");
+            plan = aiController.Evaluate();
         }
 
         yield return new WaitForSeconds(1f);
 
-        if (aiPlan == null)
+        if (plan == null)
         {
-            Debug.Log($"{GetType()} - 나중에 그냥 이동으로");
+            Debug.Log($"{GetType()} - 계획 못찾음");
             StateMachineController.instance.ChangeTo<TurnEndState>();
+            yield break;
         }
-        else
-        {
-            Debug.Log($"{GetType()} - 2{aiPlan.movePos}");
-            //Turn.skillSlotNum
-            for (int i = 0; i < Turn.unit.skills.Count; i++)
-            {
-                Debug.Log($"{GetType()} - 1 - {Turn.unit.skills[i].name}");
-                Debug.Log($"{GetType()} - 2 - {aiPlan.skill.name}");
-                if (Turn.unit.skills[i].name.Equals(aiPlan.skill.name))
-                {
-                    Debug.Log($"{GetType()} - 같은거 찾음");
-                    Turn.skillSlotNum = i;
-                    Turn.currentSkill = aiPlan.skill.data;
-                    break;
-                }
-            }
-            Turn.selectedTile = new(aiPlan.targetPos);
 
-            // if (!aiPlan.movePos.Equals(Turn.unit.pos)) 움직임 두번 들어가는거 확인 필요
-            if (!Turn.hasMoved)
-            {
-                StateMachineController.instance.ChangeTo<MoveSequenceState>();
-            }
-            else
-            {
-                if (aiPlan.direction.Equals(Vector3Int.zero))
-                {
-                    StateMachineController.instance.ChangeTo<SkillSelectedState>();
-                }
-                else
-                {
-                    StateMachineController.instance.ChangeTo<ArrowSelectionState>();
-                }
-            }
+        if (!Turn.isMoving)
+        {
+            Debug.Log($"{GetType()} - 움직이러감");
+            MoveUnit(plan.movePos);
+            StateMachineController.instance.ChangeTo<MoveSequenceState>();
+            yield break;
         }
+
+        
+
+        for (int i = 0; i < Turn.unit.skills.Count; i++)
+        {
+            if (Turn.unit.skills[i].name.Equals(plan.skill.name))
+            {
+                Turn.skillSlotNum = i;
+                Turn.direction = plan.direction;
+                Turn.selectedPos = plan.targetPos;
+                Turn.isMoving = false;
+                aiController.currentAiPlan = null;
+                SkillSetting(i);
+                break;
+            }
+        }      
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Skill : MonoBehaviour
 {
     public Sprite image;
+    public List<SkillEffect> effects;
 
     [HideInInspector]
     public int coolTime;
@@ -15,11 +16,11 @@ public class Skill : MonoBehaviour
 
     public void SetCoolTime(int coolTime)
     {
-        this.coolTime = coolTime;
+        data.currentCoolTime = data.coolTime;
     }
 
     public void ReduceCoolTime()
     {
-        coolTime -= 1;
+        data.currentCoolTime -= 1;
     }
 }

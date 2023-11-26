@@ -105,9 +105,9 @@ public class Board : MonoBehaviour
     ***********************************************************/
     public void ShowAimingTile(List<TileLogic> tiles, int num)
     {
-        AffectType affectType = Turn.currentSkill.affectType;
+        AffectType affectType = Turn.skill.data.affectType;
 
-        int originFaction = mainTiles[Turn.originTile.pos].content.GetComponent<Unit>().faction;
+        int originFaction = Turn.unit.faction;
 
         for (int i = 0; i < tiles.Count; i++)
         {

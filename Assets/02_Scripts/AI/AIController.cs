@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    public AIPlan aiPlan;
+    public AIPlan currentAiPlan;
 
     private RangeSearchMachine searchMachine;
     private Board board;
@@ -24,29 +24,26 @@ public class AIController : MonoBehaviour
         this.board = board;
     }
 
+    public AIPlan Evaluate()
+    {
+        currentAiPlan = null;
+
+        return PlanChoice();
+    }
+
+
     /**********************************************************
     * 할 것 고르기
     ***********************************************************/
-    public void Evaluate()
+    private AIPlan PlanChoice()
     {
-        aiPlan = null;
+        currentAiPlan = null;
 
-        if(!ChooseSkill())
-        {
-            MoveToEnemy();
-        }
-    }
-
-    /**********************************************************
-    * 스킬 고르기
-    ***********************************************************/
-    private bool ChooseSkill()
-    {
         int highestScore = 0;
         Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
         var skills = SortSkills(Turn.unit.skills);
 
-        if (skills.Count.Equals(0)) return false; // 이동하러가기 bool 값 쓸듯
+        if (skills.Count.Equals(0)) return null; // 이동하러가기 bool 값 쓸듯
 
         for (int i = 0; i < skills.Count; i++) // 스킬 순회
         {
@@ -89,10 +86,10 @@ public class AIController : MonoBehaviour
                 }
             }
 
-            if (!highestScore.Equals(0)) return true;
+            if (!highestScore.Equals(0)) return currentAiPlan;
         }
 
-        return false;
+        return null;
     }
 
     /**********************************************************
@@ -102,7 +99,7 @@ public class AIController : MonoBehaviour
     {
         List<Skill> sortedSkills = skills
             .Select(ob => ob.GetComponent<Skill>())
-            .Where(skill => skill.coolTime == 0)
+            .Where(skill => skill.data.currentCoolTime == 0)
             .OrderBy(skill => skill.data.affectType)
             .ToList();
 
@@ -165,7 +162,7 @@ public class AIController : MonoBehaviour
     }
 
     /**********************************************************
-    * 타겟 유닛을 기준으로 하는 스킬 범위 저장함
+    * 타겟 유닛을 기준으로 하는 스킬 범위 저장함 // 이미 유닛이 있는 타일은 제외
     ***********************************************************/
     private List<TileLogic> SearchTileInRange(Vector3Int targetPos, SkillData data)
     {
@@ -185,7 +182,10 @@ public class AIController : MonoBehaviour
         }
         List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
 
-        return tiles.Intersect(moveableTiles).ToList();      
+        tiles = tiles.Intersect(moveableTiles).ToList();
+        tiles.Reverse();
+
+        return tiles;
     }
 
     /**********************************************************
@@ -226,24 +226,25 @@ public class AIController : MonoBehaviour
     ***********************************************************/
     private void SetAIPlan(Skill skill, Vector3Int movePos, Vector3Int targetPos)
     {
-        if(aiPlan == null)
+        if(currentAiPlan == null)
         {
-            aiPlan = new();
+            currentAiPlan = new();
         }
 
-        aiPlan.skill = skill;
-        aiPlan.movePos = movePos;
-        aiPlan.targetPos = targetPos;
-        Debug.Log($"{GetType()} - 정한 스킬 : {aiPlan.skill}");
-        Debug.Log($"{GetType()} - 움직일 곳 : {aiPlan.movePos}");
-        Debug.Log($"{GetType()} - 타겟 위치 : {aiPlan.targetPos}");
+        currentAiPlan.skill = skill;
+        currentAiPlan.movePos = movePos;
+        currentAiPlan.targetPos = targetPos;
+        Debug.Log($"{GetType()} - 정한 스킬 : {currentAiPlan.skill} / 움직일 곳 : {currentAiPlan.movePos} / 타겟 위치 : {currentAiPlan.targetPos}");
     }
 
     /**********************************************************
     * 적과 가장 가까운 타일로 이동
     ***********************************************************/
-    private void MoveToEnemy()
+    public TileLogic MoveToEnemy()
     {
-        Debug.Log($"{GetType()} - 가장 가까운타일로 이동");
+        /// 스킬 못찾았을때 넣기 Evaluate에
+        Debug.Log($"{GetType()} - 근처에 적 없음 가장 가까운타일로 이동");
+
+        return null;
     }
 }

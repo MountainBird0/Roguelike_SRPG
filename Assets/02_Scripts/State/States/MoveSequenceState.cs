@@ -28,10 +28,8 @@ public class MoveSequenceState : State
     // 광역 힐같은거 할때 자기자신도 하려면 이동할때마다 스킬범위 검색할때 검색되도록 값 넣기 
     private void MoveUnit()
     {
-        Turn.unit.gameObject.transform.position = Turn.selectedTile.pos;
-        Turn.unit.pos = Turn.selectedTile.pos;
+        Turn.unit.gameObject.transform.position = Turn.selectedPos;
 
-        Turn.hasMoved = true;
         // 움직이는 ani 추가
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();
@@ -39,20 +37,25 @@ public class MoveSequenceState : State
 
     private IEnumerator AIChooseAction()
     {
-        Debug.Log($"{GetType()} - 유닛{Turn.unit.name}");
+        Turn.unit.gameObject.transform.position = Turn.selectedPos;
 
-        Debug.Log($"{GetType()} - 2{aiController.aiPlan.movePos}");
-        Debug.Log($"{GetType()} - 1{Turn.unit.gameObject.transform.position}");
-
-        Turn.unit.gameObject.transform.position = aiController.aiPlan.movePos;
-
-        Debug.Log($"{GetType()} - 이동 후{aiController.aiPlan.movePos}");
-        Debug.Log($"{GetType()} - 이동 후{Turn.unit.gameObject.transform.position}");
-
-        Turn.unit.pos = aiController.aiPlan.movePos;
-        Turn.hasMoved = true;
-
+        // 움직이는 ani 추가
         yield return new WaitForSeconds(1f);
+
         StateMachineController.instance.ChangeTo<ChooseActionState>();
+
+        //Debug.Log($"{GetType()} - 움직일 유닛 : {Turn.unit.name}");
+        //Debug.Log($"{GetType()} - 움직일 곳 : {aiController.aiPlan.movePos}");
+
+        //Turn.unit.gameObject.transform.position = aiController.aiPlan.movePos;
+
+        //Turn.unit.pos = aiController.aiPlan.movePos;
+        //Turn.hasMoved = true;
+
+        //board.mainTiles[Turn.currentTile.pos].content = board.mainTiles[Turn.originTile.pos].content;
+        //board.mainTiles[Turn.originTile.pos].content = null;
+
+        //yield return new WaitForSeconds(1f);
+        //StateMachineController.instance.ChangeTo<ChooseActionState>();
     }
 }

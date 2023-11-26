@@ -10,11 +10,7 @@ public class TurnEndState : State
 
         board.ClearTile();
         ClearCheck();
-        SetUnitPos();
-        SetCoolTime();
         ActableUnitCheck();
-
-        aiController.aiPlan = null;
 
         StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
@@ -27,45 +23,6 @@ public class TurnEndState : State
     private void ClearCheck()
     {
         BattleMapManager.instance.ClearCheck();
-    }
-
-
-    private void SetUnitPos()
-    {
-        if(Turn.currentTile.pos != Turn.originTile.pos)
-        {
-            board.mainTiles[Turn.currentTile.pos].content = board.mainTiles[Turn.originTile.pos].content;
-            board.mainTiles[Turn.originTile.pos].content = null;
-
-            Turn.unit.pos = Turn.currentTile.pos;
-        }
-    }
-
-    private void SetCoolTime()
-    {
-        if(Turn.currentSkill == null)
-        {
-            return;
-        }
-
-        int defaultCoolTime = Turn.currentSkill.coolTime;
-
-        for (int i = 0; i < Turn.unit.skills.Count; i++)
-        {
-            var skill = Turn.unit.skills[i].GetComponent<Skill>();
-
-            if (Turn.skillSlotNum.Equals(i))
-            {
-                if (defaultCoolTime != 0) // 쿨타임이 0인 스킬은 넘어감
-                {
-                    skill.SetCoolTime(defaultCoolTime);
-                }
-            }
-            else if (skill.coolTime > 0)
-            {
-                skill.ReduceCoolTime();
-            }
-        }
     }
 
     private void ActableUnitCheck()

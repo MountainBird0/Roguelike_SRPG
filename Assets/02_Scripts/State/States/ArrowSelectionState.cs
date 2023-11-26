@@ -11,13 +11,14 @@ public class ArrowSelectionState : State
     {
         base.Enter();
 
+        board.ShowArrowTile(Turn.currentPos);
+        
         if (!Turn.isHumanTurn)
         {
             StartCoroutine(AIArrowSelected());
             return;
         }
 
-        board.ShowArrowTile(Turn.currentTile.pos);
         uiController.EnableCanvas();
 
         InputManager.instance.OnStartTouch += TouchStart;
@@ -46,11 +47,13 @@ public class ArrowSelectionState : State
 
         if(board.aimingTiles.ContainsKey(cellPosition))
         {
-            Turn.selectedTile = Turn.currentTile;
+            SelectArrow(cellPosition);
 
-            Vector3Int check = cellPosition - Turn.currentTile.pos;
-
-            Turn.direction = cellPosition - Turn.currentTile.pos;
+            if(Turn.skill.data.isAOE && Turn.skill.data.AOERange.Equals(0))
+            {
+                StateMachineController.instance.ChangeTo<SkillTargetingState>();
+                return;
+            }
 
             StateMachineController.instance.ChangeTo<SkillSelectedState>();
         }
@@ -65,20 +68,23 @@ public class ArrowSelectionState : State
     ***********************************************************/
     private void SelectArrow(Vector3Int cellPosition)
     {
-        // Turn.selectedTile = Turn.currentTile;
-
-        Turn.direction = cellPosition - Turn.currentTile.pos;
-
-        StateMachineController.instance.ChangeTo<SkillSelectedState>();
+        Turn.direction = cellPosition - Turn.currentPos;      
     }
 
     private IEnumerator AIArrowSelected()
     {
-        //board.ShowArrowTile(aiController.aiPlan.movePos);
-        board.ShowArrowTile(Turn.unit.pos);
+        SelectArrow(Turn.direction);
 
         yield return new WaitForSeconds(1f);
-        StateMachineController.instance.ChangeTo<SkillSelectedState>();
+        
+        if (Turn.skill.data.isAOE && Turn.skill.data.AOERange.Equals(0))
+        {
+            StateMachineController.instance.ChangeTo<SkillTargetingState>();
+        }
+        else
+        {
+            StateMachineController.instance.ChangeTo<SkillSelectedState>();
+        }
     }
 
 }

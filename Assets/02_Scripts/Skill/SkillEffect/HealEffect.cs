@@ -11,7 +11,7 @@ public class HealEffect : SkillEffect
         {
             Debug.Log($"{GetType()} - Èú Àü {Turn.targets[i].stats.HP}");
 
-            int heal = (int)(Turn.unit.stats.ATK * Turn.currentSkill.multiplier);
+            int heal = (int)(Turn.unit.stats.ATK * Turn.skill.data.multiplier);
 
             Turn.targets[i].stats.HP += heal;
 

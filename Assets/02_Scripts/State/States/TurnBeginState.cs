@@ -13,7 +13,7 @@ public class TurnBeginState : State
 
         if(Turn.unit)
         {
-            SelectUnit(Turn.selectedTile.pos);
+            SelectUnit(Turn.selectedPos);
             StateMachineController.instance.ChangeTo<ChooseActionState>();
             return;                   
         }
@@ -27,18 +27,11 @@ public class TurnBeginState : State
                 break;
             }
             StateMachineController.instance.ChangeTo<ChooseActionState>();
+            return;
         }
 
         InputManager.instance.OnStartTouch += TouchStart;
-        InputManager.instance.OnEndTouch += TouchEnd;
-        
-        // 아군 유닛 없으면 적 유닛 속도대로 정렬
-        // 속도 정렬 아직 안함
-        //if(!BattleMapManager.instance.IsHuman())
-        //{
-        //    Turn.unit = BattleMapManager.instance.units[0];
-        //    StateMachineController.instance.ChangeTo<ChooseActionState>();
-        //}       
+        InputManager.instance.OnEndTouch += TouchEnd;    
     }
 
     public override void Exit()
@@ -85,9 +78,9 @@ public class TurnBeginState : State
     {
         Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
 
-        Turn.originTile = board.GetTile(cellPosition);
-        Turn.currentTile = Turn.originTile;
-        Turn.selectedTile = Turn.originTile;
+        Turn.originPos = cellPosition;
+        Turn.currentPos = Turn.originPos;
+        Turn.selectedPos = Turn.originPos;
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();
     }

@@ -58,4 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: 444b6a7155b12054e93c1dd74f50a9a1, type: 3}
-  coolTime: 0
+  effects:
+  - {fileID: 8296270185172419928}
+  coolTime: 2
+  id: 7
