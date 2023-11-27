@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,11 @@ public class TurnBeginUIController : MonoBehaviour
 
     public Image unitIcon;
     public StatInfo statInfo;
+
+    [Header("SkillSlot")]
+    public List<GameObject> skillSlots;
+    public List<GameObject> coolTimeImage;
+    public List<TextMeshProUGUI> coolTimeText;
 
     public void DisableCanvas()
     {
@@ -38,5 +44,25 @@ public class TurnBeginUIController : MonoBehaviour
 
         float hpRatio = (float)statData.HP / statData.MaxHP;
         statInfo.redBar.fillAmount = hpRatio;
+
+        for (int i = 0; i < unit.skills.Count; i++)
+        {
+            var skill = unit.skills[i].GetComponent<Skill>();
+
+            var slotInfo = skillSlots[i].GetComponent<BattleSkillSlot>();
+            slotInfo.slotNum = i;
+            slotInfo.id = skill.id;
+            slotInfo.image.sprite = skill.image;
+
+            if(skill.data.currentCoolTime > 0)
+            {
+                coolTimeImage[i].SetActive(true);
+                coolTimeText[i].text = skill.data.currentCoolTime.ToString();
+            }
+            else
+            {
+                coolTimeImage[i].SetActive(false);
+            }
+        }
     }
 }

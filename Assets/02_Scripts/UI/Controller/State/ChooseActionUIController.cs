@@ -73,7 +73,7 @@ public class ChooseActionUIController : MonoBehaviour
     }
 
     /**********************************************************
-    * 스킬 세팅
+    * 스킬아이콘 세팅
     ***********************************************************/
     private void SetSkillIcon()
     {
