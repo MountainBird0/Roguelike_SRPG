@@ -43,19 +43,5 @@ public class MoveSequenceState : State
         yield return new WaitForSeconds(1f);
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();
-
-        //Debug.Log($"{GetType()} - 움직일 유닛 : {Turn.unit.name}");
-        //Debug.Log($"{GetType()} - 움직일 곳 : {aiController.aiPlan.movePos}");
-
-        //Turn.unit.gameObject.transform.position = aiController.aiPlan.movePos;
-
-        //Turn.unit.pos = aiController.aiPlan.movePos;
-        //Turn.hasMoved = true;
-
-        //board.mainTiles[Turn.currentTile.pos].content = board.mainTiles[Turn.originTile.pos].content;
-        //board.mainTiles[Turn.originTile.pos].content = null;
-
-        //yield return new WaitForSeconds(1f);
-        //StateMachineController.instance.ChangeTo<ChooseActionState>();
     }
 }

@@ -82,7 +82,7 @@ public class DataManager : MonoBehaviour
         // 이거 이어하기때는 안해도 ㄱㅊ 수정
         currentUnitStats = defaultUnitStats;
 
-        // 현재 유닛이 사용 가능한 스킬 목록에서 최대 3개까지 장착 수정
+        // 현재 유닛이 사용 가능한 스킬 목록에서 최대 3개까지 장착 -> 수정
         currentUsableSkills = defaultUsableSkills;
         foreach (var kvp in currentUsableSkills)
         {

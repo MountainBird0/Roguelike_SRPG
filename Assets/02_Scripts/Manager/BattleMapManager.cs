@@ -91,7 +91,7 @@ public class BattleMapManager : MonoBehaviour
             }
             else
             {
-                ob = skillPool.skills[skillList[i]];
+                ob = Instantiate(skillPool.skills[skillList[i]]);
                 ob.GetComponent<Skill>().data = DataManager.instance.defaultSkillStats[skillList[i]];
             }
             ob.GetComponent<Skill>().id = skillList[i];
@@ -118,8 +118,6 @@ public class BattleMapManager : MonoBehaviour
         HumanUnits = new(allyUnits);
         AIUnits = new(enemyUnits); 
     }
-
-
 
     /**********************************************************
     * 행동 끝난 아군유닛 빼고 아군턴 다 끝났는지 확인

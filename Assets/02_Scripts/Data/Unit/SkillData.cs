@@ -17,7 +17,7 @@ public struct SkillData
 
     public float multiplier;
 
-    public int currentCoolTime;
+    public int currentCoolTime; // 삭제하기
     public int coolTime;
 
     public bool isDirectional;

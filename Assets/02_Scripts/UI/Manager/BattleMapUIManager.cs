@@ -24,6 +24,10 @@ public class BattleMapUIManager : MonoBehaviour
     public StringKeyImagePool unitBigPool;
     public IntKeyImagePool skillIconPool;
 
+    [Header("DefaultImage")]
+    public Sprite defaultSprite;
+
+
     private void Awake()
     {
         if (instance == null)

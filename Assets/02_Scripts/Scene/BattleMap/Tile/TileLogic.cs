@@ -21,21 +21,4 @@ public class TileLogic
         pos = cellPos;
         //worldPos = worldPosition;
     }
-
-    // 이거 어따쓰는지
-    public char GetDirection(TileLogic t2)
-    {
-        return GetDirection(t2.pos);
-    }
-
-    public char GetDirection(Vector3Int t2)
-    {
-        if (this.pos.y < t2.y)
-            return 'N';
-        if (this.pos.x < t2.x)
-            return 'E';
-        if (this.pos.y > t2.y)
-            return 'S';
-        return 'W';
-    }
 }

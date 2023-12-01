@@ -6676,17 +6676,17 @@ MonoBehaviour:
   unitIcon: {fileID: 322868418}
   statInfo: {fileID: 49538671}
   skillSlots:
-  - {fileID: 1498250405}
-  - {fileID: 888677682}
-  - {fileID: 1654999311}
+  - {fileID: 1712393943}
+  - {fileID: 1684213492}
+  - {fileID: 1581551654}
   coolTimeImage:
-  - {fileID: 1661930101}
-  - {fileID: 1681323639}
-  - {fileID: 443320088}
+  - {fileID: 320245833}
+  - {fileID: 1107754642}
+  - {fileID: 2094744333}
   coolTimeText:
-  - {fileID: 488970896}
-  - {fileID: 1407962342}
-  - {fileID: 813249127}
+  - {fileID: 517761024}
+  - {fileID: 1671285601}
+  - {fileID: 1046739759}
 --- !u!4 &1267855288
 Transform:
   m_ObjectHideFlags: 0
@@ -10692,6 +10692,7 @@ MonoBehaviour:
   unitSmallPool: {fileID: 1522320829}
   unitBigPool: {fileID: 1279509824}
   skillIconPool: {fileID: 1837814896}
+  defaultSprite: {fileID: 21300000, guid: 6e9db02add9f3d14eacd923d8a6da296, type: 3}
 --- !u!4 &2030793492
 Transform:
   m_ObjectHideFlags: 0

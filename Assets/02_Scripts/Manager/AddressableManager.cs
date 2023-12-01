@@ -12,9 +12,6 @@ public class AddressableManager : MonoBehaviour
     public static AddressableManager instance;
 
     private AssetReferenceSprite spriteReference = null;
-    private Dictionary<string, Sprite> unitBigImages = new();
-    private Dictionary<string, Sprite> skillIcons = new();
-
 
     private Dictionary<string, Sprite> gameSpriteDic = new();
 
@@ -32,17 +29,26 @@ public class AddressableManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public Sprite GetImage(string name)
+    public async Task<Sprite> GetImage(string name)
     {
         if (gameSpriteDic.ContainsKey(name))
         {
-            Debug.Log($"{GetType()} - dic에서");
+            Debug.Log($"{GetType()} - dic에서 받아옴");
             return gameSpriteDic[name];
         }
         else
         {
-            Debug.Log($"{GetType()} - 실패");
-            return null;
+            await LoadImage(name);
+
+            if (gameSpriteDic.ContainsKey(name))
+            {
+                return gameSpriteDic[name];
+            }
+            else
+            {
+                Debug.LogError($"{GetType()} - 이미지 로드 실패: {name}");
+                return null; // 기본, 에러 스프라이트를 반환
+            }
         }
     }
 
@@ -75,10 +81,6 @@ public class AddressableManager : MonoBehaviour
             {
                 gameSpriteDic.Add(key, handle.Result);
                 Debug.Log($"{GetType()} - 로드 성공");
-            }
-            else
-            {
-                Debug.Log($"{GetType()} - 이미있음");
             }
         }
         else

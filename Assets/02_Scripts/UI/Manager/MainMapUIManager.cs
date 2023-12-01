@@ -2,6 +2,7 @@
 * MainMap의 UI 관리, 생성 등
 ***********************************************************/
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -59,56 +60,103 @@ public class MainMapUIManager : MonoBehaviour
     /**********************************************************
     * 스킬슬롯 생성 / 삭제
     ***********************************************************/
-    public void CreateSkillSlot(string unitName, List<GameObject> equipSkillSlots)
+    public async void CreateSkillSlot(string unitName, List<GameObject> equipSkillSlots)
     {
         ClearSkillSlot();
 
-        // 전체 사용가능한 스킬 보이게
+        await CreateUsableSkills(unitName);
+        await CreateEquippedSkills(unitName, equipSkillSlots);
+        //// 전체 사용가능한 스킬 보이게
+        //GameObject ob;
+        //var usableSkills = DataManager.instance.currentUsableSkills[unitName];
+        //for(int i = 0; i < usableSkills.list.Count; i++)
+        //{    
+        //    var SkillId = usableSkills.list[i];
+        //    if (skillIconPool.images.ContainsKey(SkillId)) // 이름으로 이미지 찾음
+        //    {
+        //        ob = ObjectPoolManager.instance.Spawn("SkillSlot");
+        //        ob.transform.SetParent(skillContent);
+        //        ob.transform.localScale = new Vector3(1f, 1f, 1f); // 수정
+
+        //        var slot = ob.GetComponent<SkillSlot>();
+
+        //        slot.image.sprite = await AddressableManager.instance.GetImage(SkillId.ToString());
+        //        slot.id = SkillId;
+        //        slot.check.SetActive(false);
+
+        //        skillSlots.Add(SkillId, ob);
+        //    }          
+        //}
+
+        //// 장착한 스킬 보이게
+        //var equipSkills = DataManager.instance.currentEquipSkills[unitName];
+        //for (int i = 0; i < equipSkills.list.Count; i++)
+        //{
+        //    var SkillId = equipSkills.list[i];
+        //    if (skillSlots.ContainsKey(SkillId))
+        //    {
+        //        var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
+        //        slot.image.sprite = await AddressableManager.instance.GetImage(SkillId.ToString());
+        //        slot.id = SkillId;
+
+        //        skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
+        //        slot.image.sprite = await AddressableManager .instance.GetImage(SkillId.ToString());
+        //        slot.id = SkillId;
+        //    }
+        //}
+    }
+    /**********************************************************
+    * 사용가능한 전체 스킬슬롯 생성
+    ***********************************************************/
+    private async Task CreateUsableSkills(string name)
+    {
         GameObject ob;
-        var usableSkills = DataManager.instance.currentUsableSkills[unitName];
+        var usableSkills = DataManager.instance.currentUsableSkills[name];
         for(int i = 0; i < usableSkills.list.Count; i++)
-        {    
-            var SkillId = usableSkills.list[i];
-            if (skillIconPool.images.ContainsKey(SkillId)) // 이름으로 이미지 찾음
-            {
-                ob = ObjectPoolManager.instance.Spawn("SkillSlot");
-                ob.transform.SetParent(skillContent);
-                ob.transform.localScale = new Vector3(1f, 1f, 1f); // 수정
+        {
+            int skillId = usableSkills.list[i];
 
-                var slot = ob.GetComponent<SkillSlot>();
+            ob = ObjectPoolManager.instance.Spawn("SkillSlot");
+            ob.transform.SetParent(skillContent);
+            ob.transform.localScale = new Vector3(1f, 1f, 1f); // 수정 필요
 
-                slot.image.sprite = AddressableManager.instance.GetImage(SkillId.ToString());
-                // slot.image.sprite = skillIconPool.images[SkillId];
-                slot.id = SkillId;
-                slot.check.SetActive(false);
-               
-                skillSlots.Add(SkillId, ob);
-            }          
+            var slot = ob.GetComponent<SkillSlot>();
+            slot.image.sprite = await AddressableManager.instance.GetImage(skillId.ToString());
+            slot.id = skillId;
+            slot.check.SetActive(false);
+
+            skillSlots.Add(skillId, ob);
         }
-
-        // 장착한 스킬 보이게
-        var equipSkills = DataManager.instance.currentEquipSkills[unitName];
-        for (int i = 0; i < equipSkills.list.Count; i++)
+    }
+    /**********************************************************
+    * 스킬 장착칸에 스킬슬롯 생성
+    ***********************************************************/
+    private async Task CreateEquippedSkills(string name, List<GameObject> equipSkillSlots)
+    {
+        var equipSkills = DataManager.instance.currentEquipSkills[name];
+        for(int i = 0; i < equipSkills.list.Count; i++)
         {
             var SkillId = equipSkills.list[i];
-            if (skillSlots.ContainsKey(SkillId))
-            {
-                var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-                slot.image.sprite = AddressableManager.instance.GetImage(SkillId.ToString());
-                // slot.image.sprite = skillIconPool.images[SkillId];
-                slot.id = SkillId;
 
-                skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
-            }
-            else
+            var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
+            slot.image.sprite = await AddressableManager.instance.GetImage(SkillId.ToString());
+            slot.id = SkillId;
+
+            if(skillSlots.ContainsKey(SkillId))
             {
-                var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-                slot.image.sprite = AddressableManager.instance.GetImage(SkillId.ToString());
-                // slot.image.sprite = skillIconPool.images[SkillId];
-                slot.id = SkillId;
+                skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
             }
         }
     }
+
+
+    /**********************************************************
+    * 스킬 슬롯 비우기
+    ***********************************************************/
     private void ClearSkillSlot()
     {
         foreach(var kvp in skillSlots)
@@ -142,7 +190,7 @@ public class MainMapUIManager : MonoBehaviour
     /**********************************************************
     * 스킬 윈도우 세팅
     ***********************************************************/
-    public void SetSkillWindow(int skillNum)
+    public void SetSkillInfoWindow(int skillNum)
     {
         if(DataManager.instance.defaultSkillStats.ContainsKey(skillNum))
         {

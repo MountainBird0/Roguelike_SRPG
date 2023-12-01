@@ -199,24 +199,24 @@ public class ChooseActionState : State
     {
         Debug.Log($"{GetType()} - AI : CAS");
         
-        AIPlan plan = aiController.currentAiPlan;
+        AIPlan plan = aiController.currentPlan;
 
         if(plan == null)
         {
             Debug.Log($"{GetType()} - 플랜새로 만듬");
             plan = aiController.Evaluate();
+
+            yield return new WaitForSeconds(1f);
+
+            if (plan == null)
+            {
+                Debug.Log($"{GetType()} - 계획 못찾음");
+                StateMachineController.instance.ChangeTo<TurnEndState>();
+                yield break;
+            }
         }
 
-        yield return new WaitForSeconds(1f);
-
-        if (plan == null)
-        {
-            Debug.Log($"{GetType()} - 계획 못찾음");
-            StateMachineController.instance.ChangeTo<TurnEndState>();
-            yield break;
-        }
-
-        if (!Turn.isMoving)
+        if (!Turn.isMoving && (plan.movePos != Turn.unit.pos))
         {
             Debug.Log($"{GetType()} - 움직이러감");
             MoveUnit(plan.movePos);
@@ -224,7 +224,12 @@ public class ChooseActionState : State
             yield break;
         }
 
-        
+        if(plan.skill == null)
+        {
+            aiController.currentPlan = null;
+            StateMachineController.instance.ChangeTo<TurnEndState>();
+            yield break;
+        }
 
         for (int i = 0; i < Turn.unit.skills.Count; i++)
         {
@@ -234,7 +239,7 @@ public class ChooseActionState : State
                 Turn.direction = plan.direction;
                 Turn.selectedPos = plan.targetPos;
                 Turn.isMoving = false;
-                aiController.currentAiPlan = null;
+                aiController.currentPlan = null;
                 SkillSetting(i);
                 break;
             }

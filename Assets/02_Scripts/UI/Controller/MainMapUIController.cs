@@ -85,12 +85,11 @@ public class MainMapUIController : MonoBehaviour
     /******************************************************************************
     * Unit 클릭
     *******************************************************************************/
-    private void ClickBtnUnit(string clickedButtonName)
+    private async void ClickBtnUnit(string clickedButtonName)
     {
         unitName = clickedButtonName;
 
-        bigImage.GetComponent<Image>().sprite = AddressableManager.instance.GetImage(unitName);
-        //bigImage.GetComponent<Image>().sprite = manager.unitBigPool.images[unitName];
+        bigImage.GetComponent<Image>().sprite = await AddressableManager.instance.GetImage(unitName);
     }
 
     /******************************************************************************
@@ -102,7 +101,7 @@ public class MainMapUIController : MonoBehaviour
         {
             Panel_SkillInfo.SetActive(true);
         }
-        manager.SetSkillWindow(skillNum);
+        manager.SetSkillInfoWindow(skillNum);
     }
 
     /******************************************************************************
@@ -153,7 +152,6 @@ public class MainMapUIController : MonoBehaviour
             // manager.SetSkillWindow(0);
 
             Panel_SkillWindow.SetActive(true);
-
             Panel_StatWindow.SetActive(true);
             ScrollView_Units.SetActive(false);
             bigImage.transform.DOMove(imagePos_L.position, 0.5f);
@@ -182,9 +180,9 @@ public class MainMapUIController : MonoBehaviour
     /******************************************************************************
     * skill check 활성화
     *******************************************************************************/
-    public void ChangeToTouchable(int skillID)
+    public void ChangeToTouchable(int id)
     {
-        skillSlots[skillID].GetComponent<SkillSlot>().check.SetActive(false);
+        skillSlots[id].GetComponent<SkillSlot>().check.SetActive(false);
     }
 
     /**********************************************************
@@ -196,9 +194,13 @@ public class MainMapUIController : MonoBehaviour
 
         for (int i = 0; i < equipSkillSlots.Count; i++)
         {
-            skillList.list.Add(equipSkillSlots[i].GetComponent<SkillSlot>().id);
-        }
+            int skillId = equipSkillSlots[i].GetComponent<SkillSlot>().id;
 
+            if (skillId != -1)
+            {
+                skillList.list.Add(skillId);
+            }
+        }
         DataManager.instance.currentEquipSkills[unitName] = skillList;
     }
 
@@ -208,8 +210,6 @@ public class MainMapUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnEXID()
     {
-
-
         GameManager.instance.SaveGame();
         GlobalSceneManager.instance.GoTitleScene();
     }

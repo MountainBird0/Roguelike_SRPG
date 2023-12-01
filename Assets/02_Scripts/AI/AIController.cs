@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    public AIPlan currentAiPlan;
+    public AIPlan currentPlan;
 
     private RangeSearchMachine searchMachine;
     private Board board;
+
+    private Vector3Int nearestUnitPos;
 
     private Vector3Int[] dirs = new Vector3Int[4]
     {
@@ -26,7 +28,7 @@ public class AIController : MonoBehaviour
 
     public AIPlan Evaluate()
     {
-        currentAiPlan = null;
+        currentPlan = null;
 
         return PlanChoice();
     }
@@ -37,19 +39,20 @@ public class AIController : MonoBehaviour
     ***********************************************************/
     private AIPlan PlanChoice()
     {
-        currentAiPlan = null;
+        currentPlan = null;
 
         int highestScore = 0;
         Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
         var skills = SortSkills(Turn.unit.skills);
 
-        if (skills.Count.Equals(0)) return null; // 이동하러가기 bool 값 쓸듯
+        if (skills.Count == 0) return null; // 이동하러가기 bool 값 쓸듯
 
         for (int i = 0; i < skills.Count; i++) // 스킬 순회
         {
             Debug.Log($"{GetType()} - 순회할 스킬 이름 : {skills[i].name}");
+
             var targetUnits = SearchUnit(skills[i].data.affectType);
-            if (targetUnits.Count.Equals(0)) continue; // 타겟 유닛이 하나도 없으면 다음 스킬로 이동
+            if (targetUnits.Count == 0) continue; // 타겟 유닛이 하나도 없으면 다음 스킬로 이동
 
             for(int j = 0; j < targetUnits.Count; j++) // 타겟 유닛 순회
             {
@@ -59,25 +62,8 @@ public class AIController : MonoBehaviour
 
                 for (int k = 0; k < reachableTiles.Count; k++)
                 {
-                    int score = 0;
+                    int score = CheckScore(skills[i], targetUnits[j], reachableTiles[k]);
 
-                    if(skills[i].data.isDirectional)
-                    {
-                        Turn.direction = SearchDir(targetUnits[j].pos, reachableTiles[k], skills[i].data);                     
-                    }
-                    else
-                    {
-                        Turn.direction = Vector3Int.zero;
-                    }
-
-                    if(skills[i].data.isAOE)
-                    {
-                        score = SearchAOETarget(targetUnits, reachableTiles[k], skills[i].data);
-                    }
-                    else
-                    {
-                        score = 1;
-                    }
                     if (highestScore < score)
                     {
                         highestScore = score;
@@ -86,10 +72,23 @@ public class AIController : MonoBehaviour
                 }
             }
 
-            if (!highestScore.Equals(0)) return currentAiPlan;
+            if (highestScore != 0) return currentPlan;
         }
 
-        return null;
+        return MoveToEnemy();
+    }
+
+    /**********************************************************
+    * 점수 계산
+    ***********************************************************/
+    private int CheckScore(Skill skill, Unit targetUnit, TileLogic reachableTile)
+    {
+        int score = 0;
+
+        Turn.direction = skill.data.isDirectional ? SearchDir(targetUnit.pos, reachableTile, skill.data) : Vector3Int.zero;
+        score = skill.data.isAOE ? SearchAOETarget(SearchUnit(skill.data.affectType), reachableTile, skill.data) : 1;
+
+        return score;
     }
 
     /**********************************************************
@@ -100,7 +99,8 @@ public class AIController : MonoBehaviour
         List<Skill> sortedSkills = skills
             .Select(ob => ob.GetComponent<Skill>())
             .Where(skill => skill.data.currentCoolTime == 0)
-            .OrderBy(skill => skill.data.affectType)
+            .OrderByDescending(skill => skill.data.coolTime)
+            .ThenBy(skill => skill.data.affectType)
             .ToList();
 
         return sortedSkills;
@@ -147,15 +147,16 @@ public class AIController : MonoBehaviour
             }
         }
 
-        if (affectType == AffectType.HEAL)
+        if (affectType == AffectType.HEAL) // 체력 낮은 순 정렬
         {
             validTargets = validTargets
               .OrderBy(unit => unit.stats.HP / unit.stats.MaxHP)
               .ToList();
         }
-        else
+        else // 가까운 순 정렬
         {
             validTargets = validTargets.OrderBy(unit => Vector3Int.Distance(unit.pos, originPos)).ToList();
+            nearestUnitPos = validTargets[0].pos;
         }
 
         return validTargets;
@@ -226,25 +227,43 @@ public class AIController : MonoBehaviour
     ***********************************************************/
     private void SetAIPlan(Skill skill, Vector3Int movePos, Vector3Int targetPos)
     {
-        if(currentAiPlan == null)
+        if(currentPlan == null)
         {
-            currentAiPlan = new();
+            currentPlan = new();
         }
 
-        currentAiPlan.skill = skill;
-        currentAiPlan.movePos = movePos;
-        currentAiPlan.targetPos = targetPos;
-        Debug.Log($"{GetType()} - 정한 스킬 : {currentAiPlan.skill} / 움직일 곳 : {currentAiPlan.movePos} / 타겟 위치 : {currentAiPlan.targetPos}");
+        currentPlan.skill = skill;
+        currentPlan.movePos = movePos;
+        currentPlan.targetPos = targetPos;
+        Debug.Log($"{GetType()} - 정한 스킬 : {currentPlan.skill} / 움직일 곳 : {currentPlan.movePos} / 타겟 위치 : {currentPlan.targetPos}");
     }
 
     /**********************************************************
     * 적과 가장 가까운 타일로 이동
     ***********************************************************/
-    public TileLogic MoveToEnemy()
+    private AIPlan MoveToEnemy()
     {
-        /// 스킬 못찾았을때 넣기 Evaluate에
+        // 가장 가까운 경로로 이동으로 수정
         Debug.Log($"{GetType()} - 근처에 적 없음 가장 가까운타일로 이동");
+        if (currentPlan == null)
+        {
+            currentPlan = new();
+        }
 
-        return null;
+        currentPlan.skill = null;
+
+        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
+        TileLogic closestTile = moveableTiles.OrderBy(tile => Vector3Int.Distance(tile.pos, nearestUnitPos)).FirstOrDefault();
+
+        if(closestTile != null)
+        {
+            currentPlan.movePos = closestTile.pos;
+        }
+        else
+        {
+            currentPlan.movePos = Turn.unit.pos;
+        }
+
+        return currentPlan;
     }
 }

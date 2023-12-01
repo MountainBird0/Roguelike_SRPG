@@ -77,7 +77,7 @@ public class ChooseActionUIController : MonoBehaviour
     ***********************************************************/
     private void SetSkillIcon()
     {
-        for(int i = 0; i < Turn.unit.skills.Count; i++)
+        for(int i = 0; i < skillSlots.Count; i++)
         {
             var skill = Turn.unit.skills[i].GetComponent<Skill>();
             
