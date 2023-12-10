@@ -49,7 +49,7 @@ public class PerformSkillState : State
         {
             var skill = Turn.unit.skills[i].GetComponent<Skill>();
 
-            if (Turn.skillSlotNum.Equals(i))
+            if (Turn.skill.data.name == skill.data.name)
             {
                 if (defaultCoolTime != 0) // 쿨타임이 0인 스킬은 넘어감
                 {

@@ -284,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5966775767492023685}
   - component: {fileID: 8523854353155262738}
+  - component: {fileID: -2253465647980589389}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -321,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Bat
+  unitNum: 0
   body: {fileID: 6175134594177264798}
   image: {fileID: -1302966891, guid: 444d04e52c58bcf448818352389a5a78, type: 3}
   redBar: {fileID: 5662462309999450814}
@@ -328,7 +330,22 @@ MonoBehaviour:
   allianceType: 2
   faction: 1
   isTurnEnd: 0
+  pos: {x: 0, y: 0, z: 0}
   skills: []
+  coolTimeList: 
+  animationController: {fileID: 0}
+--- !u!114 &-2253465647980589389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048241894008068452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a869df893deb44ebe3a7632b3e524b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7216502859489152117
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,7 +62,7 @@ public class ChooseActionState : State
     /**********************************************************
     * 스크린 터치 시작 / 종료
     ***********************************************************/
-    private void TouchStart(Vector2 screenPosition, float time)
+    public override void TouchStart(Vector2 screenPosition, float time)
     {
         clickResults.Clear();
         clickData.position = screenPosition;
@@ -96,7 +96,7 @@ public class ChooseActionState : State
             }
         }
     }
-    private void TouchEnd(Vector2 screenPosition, float time)
+    public override void TouchEnd(Vector2 screenPosition, float time)
     {
 
     }
@@ -113,12 +113,10 @@ public class ChooseActionState : State
 
             var slot = ob.GetComponent<BattleSkillSlot>();
 
-            if(slot.id.Equals(-1)) // 나중에 다른방식으로 수정
+            if(slot.slotNum != -1)
             {
-                return;
+                SkillSetting(slot.slotNum);
             }
-
-            SkillSetting(slot.slotNum);
         }      
     }
 
@@ -127,7 +125,6 @@ public class ChooseActionState : State
     ***********************************************************/
     private void SkillSetting(int slotNum)
     {
-        Turn.skillSlotNum = slotNum;
         Turn.skill = Turn.unit.skills[slotNum].GetComponent<Skill>();
 
         if (Turn.skill.data.isDirectional)
@@ -146,13 +143,16 @@ public class ChooseActionState : State
     private void MoveUnit(Vector3Int cellPosition)
     {
         Debug.Log($"{GetType()} - 유닛위치 콘텐츠 {board.mainTiles[Turn.unit.pos].content}");
-        board.mainTiles[cellPosition].content = board.mainTiles[Turn.unit.pos].content;
-        board.mainTiles[Turn.unit.pos].content = null;
 
-        Turn.currentPos = cellPosition;
-        Turn.selectedPos = Turn.currentPos;
-        Turn.unit.pos = Turn.currentPos;
-        Turn.isMoving = true;
+        Turn.selectedPos = cellPosition;
+
+        //board.mainTiles[cellPosition].content = board.mainTiles[Turn.unit.pos].content;
+        //board.mainTiles[Turn.unit.pos].content = null;
+
+        //Turn.currentPos = cellPosition;
+        //Turn.selectedPos = Turn.currentPos;
+        //Turn.unit.pos = Turn.currentPos;
+        //Turn.isMoving = true;
 
         StateMachineController.instance.ChangeTo<MoveSequenceState>();     
     }
@@ -191,6 +191,15 @@ public class ChooseActionState : State
         tiles = board.Search(board.GetTile(Turn.originPos), Turn.unit.stats.MOV, board.ISMovable);
         board.ShowHighlightTile(tiles, 0);
     }
+
+    /**********************************************************
+    * 현재 위치로 위치값들 변경
+    ***********************************************************/
+    private void SetPostion()
+    {
+
+    }
+
 
     /**********************************************************
     * AI
@@ -235,7 +244,6 @@ public class ChooseActionState : State
         {
             if (Turn.unit.skills[i].name.Equals(plan.skill.name))
             {
-                Turn.skillSlotNum = i;
                 Turn.direction = plan.direction;
                 Turn.selectedPos = plan.targetPos;
                 Turn.isMoving = false;

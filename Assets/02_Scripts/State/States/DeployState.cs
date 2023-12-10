@@ -46,12 +46,13 @@ public class DeployState : State
         // 몬스터 속도 정할 필요성
         InputManager.instance.OnStartTouch -= TouchStart;
         InputManager.instance.OnEndTouch -= TouchEnd;
+        Debug.Log($"{GetType()} - 터치한거 날라감");
     }
 
     /**********************************************************
     * 스크린 터치 시작 / 종료
     ***********************************************************/
-    private void TouchStart(Vector2 screenPosition, float time)
+    public override void TouchStart(Vector2 screenPosition, float time)
     {
         Vector3Int cellPosition = GetCellPosition(screenPosition);
 
@@ -67,7 +68,7 @@ public class DeployState : State
             }
         }
     }
-    private void TouchEnd(Vector2 screenPosition, float time)
+    public override void TouchEnd(Vector2 screenPosition, float time)
     {
         uiController.DisableGuide();
 

@@ -11,6 +11,8 @@ using UnityEngine.UI;
 
 public class MainMapUIManager : MonoBehaviour
 {
+    public static MainMapUIManager instance;
+
     public TextMeshProUGUI seed;
 
     public GameObject unitSlot;
@@ -29,9 +31,21 @@ public class MainMapUIManager : MonoBehaviour
     public StringKeyImagePool unitBigPool;
     public IntKeyImagePool skillIconPool;
 
+    [Header("DefaultImage")]
+    public Sprite defaultSprite;
 
     private void Awake()
-    {
+    {       
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogWarning($"{GetType()} - Destory");
+            Destroy(gameObject);
+        }
+        
         seed.text = DataManager.instance.gameInfo.seed.ToString();
     }
 
@@ -66,48 +80,6 @@ public class MainMapUIManager : MonoBehaviour
 
         await CreateUsableSkills(unitName);
         await CreateEquippedSkills(unitName, equipSkillSlots);
-        //// 전체 사용가능한 스킬 보이게
-        //GameObject ob;
-        //var usableSkills = DataManager.instance.currentUsableSkills[unitName];
-        //for(int i = 0; i < usableSkills.list.Count; i++)
-        //{    
-        //    var SkillId = usableSkills.list[i];
-        //    if (skillIconPool.images.ContainsKey(SkillId)) // 이름으로 이미지 찾음
-        //    {
-        //        ob = ObjectPoolManager.instance.Spawn("SkillSlot");
-        //        ob.transform.SetParent(skillContent);
-        //        ob.transform.localScale = new Vector3(1f, 1f, 1f); // 수정
-
-        //        var slot = ob.GetComponent<SkillSlot>();
-
-        //        slot.image.sprite = await AddressableManager.instance.GetImage(SkillId.ToString());
-        //        slot.id = SkillId;
-        //        slot.check.SetActive(false);
-
-        //        skillSlots.Add(SkillId, ob);
-        //    }          
-        //}
-
-        //// 장착한 스킬 보이게
-        //var equipSkills = DataManager.instance.currentEquipSkills[unitName];
-        //for (int i = 0; i < equipSkills.list.Count; i++)
-        //{
-        //    var SkillId = equipSkills.list[i];
-        //    if (skillSlots.ContainsKey(SkillId))
-        //    {
-        //        var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-        //        slot.image.sprite = await AddressableManager.instance.GetImage(SkillId.ToString());
-        //        slot.id = SkillId;
-
-        //        skillSlots[SkillId].GetComponent<SkillSlot>().check.SetActive(true);
-        //    }
-        //    else
-        //    {
-        //        var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
-        //        slot.image.sprite = await AddressableManager .instance.GetImage(SkillId.ToString());
-        //        slot.id = SkillId;
-        //    }
-        //}
     }
     /**********************************************************
     * 사용가능한 전체 스킬슬롯 생성
@@ -116,9 +88,9 @@ public class MainMapUIManager : MonoBehaviour
     {
         GameObject ob;
         var usableSkills = DataManager.instance.currentUsableSkills[name];
-        for(int i = 0; i < usableSkills.list.Count; i++)
+        for(int i = 0; i < usableSkills.Count; i++)
         {
-            int skillId = usableSkills.list[i];
+            int skillId = usableSkills[i];
 
             ob = ObjectPoolManager.instance.Spawn("SkillSlot");
             ob.transform.SetParent(skillContent);
@@ -138,11 +110,19 @@ public class MainMapUIManager : MonoBehaviour
     private async Task CreateEquippedSkills(string name, List<GameObject> equipSkillSlots)
     {
         var equipSkills = DataManager.instance.currentEquipSkills[name];
-        for(int i = 0; i < equipSkills.list.Count; i++)
+        for(int i = 0; i < equipSkillSlots.Count; i++)
         {
-            var SkillId = equipSkills.list[i];
-
             var slot = equipSkillSlots[i].GetComponent<SkillSlot>();
+            
+            if(equipSkills.Count <= i)
+            {
+                slot.id = -1; 
+                slot.image.sprite = defaultSprite;
+                continue;
+            }
+
+            var SkillId = equipSkills[i];
+
             slot.image.sprite = await AddressableManager.instance.GetImage(SkillId.ToString());
             slot.id = SkillId;
 

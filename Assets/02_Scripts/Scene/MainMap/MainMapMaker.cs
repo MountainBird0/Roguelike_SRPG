@@ -11,14 +11,14 @@ public class MainMapMaker : MonoBehaviour
     public Transform map;
     public GameObject line;
 
+    public GameObject Root;
+    
     [Header("[ Icon ]")] // 아이콘들
     public GameObject Monster;
     public GameObject Elite;
     public GameObject Shop;
     public GameObject Chest;
     public GameObject Boss;
-
-    public GameObject Root;
 
     private MapInfo mapData;
 

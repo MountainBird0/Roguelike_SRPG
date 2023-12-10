@@ -24,7 +24,7 @@ public class MainMapSkillInput : MonoBehaviour
 
     private Coroutine coroutine;
 
-    private GameObject prevSlot;
+    private GameObject pastSlot;
 
     private void OnEnable()
     {
@@ -43,7 +43,7 @@ public class MainMapSkillInput : MonoBehaviour
     ***********************************************************/
     private void TouchStart(Vector2 screenPosition, float time)
     {
-        prevSlot = null;
+        pastSlot = null;
 
         clickResults.Clear();
         clickData.position = screenPosition;
@@ -91,9 +91,9 @@ public class MainMapSkillInput : MonoBehaviour
     ***********************************************************/
     private void TouchSkillSlot(GameObject slot)
     {
-        prevSlot = slot;
+        pastSlot = slot;
         
-        var SlotInfo = prevSlot.GetComponent<SkillSlot>();
+        var SlotInfo = pastSlot.GetComponent<SkillSlot>();
 
         if (SlotInfo.id.Equals(-1))
         {
@@ -108,12 +108,12 @@ public class MainMapSkillInput : MonoBehaviour
     ***********************************************************/
     private void DropToEquipSlot(GameObject slot)
     {
-        var prevSlotInfo = prevSlot.GetComponent<SkillSlot>();
+        var prevSlotInfo = pastSlot.GetComponent<SkillSlot>();
         var equipSlotInfo = slot.GetComponent<SkillSlot>();
 
         if (prevSlotInfo.isEquipment)
         {
-            SwapSkill(slot, prevSlot);
+            SwapSkill(slot, pastSlot);
         }
         else
         {
@@ -128,17 +128,18 @@ public class MainMapSkillInput : MonoBehaviour
             equipSlotInfo.image.sprite = prevSlotInfo.image.sprite;
         }
     }
-    private void SwapSkill(GameObject currentSlot, GameObject prevSlot)
+    private void SwapSkill(GameObject currentSlotOb, GameObject pastSlotOb)
     {
-        int id = currentSlot.GetComponent<SkillSlot>().id;
-        Sprite image = currentSlot.GetComponent<SkillSlot>().image.sprite;
+        var curSlot = currentSlotOb.GetComponent<SkillSlot>();
+        var pastSlot = pastSlotOb.GetComponent<SkillSlot>();
 
-        currentSlot.GetComponent<SkillSlot>().id = prevSlot.GetComponent<SkillSlot>().id;
-        currentSlot.GetComponent<SkillSlot>().image.sprite = prevSlot.GetComponent<SkillSlot>().image.sprite;
+        int tempId = curSlot.id;
+        curSlot.id = pastSlot.id;
+        pastSlot.id = tempId;
 
-        prevSlot.GetComponent<SkillSlot>().id = id;
-        prevSlot.GetComponent<SkillSlot>().image.sprite = image;
-
+        Sprite tempImage = curSlot.image.sprite;
+        curSlot.image.sprite = pastSlot.image.sprite;
+        pastSlot.image.sprite = tempImage;
     }
 
     /**********************************************************
@@ -146,15 +147,15 @@ public class MainMapSkillInput : MonoBehaviour
     ***********************************************************/
     private void DropToEmpty()
     {
-        var prevSlotInfo = prevSlot.GetComponent<SkillSlot>();
-        if (prevSlotInfo.isEquipment)
+        var pastSlot = this.pastSlot.GetComponent<SkillSlot>();
+        if (pastSlot.isEquipment)
         {
-            controller.ChangeToTouchable(prevSlotInfo.id);
+            controller.ChangeToTouchable(pastSlot.id);
 
-            var slot = prevSlot.GetComponent<SkillSlot>();
+            var slot = this.pastSlot.GetComponent<SkillSlot>();
 
             slot.id = -1;
-            slot.image.sprite = controller.manager.skillIconPool.images[slot.id];
+            slot.image.sprite = MainMapUIManager.instance.defaultSprite;
         }
     }
 
@@ -163,7 +164,7 @@ public class MainMapSkillInput : MonoBehaviour
     ***********************************************************/
     private IEnumerator Pickicon(Sprite image)
     {
-        var skillSlot = prevSlot.GetComponent<SkillSlot>();
+        var skillSlot = pastSlot.GetComponent<SkillSlot>();
         controller.ClickSkill(skillSlot.id);
 
         yield return new WaitForSeconds(0.1f);

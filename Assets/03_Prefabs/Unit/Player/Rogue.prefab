@@ -284,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1796635207112001985}
   - component: {fileID: 4353292671128098134}
+  - component: {fileID: 8210383980778183396}
   m_Layer: 0
   m_Name: Rogue
   m_TagString: Untagged
@@ -321,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Rogue
+  unitNum: 0
   body: {fileID: 2275070925264335066}
   image: {fileID: 405706617, guid: da52927e09ecafe47b0d1e550675bfff, type: 3}
   redBar: {fileID: 339401344925583098}
@@ -328,7 +330,22 @@ MonoBehaviour:
   allianceType: 0
   faction: 0
   isTurnEnd: 0
+  pos: {x: 0, y: 0, z: 0}
   skills: []
+  coolTimeList: 
+  animationController: {fileID: 0}
+--- !u!114 &8210383980778183396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166226702527022368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a869df893deb44ebe3a7632b3e524b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3316615099550748721
 GameObject:
   m_ObjectHideFlags: 0

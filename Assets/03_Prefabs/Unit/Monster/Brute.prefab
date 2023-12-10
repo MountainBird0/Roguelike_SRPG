@@ -385,6 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5641308847281906379}
   - component: {fileID: 7695836118716546652}
+  - component: {fileID: -806561916336595484}
   m_Layer: 0
   m_Name: Brute
   m_TagString: Untagged
@@ -422,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Brute
+  unitNum: 0
   body: {fileID: 5275322931968056272}
   image: {fileID: -1161769086, guid: 28315554411529648a1d15476725acb4, type: 3}
   redBar: {fileID: 5914019109100252656}
@@ -429,4 +431,19 @@ MonoBehaviour:
   allianceType: 2
   faction: 1
   isTurnEnd: 0
+  pos: {x: 0, y: 0, z: 0}
   skills: []
+  coolTimeList: 
+  animationController: {fileID: 0}
+--- !u!114 &-806561916336595484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9031873237375807018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a869df893deb44ebe3a7632b3e524b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageEndState : State
+public class StageDefeatState : State
 {
     public override void Enter()
     {
@@ -16,5 +16,4 @@ public class StageEndState : State
         base.Exit();
 
     }
-
 }

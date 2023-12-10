@@ -40,7 +40,7 @@ public class ArrowSelectionState : State
     /**********************************************************
     * 스크린 터치 시작 / 종료
     ***********************************************************/
-    private void TouchStart(Vector2 screenPosition, float time)
+    public override void TouchStart(Vector2 screenPosition, float time)
     {
         // 방향 타일중에 하나 누르면 그 방향 저장하고 SkillSelectionState로
         Vector3Int cellPosition = GetCellPosition(screenPosition);
@@ -58,7 +58,7 @@ public class ArrowSelectionState : State
             StateMachineController.instance.ChangeTo<SkillSelectedState>();
         }
     }
-    private void TouchEnd(Vector2 screenPosition, float time)
+    public override void TouchEnd(Vector2 screenPosition, float time)
     {
 
     }

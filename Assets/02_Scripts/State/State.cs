@@ -11,6 +11,12 @@ public class State : MonoBehaviour
 
     //protected StateMachineController machine { get { return StateMachineController.instance; } };
 
+    public void OnDisable()
+    {
+        InputManager.instance.OnStartTouch -= TouchStart;
+        InputManager.instance.OnEndTouch -= TouchEnd;
+    }
+
     public virtual void Enter()
     {
         Debug.Log($"{GetType()} - 실행");
@@ -24,6 +30,16 @@ public class State : MonoBehaviour
     {
         Debug.Log($"{GetType()} - 종료");
     }
+
+    public virtual void TouchStart(Vector2 screenPosition, float time)
+    {
+
+    }
+    public virtual void TouchEnd(Vector2 screenPosition, float time)
+    {
+
+    }
+
 
     // 타일 이동, ui 변경 등 함수들
 

@@ -51,7 +51,7 @@ public class SkillSelectedState : State
     /**********************************************************
     * 스크린 터치 시작 / 종료
     ***********************************************************/
-    private void TouchStart(Vector2 screenPosition, float time)
+    public override void TouchStart(Vector2 screenPosition, float time)
     {
         // 여기도 ui먼저 누르는거 추가
         Vector3Int cellPosition = GetCellPosition(screenPosition);
@@ -62,7 +62,7 @@ public class SkillSelectedState : State
             StateMachineController.instance.ChangeTo<SkillTargetingState>();
         }
     }
-    private void TouchEnd(Vector2 screenPosition, float time)
+    public override void TouchEnd(Vector2 screenPosition, float time)
     {
 
     }

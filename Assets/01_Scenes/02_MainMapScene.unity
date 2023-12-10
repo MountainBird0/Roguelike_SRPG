@@ -340,12 +340,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 488810708}
   line: {fileID: 5538393321299455231, guid: da04eb3e28601bb44bf01b3f68edf13b, type: 3}
+  Root: {fileID: 407760584}
   Monster: {fileID: 1236589927096996267, guid: 447c19d9cb540304eb98f299efe65755, type: 3}
   Elite: {fileID: 1236589927096996267, guid: 42e242a5e47f394449dfd58c93203ba7, type: 3}
   Shop: {fileID: 1236589927096996267, guid: e8901a889a9ec554aa24913ec26a356a, type: 3}
   Chest: {fileID: 1236589927096996267, guid: 4b89624363fd12348bd41c450088df9b, type: 3}
   Boss: {fileID: 1236589927096996267, guid: e6c6b4fc938e0af449b8da72532e7134, type: 3}
-  Root: {fileID: 407760584}
 --- !u!4 &63425249
 Transform:
   m_ObjectHideFlags: 0
@@ -7223,6 +7223,7 @@ MonoBehaviour:
   unitSmallPool: {fileID: 6729474903246547939}
   unitBigPool: {fileID: 7777466676156791708}
   skillIconPool: {fileID: 964006261}
+  defaultSprite: {fileID: 21300000, guid: 6e9db02add9f3d14eacd923d8a6da296, type: 3}
 --- !u!4 &570514127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7777466675653386580, guid: 2daf7e38339616447976e78c7a308b81, type: 3}

@@ -184,20 +184,19 @@ public class Board : MonoBehaviour
 
         while (checkNow.Count > 0)
         {
-            TileLogic t = checkNow.Dequeue();
+            TileLogic now = checkNow.Dequeue();
             for (int i = 0; i < 4; i++)
             {
                 // maintiles에서 현재 타일의 상하좌우 타일을 가지고 옴
-                TileLogic next = GetTile(t.pos + dirs[i]); 
+                TileLogic next = GetTile(now.pos + dirs[i]); 
 
-                if (next == null || next.distance <= t.distance + 1)
-                {
-                    // 다음타일이 없거나 다음 타일과의 거리가 1 이상 차이난다면 
-                    continue;
+                if (next == null || next.distance <= now.distance + 1)
+                {                              
+                    continue; // 다음타일이 없거나 다음 타일과의 거리가 1 이상 차이난다면 
                 }
-                if (searchType(t, next, range))
+                if (searchType(now, next, range))
                 {
-                    next.prev = t; // 이거 이유? 길찾을려고?
+                    next.prev = now; // 이거 이유? 길찾을려고?
                     checkNext.Enqueue(next);
                     tilesResult.Add(next);
                 }
@@ -212,7 +211,6 @@ public class Board : MonoBehaviour
     }
     private void SwapReference(ref Queue<TileLogic> now, ref Queue<TileLogic> next)
     {
-        // 그냥 next clear하면?
         Queue<TileLogic> temp = now;
         now = next;
         next = temp;

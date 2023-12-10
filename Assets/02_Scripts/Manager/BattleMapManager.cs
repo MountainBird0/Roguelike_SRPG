@@ -72,13 +72,13 @@ public class BattleMapManager : MonoBehaviour
         if (DataManager.instance.currentUnitStats.ContainsKey(name))
         {
             unit.stats = DataManager.instance.currentUnitStats[name];
-            skillList = DataManager.instance.currentEquipSkills[name].list;
+            skillList = DataManager.instance.currentEquipSkills[name];
             allyUnits.Add(unit.unitNum, unit);
         }
         else if(DataManager.instance.defaultMonsterStats.ContainsKey(name))
         {
             unit.stats = DataManager.instance.defaultMonsterStats[name];
-            skillList = DataManager.instance.defaultMonsterEquipSkills[name].list;
+            skillList = DataManager.instance.defaultMonsterEquipSkills[name];
             enemyUnits.Add(unit.unitNum, unit);
         }
 
@@ -176,18 +176,19 @@ public class BattleMapManager : MonoBehaviour
     /**********************************************************
     * 게임 클리어여부 확인
     ***********************************************************/
-    public void ClearCheck()
+    public bool? ClearCheck()
     {
         if (allyUnits.Count.Equals(0))
         {
-            Debug.Log($"{GetType()} - 패배");
-            StateMachineController.instance.ChangeTo<StageEndState>();
+            Debug.Log($"{GetType()} - 패배");         
+            return false;
         }
         else if (enemyUnits.Count.Equals(0))
         {
-            Debug.Log($"{GetType()} - 승리");
-            StateMachineController.instance.ChangeTo<StageEndState>();
+            Debug.Log($"{GetType()} - 승리");          
+            return true;
         }
+        return null;
     }
 
     /**********************************************************

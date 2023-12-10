@@ -9,9 +9,22 @@ public class TurnEndState : State
         base.Enter();
 
         board.ClearTile();
-        ClearCheck();
-        ActableUnitCheck();
 
+        var isClear = BattleMapManager.instance.ClearCheck();
+        if (isClear.HasValue)
+        {
+            if(isClear.Value)
+            {
+                StateMachineController.instance.ChangeTo<StageClearState>();
+            }
+            else
+            {
+                StateMachineController.instance.ChangeTo<StageDefeatState>();
+
+            }
+        }
+
+        ActableUnitCheck();
         StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
 
@@ -20,11 +33,9 @@ public class TurnEndState : State
         base.Exit();
     }
 
-    private void ClearCheck()
-    {
-        BattleMapManager.instance.ClearCheck();
-    }
-
+    /**********************************************************
+    * 이번턴에 활동 가능한 유닛이 있는지 확인
+    ***********************************************************/
     private void ActableUnitCheck()
     {
         if(Turn.isHumanTurn)

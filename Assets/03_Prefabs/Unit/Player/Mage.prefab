@@ -111,6 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2876757487580388335}
   - component: {fileID: 245627721367242616}
+  - component: {fileID: 800644426404110164}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -148,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Mage
+  unitNum: 0
   body: {fileID: 2346385787697799924}
   image: {fileID: -785349671, guid: 2b0f226eaec4a4d419af6ef77ee59242, type: 3}
   redBar: {fileID: 4303029169973351636}
@@ -155,7 +157,22 @@ MonoBehaviour:
   allianceType: 0
   faction: 0
   isTurnEnd: 0
+  pos: {x: 0, y: 0, z: 0}
   skills: []
+  coolTimeList: 
+  animationController: {fileID: 0}
+--- !u!114 &800644426404110164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509295126638843662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a869df893deb44ebe3a7632b3e524b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2346385787697799924
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,7 +63,7 @@ public class AddressableManager : MonoBehaviour
             await LoadImage(kvp.Key);
 
             var usableSkills = DataManager.instance.currentUsableSkills[kvp.Key];
-            foreach (var skill in usableSkills.list)
+            foreach (var skill in usableSkills)
             {
                 await LoadImage(skill.ToString());
             }

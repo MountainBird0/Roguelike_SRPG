@@ -79,12 +79,21 @@ public class ChooseActionUIController : MonoBehaviour
     {
         for(int i = 0; i < skillSlots.Count; i++)
         {
-            var skill = Turn.unit.skills[i].GetComponent<Skill>();
-            
-            var slotInfo = skillSlots[i].GetComponent<BattleSkillSlot>();
-            slotInfo.slotNum = i;
-            slotInfo.id = skill.id;
-            slotInfo.image.sprite = skill.image;
+            var slot = skillSlots[i].GetComponent<BattleSkillSlot>();
+
+            if (Turn.unit.skills.Count <= i)
+            {
+                Debug.Log($"{GetType()} - ¿©±âºö");
+                slot.slotNum = -1;
+                slot.image.sprite = BattleMapUIManager.instance.defaultSprite;
+                continue;
+            }
+
+            var skill = Turn.unit.skills[i].GetComponent<Skill>();   
+           
+            slot.slotNum = i;
+            slot.id = skill.id;
+            slot.image.sprite = skill.image;
 
             if (skill.data.currentCoolTime > 0)
             {

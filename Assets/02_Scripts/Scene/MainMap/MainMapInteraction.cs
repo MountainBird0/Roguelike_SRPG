@@ -12,8 +12,14 @@ public class MainMapInteraction : MonoBehaviour
     public void GetIcon(GameObject icon)
     {
         IconNode node = DataManager.instance.nodes.Find(node => node.icon == icon);
-        ChangeState(node);
+        
+        if(node.iconState != IconState.ATTAINABLE)
+        {
+            return;
+        }
 
+        
+        ChangeState(node);
         IconType iconType = node.iconInfo.Item1;
         switch(iconType)
         {

@@ -20,7 +20,6 @@ public static class Turn
 
     public static Vector3Int direction;
 
-    public static int skillSlotNum;
     public static Skill skill;
 
     public static bool isMoving = false;
@@ -37,8 +36,6 @@ public static class Turn
         selectedPos = Vector3Int.zero;
 
         direction = Vector3Int.zero;
-
-        skillSlotNum = -1;
 
         isMoving = false;
 

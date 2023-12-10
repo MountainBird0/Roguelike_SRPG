@@ -33,9 +33,9 @@ public class DataManager : MonoBehaviour
     public TextAsset skillStatsText;
     public Dictionary<int, SkillData> defaultSkillStats = new();
     public TextAsset usableSkillsText;
-    public Dictionary<string, IntListData> defaultUsableSkills = new();
+    public Dictionary<string, List<int>> defaultUsableSkills = new();
     public TextAsset monsterSkillsText;
-    public Dictionary<string, IntListData> defaultMonsterEquipSkills = new();
+    public Dictionary<string, List<int>> defaultMonsterEquipSkills = new();
 
 
     // playing data
@@ -43,8 +43,8 @@ public class DataManager : MonoBehaviour
     public MapInfo mapInfo = new();
     
     public Dictionary<string, StatData> currentUnitStats = new();
-    public Dictionary<string, IntListData> currentUsableSkills = new();
-    public Dictionary<string, IntListData> currentEquipSkills = new();
+    public Dictionary<string, List<int>> currentUsableSkills = new();
+    public Dictionary<string, List<int>> currentEquipSkills = new();
 
     public List<IconNode> nodes = new();
 
@@ -67,6 +67,8 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void LoadDefaultData()
     {
+        Debug.Log($"usableSkillsText: {usableSkillsText.ToString()}");
+
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
 
@@ -76,27 +78,23 @@ public class DataManager : MonoBehaviour
         defaultMonsterGrowStats = JsonConvert.DeserializeObject<Dictionary<string, StatGrowData>>(monsterGrowText.ToString());
 
         defaultSkillStats = JsonConvert.DeserializeObject<Dictionary<int, SkillData>>(skillStatsText.ToString());
-        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, IntListData>>(usableSkillsText.ToString());
-        defaultMonsterEquipSkills = JsonConvert.DeserializeObject<Dictionary<string, IntListData>>(monsterSkillsText.ToString());
+        defaultUsableSkills = JsonConvert.DeserializeObject<Dictionary<string, List<int>>>(usableSkillsText.ToString());
+        defaultMonsterEquipSkills = JsonConvert.DeserializeObject<Dictionary<string, List<int>>>(monsterSkillsText.ToString());
 
-        // 이거 이어하기때는 안해도 ㄱㅊ 수정
+        // 이거 이어하기때는 안해도 ㄱㅊ -> 게임 저장하는거 추가할때 같이 수정
         currentUnitStats = defaultUnitStats;
 
-        // 현재 유닛이 사용 가능한 스킬 목록에서 최대 3개까지 장착 -> 수정
+        // 현재 유닛이 사용 가능한 스킬 목록에서 최대 3개까지 장착 -> 게임 저장하는거 추가할때 같이 수정
         currentUsableSkills = defaultUsableSkills;
         foreach (var kvp in currentUsableSkills)
         {
-            IntListData numList = new();
+            List<int> numList = new();
 
             for(int i = 0; i < 3; i++)
             {
-                if( i < kvp.Value.list.Count)
+                if( i < kvp.Value.Count)
                 {
-                    numList.list.Add(kvp.Value.list[i]);
-                }
-                else
-                {
-                    numList.list.Add(-1);
+                    numList.Add(kvp.Value[i]);
                 }
             }
             currentEquipSkills.Add(kvp.Key, numList);

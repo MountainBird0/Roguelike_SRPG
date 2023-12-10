@@ -190,7 +190,7 @@ public class MainMapUIController : MonoBehaviour
     ***********************************************************/
     private void SetEquipSkills()
     {
-        IntListData skillList = new();
+        List<int> skillList = new();
 
         for (int i = 0; i < equipSkillSlots.Count; i++)
         {
@@ -198,7 +198,7 @@ public class MainMapUIController : MonoBehaviour
 
             if (skillId != -1)
             {
-                skillList.list.Add(skillId);
+                skillList.Add(skillId);
             }
         }
         DataManager.instance.currentEquipSkills[unitName] = skillList;

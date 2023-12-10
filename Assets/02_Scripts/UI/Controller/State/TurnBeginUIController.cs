@@ -45,14 +45,23 @@ public class TurnBeginUIController : MonoBehaviour
         float hpRatio = (float)statData.HP / statData.MaxHP;
         statInfo.redBar.fillAmount = hpRatio;
 
-        for (int i = 0; i < unit.skills.Count; i++)
+        for (int i = 0; i < skillSlots.Count; i++)
         {
+            var slot = skillSlots[i].GetComponent<BattleSkillSlot>();
+
+            if (unit.skills.Count <= i)
+            {
+                Debug.Log($"{GetType()} - ¿©±âºö");
+                slot.slotNum = -1;
+                slot.image.sprite = BattleMapUIManager.instance.defaultSprite;
+                continue;
+            }
+
             var skill = unit.skills[i].GetComponent<Skill>();
 
-            var slotInfo = skillSlots[i].GetComponent<BattleSkillSlot>();
-            slotInfo.slotNum = i;
-            slotInfo.id = skill.id;
-            slotInfo.image.sprite = skill.image;
+            slot.slotNum = i;
+            slot.id = skill.id;
+            slot.image.sprite = skill.image;
 
             if(skill.data.currentCoolTime > 0)
             {
