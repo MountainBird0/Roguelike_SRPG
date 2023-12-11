@@ -85,9 +85,9 @@ public class ChooseActionState : State
         {
             ReturnUnit();
 
-            bool? selectedUnit = board.mainTiles[cellPosition].content;
+            var selectedUnit = board.mainTiles[cellPosition].content;
 
-            if (selectedUnit.HasValue)
+            if (selectedUnit != null)
             {
                 var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
                 if (unit.playerType == PlayerType.HUMAN && !unit.isTurnEnd)
