@@ -252,6 +252,7 @@ public class AIController : MonoBehaviour
 
         currentPlan.skill = null;
 
+        // 이거 다른곳에서 받아오기 
         List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
         TileLogic closestTile = moveableTiles.OrderBy(tile => Vector3Int.Distance(tile.pos, nearestUnitPos)).FirstOrDefault();
 

@@ -28,9 +28,10 @@ public class ChooseActionState : State
     {
         base.Enter();
 
-        if (!Turn.isMoving)
+        if (Turn.isMoving)
         {
             ShowMoveableTile();
+            Turn.isMoving = false;
         }
         
         if(!Turn.isHumanTurn)
@@ -84,16 +85,37 @@ public class ChooseActionState : State
         {
             ReturnUnit();
 
-            if(!board.mainTiles[cellPosition].content)
+            bool? selectedUnit = board.mainTiles[cellPosition].content;
+
+            if (selectedUnit.HasValue)
+            {
+                var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+                if (unit.playerType == PlayerType.HUMAN && !unit.isTurnEnd)
+                {
+                    ChangeUnit(cellPosition);
+                }
+                else
+                {
+                    Turn.unit = null;
+                    StateMachineController.instance.ChangeTo<TurnBeginState>();
+                }
+            }
+            else
             {
                 Turn.unit = null;
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
             }
-            else if(board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
-                && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd)
-            {
-                ChangeUnit(cellPosition);
-            }
+
+            //if (!board.mainTiles[cellPosition].content)
+            //{
+            //    Turn.unit = null;
+            //    StateMachineController.instance.ChangeTo<TurnBeginState>();
+           // }
+            //else if(board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
+             //   && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd)
+            //{
+            //    ChangeUnit(cellPosition);
+            //}
         }
     }
     public override void TouchEnd(Vector2 screenPosition, float time)
@@ -109,8 +131,6 @@ public class ChooseActionState : State
         var ob = clickResults[0].gameObject;
         if (ob.CompareTag("EquipSlot"))
         {
-            Turn.isMoving = false;
-
             var slot = ob.GetComponent<BattleSkillSlot>();
 
             if(slot.slotNum != -1)
@@ -142,17 +162,10 @@ public class ChooseActionState : State
     ***********************************************************/
     private void MoveUnit(Vector3Int cellPosition)
     {
-        Debug.Log($"{GetType()} - 유닛위치 콘텐츠 {board.mainTiles[Turn.unit.pos].content}");
-
+        Turn.isMoving = true;
         Turn.selectedPos = cellPosition;
 
-        //board.mainTiles[cellPosition].content = board.mainTiles[Turn.unit.pos].content;
-        //board.mainTiles[Turn.unit.pos].content = null;
-
-        //Turn.currentPos = cellPosition;
-        //Turn.selectedPos = Turn.currentPos;
-        //Turn.unit.pos = Turn.currentPos;
-        //Turn.isMoving = true;
+        ReturnUnit();
 
         StateMachineController.instance.ChangeTo<MoveSequenceState>();     
     }
@@ -161,16 +174,7 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ReturnUnit()
     {
-        if(!Turn.originPos.Equals(Turn.unit.pos))
-        {
-            board.mainTiles[Turn.originPos].content = board.mainTiles[Turn.unit.pos].content;
-            board.mainTiles[Turn.unit.pos].content = null;
-        }
-
-        Turn.unit.pos = Turn.originPos;
-        Turn.unit.gameObject.transform.position = Turn.originPos; // 원래위치로 돌아옴
-
-        Turn.isMoving = false;
+        Turn.unit.SetPosition(Turn.originPos, board);
     }
 
     /**********************************************************
@@ -190,14 +194,6 @@ public class ChooseActionState : State
     {
         tiles = board.Search(board.GetTile(Turn.originPos), Turn.unit.stats.MOV, board.ISMovable);
         board.ShowHighlightTile(tiles, 0);
-    }
-
-    /**********************************************************
-    * 현재 위치로 위치값들 변경
-    ***********************************************************/
-    private void SetPostion()
-    {
-
     }
 
 
@@ -220,12 +216,14 @@ public class ChooseActionState : State
             if (plan == null)
             {
                 Debug.Log($"{GetType()} - 계획 못찾음");
+ 
                 StateMachineController.instance.ChangeTo<TurnEndState>();
                 yield break;
             }
         }
 
-        if (!Turn.isMoving && (plan.movePos != Turn.unit.pos))
+        //if (!Turn.isMoving && (plan.movePos != Turn.unit.pos))
+        if (plan.movePos != Turn.unit.pos)
         {
             Debug.Log($"{GetType()} - 움직이러감");
             MoveUnit(plan.movePos);
@@ -246,7 +244,6 @@ public class ChooseActionState : State
             {
                 Turn.direction = plan.direction;
                 Turn.selectedPos = plan.targetPos;
-                Turn.isMoving = false;
                 aiController.currentPlan = null;
                 SkillSetting(i);
                 break;

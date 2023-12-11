@@ -22,7 +22,7 @@ public static class Turn
 
     public static Skill skill;
 
-    public static bool isMoving = false;
+    public static bool isMoving = true;
 
     // 둘 중 하나 쓸 듯
     //public static List<TileLogic> targetTiles = new();
@@ -37,7 +37,7 @@ public static class Turn
 
         direction = Vector3Int.zero;
 
-        isMoving = false;
+        isMoving = true;
 
         targets.Clear();
     }

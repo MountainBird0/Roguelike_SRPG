@@ -12,15 +12,9 @@ public class MoveSequenceState : State
     {
         base.Enter();
 
-        StartCoroutine(MoveSequence());
+        Turn.isMoving = false;
 
-        //if (!Turn.isHumanTurn)
-        //{
-        //    StartCoroutine(AIChooseAction());
-        //    return;
-        //}
-
-        // MoveUnit();      
+        StartCoroutine(MoveSequence());    
     }
 
     public override void Exit()
@@ -28,40 +22,18 @@ public class MoveSequenceState : State
         base.Exit();
 
     }
-    // 광역 힐같은거 할때 자기자신도 하려면 이동할때마다 스킬범위 검색할때 검색되도록 값 넣기 
-    private void MoveUnit()
-    {
-        Turn.unit.gameObject.transform.position = Turn.selectedPos;
+    // 광역 힐등 본인포함 -> 이동한 위치 갱신 및 그 위치에서 타일서치 
 
-        // 움직이는 ani 추가
-
-        StateMachineController.instance.ChangeTo<ChooseActionState>();
-    }
-
-    private IEnumerator AIChooseAction()
-    {
-        Turn.unit.gameObject.transform.position = Turn.selectedPos;
-
-        // 움직이는 ani 추가
-        yield return new WaitForSeconds(1f);
-
-        StateMachineController.instance.ChangeTo<ChooseActionState>();
-    }
 
     IEnumerator MoveSequence()
     {
-        Turn.isMoving = true;
         Turn.unit.tile = board.mainTiles[Turn.unit.pos];
         List<TileLogic> path = CreatePath();
-        Movement movement = Turn.unit.GetComponent<Movement>();
+
+        Movement movement = Turn.unit.GetComponent<Movement>();    
         yield return StartCoroutine(movement.Move(path));
 
-        board.mainTiles[Turn.selectedPos].content = board.mainTiles[Turn.unit.pos].content;
-        board.mainTiles[Turn.unit.pos].content = null;
-
-        Turn.currentPos = Turn.selectedPos;
-        Turn.unit.pos = Turn.currentPos;
-        Turn.isMoving = false;
+        Turn.unit.SetPosition(Turn.selectedPos, board);
         yield return new WaitForSeconds(0.2f);
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();

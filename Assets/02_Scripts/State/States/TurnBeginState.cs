@@ -11,6 +11,8 @@ public class TurnBeginState : State
     {
         base.Enter();
 
+        Turn.isMoving = true;
+
         if(Turn.unit)
         {
             SelectUnit(Turn.selectedPos);
@@ -79,7 +81,6 @@ public class TurnBeginState : State
         Turn.unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
 
         Turn.originPos = cellPosition;
-        Turn.currentPos = Turn.originPos;
         Turn.selectedPos = Turn.originPos;
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();

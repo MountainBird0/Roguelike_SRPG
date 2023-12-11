@@ -21,13 +21,13 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public bool isTurnEnd = false; // 안쓸듯 -> 다른방법이 있나
 
+    public TileLogic tile; // 이거 그냥 vec3로 바꾸거나 할수도
     public Vector3Int pos;
 
     public List<GameObject> skills;
     public List<int> coolTimeList;
 
     // 유닛 방향 좌 우
-    public TileLogic tile; // 이거 그냥 vec3로 바꾸거나 할수도
 
     public StatData maxStats; // 레벨업 등 할 때 마다 maxStat 갱신해서 사용하기
     public StatData stats;
@@ -39,6 +39,18 @@ public class Unit : MonoBehaviour
         animationController = GetComponent<AnimationController>();
     }
 
+
+    public void SetPosition(Vector3Int pos, Board board)
+    {
+        if (pos != Turn.unit.pos)
+        {
+            board.mainTiles[pos].content = board.mainTiles[Turn.unit.pos].content;
+            board.mainTiles[Turn.unit.pos].content = null;
+        }
+        
+        transform.position = pos;
+        this.pos = pos;
+    }
 
     public void SetStat()
     {

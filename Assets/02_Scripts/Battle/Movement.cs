@@ -33,7 +33,7 @@ public class Movement : MonoBehaviour
     private IEnumerator Walk(TileLogic next)
     {
         currentTile = next;
-        Tweener tweener = Turn.unit.gameObject.transform.DOMove(currentTile.pos, MoveSpeed);
+        Tweener tweener = Turn.unit.transform.DOMove(currentTile.pos, MoveSpeed);
         yield return tweener.WaitForCompletion();
     }
     
