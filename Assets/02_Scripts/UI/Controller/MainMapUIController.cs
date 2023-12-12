@@ -112,11 +112,9 @@ public class MainMapUIController : MonoBehaviour
         if(currentUiState.Equals(UiState.Nothing))
         {
             mainMapInput.SetActive(false);
-
             unitCanvas.SetActive(true);
 
             ClickBtnUnit(unitName);
-
 
             currentUiState = UiState.ShowUnitWindow;
         }
@@ -130,7 +128,6 @@ public class MainMapUIController : MonoBehaviour
         if (!currentUiState.Equals(UiState.Nothing))
         {
             mainMapInput.SetActive(true);
-
 
             unitCanvas.SetActive(false);
             currentUiState = UiState.Nothing;

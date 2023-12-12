@@ -165,7 +165,7 @@ public class ChooseActionState : State
         Turn.isMoving = true;
         Turn.selectedPos = cellPosition;
 
-        ReturnUnit();
+        // ReturnUnit();
 
         StateMachineController.instance.ChangeTo<MoveSequenceState>();     
     }

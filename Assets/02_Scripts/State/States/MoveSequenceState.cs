@@ -8,11 +8,15 @@ using UnityEngine;
 
 public class MoveSequenceState : State
 {
+    public Dictionary<Vector3Int, TileLogic> highlightTiles = new();
+
     public override void Enter()
     {
         base.Enter();
 
         Turn.isMoving = false;
+
+        highlightTiles = board.highlightTiles;
 
         StartCoroutine(MoveSequence());    
     }
@@ -41,6 +45,8 @@ public class MoveSequenceState : State
 
     private List<TileLogic> CreatePath()
     {
+        board.Search(board.GetTile(Turn.unit.pos),100, IsMovable);
+
         List<TileLogic> path = new();
 
         TileLogic targetTile = board.mainTiles[Turn.selectedPos];
@@ -53,4 +59,13 @@ public class MoveSequenceState : State
         path.Reverse();
         return path;
     }
+
+    private bool IsMovable(TileLogic from, TileLogic to, int range)
+    {
+        to.distance = from.distance + 1;
+
+        return (to.content == null && to.distance <= range && highlightTiles.ContainsKey(to.pos));
+    }
+
+
 }

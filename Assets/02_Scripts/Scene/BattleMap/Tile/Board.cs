@@ -263,12 +263,23 @@ public class Board : MonoBehaviour
         aimingTiles.Clear();
     }
 
+
     /**********************************************************
-    * 최단거리 찾기
+    * 이동범위 안에서 경로 만들기
+    ***********************************************************/
+
+
+
+
+
+    /**********************************************************
+    * 최단경로 만들기
     ***********************************************************/
     public List<TileLogic> checkss(Vector3Int currentPos, Vector3Int selectedPos)
     {
         List<TileLogic> tilesResult = new List<TileLogic>(); // 결과 반환할 타일
+
+
 
         return tilesResult;
     }
