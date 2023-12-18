@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class TurnBeginUIController : MonoBehaviour
 {
@@ -20,13 +21,17 @@ public class TurnBeginUIController : MonoBehaviour
 
     public void DisableCanvas()
     {
-        turnBeginCanvas.gameObject.SetActive(false);
+        turnBeginCanvas.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).OnComplete(() =>
+        {
+            turnBeginCanvas.gameObject.SetActive(false);
+        });
     }
 
     // ½º¸ôÇ®»ç¿ë
     public void ShowStatWindow(Unit unit)
     {
         turnBeginCanvas.gameObject.SetActive(true);
+        turnBeginCanvas.GetComponent<CanvasGroup>().alpha = 1f;
         unitIcon.sprite = unit.image;
 
         var statData = unit.stats;

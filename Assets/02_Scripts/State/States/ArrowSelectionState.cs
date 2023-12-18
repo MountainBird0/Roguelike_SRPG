@@ -11,7 +11,7 @@ public class ArrowSelectionState : State
     {
         base.Enter();
 
-        board.ShowArrowTile(Turn.currentPos);
+        board.ShowArrowTile(Turn.unit.pos);
         
         if (!Turn.isHumanTurn)
         {
@@ -68,7 +68,7 @@ public class ArrowSelectionState : State
     ***********************************************************/
     private void SelectArrow(Vector3Int cellPosition)
     {
-        Turn.direction = cellPosition - Turn.currentPos;      
+        Turn.direction = cellPosition - Turn.unit.pos;      
     }
 
     private IEnumerator AIArrowSelected()

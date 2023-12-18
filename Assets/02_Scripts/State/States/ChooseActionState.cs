@@ -14,13 +14,8 @@ public class ChooseActionState : State
 
     private List<TileLogic> tiles;
 
-    private GraphicRaycaster raycaster;
-    private PointerEventData clickData = new PointerEventData(EventSystem.current);
-    private List<RaycastResult> clickResults = new();
-
     private void OnEnable()
     {
-        raycaster = uiController.raycaster;
         aiController = BattleMapManager.instance.aiController;
     }
 
@@ -43,7 +38,6 @@ public class ChooseActionState : State
         uiController.EnableCanvas();
         
         InputManager.instance.OnStartTouch += TouchStart;
-        InputManager.instance.OnEndTouch += TouchEnd;
     }
 
     public override void Exit()
@@ -57,7 +51,6 @@ public class ChooseActionState : State
         }
 
         InputManager.instance.OnStartTouch -= TouchStart;
-        InputManager.instance.OnEndTouch -= TouchEnd;
     }
 
     /**********************************************************
@@ -65,11 +58,9 @@ public class ChooseActionState : State
     ***********************************************************/
     public override void TouchStart(Vector2 screenPosition, float time)
     {
-        clickResults.Clear();
-        clickData.position = screenPosition;
-        raycaster.Raycast(clickData, clickResults);
-       
-        if (clickResults.Count != 0) // UI ´­·¶À» ¶§
+        InputManager.instance.RaycastUI(uiController.raycaster);
+
+        if (InputManager.instance.clickResults.Count != 0) // UI ´­·¶À» ¶§
         {
             SelectSkill();
             return;
@@ -105,22 +96,7 @@ public class ChooseActionState : State
                 Turn.unit = null;
                 StateMachineController.instance.ChangeTo<TurnBeginState>();
             }
-
-            //if (!board.mainTiles[cellPosition].content)
-            //{
-            //    Turn.unit = null;
-            //    StateMachineController.instance.ChangeTo<TurnBeginState>();
-           // }
-            //else if(board.mainTiles[cellPosition].content.GetComponent<Unit>().playerType.Equals(PlayerType.HUMAN)
-             //   && !board.mainTiles[cellPosition].content.GetComponent<Unit>().isTurnEnd)
-            //{
-            //    ChangeUnit(cellPosition);
-            //}
         }
-    }
-    public override void TouchEnd(Vector2 screenPosition, float time)
-    {
-
     }
 
     /**********************************************************
@@ -128,7 +104,7 @@ public class ChooseActionState : State
     ***********************************************************/
     private void SelectSkill()
     {
-        var ob = clickResults[0].gameObject;
+        var ob = InputManager.instance.clickResults[0].gameObject;
         if (ob.CompareTag("EquipSlot"))
         {
             var slot = ob.GetComponent<BattleSkillSlot>();

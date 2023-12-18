@@ -1,15 +1,15 @@
 /******************************************************************************
 * 사용자 입력 관리
 *******************************************************************************/
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [DefaultExecutionOrder((int)SEO.InputManager)]
 public class InputManager : MonoBehaviour
 {
-    public static InputManager instance;
-
-    // 터치 관련
     private TouchControls touchControls;
 
     public delegate void StartTouchEvent(Vector2 position, float time); // 위치, 시작시간
@@ -17,6 +17,10 @@ public class InputManager : MonoBehaviour
     public delegate void EndTouchEvent(Vector2 position, float time); // 위치, 시작시간
     public event EndTouchEvent OnEndTouch;
 
+    public PointerEventData clickData = new PointerEventData(EventSystem.current);
+    public List<RaycastResult> clickResults = new();
+
+    public static InputManager instance;
     private void Awake()
     {
         if (instance == null)
@@ -47,6 +51,7 @@ public class InputManager : MonoBehaviour
     {
         touchControls.Touch.TouchPress.started += context => StartTouch(context);
         touchControls.Touch.TouchPress.canceled += context => EndTouch(context);
+     
     }
 
     /**********************************************************
@@ -54,10 +59,13 @@ public class InputManager : MonoBehaviour
     ***********************************************************/
     private void StartTouch(InputAction.CallbackContext context)
     {
-        //Debug.Log("touch started" + touchControls.Touch.TouchPosition.ReadValue<Vector2>());
+        Debug.Log("touch started" + touchControls.Touch.TouchPosition.ReadValue<Vector2>());
 
         if (OnStartTouch != null)
         {
+            clickResults.Clear();
+            clickData.position = touchControls.Touch.TouchPosition.ReadValue<Vector2>();
+
             OnStartTouch(touchControls.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.startTime);
         }
     }
@@ -87,5 +95,13 @@ public class InputManager : MonoBehaviour
     public Vector2 PrimaryPosition()
     {
         return Camera.main.ScreenToWorldPoint(touchControls.Touch.TouchPosition.ReadValue<Vector2>());
+    }
+
+    /**********************************************************
+    * 누른위치 UI들 받아오기
+    ***********************************************************/
+    public void RaycastUI(GraphicRaycaster rayCaster)
+    {
+        rayCaster.Raycast(clickData, clickResults);
     }
 }

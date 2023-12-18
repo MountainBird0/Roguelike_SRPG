@@ -54,7 +54,7 @@ public class SkillTargetingState : State
         base.Exit();
         uiController.DisableCanvas();
 
-        Turn.selectedPos = Turn.currentPos;
+        Turn.selectedPos = Turn.unit.pos; // 이거 왜 하는지
 
         if (tiles != null)
         {
@@ -116,7 +116,7 @@ public class SkillTargetingState : State
     {
         if(Turn.skill.data.AOERange.Equals(0))
         {
-            tiles = searchMachine.SearchRange(Turn.currentPos, Turn.skill.data, false);
+            tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.skill.data, false);
         }
         else
         {

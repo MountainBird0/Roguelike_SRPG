@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2c96b1d01ada8b94fa361e65f6b15e4b, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5b2f93d4dcbe9ba41a57331ed14f53d0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -113,7 +113,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a21543990c518d74e83f6474a72855ad, type: 2}
+  m_Motion: {fileID: 7400000, guid: 386a9bb0483faca43b245c88ad6486e9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -169,7 +169,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Warrior_AniCon
+  m_Name: Mage_AniCon
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: IsMove
@@ -255,7 +255,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 37207a277289025499a29d48fbbecd64, type: 2}
+  m_Motion: {fileID: 7400000, guid: c68df738f3eca554fa22f7059425ad4c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -365,7 +365,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 96d8f5fdb1476864b839a05b08f4fe3c, type: 2}
+  m_Motion: {fileID: 7400000, guid: b8dafe0499eebe546b27b3fca0c9dc98, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -395,7 +395,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 31bd862e281efa74dae4d9da95dc1237, type: 2}
+  m_Motion: {fileID: 7400000, guid: 89c1c638ba103cf4c8a443c7fbaadad3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

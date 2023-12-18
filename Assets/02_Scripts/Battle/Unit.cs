@@ -59,15 +59,41 @@ public class Unit : MonoBehaviour
 
 
 
-    public void SetHealthBar()
+    public void SetHealth(int value)
+    {
+        stats.HP += value;
+
+        if(stats.HP > stats.MaxHP)
+        {
+            stats.HP = stats.MaxHP;
+        }
+        if(stats.HP <= 0)
+        {
+            SetHealthBar();
+            Die();
+        }
+
+        SetHealthBar();
+    }
+
+    private void SetHealthBar()
     {
         float hpRatio = (float)stats.HP / stats.MaxHP;
         redBar.fillAmount = hpRatio;
     }
 
+
+
     public void Die()
     {
+        Debug.Log($"{GetType()} - µðÁü");
+        BattleMapManager.instance.DeleteUnit(unitNum);
+        animationController.Death();
+    }
 
+    public void DespawnUnit()
+    {
+        ObjectPoolManager.instance.Despawn(this.gameObject);
     }
 
 

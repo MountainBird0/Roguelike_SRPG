@@ -14,11 +14,11 @@ public class MainMapSkillInput : MonoBehaviour
     public GameObject moveIcon;
 
     public GameObject unitCanvas;
-    public GraphicRaycaster raycaster;
 
     [Header("ImagePool")]
     public IntKeyImagePool skillIconPool;
 
+    public GraphicRaycaster raycaster;
     private PointerEventData clickData = new PointerEventData(EventSystem.current);
     private List<RaycastResult> clickResults = new();
 

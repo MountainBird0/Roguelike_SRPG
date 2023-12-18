@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ChooseActionUIController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class ChooseActionUIController : MonoBehaviour
     public StatInfo statInfo;
 
     [Header("StatWindow")]
+    public GameObject statWindow;
     public Image unitImage;
 
 
@@ -70,6 +72,8 @@ public class ChooseActionUIController : MonoBehaviour
 
         float hpRatio = (float)statData.HP / statData.MaxHP;
         statInfo.redBar.fillAmount = hpRatio;
+
+        statWindow.transform.DOLocalMoveY(150, 0.5f).From(true);
     }
 
     /**********************************************************

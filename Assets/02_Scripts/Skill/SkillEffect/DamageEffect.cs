@@ -9,12 +9,14 @@ public class DamageEffect : SkillEffect
         Debug.Log($"{GetType()} - DamageEffect Apply");
         for(int i = 0; i < Turn.targets.Count; i++)
         {
+            var target = Turn.targets[i];
             Debug.Log($"{GetType()} - 때리기 전 {Turn.targets[i].stats.HP}");
 
             int damage = (int)(Turn.unit.stats.ATK * Turn.skill.data.multiplier);
 
-            Turn.targets[i].stats.HP -= damage;
-            Turn.targets[i].SetHealthBar();
+            target.animationController.GotHit();
+            target.SetHealth(-damage);
+            
 
             Debug.Log($"{GetType()} - 때린 후 {Turn.targets[i].stats.HP}");
         }

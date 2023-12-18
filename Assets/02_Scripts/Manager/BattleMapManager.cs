@@ -159,17 +159,24 @@ public class BattleMapManager : MonoBehaviour
     /**********************************************************
     * Á×ÀºÀ¯´Ö »©±â
     ***********************************************************/
-    public void DeleteUnit(Unit unit)
+    public void DeleteUnit(int unitNum)
     {
-        int num = unit.unitNum;
-
-        if (allyUnits.ContainsKey(num))
+        if (allyUnits.ContainsKey(unitNum))
         {
-            allyUnits.Remove(num);
+            allyUnits.Remove(unitNum);
         }
-        else if (enemyUnits.ContainsKey(num))
+        else if (enemyUnits.ContainsKey(unitNum))
         {
-            enemyUnits.Remove(num);
+            enemyUnits.Remove(unitNum);
+        }
+
+        if(HumanUnits.ContainsKey(unitNum))
+        {
+            HumanUnits.Remove(unitNum);
+        }
+        else if(AIUnits.ContainsKey(unitNum))
+        {
+            AIUnits.Remove(unitNum);
         }
     }
 

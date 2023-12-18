@@ -285,6 +285,8 @@ GameObject:
   - component: {fileID: 5966775767492023685}
   - component: {fileID: 8523854353155262738}
   - component: {fileID: -2253465647980589389}
+  - component: {fileID: 6732806363549661815}
+  - component: {fileID: -618215463758818298}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -346,6 +348,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a869df893deb44ebe3a7632b3e524b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6732806363549661815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048241894008068452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6eed009dd5b06648a80834ba1ccc60e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &-618215463758818298
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048241894008068452}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f3a90d5c269265047a33eb6044eca7a1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7216502859489152117
 GameObject:
   m_ObjectHideFlags: 0

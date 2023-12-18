@@ -13,14 +13,7 @@ public class HealEffect : SkillEffect
 
             int heal = (int)(Turn.unit.stats.ATK * Turn.skill.data.multiplier);
 
-            Turn.targets[i].stats.HP += heal;
-
-            if(Turn.targets[i].stats.MaxHP < Turn.targets[i].stats.HP)
-            {
-                Turn.targets[i].stats.HP = Turn.targets[i].stats.MaxHP;
-            }
-
-            Turn.targets[i].SetHealthBar();
+            Turn.targets[i].SetHealth(heal);
 
             Debug.Log($"{GetType()} - Èú ÈÄ {Turn.targets[i].stats.HP}");
         }
