@@ -7,28 +7,27 @@ public class CameraController : MonoBehaviour
 {
     public Transform cameraPos;
 
-    private float minimumDistance = 0.2f;
-    private float maximumTime = 1f;
-    private float directionThreshold = 0.9f;
-
     private Vector2 startPosition;
-    private float startTime;
-    private Vector2 endPosition;
-    private float endTime;
+
+    private float minX;
+    private float maxX;
+    private float minY;
+    private float maxY;
 
     private Coroutine coroutine;
 
     public void Start()
     {
         Debug.Log($"{GetType()} - 이거 찍히나");
+
+        SetMaxMinPos();
+
         InputManager.instance.OnStartTouch += DragStart;
         InputManager.instance.OnEndTouch += DragEnd;
     }
 
     public void OnDisable()
     {
-        
-
         InputManager.instance.OnStartTouch -= DragStart;
         InputManager.instance.OnEndTouch -= DragEnd;
     }
@@ -38,23 +37,15 @@ public class CameraController : MonoBehaviour
     ***********************************************************/
     public void DragStart(Vector2 screenPosition, float time)
     {
-        Debug.Log($"{GetType()} - 터치시작");
-        //startPosition = screenPosition;
         startPosition = InputManager.instance.PrimaryPosition();
-        startTime = time;
-
         coroutine = StartCoroutine(CameraMove());
     }
     public void DragEnd(Vector2 screenPosition, float time)
     {
-        Debug.Log($"{GetType()} - 터치끝");
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
-        endPosition = screenPosition;
-        endTime = time;
-        DetectSwipe();
     }
 
     /**********************************************************
@@ -64,54 +55,36 @@ public class CameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        if (InputManager.instance.clickResults.Count == 0)
+        if (!InputManager.instance.isDoing)
         {
             while(true)
             {
-                Debug.Log($"{GetType()} - 카메라 움직");
                 var directionForce = startPosition - InputManager.instance.PrimaryPosition();
+                
+                var interpolatedPos = new Vector3(cameraPos.position.x + directionForce.x, cameraPos.position.y + directionForce.y, -1);
+                interpolatedPos.x = Mathf.Clamp(interpolatedPos.x, minX, maxX);
+                interpolatedPos.y = Mathf.Clamp(interpolatedPos.y, minY, maxY);
 
-                Vector3 newPosition = new Vector3(directionForce.x, directionForce.y, -1);
-                cameraPos.DOMove(newPosition, 1.5f).SetRelative();
+                cameraPos.DOMove(interpolatedPos, 1.5f);
                 yield return null;
             }
         }
+        yield return null;
     }
 
 
-    private void DetectSwipe()
+    /**********************************************************
+    * 현재 맵에 대한 카메라 최대 최소 범위 설정
+    ***********************************************************/
+    private void SetMaxMinPos()
     {
-        Debug.Log($"{GetType()} - 계산");
-        if (Vector3.Distance(startPosition, endPosition) >= minimumDistance &&
-            (endTime - startTime) <= maximumTime)
-        {
-            Debug.Log($"{GetType()} - 그리기");
-            Debug.DrawLine(startPosition, endPosition, Color.red, 5f);
+        BoundsInt bounds = BattleMapManager.instance.board.mainMap.cellBounds;
 
-            Vector3 direction = endPosition - startPosition;
-            Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;
-            SwipeDirection(direction2D);
-        }
+        minX = bounds.xMin + 7.0f;
+        maxX = bounds.xMax - 7.0f;
+        minY = bounds.yMin + 3.0f;
+        maxY = bounds.yMax - 6.0f;
+
+        Debug.Log($"{GetType()} 세팅값 - {minX}, {maxX}, {minY}, {maxY}");
     }
-
-    private void SwipeDirection(Vector2 direction)
-    {
-        if(Vector2.Dot(Vector2.up, direction) > directionThreshold)
-        {
-            Debug.Log($"{GetType()} - up");
-        }
-        else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
-        {
-            Debug.Log($"{GetType()} - down");
-        }
-        else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
-        {
-            Debug.Log($"{GetType()} - right");
-        }
-        else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
-        {
-            Debug.Log($"{GetType()} - left");
-        }
-    }
-
 }

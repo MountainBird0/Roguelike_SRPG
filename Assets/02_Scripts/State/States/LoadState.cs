@@ -2,6 +2,8 @@
 * Battle Scene에 진입하고 Map을 생성하는 State
 ***********************************************************/
 using System.Collections;
+using UnityEngine;
+
 public class LoadState : State
 {
     public override void Enter()

@@ -10,7 +10,7 @@ public class BattleMapManager : MonoBehaviour
     public static BattleMapManager instance;
 
     [Header("Map")]
-    public MapSelector selector;
+    private MapSelector selector;
     public Transform map;
 
     [Header("Machine")]
@@ -44,18 +44,19 @@ public class BattleMapManager : MonoBehaviour
         }
 
         Debug.Log($"{GetType()} - ½ÇÇà");
+
+        
         unitNum = 0;
     }
+
 
     /**********************************************************
     * ¸Ê·Îµù
     ***********************************************************/
     public void MapLoad()
     {
-        selector.SelectMap(map);
-
-        GameObject Map = GameObject.FindGameObjectWithTag("Map");
-        board = Map.GetComponent<Board>();
+        selector = GetComponent<MapSelector>();
+        board = selector.SelectMap(map).GetComponent<Board>();
         rangeSearchMachine.SetBoard(board);
         aiController.SetMachineBoard(rangeSearchMachine, board);
     }
@@ -163,10 +164,12 @@ public class BattleMapManager : MonoBehaviour
     {
         if (allyUnits.ContainsKey(unitNum))
         {
+            board.mainTiles[allyUnits[unitNum].pos].content = null;
             allyUnits.Remove(unitNum);
         }
         else if (enemyUnits.ContainsKey(unitNum))
         {
+            board.mainTiles[enemyUnits[unitNum].pos].content = null;
             enemyUnits.Remove(unitNum);
         }
 
@@ -178,6 +181,9 @@ public class BattleMapManager : MonoBehaviour
         {
             AIUnits.Remove(unitNum);
         }
+
+        
+
     }
 
     /**********************************************************

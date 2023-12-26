@@ -62,7 +62,7 @@
   "4": {
     "name": "Puncture",
     "explain": "찌르기 어쩌구",
-    "range": 2,
+    "range": 5,
     "AOERange": 0,
     "affectType": "attack",
     "jobType": 0,
@@ -72,7 +72,7 @@
     "currentCoolTime": 0,
     "coolTime": 3,
     "isDirectional": 1,
-    "isAOE": 1
+    "isAOE": 0
   },
   "5": {
     "name": "FireBall",

@@ -48,14 +48,6 @@ public class ArrowSelectionState : State
         if(board.aimingTiles.ContainsKey(cellPosition))
         {
             SelectArrow(cellPosition);
-
-            if(Turn.skill.data.isAOE && Turn.skill.data.AOERange.Equals(0))
-            {
-                StateMachineController.instance.ChangeTo<SkillTargetingState>();
-                return;
-            }
-
-            StateMachineController.instance.ChangeTo<SkillSelectedState>();
         }
     }
     public override void TouchEnd(Vector2 screenPosition, float time)
@@ -68,23 +60,24 @@ public class ArrowSelectionState : State
     ***********************************************************/
     private void SelectArrow(Vector3Int cellPosition)
     {
-        Turn.direction = cellPosition - Turn.unit.pos;      
-    }
+        Turn.direction = cellPosition - Turn.unit.pos;
 
-    private IEnumerator AIArrowSelected()
-    {
-        SelectArrow(Turn.direction);
-
-        yield return new WaitForSeconds(1f);
-        
-        if (Turn.skill.data.isAOE && Turn.skill.data.AOERange.Equals(0))
+        if(Turn.skill.data.isAOE)
         {
+
             StateMachineController.instance.ChangeTo<SkillTargetingState>();
         }
         else
         {
             StateMachineController.instance.ChangeTo<SkillSelectedState>();
+
         }
     }
 
+    private IEnumerator AIArrowSelected()
+    {
+        yield return new WaitForSeconds(1f);
+        
+        SelectArrow(Turn.direction);
+    }
 }

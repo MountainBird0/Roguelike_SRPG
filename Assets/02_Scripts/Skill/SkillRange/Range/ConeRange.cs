@@ -8,7 +8,7 @@ public class ConeRange : MonoBehaviour
     {
         Vector3Int next;
 
-        List<TileLogic> tileLogics = new();
+        List<TileLogic> tileResult = new();
         TileLogic tile;
 
         int lateral = 1;
@@ -25,13 +25,19 @@ public class ConeRange : MonoBehaviour
             {
                 next = GetNext(currentPos, i, j);
                 tile = board.GetTile(next);
-
-                tileLogics.Add(tile);
+                if(tile == null)
+                {
+                    continue;
+                }
+                else
+                {
+                   tileResult.Add(tile);
+                }
             }
             lateral += 2;
         }
 
-        return tileLogics;
+        return tileResult;
     }
 
     private Vector3Int GetNext(Vector3Int currentPos, int arg1, int arg2)

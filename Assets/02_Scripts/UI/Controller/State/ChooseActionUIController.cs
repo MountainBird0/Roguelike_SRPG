@@ -19,13 +19,15 @@ public class ChooseActionUIController : MonoBehaviour
 
     public StatInfo statInfo;
 
-    [Header("StatWindow")]
+    [Header("Window")]
+    public GameObject skillListWindow;
     public GameObject statWindow;
     public Image unitImage;
 
 
     private StringKeyImagePool unitBigPool;
     private IntKeyImagePool skillIconPool;
+
 
     private void Start()
     {
@@ -109,13 +111,8 @@ public class ChooseActionUIController : MonoBehaviour
                 coolTimeImage[i].SetActive(false);
             }
         }
-    }
 
-
-
-    public void ClickBtnttt()
-    {
-        // 테스트좀하자
-        Debug.Log($"{GetType()} - 버튼은 눌림");
+        //skillListWindow.transform.DOLocalMove(new Vector3(-300, -300, 0), 0.5f).From(true).SetEase(Ease.OutCirc);
+        skillListWindow.transform.DORotate(new Vector3(0, 0, 150), 0.5f).From(true);
     }
 }

@@ -6,7 +6,7 @@ public class LineRange : MonoBehaviour
 {
     public List<TileLogic> GetTilesInRange(Board board, Vector3Int currentPos, int range)
     {       
-        List<TileLogic> tileLogics = new();
+        List<TileLogic> tileResult = new();
         TileLogic tile;
 
 
@@ -14,9 +14,16 @@ public class LineRange : MonoBehaviour
         {
             currentPos += Turn.direction;
             tile = board.GetTile(currentPos);
-            tileLogics.Add(tile);
+            if (tile == null)
+            {
+                continue;
+            }
+            else
+            {
+                tileResult.Add(tile);
+            }
         }
 
-        return tileLogics;
+        return tileResult;
     }
 }

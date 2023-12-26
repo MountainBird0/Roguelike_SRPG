@@ -386,6 +386,8 @@ GameObject:
   - component: {fileID: 5641308847281906379}
   - component: {fileID: 7695836118716546652}
   - component: {fileID: -806561916336595484}
+  - component: {fileID: 2050002030047286555}
+  - component: {fileID: 3008239265358802493}
   m_Layer: 0
   m_Name: Brute
   m_TagString: Untagged
@@ -447,3 +449,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a869df893deb44ebe3a7632b3e524b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2050002030047286555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9031873237375807018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6eed009dd5b06648a80834ba1ccc60e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &3008239265358802493
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9031873237375807018}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9cf6c53feb1bd154f8c5e909b89759fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

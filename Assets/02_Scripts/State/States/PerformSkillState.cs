@@ -32,6 +32,8 @@ public class PerformSkillState : State
     {
         var effects = Turn.skill.effects;
 
+        Turn.unit.animationController.PhysicsAttack();
+
         for(int i = 0; i < effects.Count; i++)
         {
             effects[i].Apply();

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,19 @@ public class SkillTargetUIController : MonoBehaviour
 {
     public Canvas skillTargetCanvas;
 
+    public GameObject ChooseList;
+
     /**********************************************************
     * 취소 버튼
     ***********************************************************/
     public void ClickBtnCancel()
     {
         Debug.Log($"{GetType()} - 취소 누름");
+        if (Turn.skill.data.isDirectional)
+        {
+            StateMachineController.instance.ChangeTo<ArrowSelectionState>();
+            return;
+        }
         StateMachineController.instance.ChangeTo<SkillSelectedState>();
     }
 
@@ -32,6 +40,7 @@ public class SkillTargetUIController : MonoBehaviour
     public void EnableCanvas()
     {
         skillTargetCanvas.gameObject.SetActive(true);
+        ChooseList.transform.DORotate(new Vector3(0, 0, 150), 0.2f).From(true);
     }
     public void DisableCanvas()
     {

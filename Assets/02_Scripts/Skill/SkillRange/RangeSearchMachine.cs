@@ -33,7 +33,8 @@ public class RangeSearchMachine : MonoBehaviour
         switch (rangeType)
         {
             case RangeType.CONSTANT:
-                return board.Search(board.GetTile(pos), range, constantRange.SearchType);
+                //return board.Search(board.GetTile(pos), range, constantRange.SearchType);
+                return constantRange.GetTilesInRange(board, pos, range);
 
             case RangeType.LINE:
                 return lineRange.GetTilesInRange(board, pos, range);

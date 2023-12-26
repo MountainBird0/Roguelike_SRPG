@@ -39,6 +39,13 @@ public class BattleMapUIManager : MonoBehaviour
             Debug.LogWarning($"{GetType()} - Destory");
             Destroy(gameObject);
         }
+
+        deployUIController = GetComponent<DeployUIController>();    
+        turnBeginUIController = GetComponent<TurnBeginUIController>();
+        ChooseActionUIController = GetComponent<ChooseActionUIController>();
+        skillSelectionUIController = GetComponent<SkillSelectionUIController>();
+        arrowSelectionUIController = GetComponent<ArrowSelectionUIController>();
+        skillTargetUIController = GetComponent<SkillTargetUIController>();
     }
 
     /**********************************************************
