@@ -2191,6 +2191,10 @@ MonoBehaviour:
     prefab: {fileID: 9031873237375807018, guid: b6ca3c97d9f6c53498897a3e0dda4f5a, type: 3}
     initialObjectCount: 5
     maxObjectCount: 10
+  - key: Meteor
+    prefab: {fileID: 7248012351692106010, guid: bca9861438eeb2241b02125ceb7d8ff1, type: 3}
+    initialObjectCount: 1
+    maxObjectCount: 2
 --- !u!4 &514604518
 Transform:
   m_ObjectHideFlags: 0

@@ -8,16 +8,8 @@ public class PerformSkillState : State
     {
         base.Enter();
 
-        if(!Turn.isHumanTurn)
-        {
-            StartCoroutine(AIPerformSkill());
-            return;
-        }
-
-        DoSkill();
-        SetCoolTime();
-
-        StateMachineController.instance.ChangeTo<TurnEndState>();
+        StartCoroutine(PerformSkill());
+        return;
     }
 
     public override void Exit()
@@ -65,14 +57,13 @@ public class PerformSkillState : State
         }
     }
 
-
-    private IEnumerator AIPerformSkill()
+    private IEnumerator PerformSkill()
     {
         // 나중에 CAS에서 스킬 오브젝트 넣는것으로 변경
         // 간소화 ui추가
         DoSkill();
         
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         SetCoolTime();
 

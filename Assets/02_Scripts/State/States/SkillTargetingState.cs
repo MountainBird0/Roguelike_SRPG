@@ -54,7 +54,7 @@ public class SkillTargetingState : State
         base.Exit();
         uiController.DisableCanvas();
 
-        Turn.selectedPos = Turn.unit.pos; // 이거 왜 하는지
+        //Turn.selectedPos = Turn.unit.pos; // 이거 왜 하는지
 
         if (tiles != null)
         {

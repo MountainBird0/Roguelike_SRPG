@@ -7,7 +7,10 @@ public class DamageEffect : SkillEffect
     public override void Apply()
     {
         Debug.Log($"{GetType()} - DamageEffect Apply");
-        for(int i = 0; i < Turn.targets.Count; i++)
+
+        StartCoroutine(Play());
+
+        for (int i = 0; i < Turn.targets.Count; i++)
         {
             var target = Turn.targets[i];
             Debug.Log($"{GetType()} - 때리기 전 {Turn.targets[i].stats.HP}");
@@ -16,14 +19,22 @@ public class DamageEffect : SkillEffect
 
             target.animationController.GotHit();
             target.SetHealth(-damage);
-            
 
             Debug.Log($"{GetType()} - 때린 후 {Turn.targets[i].stats.HP}");
         }
-
-
-
     }
+
+
+    private IEnumerator Play()
+    {
+        Debug.Log($"{GetType()} - 스킬이름 {Turn.skill}");
+        GameObject ob = ObjectPoolManager.instance.Spawn(Turn.skill.image.name);
+        ob.transform.position = new Vector3Int(Turn.selectedPos.x, Turn.selectedPos.y, 3);
+
+        yield return new WaitForSeconds(2.0f);
+    }
+
+
 }
 
 
