@@ -48,8 +48,8 @@ public class PerformSkillState : State
 
         for (int i = 0; i < effects.Count; i++)
         {
-            Debug.Log($"{GetType()} - 스킬이름 : {Turn.skill.image.name}");
-            GameObject ob = ObjectPoolManager.instance.Spawn(Turn.skill.image.name);
+            Debug.Log($"{GetType()} - 스킬이름 : {effects[i].effectName}");
+            GameObject ob = ObjectPoolManager.instance.Spawn(effects[i].effectName);
             ob.transform.position = new Vector3Int(Turn.selectedPos.x, Turn.selectedPos.y, 3);
 
             yield return new WaitForSeconds(effects[i].delay);

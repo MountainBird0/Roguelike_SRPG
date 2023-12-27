@@ -117,7 +117,10 @@ public class ChooseActionUIController : MonoBehaviour
             }
         }
 
-        //skillListWindow.transform.DOLocalMove(new Vector3(-300, -300, 0), 0.5f).From(true).SetEase(Ease.OutCirc);
-        skillListWindow.transform.DORotate(new Vector3(0, 0, 150), 0.5f).From(true);
+        // skillListWindow.transform.DOLocalMove(new Vector3(-300, -300, 0), 0.5f).From(true).SetEase(Ease.OutCirc);
+        // skillListWindow.transform.DORotate(new Vector3(0, 0, 150), 0.5f).From(true);
+        skillListWindow.transform.DORotate(Vector3.zero, 0.5f).From(new Vector3(0, 0, 150));
+
+
     }
 }

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 1.6
+  effectName: Meteor
 --- !u!114 &2878008255699962821
 MonoBehaviour:
   m_ObjectHideFlags: 0
