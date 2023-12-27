@@ -18,10 +18,13 @@ public class MeteorShow : MonoBehaviour
                         ballEffect.transform.DOLocalMove(new Vector3(-5, 5, 5), 1.5f).From(true)
                         .OnComplete(() => groundEffect.SetActive(true));
                     })
-                    .AppendInterval(1.7f)
+                    .AppendInterval(2.5f)
                     .OnComplete(() =>
                     {
                         ballEffect.SetActive(false);
+                        // 점점 작아지게
+                        // 다시 실행되도 그대로 실행되도록 수정
+
                         ObjectPoolManager.instance.Despawn(gameObject);
                     });
 

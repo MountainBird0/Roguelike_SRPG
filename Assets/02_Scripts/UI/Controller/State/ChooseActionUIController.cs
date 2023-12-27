@@ -75,7 +75,12 @@ public class ChooseActionUIController : MonoBehaviour
         float hpRatio = (float)statData.HP / statData.MaxHP;
         statInfo.redBar.fillAmount = hpRatio;
 
-        statWindow.transform.DOLocalMoveY(150, 0.5f).From(true);
+        //statWindow.transform.DOMoveY(400, 1.0f);
+
+        //statWindow.transform.DOLocalMoveY(150, 0.5f).From(true);
+
+        var rt = statWindow.GetComponent<RectTransform>();
+        rt.DOAnchorPosY(0, 0.5f).From(new Vector2(rt.anchoredPosition.x, 150));
     }
 
     /**********************************************************

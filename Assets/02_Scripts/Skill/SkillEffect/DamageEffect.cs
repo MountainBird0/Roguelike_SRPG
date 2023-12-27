@@ -8,8 +8,6 @@ public class DamageEffect : SkillEffect
     {
         Debug.Log($"{GetType()} - DamageEffect Apply");
 
-        StartCoroutine(Play());
-
         for (int i = 0; i < Turn.targets.Count; i++)
         {
             var target = Turn.targets[i];
@@ -23,18 +21,6 @@ public class DamageEffect : SkillEffect
             Debug.Log($"{GetType()} - 때린 후 {Turn.targets[i].stats.HP}");
         }
     }
-
-
-    private IEnumerator Play()
-    {
-        Debug.Log($"{GetType()} - 스킬이름 {Turn.skill}");
-        GameObject ob = ObjectPoolManager.instance.Spawn(Turn.skill.image.name);
-        ob.transform.position = new Vector3Int(Turn.selectedPos.x, Turn.selectedPos.y, 3);
-
-        yield return new WaitForSeconds(2.0f);
-    }
-
-
 }
 
 

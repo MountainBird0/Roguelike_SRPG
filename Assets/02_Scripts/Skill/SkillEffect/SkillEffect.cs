@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class SkillEffect : MonoBehaviour
 {
+    public float delay = 0f;
+    
     public abstract void Apply();
-
-
 }
