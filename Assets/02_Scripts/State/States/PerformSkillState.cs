@@ -48,13 +48,27 @@ public class PerformSkillState : State
 
         for (int i = 0; i < effects.Count; i++)
         {
+            // 이펙트에 맞는 시각효과 찾아 생성
+            // 시각효과 끝날때까지 대기
+            // 해당 이펙트 발동
+            // 다음으로 넘어감
+
+
             Debug.Log($"{GetType()} - 스킬이름 : {effects[i].effectName}");
             GameObject ob = ObjectPoolManager.instance.Spawn(effects[i].effectName);
-            ob.transform.position = new Vector3Int(Turn.selectedPos.x, Turn.selectedPos.y, 3);
+            if(ob != null)
+            {
+                Debug.Log($"{GetType()} - 땡겨오기 성공");
+                var visualEffect = ob.GetComponent<SkillVisualEffect>();
+                visualEffect.Apply(effects[i]);
 
-            yield return new WaitForSeconds(effects[i].delay);
+                yield return new WaitForSeconds(visualEffect.GetDuration());
+            }
+
+           
+            // yield return new WaitForSeconds(effects[i].delay);
             
-            effects[i].Apply();
+            // effects[i].Apply();
         }
         StateMachineController.instance.ChangeTo<TurnEndState>();
     }
