@@ -2191,10 +2191,34 @@ MonoBehaviour:
     prefab: {fileID: 9031873237375807018, guid: b6ca3c97d9f6c53498897a3e0dda4f5a, type: 3}
     initialObjectCount: 5
     maxObjectCount: 10
-  - key: Meteor
+  - key: MeteorShow
     prefab: {fileID: 7248012351692106010, guid: bca9861438eeb2241b02125ceb7d8ff1, type: 3}
     initialObjectCount: 1
-    maxObjectCount: 2
+    maxObjectCount: 1
+  - key: FireBallShow
+    prefab: {fileID: 5255938444961942129, guid: 1ae700e1d93a9df48a4b096440c3bb25, type: 3}
+    initialObjectCount: 1
+    maxObjectCount: 1
+  - key: SlashShow
+    prefab: {fileID: 4215507198618539463, guid: b82c7dcfe79e0984e86fd1dbdc0bcc6c, type: 3}
+    initialObjectCount: 1
+    maxObjectCount: 1
+  - key: PunctureShow
+    prefab: {fileID: 5466832812821503633, guid: 072b830464da9a8479801a1be4ca91b1, type: 3}
+    initialObjectCount: 1
+    maxObjectCount: 1
+  - key: Stone
+    prefab: {fileID: 1298057590600348994, guid: b7ecbd40ddf5344478fee8d98814d51e, type: 3}
+    initialObjectCount: 10
+    maxObjectCount: 10
+  - key: HealingShow
+    prefab: {fileID: 1452895481518289023, guid: 9fff30a888c1a8e42bdcb58e8e384887, type: 3}
+    initialObjectCount: 1
+    maxObjectCount: 1
+  - key: Heal
+    prefab: {fileID: 335969712704642883, guid: 76e8e524ae18cc049a19a48f545e28c3, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 5
 --- !u!4 &514604518
 Transform:
   m_ObjectHideFlags: 0
@@ -10507,12 +10531,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deploySlot: {fileID: 7895969076085484079, guid: 5552ae2f1acf3fc449dd85a5bc7014ca, type: 3}
   deployWindow: {fileID: 34542047}
+  resultSlot: {fileID: 0}
+  resultWindow: {fileID: 0}
   deployUIController: {fileID: 0}
   turnBeginUIController: {fileID: 0}
-  ChooseActionUIController: {fileID: 0}
+  chooseActionUIController: {fileID: 0}
   skillSelectionUIController: {fileID: 0}
   arrowSelectionUIController: {fileID: 0}
   skillTargetUIController: {fileID: 0}
+  stageClearUIController: {fileID: 0}
   unitSmallPool: {fileID: 1522320829}
   unitBigPool: {fileID: 1279509824}
   skillIconPool: {fileID: 1837814896}

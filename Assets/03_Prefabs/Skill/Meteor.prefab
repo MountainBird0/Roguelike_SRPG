@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fee09461d25504f86060756c68a195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 1.6
-  effectName: Meteor
+  effectName: MeteorShow
 --- !u!114 &2878008255699962821
 MonoBehaviour:
   m_ObjectHideFlags: 0

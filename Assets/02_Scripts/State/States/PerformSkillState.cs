@@ -22,25 +22,17 @@ public class PerformSkillState : State
     /**********************************************************
     * 스킬 찾아서 실행
     ***********************************************************/
-    private void DoSkill()
-    {
-        var effects = Turn.skill.effects;
-
-        Turn.unit.animationController.PhysicsAttack();
-
-        for(int i = 0; i < effects.Count; i++)
-        {
-            effects[i].Apply();
-        }
-
-        // effect 큐에 넣어서 다 끝나면 넘어갈까
-        // StateMachineController.instance.ChangeTo<TurnEndState>(); 
-    }
-
     private IEnumerator ApplySkill()
     {
         // 나중에 CAS에서 스킬 오브젝트 넣는것으로 변경
         // 간소화 ui추가
+
+        // selectedPos ai할땐 없는듯
+        var quat = Turn.unit.tile.GetDirection(Turn.selectedPos);
+        if (quat.HasValue)
+        {
+            Turn.unit.body.transform.rotation = quat.Value;
+        }
 
         var effects = Turn.skill.effects;
 
@@ -48,27 +40,17 @@ public class PerformSkillState : State
 
         for (int i = 0; i < effects.Count; i++)
         {
-            // 이펙트에 맞는 시각효과 찾아 생성
-            // 시각효과 끝날때까지 대기
-            // 해당 이펙트 발동
-            // 다음으로 넘어감
-
-
             Debug.Log($"{GetType()} - 스킬이름 : {effects[i].effectName}");
             GameObject ob = ObjectPoolManager.instance.Spawn(effects[i].effectName);
             if(ob != null)
             {
-                Debug.Log($"{GetType()} - 땡겨오기 성공");
                 var visualEffect = ob.GetComponent<SkillVisualEffect>();
                 visualEffect.Apply(effects[i]);
 
                 yield return new WaitForSeconds(visualEffect.GetDuration());
-            }
 
-           
-            // yield return new WaitForSeconds(effects[i].delay);
-            
-            // effects[i].Apply();
+                ObjectPoolManager.instance.Despawn(ob);
+            }
         }
         StateMachineController.instance.ChangeTo<TurnEndState>();
     }

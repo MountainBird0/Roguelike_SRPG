@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class ChooseActionState : State
 {
-    private ChooseActionUIController uiController = BattleMapUIManager.instance.ChooseActionUIController;
+    private ChooseActionUIController uiController = BattleMapUIManager.instance.chooseActionUIController;
     private AIController aiController;
 
     private List<TileLogic> tiles;

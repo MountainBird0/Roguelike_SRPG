@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class StageClearUIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Canvas clearCanvas;
+
+
+
+    public void EnableCanvas()
     {
-        
+        clearCanvas.gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    /**********************************************************
+    * 클리어윈도우 세팅
+    ***********************************************************/
+    private void SetClearWindow()
     {
-        
+
     }
+
+
 }

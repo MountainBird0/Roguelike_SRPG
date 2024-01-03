@@ -30,14 +30,6 @@ public class SkillTargetingState : State
 
         uiController.EnableCanvas();
 
-        // 때린위치 정보가 있으므로 그곳의 유닛 받아오기
-
-        // 단일이면 유닛 정보 ui나옴
-
-        // 범위면 AOE Range 이용
-
-        // Turn.currentSkill.isAOE
-
         if (Turn.skill.data.isAOE)
         {
             Debug.Log($"{GetType()} - 범위타일 보여줌");

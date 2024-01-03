@@ -223,4 +223,19 @@ public class BattleMapManager : MonoBehaviour
         return units;
     }
 
+    /**********************************************************
+    * 보상 계산
+    ***********************************************************/
+    public int GetReward()
+    {
+        int exp = 0;
+
+        foreach(var kvp in enemyUnits)
+        {
+            exp += kvp.Value.stats.dropEXP;
+        }
+
+        return exp;
+    }
+
 }

@@ -48,7 +48,6 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 292ac3825dbdc2541a011514bf0522b1, type: 3}
   effects:
   - {fileID: 3333469997783762249}
-  coolTime: 0
   id: 8
 --- !u!114 &3333469997783762249
 MonoBehaviour:
@@ -62,3 +61,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27ad7088a75e0840a368bede8cb5c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectName: HealingShow

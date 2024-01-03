@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StageClearState : State
 {
+    private StageClearUIController uiController = BattleMapUIManager.instance.stageClearUIController;
+
     public override void Enter()
     {
         base.Enter();

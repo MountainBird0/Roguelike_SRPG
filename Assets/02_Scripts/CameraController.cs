@@ -18,8 +18,6 @@ public class CameraController : MonoBehaviour
 
     public void Start()
     {
-        Debug.Log($"{GetType()} - 이거 찍히나");
-
         SetMaxMinPos();
 
         InputManager.instance.OnStartTouch += DragStart;

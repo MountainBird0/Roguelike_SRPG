@@ -67,8 +67,6 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     public void LoadDefaultData()
     {
-        Debug.Log($"usableSkillsText: {usableSkillsText.ToString()}");
-
         stageLevels = JsonConvert.DeserializeObject<Dictionary<string, StageLevelData>>(stageLevelText.ToString());
         iconProbabilitys = JsonConvert.DeserializeObject<Dictionary<string, IconProbabilityData>>(iconProbabilityText.ToString());
 

@@ -83,7 +83,6 @@ public class DeployUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnFinish()
     {
-        Debug.Log($"{GetType()} - 배치완료 누름");
         StateMachineController.instance.ChangeTo<TurnBeginState>();
     }
 }

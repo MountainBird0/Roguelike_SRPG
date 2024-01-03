@@ -17,7 +17,7 @@ public class SceneLoad : MonoBehaviour
         StartCoroutine(LoadCoroutine(1));
     }
 
-    IEnumerator LoadCoroutine(int sceneNum)
+    private IEnumerator LoadCoroutine(int sceneNum)
     {
         operation = GlobalSceneManager.instance.GoScene(sceneNum);
         operation.allowSceneActivation = false;
