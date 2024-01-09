@@ -16,7 +16,26 @@ public struct StatData
     public int RES;
     public int MOV;
     public int SPEED;
-    public int reqEXP;
+    public int CurEXP;
+    public int MaxEXP;
     public int dropEXP;
     public int jobType;
+
+    public StatData IncreaseLevel(StatGrowData growData)
+    {
+        Level++;
+
+        MaxHP += growData.HpGrow;
+        HP = MaxHP;
+
+        ATK += growData.ATKGrow;
+        DEF += growData.DEFGrow;
+        MATK += growData.MATKGrow;
+        MDEF += growData.MDEFGrow;
+
+        CurEXP = 0;
+        MaxEXP += growData.reqEXPGrow;
+
+        return this;
+    }
 }

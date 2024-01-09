@@ -11,6 +11,7 @@ public class StageClearUIController : MonoBehaviour
     public void EnableCanvas()
     {
         clearCanvas.gameObject.SetActive(true);
+        SetClearWindow();
     }
 
     /**********************************************************
@@ -18,8 +19,17 @@ public class StageClearUIController : MonoBehaviour
     ***********************************************************/
     private void SetClearWindow()
     {
-
+        BattleMapUIManager.instance.CreateResultSlot();
     }
+
+    /**********************************************************
+    * 메인화면 이동 버튼
+    ***********************************************************/
+    public void ClickBtnEnd()
+    {
+        GlobalSceneManager.instance.GoMainScene();
+    }
+
 
 
 }

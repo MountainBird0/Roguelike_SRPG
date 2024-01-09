@@ -3193,7 +3193,7 @@ GameObject:
   - component: {fileID: 8710717193491505302}
   - component: {fileID: 5923499455753816783}
   m_Layer: 0
-  m_Name: Stage1_1
+  m_Name: StageTTT
   m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

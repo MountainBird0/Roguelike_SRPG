@@ -48,6 +48,7 @@ public class GlobalSceneManager : MonoBehaviour
     public void GoTitleScene()
     {
         SceneManager.LoadScene(0);
+        StartCoroutine(GameManager.instance.GameSetting());
     }
 
     /******************************************************************************

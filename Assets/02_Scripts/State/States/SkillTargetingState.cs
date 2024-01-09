@@ -28,7 +28,6 @@ public class SkillTargetingState : State
             return;
         }
 
-        uiController.EnableCanvas();
 
         if (Turn.skill.data.isAOE)
         {
@@ -37,6 +36,9 @@ public class SkillTargetingState : State
         }
 
         AddTarget();
+        
+        uiController.EnableCanvas();
+        
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
     }

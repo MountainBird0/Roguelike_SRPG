@@ -74,7 +74,7 @@ public class DeployState : State
 
         if (coroutine != null)
         {
-            InputManager.instance.isDoing = false;
+            InputManager.instance.isCameraLock = false;
 
             StopCoroutine(coroutine);
             coroutine = null;
@@ -100,7 +100,7 @@ public class DeployState : State
     ***********************************************************/
     private IEnumerator PickUnit(Vector3Int cellPosition)
     {
-        InputManager.instance.isDoing = true;
+        InputManager.instance.isCameraLock = true;
         uiController.EnableGuide();
 
         oldCoords = cellPosition;

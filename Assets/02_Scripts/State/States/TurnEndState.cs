@@ -22,7 +22,9 @@ public class TurnEndState : State
                 StateMachineController.instance.ChangeTo<StageDefeatState>();
 
             }
+            return;
         }
+
 
         ActableUnitCheck();
         StateMachineController.instance.ChangeTo<TurnBeginState>();

@@ -1,5 +1,5 @@
 
-public class StatGrowData
+public struct StatGrowData
 {
     public int HpGrow;
     public int ATKGrow;

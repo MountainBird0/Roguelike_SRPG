@@ -30,6 +30,7 @@ public class BattleMapManager : MonoBehaviour
     public Dictionary<int, Unit> HumanUnits = new();
     public Dictionary<int, Unit> AIUnits = new();
 
+    private int rewardExp = 0;
 
     private void Awake()
     {
@@ -82,6 +83,8 @@ public class BattleMapManager : MonoBehaviour
             skillList = DataManager.instance.defaultMonsterEquipSkills[name];
             enemyUnits.Add(unit.unitNum, unit);
         }
+
+        unit.tile = board.GetTile(unit.pos);
 
         for (int i = 0; i < skillList.Count; i++)
         {
@@ -169,6 +172,8 @@ public class BattleMapManager : MonoBehaviour
         }
         else if (enemyUnits.ContainsKey(unitNum))
         {
+            rewardExp += enemyUnits[unitNum].stats.dropEXP;
+
             board.mainTiles[enemyUnits[unitNum].pos].content = null;
             enemyUnits.Remove(unitNum);
         }
@@ -228,14 +233,7 @@ public class BattleMapManager : MonoBehaviour
     ***********************************************************/
     public int GetReward()
     {
-        int exp = 0;
-
-        foreach(var kvp in enemyUnits)
-        {
-            exp += kvp.Value.stats.dropEXP;
-        }
-
-        return exp;
+        return rewardExp;
     }
 
 }

@@ -13,6 +13,7 @@
     "RES": 0,
     "MOV": 3,
     "SPEED": 5,
+    "CurEXP": 0,
     "reqEXP": 9999,
     "DropEXP": 100,
     "jobType": 0
@@ -31,6 +32,7 @@
     "RES": 0,
     "MOV": 3,
     "SPEED": 5,
+    "CurEXP": 0,
     "reqEXP": 9999,
     "DropEXP": 100,
     "jobType": 0

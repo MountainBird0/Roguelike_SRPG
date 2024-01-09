@@ -14,15 +14,23 @@ public class ChooseActionState : State
 
     private List<TileLogic> tiles;
 
+    private IEnumerator uiTouchCoroutine;
+    private int skillNum = -1;
+
+
+
     private void OnEnable()
     {
         aiController = BattleMapManager.instance.aiController;
+        
     }
 
     public override void Enter()
     {
         base.Enter();
 
+        skillNum = -1;
+        
         if (Turn.isMoving)
         {
             ShowMoveableTile();
@@ -38,6 +46,7 @@ public class ChooseActionState : State
         uiController.EnableCanvas();
         
         InputManager.instance.OnStartTouch += TouchStart;
+        InputManager.instance.OnEndTouch += TouchEnd;
     }
 
     public override void Exit()
@@ -51,6 +60,7 @@ public class ChooseActionState : State
         }
 
         InputManager.instance.OnStartTouch -= TouchStart;
+        InputManager.instance.OnEndTouch -= TouchEnd;
     }
 
     /**********************************************************
@@ -58,11 +68,17 @@ public class ChooseActionState : State
     ***********************************************************/
     public override void TouchStart(Vector2 screenPosition, float time)
     {
+        uiTouchCoroutine = TouchSkillIcon();
+        uiController.isHovor = false;
+
         InputManager.instance.RaycastUI(uiController.raycaster);
+
+        Debug.Log($"{GetType()} - 아이콘 수 {InputManager.instance.clickResults.Count}");
 
         if (InputManager.instance.clickResults.Count != 0) // UI 눌렀을 때
         {
-            SelectSkill();
+            Debug.Log($"{GetType()} - 터치스타트");
+            StartCoroutine(uiTouchCoroutine);
             return;
         }
 
@@ -99,21 +115,45 @@ public class ChooseActionState : State
         }
     }
 
-    /**********************************************************
-    * 스킬 ui누르면 그에 맞는 상태로 이동
-    ***********************************************************/
-    private void SelectSkill()
+    public override void TouchEnd(Vector2 screenPosition, float time)
     {
+        Debug.Log($"{GetType()} - 터치끝");
+
+        if(uiTouchCoroutine != null)
+        {
+            StopCoroutine(uiTouchCoroutine);
+        }
+        uiController.DisableHovor(skillNum);
+
+        if (uiController.isHovor == false && skillNum != -1)
+        {
+            SkillSetting(skillNum);
+        }
+    }
+
+    /**********************************************************
+    * ui창 눌렀다면
+    ***********************************************************/
+    private IEnumerator TouchSkillIcon()
+    {
+        Debug.Log($"{GetType()} - 스킬터치 시작");
         var ob = InputManager.instance.clickResults[0].gameObject;
-        if (ob.CompareTag("EquipSlot"))
+        if(ob.CompareTag("EquipSlot"))
         {
             var slot = ob.GetComponent<BattleSkillSlot>();
-
-            if(slot.slotNum != -1)
+            if (slot.slotNum != -1)
             {
-                SkillSetting(slot.slotNum);
+                skillNum = slot.slotNum;
+                Debug.Log($"{GetType()} 코루틴 스킬 숫자 - {skillNum}");
+
+                yield return new WaitForSeconds(1.0f);
+
+                uiController.isHovor = true;
+                Debug.Log($"{GetType()} - 호버 생김");
+
+                uiController.EnableHovor(skillNum);
             }
-        }      
+        }
     }
 
     /**********************************************************

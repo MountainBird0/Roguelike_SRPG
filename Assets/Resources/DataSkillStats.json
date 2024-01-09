@@ -72,11 +72,11 @@
     "currentCoolTime": 0,
     "coolTime": 3,
     "isDirectional": 1,
-    "isAOE": 0
+    "isAOE": 1
   },
   "5": {
     "name": "FireBall",
-    "explain": "파이어볼 어쩌구",
+    "explain": "단일 적 부대를 공격해 ${multiplier}배의 피해를 준다.",
     "range": 5,
     "AOERange": 0,
     "affectType": "attack",

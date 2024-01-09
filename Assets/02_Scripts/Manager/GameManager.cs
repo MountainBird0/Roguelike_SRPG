@@ -1,6 +1,7 @@
 /******************************************************************************
 * 전반적인 게임 진행을 관리
 *******************************************************************************/
+using System.Collections;
 using UnityEngine;
 
 [DefaultExecutionOrder((int)SEO.GameManager)]
@@ -27,12 +28,18 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(DownloadManager.instance.InitAddressable());
-        StartCoroutine(DownloadManager.instance.CheckUpdateFiles());
+        //StartCoroutine(DownloadManager.instance.InitAddressable());
+        //StartCoroutine(DownloadManager.instance.CheckUpdateFiles());
 
-        DataManager.instance.LoadDefaultData();
-        hasSaveData = DataManager.instance.LoadPlayingData();
+        //DataManager.instance.LoadDefaultData();
+        //hasSaveData = DataManager.instance.LoadPlayingData();
     }
+
+    private void OnEnable()
+    {
+        StartCoroutine(GameSetting());
+    }
+
 
     /******************************************************************************
     *  이어하기 시작 - 
@@ -40,7 +47,7 @@ public class GameManager : MonoBehaviour
     public void StarContinueGame()
     {
         Debug.Log($"{GetType()} - 이어하기");
-
+        hasSaveData = DataManager.instance.LoadPlayingData();
         // 씬 이동
         GlobalSceneManager.instance.GoLodingScene();
 
@@ -72,4 +79,17 @@ public class GameManager : MonoBehaviour
         DataManager.instance.SaveDate();
     }
 
+    public IEnumerator GameSetting()
+    {
+        yield return new WaitForSeconds(0.5f);
+        
+        StartCoroutine(DownloadManager.instance.InitAddressable());
+        StartCoroutine(DownloadManager.instance.CheckUpdateFiles());
+
+        yield return new WaitForSeconds(0.5f);
+
+
+        DataManager.instance.LoadDefaultData();
+            
+    }
 }

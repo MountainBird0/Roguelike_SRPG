@@ -36,7 +36,7 @@ public class ConstantRange : MonoBehaviour
             {
                 next = now + dirs[i];
 
-                if(posDic[now] + 1 >= range)
+                if(posDic[now] + 1 > range)
                 {
                     continue;
                 }

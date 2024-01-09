@@ -1,18 +1,20 @@
 /******************************************************************************
-* ResultSlot에 들어갈 정보
+* TargetingWindow에 들어갈 정보
 *******************************************************************************/
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResultSlot : MonoBehaviour
+public class TargetingWindow : MonoBehaviour
 {
-    public Image image;
-    public Image yellowBar;
+    public Image unitImage;
+    public Image skillImage;
+    public Image redBar;
 
     [Header("Stat")]
     public TextMeshProUGUI className;
     public TextMeshProUGUI level;
-    public TextMeshProUGUI curExp;
-    public TextMeshProUGUI maxExp;
+    public TextMeshProUGUI hp;
+    public TextMeshProUGUI attack;
+    public TextMeshProUGUI defensive;
 }

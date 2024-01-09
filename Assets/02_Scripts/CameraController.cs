@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        if (!InputManager.instance.isDoing)
+        if (!InputManager.instance.isCameraLock)
         {
             while(true)
             {

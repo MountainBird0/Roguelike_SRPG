@@ -6,19 +6,25 @@ using DG.Tweening;
 public class FireballShow : SkillVisualEffect
 {
     public GameObject ballEffect;
+    public GameObject explosion;
 
     public override void Apply(SkillEffect effect)
     {
-        // 터지는 이펙트 추가
+        ballEffect.SetActive(true);
+        explosion.SetActive(false);
 
         sequence = DOTween.Sequence().
-            Append(ballEffect.transform.DOMove(Turn.selectedPos, 1.0f).From(Turn.unit.pos))
-                .OnComplete(() => effect.Apply());
-
+            Append(transform.DOMove(Turn.selectedPos, 1.0f).From(Turn.unit.pos))
+                .OnComplete(() =>
+                {
+                    explosion.SetActive(true);
+                    ballEffect.SetActive(false);
+                    effect.Apply();
+                });
     }
 
     public override float GetDuration()
     {
-        return sequence.Duration();
+        return sequence.Duration() + 0.5f;
     }
 }

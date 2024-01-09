@@ -33,16 +33,7 @@ public class TitleUIController : MonoBehaviour
     }
 
     /**********************************************************
-    * 리소스 확인 팝업 비활성화
-    ***********************************************************/
-    public void HideCheckPopUp()
-    {
-        CheckPopUp.SetActive(false);
-        currentState = UiState.Nothing;
-    }
-
-    /**********************************************************
-    * 리소스 다운로드 팝업 활성화
+    * 리소스 다운로드 팝업 활성화 / 비활성화
     ***********************************************************/
     public void ShowDownloadPopUp()
     {
@@ -57,6 +48,16 @@ public class TitleUIController : MonoBehaviour
         DownloadPopUp.SetActive(false);
         currentState = UiState.Nothing;
     }
+
+    /**********************************************************
+    * 리소스 확인 팝업 비활성화
+    ***********************************************************/
+    public void HideCheckPopUp()
+    {        
+        CheckPopUp.SetActive(false);
+        currentState = UiState.Nothing;
+    }
+
 
 
     /**********************************************************

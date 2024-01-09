@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
     public PointerEventData clickData = new PointerEventData(EventSystem.current);
     public List<RaycastResult> clickResults = new();
 
-    public bool isDoing = false;
+    public bool isCameraLock = false;
 
     public static InputManager instance;
     private void Awake()
@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour
 
     private void OnDisable()
     {
-        touchControls.Disable();
+        // touchControls.Disable();
     }
 
     private void Start()

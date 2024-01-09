@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63a4021fc070148428396146556567ee, type: 3}
-  m_Name: Stage1_1_Mon
+  m_Name: StageTTT_Mon
   m_EditorClassIdentifier: 
   monsters:
   - name: Bat
@@ -19,3 +19,5 @@ MonoBehaviour:
     pos: {x: 4, y: -1, z: 0}
   - name: Bat
     pos: {x: 4, y: -2, z: 0}
+  - name: Bat
+    pos: {x: 3, y: -2, z: 0}

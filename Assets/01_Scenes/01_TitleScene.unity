@@ -3718,7 +3718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d3c73a644ef9334d8ee376ee9285b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoing: 0
+  isCameraLock: 0
 --- !u!4 &1709310944
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,8 @@
     "RES": 0,
     "MOV": 3,
     "SPEED": 110,
-    "reqEXP": 100,
+    "CurEXP": 0,
+    "MaxEXP": 100,
     "dropEXP": 0,
     "jobType": 0
   },
@@ -21,9 +22,9 @@
     "Level": 1,
     "MaxHp": 100,
     "Hp": 100,
-    "ATK": 5,
+    "ATK": 5000,
     "DEF": 10,
-    "MATK": 30,
+    "MATK": 3000,
     "MDEF": 20,
     "HIT": 100,
     "EVA": 20,
@@ -31,7 +32,8 @@
     "RES": 50,
     "MOV": 3,
     "SPEED": 109,
-    "reqEXP": 100,
+    "CurEXP": 0,
+    "MaxEXP": 100,
     "dropEXP": 0,
     "jobType": 1
   },
@@ -49,7 +51,8 @@
     "RES": 0,
     "MOV": 4,
     "SPEED": 108,
-    "reqEXP": 100,
+    "CurEXP": 0,
+    "MaxEXP": 100,
     "dropEXP": 0,
     "jobType": 2
   }

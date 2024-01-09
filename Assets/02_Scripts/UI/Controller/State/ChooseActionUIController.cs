@@ -14,6 +14,8 @@ public class ChooseActionUIController : MonoBehaviour
     
     [Header("SkillSlot")]
     public List<GameObject> skillSlots;
+    public List<GameObject> infoWindow;
+    public List<SkillInfoWindow> skillWindowInfo;
     public List<GameObject> coolTimeImage;
     public List<TextMeshProUGUI> coolTimeText;
 
@@ -28,6 +30,7 @@ public class ChooseActionUIController : MonoBehaviour
     private StringKeyImagePool unitBigPool;
     private IntKeyImagePool skillIconPool;
 
+    public bool isHovor = false;
 
     private void Start()
     {
@@ -76,9 +79,7 @@ public class ChooseActionUIController : MonoBehaviour
         statInfo.redBar.fillAmount = hpRatio;
 
         //statWindow.transform.DOMoveY(400, 1.0f);
-
         //statWindow.transform.DOLocalMoveY(150, 0.5f).From(true);
-
         var rt = statWindow.GetComponent<RectTransform>();
         rt.DOAnchorPosY(0, 0.5f).From(new Vector2(rt.anchoredPosition.x, 150));
     }
@@ -120,7 +121,46 @@ public class ChooseActionUIController : MonoBehaviour
         // skillListWindow.transform.DOLocalMove(new Vector3(-300, -300, 0), 0.5f).From(true).SetEase(Ease.OutCirc);
         // skillListWindow.transform.DORotate(new Vector3(0, 0, 150), 0.5f).From(true);
         skillListWindow.transform.DORotate(Vector3.zero, 0.5f).From(new Vector3(0, 0, 150));
+    }
 
+    /**********************************************************
+    * 스킬정보창 활성화 / 비활성화
+    ***********************************************************/
+    public void EnableHovor(int skillNum)
+    {
+        infoWindow[skillNum].SetActive(true);
+        SetSkillInfoWindow(skillNum);
+    }
+    public void DisableHovor(int skillNum)
+    {
+        if(skillNum != -1)
+            infoWindow[skillNum].SetActive(false);
+    }
 
+    /**********************************************************
+    * 스킬정보창 세팅
+    ***********************************************************/
+    private void SetSkillInfoWindow(int skillNum)
+    {
+        var skillData = Turn.unit.skills[skillNum].GetComponent<Skill>().data;
+
+        skillWindowInfo[skillNum].skillName.text = skillData.name;
+        skillWindowInfo[skillNum].coolTime.text = skillData.coolTime.ToString();
+        skillWindowInfo[skillNum].type.text = skillData.damageType.ToString();
+        skillWindowInfo[skillNum].range.text = skillData.range.ToString();
+
+        if(skillData.isAOE == true)
+        {
+            skillWindowInfo[skillNum].target.text = "범위";
+        }
+        else
+        {
+            skillWindowInfo[skillNum].target.text = "단일";
+        }
+
+        string explainText = skillData.explain.Replace("{multiplier}", skillData.multiplier.ToString());
+        skillWindowInfo[skillNum].info.text = explainText;
+
+        //skillWindowInfo[skillNum].info.text = skillData.explain.ToString();
     }
 }
