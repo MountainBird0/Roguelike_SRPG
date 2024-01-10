@@ -38,4 +38,10 @@ public struct StatData
 
         return this;
     }
+
+    public StatData HpFullUp()
+    {
+        HP = MaxHP;
+        return this;
+    }
 }

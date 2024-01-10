@@ -30,6 +30,8 @@ public class BattleMapManager : MonoBehaviour
     public Dictionary<int, Unit> HumanUnits = new();
     public Dictionary<int, Unit> AIUnits = new();
 
+    public List<Unit> units = new();
+
     private int rewardExp = 0;
 
     private void Awake()
@@ -76,6 +78,7 @@ public class BattleMapManager : MonoBehaviour
             unit.stats = DataManager.instance.currentUnitStats[name];
             skillList = DataManager.instance.currentEquipSkills[name];
             allyUnits.Add(unit.unitNum, unit);
+            units.Add(unit);
         }
         else if(DataManager.instance.defaultMonsterStats.ContainsKey(name))
         {
@@ -101,7 +104,9 @@ public class BattleMapManager : MonoBehaviour
             ob.GetComponent<Skill>().id = skillList[i];
             
             unit.skills.Add(ob);
-        }       
+        }
+
+        unit.SetHealthBar();
     }
 
 

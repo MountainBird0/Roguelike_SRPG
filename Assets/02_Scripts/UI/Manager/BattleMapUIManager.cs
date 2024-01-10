@@ -3,6 +3,7 @@
 ***********************************************************/
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -83,32 +84,34 @@ public class BattleMapUIManager : MonoBehaviour
     {
         int gainedExp = BattleMapManager.instance.GetReward();
         
-        foreach(var kvp in DataManager.instance.currentUnitStats)
+        foreach(var unit in BattleMapManager.instance.units)
         {
             var ob = Instantiate(resultSlot, resultWindow);
 
             var slot = ob.GetComponent<ResultSlot>();
-            slot.image.sprite = unitSmallPool.images[kvp.Key];
-            slot.className.text = kvp.Key;
-            slot.level.text = kvp.Value.Level.ToString();
-            slot.curExp.text = kvp.Value.CurEXP.ToString();
-            slot.maxExp.text = "/ " + kvp.Value.MaxEXP.ToString();
+            slot.image.sprite = unitSmallPool.images[unit.unitName];
+            slot.className.text = unit.unitName;
+            slot.level.text = unit.stats.Level.ToString();
+            slot.curExp.text = unit.stats.CurEXP.ToString();
+            slot.maxExp.text = "/ " + unit.stats.MaxEXP.ToString();
 
-            StartCoroutine(UpExp(kvp, slot, gainedExp));
+            StartCoroutine(UpExp(unit, slot, gainedExp));
         }
     }
 
-    private IEnumerator UpExp(KeyValuePair<string, StatData> kvp, ResultSlot slot, int gainedExp)
+    private IEnumerator UpExp(Unit unit, ResultSlot slot, int gainedExp)
     {
-        Debug.Log($"{GetType()} - 유닛 : {kvp.Key}");
+        Debug.Log($"{GetType()} - 유닛 : {unit}");
         Debug.Log($"{GetType()} - 얻은경험치 : {gainedExp}");
-        int currentEXP = kvp.Value.CurEXP;
+        int currentEXP = unit.stats.CurEXP;
         int addExp = 0;
 
-        while(gainedExp != 0)
+        gainedExp = 50;
+
+        while (gainedExp != 0)
         {
             Debug.Log($"{GetType()} - 남은 총 경험치 : {gainedExp}");
-            int requirExp = kvp.Value.MaxEXP - currentEXP;
+            int requirExp = unit.stats.MaxEXP - currentEXP;
             Debug.Log($"{GetType()} - 레벨업에 필요한 경험치 : {requirExp}");
 
             if(gainedExp >= requirExp)
@@ -130,30 +133,31 @@ public class BattleMapUIManager : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
                 currentEXP++;
                 slot.curExp.text = currentEXP.ToString();
-                slot.yellowBar.fillAmount = (float)currentEXP / kvp.Value.MaxEXP;
+                slot.yellowBar.fillAmount = (float)currentEXP / unit.stats.MaxEXP;
             }
             yield return new WaitForSeconds(0.05f);
             Debug.Log($"{GetType()} - currentEXP : {currentEXP}");
-            Debug.Log($"{GetType()} - maxexp : {kvp.Value.MaxEXP}");
+            Debug.Log($"{GetType()} - maxexp : {unit.stats.MaxEXP}");
 
-            if (currentEXP == kvp.Value.MaxEXP)
+            if (currentEXP == unit.stats.MaxEXP)
             {
                 Debug.Log($"{GetType()} - 레벨업 함");
-                Debug.Log($"{GetType()} - 이전레벨몇? {kvp.Value.Level}");
+                Debug.Log($"{GetType()} - 이전레벨몇? {unit.stats.Level}");
 
-                kvp = new KeyValuePair<string, StatData>(kvp.Key, kvp.Value.IncreaseLevel(DataManager.instance.defaultUnitGrowStats[kvp.Key]));
+                unit.stats = unit.stats.IncreaseLevel(DataManager.instance.defaultUnitGrowStats[unit.unitName]);
 
-                Debug.Log($"{GetType()} - 레벨몇? {kvp.Value.Level}");
-                slot.level.text = kvp.Value.Level.ToString();
+                Debug.Log($"{GetType()} - 레벨몇? {unit.stats.Level}");
+                slot.level.text = unit.stats.Level.ToString();
                 slot.curExp.text = "0";
-                slot.maxExp.text = "/ " + kvp.Value.MaxEXP.ToString();
+                slot.maxExp.text = unit.stats.MaxEXP.ToString();
 
                 currentEXP = 0;
-
-                DataManager.instance.currentUnitStats[kvp.Key] = kvp.Value;
             }
-
         }
+
+        unit.stats.CurEXP = int.Parse(slot.curExp.text, CultureInfo.InvariantCulture);
+
+        DataManager.instance.currentUnitStats[unit.unitName] = unit.stats;
 
         yield return new WaitForSeconds(0.1f);
         // 이거 끝나야 나머지 활성화되도록

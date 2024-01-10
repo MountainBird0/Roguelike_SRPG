@@ -39,7 +39,6 @@ public class Unit : MonoBehaviour
         animationController = GetComponent<AnimationController>();
     }
 
-
     public void SetPosition(Vector3Int pos, Board board)
     {
         if (pos != Turn.unit.pos)
@@ -76,7 +75,7 @@ public class Unit : MonoBehaviour
         SetHealthBar();
     }
 
-    private void SetHealthBar()
+    public void SetHealthBar()
     {
         float hpRatio = (float)stats.HP / stats.MaxHP;
         redBar.fillAmount = hpRatio;

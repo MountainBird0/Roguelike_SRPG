@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fee09461d25504f86060756c68a195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectName: NormalAttackShow
 --- !u!114 &-5376947656608023725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,5 +61,4 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: e352666fdbe5aa347a20143961d461db, type: 3}
   effects:
   - {fileID: 8296270185172419928}
-  coolTime: 0
   id: 0

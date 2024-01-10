@@ -3159,6 +3159,10 @@ MonoBehaviour:
     prefab: {fileID: 7638562796804839332, guid: 681b8ed037537cb459def991e9b94a61, type: 3}
     initialObjectCount: 5
     maxObjectCount: 5
+  - key: NormalAttackShow
+    prefab: {fileID: 8027932169315552285, guid: d3b180c7c3893b24c99b085406ff4a20, type: 3}
+    initialObjectCount: 1
+    maxObjectCount: 1
 --- !u!4 &514604518
 Transform:
   m_ObjectHideFlags: 0
@@ -6560,8 +6564,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12276,6 +12280,7 @@ MonoBehaviour:
   aiController: {fileID: 1606703026}
   skillPool: {fileID: 2094683849}
   board: {fileID: 0}
+  units: []
 --- !u!114 &1622245904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17135,8 +17140,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

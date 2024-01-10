@@ -2,6 +2,7 @@
 * 클릭했을때 반응
 ***********************************************************/
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainMapInteraction : MonoBehaviour
@@ -33,7 +34,7 @@ public class MainMapInteraction : MonoBehaviour
 
                 break;
             case IconType.CHEST:
-
+                ClickChest();
                 break;
         }     
     }
@@ -46,12 +47,23 @@ public class MainMapInteraction : MonoBehaviour
         Debug.Log($"{GetType()} - 배틀씬으로 이동");
         GlobalSceneManager.instance.GoBattleScene();
     }
+    private void ClickChest()
+    {
+        Debug.Log($"{GetType()} - 회복 누름");
+        foreach (var unitStats in DataManager.instance.currentUnitStats.ToList())
+        {
+            StatData updatedStat = unitStats.Value.HpFullUp();
+            DataManager.instance.currentUnitStats[unitStats.Key] = updatedStat;
+        }
+    }
 
     /**********************************************************
     * 클릭했을때 노드 상태 변경
     ***********************************************************/
     private void ChangeState(IconNode node)
     {
+        Debug.Log($"{GetType()} - 노드상태 변경");
+
         ChangeToLocked();
 
         node.iconState = IconState.VISITED;
