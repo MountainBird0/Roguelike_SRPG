@@ -36,6 +36,11 @@ public class MainMapUIController : MonoBehaviour
     public Transform imagePos_L;
     public Transform imagePos_R;
 
+    [Header("Heal")]
+    public GameObject healWindow;
+
+    [Header("Shop")]
+    public GameObject shopWindow;
 
     private string unitName;
 
@@ -51,7 +56,9 @@ public class MainMapUIController : MonoBehaviour
     {
         Nothing,        // 아무것도 뜨지 않은 상태
         ShowUnitWindow, // 팝업창이 떠있는 상태
-        ShowSetting
+        ShowSetting,
+        ShowHealWindow,
+        ShowShopWindow,
     }
     private enum UnitWindowState
     {
@@ -200,6 +207,47 @@ public class MainMapUIController : MonoBehaviour
         }
         DataManager.instance.currentEquipSkills[unitName] = skillList;
     }
+
+    /**********************************************************
+    * 힐 윈도우 활성화 비활성화
+    ***********************************************************/
+    public void EnableHealWindow()
+    {
+        if(currentUiState == UiState.Nothing)
+        {
+            mainMapInput.SetActive(false);
+            currentUiState = UiState.ShowHealWindow;
+            healWindow.SetActive(true);
+        }
+    }
+    public void ClickBtnHealCheck()
+    {
+        mainMapInput.SetActive(true);
+        healWindow.SetActive(false);
+        currentUiState = UiState.Nothing;
+    }
+
+
+    /**********************************************************
+    * 상점 윈도우 활성화 비활성화
+    ***********************************************************/
+    public void EnableShopWindow()
+    {
+        if (currentUiState == UiState.Nothing)
+        {
+            currentUiState = UiState.ShowShopWindow;
+            
+            mainMapInput.SetActive(false);
+            shopWindow.SetActive(true);
+        }
+    }
+    public void ClickBtnShopCheck()
+    {
+        currentUiState = UiState.Nothing;
+        shopWindow.SetActive(false);
+    }
+
+
 
     // 임시
     /**********************************************************

@@ -20,19 +20,14 @@ public class MainMapMaker : MonoBehaviour
     public GameObject Chest;
     public GameObject Boss;
 
-    private MapInfo mapData;
+    private MapInfo mapData = new();
 
-    private List<IconNode> nodes;
+    private List<IconNode> nodes = new();
+    private List<LineRenderer> lines = new();
     
     // 아이콘 움직임
     private int scaleDuration = 1;
     private Vector2 maxScale = new Vector3(1.3f, 1.3f);
-
-    private void Awake()
-    {
-        mapData = new MapInfo();
-        nodes = new List<IconNode>();
-    }
 
     /**********************************************************
     * 노드 생성
@@ -123,7 +118,6 @@ public class MainMapMaker : MonoBehaviour
                 {
                     if (nodes[i].connectedNodes[j].iconState == IconState.VISITED)
                     {
-                        // lineRenderer.colorGradient = Color.black;
                         lineRenderer.endColor = Color.black;
                     }
                     else if (nodes[i].connectedNodes[j].iconState == IconState.ATTAINABLE)
@@ -131,6 +125,36 @@ public class MainMapMaker : MonoBehaviour
                         lineRenderer.endColor = Color.blue;
                     }
                 }
+                lines.Add(lineRenderer);
+
+            }
+        }
+    }
+
+    public void ChangeLineColor()
+    {
+        int count = 0;
+
+        for (int i = 1; i < nodes.Count; i++)
+        {
+            for (int j = 0; j < nodes[i].connectedNodes.Count; j++)
+            {
+                if (nodes[i].iconState == IconState.VISITED)
+                {  
+                    if (nodes[i].connectedNodes[j].iconState == IconState.VISITED)
+                    {
+                        lines[count].endColor = Color.black;
+                    }
+                    else if (nodes[i].connectedNodes[j].iconState == IconState.ATTAINABLE)
+                    {
+                        lines[count].endColor = Color.blue;
+                    }
+                    else
+                    {
+                        lines[count].endColor = Color.white;
+                    }
+                }
+                count++;
             }
         }
     }

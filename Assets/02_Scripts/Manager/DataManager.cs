@@ -4,6 +4,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder((int)SEO.DataManager)]
@@ -44,7 +45,10 @@ public class DataManager : MonoBehaviour
     
     public Dictionary<string, StatData> currentUnitStats = new();
     public Dictionary<string, List<int>> currentUsableSkills = new();
+    public Dictionary<string, List<int>> currentShopSkills = new();
     public Dictionary<string, List<int>> currentEquipSkills = new();
+
+    public List<int> shopSkills = new();
 
     public List<IconNode> nodes = new();
 
@@ -98,7 +102,7 @@ public class DataManager : MonoBehaviour
             currentEquipSkills.Add(kvp.Key, numList);
         }
 
-
+        SettingShopSkill();
 
 
         //foreach (var a in currentSlotSkills)
@@ -167,6 +171,34 @@ public class DataManager : MonoBehaviour
             mapInfo.iconStates[i] = nodes[i + 1].iconState;
         }
     }
+
+    private void SettingShopSkill()
+    {
+        var usableSkills = currentUsableSkills.SelectMany(kvp => kvp.Value);
+
+        shopSkills = defaultSkillStats.Keys.Except(usableSkills).ToList();
+
+        // 유닛별로 나누고 싶을 때
+        //foreach(var kvp in defaultSkillStats)
+        //{
+        //    int jobType = kvp.Value.jobType;
+        //    string unitName = defaultUnitStats.FirstOrDefault(entry => entry.Value.jobType == jobType).Key;
+
+        //    if (unitName == null) continue;
+
+        //    List<int> skills = currentUsableSkills[unitName];
+
+        //    if (!skills.Contains(kvp.Key))
+        //    {
+        //        if (!currentShopSkills.ContainsKey(unitName))
+        //        {
+        //            currentShopSkills[unitName] = new List<int>();
+        //        }
+        //        currentShopSkills[unitName].Add(kvp.Key);
+        //    }
+        //}
+    }
+
 
     /**********************************************************
     * json 저장 툴

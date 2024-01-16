@@ -4,9 +4,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class MainMapInteraction : MonoBehaviour
 {
+    private int scaleDuration = 1;
+    private Vector2 maxScale = new Vector3(1.3f, 1.3f);
+
+    public MainMapMaker mapMaker;
+    public MainMapUIController uiController;
+
     /**********************************************************
     * 클릭한 아이콘 받아오기
     ***********************************************************/
@@ -18,17 +25,16 @@ public class MainMapInteraction : MonoBehaviour
         {
             return;
         }
-
-        
+      
         ChangeState(node);
         IconType iconType = node.iconInfo.Item1;
         switch(iconType)
         {
             case IconType.MONSTER:
-                ClickMonster();
+                ClickShop();
                 break;
             case IconType.SHOP:
-
+                ClickShop();
                 break;
             case IconType.BOSS:
 
@@ -40,22 +46,41 @@ public class MainMapInteraction : MonoBehaviour
     }
 
     /**********************************************************
-    * 누른게 몬스터 버튼일 때
+    * 몬스터 아이콘 눌렀을 때
     ***********************************************************/
     private void ClickMonster()
     {
         Debug.Log($"{GetType()} - 배틀씬으로 이동");
         GlobalSceneManager.instance.GoBattleScene();
     }
+
+
+    /**********************************************************
+    * 힐 아이콘 눌렀을 때
+    ***********************************************************/
     private void ClickChest()
     {
         Debug.Log($"{GetType()} - 회복 누름");
+
+        uiController.EnableHealWindow();
+
         foreach (var unitStats in DataManager.instance.currentUnitStats.ToList())
         {
             StatData updatedStat = unitStats.Value.HpFullUp();
             DataManager.instance.currentUnitStats[unitStats.Key] = updatedStat;
         }
     }
+
+
+    /**********************************************************
+    * 상점 아이콘 눌렀을 때
+    ***********************************************************/
+    private void ClickShop()
+    {
+        uiController.EnableShopWindow();
+    }
+
+
 
     /**********************************************************
     * 클릭했을때 노드 상태 변경
@@ -67,7 +92,12 @@ public class MainMapInteraction : MonoBehaviour
         ChangeToLocked();
 
         node.iconState = IconState.VISITED;
-        node.connectedNodes.ForEach(cn => cn.iconState = IconState.ATTAINABLE);
+        node.connectedNodes.ForEach(cn =>
+            {
+                cn.iconState = IconState.ATTAINABLE;
+                cn.icon.transform.DOScale(maxScale, scaleDuration).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
+            });
+        mapMaker.ChangeLineColor();
         DataManager.instance.OverWriteState();
     }
 
@@ -79,7 +109,12 @@ public class MainMapInteraction : MonoBehaviour
         IconNode node = DataManager.instance.nodes[0];
         IconNode lastVisited = FindLastVisitedNode(node);
 
-        lastVisited.connectedNodes.ForEach(cn => cn.iconState = IconState.LOCKED);
+        lastVisited.connectedNodes.ForEach(cn => 
+            {
+                cn.iconState = IconState.LOCKED; 
+                DOTween.Kill(cn.icon.transform);
+                cn.icon.transform.localScale = Vector3.one;
+            });
     }
     private IconNode FindLastVisitedNode(IconNode node)
     {

@@ -2370,6 +2370,7 @@ MonoBehaviour:
   skillStatsText: {fileID: 4900000, guid: b1b9f24b952f728439a53d63749d1ddb, type: 3}
   usableSkillsText: {fileID: 4900000, guid: b944c9eb522f4bb47b94d82501ceb5b3, type: 3}
   monsterSkillsText: {fileID: 4900000, guid: 91d3e81dfa9154a4e8974776b7b774b0, type: 3}
+  shopSkills: 
 --- !u!4 &866180284
 Transform:
   m_ObjectHideFlags: 0
