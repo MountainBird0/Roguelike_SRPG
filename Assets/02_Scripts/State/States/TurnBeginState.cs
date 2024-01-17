@@ -2,6 +2,7 @@
 * 한 unit을 골라 그 unit의 turn을 시작하기 위한 State
 ***********************************************************/
 using UnityEngine;
+using System.Linq;
 
 public class TurnBeginState : State
 {
@@ -28,6 +29,9 @@ public class TurnBeginState : State
                 SelectUnit(kvp.Value.pos);
                 break;
             }
+
+            SelectUnit(BattleMapManager.instance.AIUnits.First().Value.pos);
+
             StateMachineController.instance.ChangeTo<ChooseActionState>();
             return;
         }

@@ -56,7 +56,6 @@ public class TurnBeginUIController : MonoBehaviour
 
             if (unit.skills.Count <= i)
             {
-                Debug.Log($"{GetType()} - ¿©±âºö");
                 slot.slotNum = -1;
                 slot.image.sprite = BattleMapUIManager.instance.defaultSprite;
                 continue;

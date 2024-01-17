@@ -26,6 +26,7 @@ public class BattleMapUIManager : MonoBehaviour
     public SkillSelectionUIController skillSelectionUIController;
     public ArrowSelectionUIController arrowSelectionUIController;
     public SkillTargetUIController skillTargetUIController;
+    public TurnEndUIController turnEndUIController;
     public StageClearUIController stageClearUIController;
 
     [Header("ImagePool")]
@@ -55,6 +56,7 @@ public class BattleMapUIManager : MonoBehaviour
         skillSelectionUIController = GetComponent<SkillSelectionUIController>();
         arrowSelectionUIController = GetComponent<ArrowSelectionUIController>();
         skillTargetUIController = GetComponent<SkillTargetUIController>();
+        turnEndUIController = GetComponent<TurnEndUIController>();
         stageClearUIController = GetComponent<StageClearUIController>();
     }
 

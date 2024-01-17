@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TurnEndState : State
 {
+    private TurnEndUIController uiController = BattleMapUIManager.instance.turnEndUIController;
+
     public override void Enter()
     {
         base.Enter();
@@ -20,11 +22,9 @@ public class TurnEndState : State
             else
             {
                 StateMachineController.instance.ChangeTo<StageDefeatState>();
-
             }
             return;
         }
-
 
         ActableUnitCheck();
         StateMachineController.instance.ChangeTo<TurnBeginState>();
@@ -43,13 +43,22 @@ public class TurnEndState : State
         if(Turn.isHumanTurn)
         {
             Turn.isHumanTurn = BattleMapManager.instance.isHumanTurnFinish(Turn.unit.unitNum);
+            if(!Turn.isHumanTurn && BattleMapManager.instance.IsEnemyTurn())
+            {
+                uiController.StartEnemyTurn();
+            }
         }
         else
         {
             if(BattleMapManager.instance.isAITurnFinish(Turn.unit.unitNum))
             {
-                // 턴 오르는 ui // 다음 턴 시작
                 Turn.turnCount++;
+                if(Turn.turnCount == 16)
+                {
+                    StateMachineController.instance.ChangeTo<StageDefeatState>();
+                    return;
+                }
+                uiController.StartNewTurn();
                 Turn.isHumanTurn = true;
                 Debug.Log($"{GetType()} - {Turn.turnCount}번째 턴 시작");
             }

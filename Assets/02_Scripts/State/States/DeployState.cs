@@ -9,6 +9,7 @@ public class DeployState : State
 {
     private Dictionary<Vector3Int, TileLogic> deployTiles = new();
     private DeployUIController uiController;
+    private TurnBeginUIController unitInfoController = BattleMapUIManager.instance.turnBeginUIController;
 
     private string unitName;
     private Vector3Int oldCoords;
@@ -24,6 +25,7 @@ public class DeployState : State
         uiController = BattleMapUIManager.instance.deployUIController;
 
         uiController.EnableWindow();
+        unitInfoController.DisableCanvas();
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -66,6 +68,22 @@ public class DeployState : State
             { // 없으면 새로 생성해서 배치             
                 DeployNewUnit(cellPosition);
             }
+        }
+        else if(board.mainTiles.ContainsKey(cellPosition))
+        {
+            if (board.mainTiles[cellPosition].content)
+            {
+                var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+                unitInfoController.ShowStatWindow(unit);
+            }
+            else
+            {
+                unitInfoController.DisableCanvas();
+            }
+        }
+        else
+        {
+            unitInfoController.DisableCanvas();
         }
     }
     public override void TouchEnd(Vector2 screenPosition, float time)

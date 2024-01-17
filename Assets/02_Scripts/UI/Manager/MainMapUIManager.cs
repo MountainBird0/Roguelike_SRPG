@@ -152,7 +152,11 @@ public class MainMapUIManager : MonoBehaviour
     public void SetStatWindow(string unitName)
     {
         var statData = DataManager.instance.currentUnitStats[unitName];
-        
+
+        statInfo.hp.text = statData.HP.ToString() + " / " + statData.MaxHP.ToString();
+        float hpRatio = (float)statData.HP / statData.MaxHP;
+        statInfo.redBar.fillAmount = hpRatio;
+
         statInfo.className.text = unitName;
         statInfo.level.text = statData.Level.ToString();
         statInfo.atk.text   = statData.ATK.ToString();
@@ -177,6 +181,20 @@ public class MainMapUIManager : MonoBehaviour
             var skillData = DataManager.instance.defaultSkillStats[skillNum];
 
             skillInfo.skillName.text = skillData.name;
+            skillInfo.coolTime.text = skillData.coolTime.ToString();
+            skillInfo.type.text = skillData.damageType.ToString();
+            skillInfo.range.text = skillData.range.ToString();
+            skillInfo.range.text = skillData.range.ToString();
+
+            if (skillData.isAOE == true)
+            {
+                skillInfo.target.text = "범위";
+            }
+            else
+            {
+                skillInfo.target.text = "단일";
+            }
+
             skillInfo.explain.text = skillData.explain;
         }
     }

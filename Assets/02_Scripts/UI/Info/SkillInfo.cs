@@ -7,6 +7,11 @@ using UnityEngine;
 public class SkillInfo : MonoBehaviour
 {
     public TextMeshProUGUI skillName;
-    public TextMeshProUGUI explain;
 
+    public TextMeshProUGUI coolTime;
+    public TextMeshProUGUI type;
+    public TextMeshProUGUI range;
+    public TextMeshProUGUI target;
+
+    public TextMeshProUGUI explain;
 }

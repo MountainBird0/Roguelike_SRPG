@@ -31,7 +31,7 @@ public class MainMapInteraction : MonoBehaviour
         switch(iconType)
         {
             case IconType.MONSTER:
-                ClickShop();
+                ClickMonster();
                 break;
             case IconType.SHOP:
                 ClickShop();

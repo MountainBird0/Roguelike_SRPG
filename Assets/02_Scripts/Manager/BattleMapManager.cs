@@ -30,7 +30,7 @@ public class BattleMapManager : MonoBehaviour
     public Dictionary<int, Unit> HumanUnits = new();
     public Dictionary<int, Unit> AIUnits = new();
 
-    public List<Unit> units = new();
+    public List<Unit> units = new(); // 처음 배치한 플레이어 유닛
 
     private int rewardExp = 0;
 
@@ -129,7 +129,7 @@ public class BattleMapManager : MonoBehaviour
     }
 
     /**********************************************************
-    * 행동 끝난 아군유닛 빼고 아군턴 다 끝났는지 확인
+    * 행동 끝난 사람유닛 빼고 사람턴 다 끝났는지 확인
     ***********************************************************/
     public bool isHumanTurnFinish(int num)
     {
@@ -146,7 +146,7 @@ public class BattleMapManager : MonoBehaviour
         return true;
     }
     /**********************************************************
-    * 행동 끝난 적 유닛 빼고 턴 끝났는지 확인
+    * 행동 끝난 AI 유닛 빼고 턴 끝났는지 확인
     ***********************************************************/
     public bool isAITurnFinish(int num)
     {
@@ -191,9 +191,6 @@ public class BattleMapManager : MonoBehaviour
         {
             AIUnits.Remove(unitNum);
         }
-
-        
-
     }
 
     /**********************************************************
@@ -229,9 +226,44 @@ public class BattleMapManager : MonoBehaviour
         {
             units.Add(kvp.Value);
         }
-
         return units;
     }
+
+    /**********************************************************
+    * 적 턴 시작인지 확인
+    ***********************************************************/
+    public bool IsEnemyTurn()
+    {
+        foreach(var kvp in AIUnits)
+        {
+            if(kvp.Value.faction == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**********************************************************
+    * 수동/자동 변경
+    ***********************************************************/
+    public void ChangeToAuto()
+    {
+        foreach(var kvp in HumanUnits)
+        {
+            AIUnits.Add(kvp.Key, kvp.Value);
+        }
+
+        HumanUnits.Clear();
+    }
+    public void ChangeToManual()
+    {
+        AIUnits = new(enemyUnits);
+        HumanUnits = new(allyUnits);
+    }
+
+
+
 
     /**********************************************************
     * 보상 계산
