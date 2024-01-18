@@ -14,6 +14,8 @@ public class TurnBeginUIController : MonoBehaviour
     public Image unitIcon;
     public StatInfo statInfo;
 
+    
+
     [Header("SkillSlot")]
     public List<GameObject> skillSlots;
     public List<GameObject> coolTimeImage;
@@ -26,6 +28,8 @@ public class TurnBeginUIController : MonoBehaviour
             turnBeginCanvas.gameObject.SetActive(false);
         });
     }
+
+
 
     // ½º¸ôÇ®»ç¿ë
     public void ShowStatWindow(Unit unit)

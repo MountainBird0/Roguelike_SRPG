@@ -14,7 +14,21 @@ public class TurnBeginState : State
 
         Turn.isMoving = true;
 
-        if(Turn.unit)
+        // 이때 ui상태 확인
+
+        if(BattleMapManager.instance.isBtnAuto)
+        {
+            Turn.isHumanTurn = false;
+            BattleMapManager.instance.ChangeToAuto();
+            SelectUnit(BattleMapManager.instance.AIUnits.First().Value.pos);
+            return;
+        }
+        else
+        {
+            BattleMapManager.instance.ChangeToManual();
+        }
+
+        if (Turn.unit)
         {
             SelectUnit(Turn.selectedPos);
             StateMachineController.instance.ChangeTo<ChooseActionState>();
@@ -24,15 +38,8 @@ public class TurnBeginState : State
         if(!Turn.isHumanTurn)
         {
             Debug.Log($"{GetType()} - AI턴");
-            foreach(var kvp in BattleMapManager.instance.AIUnits)
-            {
-                SelectUnit(kvp.Value.pos);
-                break;
-            }
 
             SelectUnit(BattleMapManager.instance.AIUnits.First().Value.pos);
-
-            StateMachineController.instance.ChangeTo<ChooseActionState>();
             return;
         }
 
@@ -61,7 +68,7 @@ public class TurnBeginState : State
             if (board.mainTiles[cellPosition].content)
             {
                 var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
-                if(BattleMapManager.instance.HumanUnits.ContainsKey(unit.unitNum))
+                if(BattleMapManager.instance.humanUnits.ContainsKey(unit.unitNum))
                 {
                     SelectUnit(cellPosition);
                 }

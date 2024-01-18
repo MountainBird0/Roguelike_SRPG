@@ -7208,7 +7208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7432269625666b429047cad54641e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoText: {fileID: 0}
+  autoText: {fileID: 7610444784290208890}
 --- !u!4 &930162016
 Transform:
   m_ObjectHideFlags: 0
@@ -12907,6 +12907,7 @@ MonoBehaviour:
   aiController: {fileID: 1606703026}
   skillPool: {fileID: 2094683849}
   board: {fileID: 0}
+  isBtnAuto: 0
   units: []
 --- !u!114 &1622245904
 MonoBehaviour:
@@ -18612,7 +18613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC790\uB3D9"
+  m_text: "\uC218\uB3D9"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 42f7892773a3524439ba894b3c2a6ee8, type: 2}
   m_sharedMaterial: {fileID: 876963303799903478, guid: 42f7892773a3524439ba894b3c2a6ee8, type: 2}
@@ -18800,7 +18801,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7610444784797484792}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 930162015}
+        m_TargetAssemblyTypeName: BattleMapUIController, Assembly-CSharp
+        m_MethodName: ClickBtnAuto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &7610444784797484794
 RectTransform:
   m_ObjectHideFlags: 0

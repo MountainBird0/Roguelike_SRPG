@@ -23,11 +23,15 @@ public class BattleMapManager : MonoBehaviour
     [HideInInspector]
     public Board board; // 생성된 맵에서 불러올 board
 
+    [HideInInspector]
+    public bool isBtnAuto = false;
+
+
     private int unitNum;
     private Dictionary<int, Unit> allyUnits = new();
     private Dictionary<int, Unit> enemyUnits = new();
 
-    public Dictionary<int, Unit> HumanUnits = new();
+    public Dictionary<int, Unit> humanUnits = new();
     public Dictionary<int, Unit> AIUnits = new();
 
     public List<Unit> units = new(); // 처음 배치한 플레이어 유닛
@@ -124,7 +128,7 @@ public class BattleMapManager : MonoBehaviour
             kvp.Value.isTurnEnd = false;
         }
 
-        HumanUnits = new(allyUnits);
+        humanUnits = new(allyUnits);
         AIUnits = new(enemyUnits); 
     }
 
@@ -133,13 +137,13 @@ public class BattleMapManager : MonoBehaviour
     ***********************************************************/
     public bool isHumanTurnFinish(int num)
     {
-        if(HumanUnits.ContainsKey(num))
+        if(humanUnits.ContainsKey(num))
         {
-            HumanUnits[num].isTurnEnd = true;
-            HumanUnits.Remove(num);
+            humanUnits[num].isTurnEnd = true;
+            humanUnits.Remove(num);
         }
 
-        if(HumanUnits.Count.Equals(0))
+        if(humanUnits.Count.Equals(0))
         {
             return false;
         }
@@ -183,9 +187,9 @@ public class BattleMapManager : MonoBehaviour
             enemyUnits.Remove(unitNum);
         }
 
-        if(HumanUnits.ContainsKey(unitNum))
+        if(humanUnits.ContainsKey(unitNum))
         {
-            HumanUnits.Remove(unitNum);
+            humanUnits.Remove(unitNum);
         }
         else if(AIUnits.ContainsKey(unitNum))
         {
@@ -249,17 +253,28 @@ public class BattleMapManager : MonoBehaviour
     ***********************************************************/
     public void ChangeToAuto()
     {
-        foreach(var kvp in HumanUnits)
-        {
-            AIUnits.Add(kvp.Key, kvp.Value);
-        }
+        var sumDic = humanUnits.Concat(AIUnits);
+        AIUnits = sumDic.ToDictionary(x => x.Key, x => x.Value);
 
-        HumanUnits.Clear();
+        humanUnits.Clear();
     }
     public void ChangeToManual()
     {
-        AIUnits = new(enemyUnits);
-        HumanUnits = new(allyUnits);
+        Dictionary<int,Unit> temp = new(AIUnits);
+
+        foreach(var kvp in temp)
+        {
+            if(kvp.Value.faction == 0)
+            {
+                humanUnits.Add(kvp.Key, kvp.Value);
+                AIUnits.Remove(kvp.Key);
+            }
+        }
+
+        if(humanUnits.Count != 0)
+        {
+            Turn.isHumanTurn = true;
+        }
     }
 
 

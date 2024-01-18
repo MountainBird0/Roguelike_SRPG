@@ -6,8 +6,8 @@ using TMPro;
 
 public class BattleMapUIController : MonoBehaviour
 {
-    public TextMeshProUGUI autoText;
 
+    public TextMeshProUGUI autoText;
 
     /**********************************************************
     * 테스트용 클리어 버튼 // 나중에 뒤로가기로
@@ -17,16 +17,17 @@ public class BattleMapUIController : MonoBehaviour
         GlobalSceneManager.instance.GoMainScene();
     }
 
-
     public void ClickBtnAuto()
     {
-        if(Turn.isHumanTurn)
+        if (BattleMapManager.instance.isBtnAuto)
         {
-            autoText.text = "자동";
+            autoText.text = "수동";
+            BattleMapManager.instance.isBtnAuto = false;           
         }
         else
         {
-            autoText.text = "수동";
+            autoText.text = "자동";
+            BattleMapManager.instance.isBtnAuto = true;
         }
     }
 }
