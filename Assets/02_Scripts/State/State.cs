@@ -8,7 +8,7 @@ public class State : MonoBehaviour
     // input에 접근
     // board에 접근
     protected Board board;
-
+    protected CameraController cameraController;
     //protected StateMachineController machine { get { return StateMachineController.instance; } };
 
     public void OnDisable()
@@ -23,6 +23,10 @@ public class State : MonoBehaviour
         if (board == null)
         {          
             board = BattleMapManager.instance.board; // 보드넣는거 awake에 넣을까
+        }
+        if(cameraController == null)
+        {
+            cameraController = BattleMapManager.instance.cameraController;
         }
     }
 
@@ -53,6 +57,13 @@ public class State : MonoBehaviour
         worldPosition.y += 0.5f;
 
         return board.deployMap.WorldToCell(worldPosition);
+    }
+
+    protected void SetCameraPos()
+    {
+        var pos = Turn.unit.pos;
+
+        cameraController.cameraPos.position = new Vector3(pos.x, pos.y, -1);
     }
 
 }

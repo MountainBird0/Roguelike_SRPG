@@ -15,6 +15,7 @@ public class SkillSelectionUIController : MonoBehaviour
     ***********************************************************/
     public void ClickBtnCancel()
     {
+        Turn.isMoving = true;
         if(Turn.skill.data.isDirectional)
         {
             StateMachineController.instance.ChangeTo<ArrowSelectionState>();

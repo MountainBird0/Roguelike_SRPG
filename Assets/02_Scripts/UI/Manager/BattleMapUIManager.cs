@@ -20,6 +20,7 @@ public class BattleMapUIManager : MonoBehaviour
     public Transform resultWindow;
 
     [Header("Controller")]
+    public BattleMapUIController battleMapUIController;
     public DeployUIController deployUIController;
     public TurnBeginUIController turnBeginUIController;
     public ChooseActionUIController chooseActionUIController;
@@ -50,6 +51,7 @@ public class BattleMapUIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        battleMapUIController = GetComponent<BattleMapUIController>();
         deployUIController = GetComponent<DeployUIController>();    
         turnBeginUIController = GetComponent<TurnBeginUIController>();
         chooseActionUIController = GetComponent<ChooseActionUIController>();
@@ -103,18 +105,12 @@ public class BattleMapUIManager : MonoBehaviour
 
     private IEnumerator UpExp(Unit unit, ResultSlot slot, int gainedExp)
     {
-        Debug.Log($"{GetType()} - 유닛 : {unit}");
-        Debug.Log($"{GetType()} - 얻은경험치 : {gainedExp}");
         int currentEXP = unit.stats.CurEXP;
         int addExp = 0;
-
-        gainedExp = 50;
-
+        gainedExp = 100; // 지울꺼////////////////////////////////////
         while (gainedExp != 0)
         {
-            Debug.Log($"{GetType()} - 남은 총 경험치 : {gainedExp}");
             int requirExp = unit.stats.MaxEXP - currentEXP;
-            Debug.Log($"{GetType()} - 레벨업에 필요한 경험치 : {requirExp}");
 
             if(gainedExp >= requirExp)
             {
@@ -127,9 +123,6 @@ public class BattleMapUIManager : MonoBehaviour
                 gainedExp = 0;
             }
 
-            Debug.Log($"{GetType()} - 계산 후 남은 gain : {gainedExp}");
-            Debug.Log($"{GetType()} - 계산 후 더할 add : {addExp}");
-
             for (int i = 0; i < addExp; i++)
             {
                 yield return new WaitForSeconds(0.01f);
@@ -138,22 +131,18 @@ public class BattleMapUIManager : MonoBehaviour
                 slot.yellowBar.fillAmount = (float)currentEXP / unit.stats.MaxEXP;
             }
             yield return new WaitForSeconds(0.05f);
-            Debug.Log($"{GetType()} - currentEXP : {currentEXP}");
-            Debug.Log($"{GetType()} - maxexp : {unit.stats.MaxEXP}");
 
             if (currentEXP == unit.stats.MaxEXP)
             {
-                Debug.Log($"{GetType()} - 레벨업 함");
-                Debug.Log($"{GetType()} - 이전레벨몇? {unit.stats.Level}");
-
                 unit.stats = unit.stats.IncreaseLevel(DataManager.instance.defaultUnitGrowStats[unit.unitName]);
 
-                Debug.Log($"{GetType()} - 레벨몇? {unit.stats.Level}");
                 slot.level.text = unit.stats.Level.ToString();
                 slot.curExp.text = "0";
                 slot.maxExp.text = unit.stats.MaxEXP.ToString();
 
                 currentEXP = 0;
+                
+                slot.yellowBar.fillAmount = (float)currentEXP / unit.stats.MaxEXP;
             }
         }
 
@@ -163,5 +152,16 @@ public class BattleMapUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
         // 이거 끝나야 나머지 활성화되도록
+
+        stageClearUIController.EnableEndButton();
     }
+
+    /**********************************************************
+    * 턴 ui 세팅
+    ***********************************************************/
+    public void SetTurnCount()
+    {
+        battleMapUIController.SetTurnCount();
+    }
+
 }

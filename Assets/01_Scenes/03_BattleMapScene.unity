@@ -392,7 +392,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &34542046
 GameObject:
@@ -1602,7 +1602,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318238526
 GameObject:
@@ -3519,7 +3519,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &517761022
 GameObject:
@@ -7179,51 +7179,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &930162014
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 930162016}
-  - component: {fileID: 930162015}
-  m_Layer: 0
-  m_Name: BattleMapUIController_Test
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &930162015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930162014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7432269625666b429047cad54641e0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoText: {fileID: 7610444784290208890}
---- !u!4 &930162016
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930162014}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 19
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &940461372
 GameObject:
   m_ObjectHideFlags: 0
@@ -7686,7 +7641,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &995974919
 GameObject:
@@ -10909,7 +10864,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1364690300
 GameObject:
@@ -11436,7 +11391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1415438548
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12670,7 +12625,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1608171931
 GameObject:
@@ -12720,7 +12675,7 @@ Transform:
   - {fileID: 962574564}
   - {fileID: 996467323}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1611798254
 GameObject:
@@ -12906,6 +12861,7 @@ MonoBehaviour:
   rangeSearchMachine: {fileID: 1608171932}
   aiController: {fileID: 1606703026}
   skillPool: {fileID: 2094683849}
+  cameraController: {fileID: 1498445865}
   board: {fileID: 0}
   isBtnAuto: 0
   units: []
@@ -14395,7 +14351,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1815938098
 GameObject:
@@ -16266,6 +16222,7 @@ GameObject:
   - component: {fileID: 2030793493}
   - component: {fileID: 2030793500}
   - component: {fileID: 2030793499}
+  - component: {fileID: 2030793501}
   m_Layer: 0
   m_Name: BattleMapUIManager
   m_TagString: Untagged
@@ -16289,6 +16246,7 @@ MonoBehaviour:
   deployWindow: {fileID: 34542047}
   resultSlot: {fileID: 2326000551870709779, guid: 7dadf78a0ccd4c044bce036793327817, type: 3}
   resultWindow: {fileID: 1278825415}
+  battleMapUIController: {fileID: 0}
   deployUIController: {fileID: 0}
   turnBeginUIController: {fileID: 0}
   chooseActionUIController: {fileID: 0}
@@ -16447,6 +16405,7 @@ MonoBehaviour:
   unitName: 
   deployCanvas: {fileID: 1364690303}
   guideCanvas: {fileID: 409366866}
+  deployFinishButton: {fileID: 1706179151630240113}
 --- !u!114 &2030793499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16460,6 +16419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clearCanvas: {fileID: 1269900561}
+  EndButton: {fileID: 1415438547}
 --- !u!114 &2030793500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16478,6 +16438,20 @@ MonoBehaviour:
   enemyTurn: {fileID: 684376910}
   newTurn: {fileID: 1780772145}
   turnCount: {fileID: 1124014342}
+--- !u!114 &2030793501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030793490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7432269625666b429047cad54641e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoText: {fileID: 7610444784290208890}
+  turnCount: {fileID: 78309891}
 --- !u!1 &2068374741
 GameObject:
   m_ObjectHideFlags: 0
@@ -17125,7 +17099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1706179151630240114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17364,7 +17338,7 @@ Transform:
   - {fileID: 1279509823}
   - {fileID: 2094683848}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1839519977036588324
 GameObject:
@@ -18802,7 +18776,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 930162015}
+      - m_Target: {fileID: 2030793501}
         m_TargetAssemblyTypeName: BattleMapUIController, Assembly-CSharp
         m_MethodName: ClickBtnAuto
         m_Mode: 1

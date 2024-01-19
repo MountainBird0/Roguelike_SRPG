@@ -18,6 +18,5 @@ public class StageClearState : State
     public override void Exit()
     {
         base.Exit();
-
     }
 }

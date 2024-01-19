@@ -43,7 +43,7 @@ public class TurnEndState : State
         if(Turn.isHumanTurn)
         {
             Turn.isHumanTurn = BattleMapManager.instance.isHumanTurnFinish(Turn.unit.unitNum);
-            if(!Turn.isHumanTurn && BattleMapManager.instance.IsEnemyTurn())
+            if(Turn.isHumanTurn == false)
             {
                 uiController.StartEnemyTurn();
             }
@@ -52,17 +52,32 @@ public class TurnEndState : State
         {
             if(BattleMapManager.instance.isAITurnFinish(Turn.unit.unitNum))
             {
-                Turn.turnCount++;
-                if(Turn.turnCount == 16)
+                NewTurnStart();
+            }
+            else
+            {
+                if(BattleMapManager.instance.IsEnemyTurnStart())
                 {
-                    StateMachineController.instance.ChangeTo<StageDefeatState>();
-                    return;
-                }
-                uiController.StartNewTurn();
-                Turn.isHumanTurn = true;
-                Debug.Log($"{GetType()} - {Turn.turnCount}번째 턴 시작");
+                    uiController.StartEnemyTurn();
+                }                    
             }
         }
+
         Turn.Clear();
+    }
+
+
+    private void NewTurnStart()
+    {
+        Turn.turnCount++;
+        if (Turn.turnCount == 16)
+        {
+            StateMachineController.instance.ChangeTo<StageDefeatState>();
+            return;
+        }
+        uiController.StartNewTurn();
+        BattleMapUIManager.instance.SetTurnCount();
+        Turn.isHumanTurn = true;
+        Debug.Log($"{GetType()} - {Turn.turnCount}번째 턴 시작");
     }
 }

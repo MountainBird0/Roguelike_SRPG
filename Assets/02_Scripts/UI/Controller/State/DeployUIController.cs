@@ -15,6 +15,8 @@ public class DeployUIController : MonoBehaviour
 
     public Dictionary<string, Button> unitButtons = new();
 
+    public GameObject deployFinishButton;
+
     private void InitializeButtons()
     {
         foreach (var button in unitButtons)
@@ -51,10 +53,13 @@ public class DeployUIController : MonoBehaviour
     ***********************************************************/
     public void EnableGuide()
     {
+        
         guideCanvas.gameObject.SetActive(true);
     }
     public void DisableGuide()
     {
+        
+
         guideCanvas.gameObject.SetActive(false);
     }
 
@@ -77,6 +82,19 @@ public class DeployUIController : MonoBehaviour
             unitName = null;
         }
     }
+
+    /**********************************************************
+    * 배치완료 버튼 활성화 / 비활성화
+    ***********************************************************/
+    public void EnableFinishButton()
+    {
+        deployFinishButton.SetActive(true);       
+    }
+    public void DisableFinishButton()
+    {
+        deployFinishButton.SetActive(false);
+    }
+
 
     /**********************************************************
     * 배치 완료

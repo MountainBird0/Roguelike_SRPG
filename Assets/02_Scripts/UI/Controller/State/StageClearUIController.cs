@@ -6,7 +6,7 @@ public class StageClearUIController : MonoBehaviour
 {
     public Canvas clearCanvas;
 
-
+    public GameObject EndButton;
 
     public void EnableCanvas()
     {
@@ -30,6 +30,11 @@ public class StageClearUIController : MonoBehaviour
         GlobalSceneManager.instance.GoMainScene();
     }
 
-
-
+    /**********************************************************
+    * 배치완료 버튼 활성화 / 비활성화
+    ***********************************************************/
+        public void EnableEndButton()
+        {
+            EndButton.SetActive(true);
+        }
 }

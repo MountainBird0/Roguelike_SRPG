@@ -20,6 +20,9 @@ public class BattleMapManager : MonoBehaviour
     [Header("SkillPool")]
     public SkillPool skillPool;
 
+    [Header("Camera")]
+    public CameraController cameraController;
+
     [HideInInspector]
     public Board board; // 생성된 맵에서 불러올 board
 
@@ -170,6 +173,19 @@ public class BattleMapManager : MonoBehaviour
     }
 
     /**********************************************************
+    * 적 턴 시작인지 확인
+    ***********************************************************/
+    public bool IsEnemyTurnStart()
+    {
+        if(enemyUnits.Count == AIUnits.Count)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**********************************************************
     * 죽은유닛 빼기
     ***********************************************************/
     public void DeleteUnit(int unitNum)
@@ -233,20 +249,6 @@ public class BattleMapManager : MonoBehaviour
         return units;
     }
 
-    /**********************************************************
-    * 적 턴 시작인지 확인
-    ***********************************************************/
-    public bool IsEnemyTurn()
-    {
-        foreach(var kvp in AIUnits)
-        {
-            if(kvp.Value.faction == 0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**********************************************************
     * 수동/자동 변경

@@ -67,6 +67,7 @@ public class DeployState : State
             else
             { // 없으면 새로 생성해서 배치             
                 DeployNewUnit(cellPosition);
+                uiController.EnableFinishButton();
             }
         }
         else if(board.mainTiles.ContainsKey(cellPosition))
@@ -100,13 +101,18 @@ public class DeployState : State
             Vector3Int cellPosition = GetCellPosition(screenPosition);
 
             if (deployTiles.ContainsKey(cellPosition))
-            {
+            {         
                 DropUnit(cellPosition);
             }
             else
             {
                 ObjectPoolManager.instance.Despawn(pickObj);
                 deployTiles[oldCoords].content = null;
+
+                if(!IsUnitDeploy())
+                {
+                    uiController.DisableFinishButton();
+                }
 
                 uiController.EnableButton(unitName);
             }
@@ -210,5 +216,21 @@ public class DeployState : State
                 board.mainTiles[pair.Key].content = pair.Value.content;
             }
         }
+    }
+
+    /**********************************************************
+    * 현재 타일 위에 유닛 하나도 없는지 확인
+    ***********************************************************/
+    public bool IsUnitDeploy()
+    {
+        foreach (var kvp in deployTiles)
+        {
+            if (kvp.Value.content != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

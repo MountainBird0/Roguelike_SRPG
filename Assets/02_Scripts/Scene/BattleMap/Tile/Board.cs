@@ -227,7 +227,7 @@ public class Board : MonoBehaviour
     {
         to.distance = from.distance + 1;
 
-        return (to.content == null && to.distance <= range);
+        return ((to.content == null || to.content.GetComponent<Unit>() == Turn.unit) && to.distance <= range);
     }
 
     /**********************************************************
