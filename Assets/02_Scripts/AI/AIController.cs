@@ -243,6 +243,17 @@ public class AIController : MonoBehaviour
     ***********************************************************/
     private AIPlan MoveToEnemy()
     {
+        //board.Search(Turn.unit.tile, Turn.unit.stats.MOV, delegate(TileLogic arg1, TileLogic arg2, int range)
+        //{
+
+        //});
+
+
+
+
+
+
+
         // 가장 가까운 경로로 이동으로 수정
         Debug.Log($"{GetType()} - 근처에 적 없음 가장 가까운타일로 이동");
         if (currentPlan == null)

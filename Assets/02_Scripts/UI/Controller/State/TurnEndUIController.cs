@@ -60,16 +60,5 @@ public class TurnEndUIController : MonoBehaviour
     }
 
 
-    public void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha0))
-            {
-            StartEnemyTurn();
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            StartNewTurn();
-        }
-    }
 }

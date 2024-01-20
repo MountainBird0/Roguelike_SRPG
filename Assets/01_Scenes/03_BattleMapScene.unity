@@ -3506,6 +3506,10 @@ MonoBehaviour:
     prefab: {fileID: 8027932169315552285, guid: d3b180c7c3893b24c99b085406ff4a20, type: 3}
     initialObjectCount: 1
     maxObjectCount: 1
+  - key: Scroll
+    prefab: {fileID: 282197600929027277, guid: f429c8d1b066a17429ddf7aef1a82637, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 10
 --- !u!4 &514604518
 Transform:
   m_ObjectHideFlags: 0

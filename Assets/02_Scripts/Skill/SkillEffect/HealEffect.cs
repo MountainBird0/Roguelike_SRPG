@@ -9,13 +9,15 @@ public class HealEffect : SkillEffect
         Debug.Log($"{GetType()} - HealEffect Apply");
         for(int i = 0; i < Turn.targets.Count; i++)
         {
-            Debug.Log($"{GetType()} - Èú Àü {Turn.targets[i].stats.HP}");
+            var target = Turn.targets[i];
 
-            int heal = (int)(Turn.unit.stats.ATK * Turn.skill.data.multiplier);
+            int heal = (int)(Turn.unit.stats.MATK * Turn.skill.data.multiplier);
 
-            Turn.targets[i].SetHealth(heal);
+            var ob = ObjectPoolManager.instance.Spawn("Scroll");
+            ob.transform.position = target.transform.position;
+            ob.GetComponent<Scrolling>().Scroll(Color.green, heal);
 
-            Debug.Log($"{GetType()} - Èú ÈÄ {Turn.targets[i].stats.HP}");
+            target.SetHealth(heal);
         }
     }
 }

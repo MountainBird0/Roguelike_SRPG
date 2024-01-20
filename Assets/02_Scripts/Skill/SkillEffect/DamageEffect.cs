@@ -14,6 +14,10 @@ public class DamageEffect : SkillEffect
 
             int damage = (int)(Turn.unit.stats.ATK * Turn.skill.data.multiplier);
 
+            var ob = ObjectPoolManager.instance.Spawn("Scroll");
+            ob.transform.position = target.transform.position;
+            ob.GetComponent<Scrolling>().Scroll(Color.red, damage);
+
             target.animationController.GotHit();
             target.SetHealth(-damage);
         }
