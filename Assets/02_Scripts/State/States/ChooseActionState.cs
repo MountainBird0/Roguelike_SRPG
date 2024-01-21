@@ -200,7 +200,7 @@ public class ChooseActionState : State
     ***********************************************************/
     private void ShowMoveableTile()
     {
-        tiles = board.Search(board.GetTile(Turn.originPos), Turn.unit.stats.MOV, board.ISMovable);
+        tiles = board.Search(board.GetTile(Turn.originPos), Turn.unit.ISMovable);
         board.ShowHighlightTile(tiles, 0);
     }
 
@@ -233,11 +233,11 @@ public class ChooseActionState : State
         }
 
         //if (!Turn.isMoving && (plan.movePos != Turn.unit.pos))
-        if (plan.movePos != Turn.unit.pos)
+        if (plan.movePos != new Vector3Int(999, 0, 0))
         {
             Debug.Log($"{GetType()} - 움직이러감");
             MoveUnit(plan.movePos);
-            StateMachineController.instance.ChangeTo<MoveSequenceState>();
+            plan.movePos = new Vector3Int(999, 0, 0);
             yield break;
         }
 

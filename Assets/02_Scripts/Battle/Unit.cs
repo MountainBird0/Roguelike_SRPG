@@ -41,10 +41,12 @@ public class Unit : MonoBehaviour
 
     public void SetPosition(Vector3Int pos, Board board)
     {
-        if (pos != Turn.unit.pos)
+        var realPos = Turn.unit.pos;
+
+        if (pos != realPos)
         {
-            board.mainTiles[pos].content = board.mainTiles[Turn.unit.pos].content;
-            board.mainTiles[Turn.unit.pos].content = null;
+            board.mainTiles[pos].content = board.mainTiles[realPos].content;
+            board.mainTiles[realPos].content = null;
         }
         
         transform.position = pos;
@@ -93,6 +95,14 @@ public class Unit : MonoBehaviour
     public void DespawnUnit()
     {
         ObjectPoolManager.instance.Despawn(this.gameObject);
+    }
+
+    public bool ISMovable(TileLogic from, TileLogic to)
+    {
+        to.distance = from.distance + 1;
+
+        return ((to.content == null || to.content.GetComponent<Unit>() == this)
+            && to.distance <= stats.MOV);
     }
 
 

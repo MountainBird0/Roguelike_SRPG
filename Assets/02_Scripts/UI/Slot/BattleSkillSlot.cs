@@ -7,6 +7,6 @@ public class BattleSkillSlot : MonoBehaviour
 {
     public int slotNum;
 
-    public int id;
+    public int id = -1;
     public Image image;
 }

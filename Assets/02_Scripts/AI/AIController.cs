@@ -42,21 +42,21 @@ public class AIController : MonoBehaviour
         currentPlan = null;
 
         int highestScore = 0;
-        Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
+        //Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
         var skills = SortSkills(Turn.unit.skills);
 
         if (skills.Count == 0) return null; // 이동하러가기 bool 값 쓸듯
 
         for (int i = 0; i < skills.Count; i++) // 스킬 순회
         {
-            Debug.Log($"{GetType()} - 순회할 스킬 이름 : {skills[i].name}");
+            //Debug.Log($"{GetType()} - 순회할 스킬 이름 : {skills[i].name}");
 
             var targetUnits = SearchUnit(skills[i].data.affectType);
             if (targetUnits.Count == 0) continue; // 타겟 유닛이 하나도 없으면 다음 스킬로 이동
 
             for(int j = 0; j < targetUnits.Count; j++) // 타겟 유닛 순회
             {
-                Debug.Log($"{GetType()} - 타겟 유닛 이름 : {targetUnits[j].name}");
+                //Debug.Log($"{GetType()} - 타겟 유닛 이름 : {targetUnits[j].name}");
                 var reachableTiles = SearchTileInRange(targetUnits[j].pos, skills[i].data);
                 if (reachableTiles.Count.Equals(0)) continue; // 가능한 스킬 범위가 하나도 없으면 다음 유닛으로 이동
 
@@ -181,7 +181,7 @@ public class AIController : MonoBehaviour
         {
             tiles = searchMachine.SearchRange(targetPos, data, false);
         }
-        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
+        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.ISMovable);
 
         tiles = tiles.Intersect(moveableTiles).ToList();
         tiles.Reverse();
@@ -243,19 +243,27 @@ public class AIController : MonoBehaviour
     ***********************************************************/
     private AIPlan MoveToEnemy()
     {
-        //board.Search(Turn.unit.tile, Turn.unit.stats.MOV, delegate(TileLogic arg1, TileLogic arg2, int range)
-        //{
-
-        //});
-
-
-
-
-
-
-
-        // 가장 가까운 경로로 이동으로 수정
         Debug.Log($"{GetType()} - 근처에 적 없음 가장 가까운타일로 이동");
+        
+        TileLogic targetTile = null;
+        int currentFaction = Turn.unit.faction;
+
+        board.Search(Turn.unit.tile, delegate(TileLogic arg1, TileLogic arg2) // 가까운 적 찾기
+        {
+            if (targetTile == null && arg2.content != null)
+            {
+                Unit unit = arg2.content.GetComponent<Unit>();
+                if(unit != null && currentFaction != unit.faction)
+                {
+                    targetTile = arg2;
+                    return true;
+                }
+            }
+            arg2.distance = arg1.distance + 1;
+            return targetTile == null;
+        });
+
+
         if (currentPlan == null)
         {
             currentPlan = new();
@@ -263,18 +271,40 @@ public class AIController : MonoBehaviour
 
         currentPlan.skill = null;
 
-        // 이거 다른곳에서 받아오기 
-        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
-        TileLogic closestTile = moveableTiles.OrderBy(tile => Vector3Int.Distance(tile.pos, nearestUnitPos)).FirstOrDefault();
 
-        if(closestTile != null)
+        while (targetTile != Turn.unit.tile)
         {
-            currentPlan.movePos = closestTile.pos;
+            //if(targetTile.distance <= Turn.unit.stats.MOV &&
+            //    targetTile.content == null)
+            //{
+            //    Debug.Log($"{GetType()} - 움직일 위치 정함{targetTile.pos}");
+            //    currentPlan.movePos = targetTile.pos;
+            //    break;
+            //}
+            if (board.highlightTiles.ContainsKey(targetTile.pos))
+            {
+                Debug.Log($"{GetType()} - 움직일 위치 정함{targetTile.pos}");
+                currentPlan.movePos = targetTile.pos;
+                break;
+            }
+            targetTile = targetTile.prev;
         }
-        else
-        {
-            currentPlan.movePos = Turn.unit.pos;
-        }
+
+        // 가장 가까운 경로로 이동으로 수정
+
+
+        //// 이거 다른곳에서 받아오기 
+        //List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
+        //TileLogic closestTile = moveableTiles.OrderBy(tile => Vector3Int.Distance(tile.pos, nearestUnitPos)).FirstOrDefault();
+
+        //if(closestTile != null)
+        //{
+        //    currentPlan.movePos = closestTile.pos;
+        //}
+        //else
+        //{
+        //    currentPlan.movePos = Turn.unit.pos;
+        //}
 
         return currentPlan;
     }

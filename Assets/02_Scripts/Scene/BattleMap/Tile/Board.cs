@@ -169,7 +169,7 @@ public class Board : MonoBehaviour
     /**********************************************************
     * 타일 범위에 맞는 타일 리스트를 반환
     ***********************************************************/
-    public List<TileLogic> Search(TileLogic start, int range, Func<TileLogic, TileLogic, int, bool> searchType)
+    public List<TileLogic> Search(TileLogic start, Func<TileLogic, TileLogic, bool> searchType)
     {
         List<TileLogic> tilesResult = new List<TileLogic>(); // 결과 반환할 타일
 
@@ -194,7 +194,7 @@ public class Board : MonoBehaviour
                 {                              
                     continue; // 다음타일이 없거나 다음 타일과의 거리가 1 이상 차이난다면 
                 }
-                if (searchType(now, next, range))
+                if (searchType(now, next))
                 {
                     next.prev = now; // 이거 이유? 길찾을려고?
                     checkNext.Enqueue(next);
@@ -223,12 +223,7 @@ public class Board : MonoBehaviour
             t.distance = int.MaxValue;
         }
     }
-    public bool ISMovable(TileLogic from, TileLogic to, int range)
-    {
-        to.distance = from.distance + 1;
 
-        return ((to.content == null || to.content.GetComponent<Unit>() == Turn.unit) && to.distance <= range);
-    }
 
     /**********************************************************
     * pos에 위치한 TileLogic 반환
