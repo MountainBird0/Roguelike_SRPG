@@ -27,11 +27,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - UnitIcon
-  - m_GUID: c511377a9b12e4843a0a0b38bd33a1f7
-    m_Address: Huntress
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UnitIcon
   - m_GUID: 2e8942cbc8b947d4dae8de964adcf9d0
     m_Address: Rogue
     m_ReadOnly: 0

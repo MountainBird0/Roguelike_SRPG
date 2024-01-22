@@ -24,7 +24,7 @@ public class PunctureShow : SkillVisualEffect
 
     public override float GetDuration()
     {
-        return sequence.Duration();
+        return sequence.Duration() + 0.4f;
     }
 
     private IEnumerator AttackApply()

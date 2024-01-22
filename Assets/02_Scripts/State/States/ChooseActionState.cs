@@ -15,7 +15,7 @@ public class ChooseActionState : State
     private List<TileLogic> tiles;
 
     private IEnumerator uiTouchCoroutine;
-    private int skillNum = -1;
+    private int currentSkillSlot;
 
 
 
@@ -29,7 +29,7 @@ public class ChooseActionState : State
     {
         base.Enter();
 
-        skillNum = -1;
+        currentSkillSlot = -1;
         
         if (Turn.isMoving)
         {
@@ -70,6 +70,7 @@ public class ChooseActionState : State
     {
         uiTouchCoroutine = TouchSkillIcon();
         uiController.isHovor = false;
+        currentSkillSlot = -1;
 
         InputManager.instance.RaycastUI(uiController.raycaster);
 
@@ -97,18 +98,11 @@ public class ChooseActionState : State
                 if (unit.playerType == PlayerType.HUMAN && !unit.isTurnEnd)
                 {
                     ChangeUnit(cellPosition);
-                }
-                else
-                {
-                    Turn.unit = null;
-                    StateMachineController.instance.ChangeTo<TurnBeginState>();
+                    return;
                 }
             }
-            else
-            {
-                Turn.unit = null;
-                StateMachineController.instance.ChangeTo<TurnBeginState>();
-            }
+            Turn.unit = null;
+            StateMachineController.instance.ChangeTo<TurnBeginState>();
         }
     }
 
@@ -118,11 +112,11 @@ public class ChooseActionState : State
         {
             StopCoroutine(uiTouchCoroutine);
         }
-        uiController.DisableHovor(skillNum);
+        uiController.DisableHovor(currentSkillSlot);
 
-        if (uiController.isHovor == false && skillNum != -1)
+        if (uiController.isHovor == false && currentSkillSlot != -1)
         {
-            SkillSetting(skillNum);
+            SkillSetting(currentSkillSlot);
         }
     }
 
@@ -135,15 +129,15 @@ public class ChooseActionState : State
         if(ob.CompareTag("EquipSlot"))
         {
             var slot = ob.GetComponent<BattleSkillSlot>();
-            if (slot.slotNum != -1)
+            if (slot.id != -1)
             {
-                skillNum = slot.slotNum;
+                currentSkillSlot = slot.slotNum;
 
                 yield return new WaitForSeconds(1.0f);
 
                 uiController.isHovor = true;
 
-                uiController.EnableHovor(skillNum);
+                uiController.EnableHovor(currentSkillSlot);
             }
         }
     }

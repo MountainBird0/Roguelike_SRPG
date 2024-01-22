@@ -22,13 +22,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkillIcon
-  - m_GUID: fcb19666e5ff0df4796b9cabb297ce32
+  - m_GUID: ac4df799680b7b644a2fbb9e7a7ebe66
     m_Address: 10
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkillIcon
   - m_GUID: d9b0ea16badffc94d97a30bc936f007e
-    m_Address: 8
+    m_Address: 9
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkillIcon
@@ -37,8 +37,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkillIcon
-  - m_GUID: b428814c55989f94f874c5c16996b821
-    m_Address: 3
+  - m_GUID: 32f057c9b6b61a74c84ce5b0666bee9c
+    m_Address: 11
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkillIcon
@@ -72,10 +72,26 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkillIcon
-  - m_GUID: 8df09f528146a3542b34235f89907e4e
-    m_Address: 9
+  - m_GUID: 73ec066b173ce8840917234e5422294e
+    m_Address: 3
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - SkillIcon
+  - m_GUID: ff39a38c3d5d79b458dc6bf4b5c608dc
+    m_Address: 8
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkillIcon
+  - m_GUID: ef6ec4ac495a8674ab2e7cad55b2fb19
+    m_Address: 12
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkillIcon
+  - m_GUID: 46d894c0631acf047823b438cde35fb5
+    m_Address: 13
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkillIcon
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 306a0cd4b28bca94985dbb4ed09cc2d7, type: 2}
   m_SchemaSet:

@@ -176,7 +176,8 @@ public class DataManager : MonoBehaviour
     {
         var usableSkills = currentUsableSkills.SelectMany(kvp => kvp.Value);
 
-        shopSkills = defaultSkillStats.Keys.Except(usableSkills).ToList();
+        shopSkills = defaultSkillStats.Keys.Except(usableSkills)
+            .Where(skillID => defaultSkillStats[skillID].jobType != -3).ToList();
 
         // 유닛별로 나누고 싶을 때
         //foreach(var kvp in defaultSkillStats)

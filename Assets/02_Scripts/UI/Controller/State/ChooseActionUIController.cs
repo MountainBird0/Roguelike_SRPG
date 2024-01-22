@@ -96,7 +96,7 @@ public class ChooseActionUIController : MonoBehaviour
             if (Turn.unit.skills.Count <= i)
             {
                 Debug.Log($"{GetType()} - 여기빔");
-                slot.slotNum = -1;
+                slot.id = -1;
                 slot.image.sprite = BattleMapUIManager.instance.defaultSprite;
                 continue;
             }
@@ -126,15 +126,15 @@ public class ChooseActionUIController : MonoBehaviour
     /**********************************************************
     * 스킬정보창 활성화 / 비활성화
     ***********************************************************/
-    public void EnableHovor(int skillNum)
+    public void EnableHovor(int currentSkillSlot)
     {
-        infoWindow[skillNum].SetActive(true);
-        SetSkillInfoWindow(skillNum);
+        infoWindow[currentSkillSlot].SetActive(true);
+        SetSkillInfoWindow(currentSkillSlot);
     }
-    public void DisableHovor(int skillNum)
+    public void DisableHovor(int currentSkillSlot)
     {
-        if(skillNum != -1)
-            infoWindow[skillNum].SetActive(false);
+        if(currentSkillSlot != -1)
+            infoWindow[currentSkillSlot].SetActive(false);
     }
 
     /**********************************************************

@@ -18,6 +18,8 @@ public class HealingShow : SkillVisualEffect
     }
     private IEnumerator HealApply(SkillEffect effect)
     {
+        effect.Apply();
+        
         foreach (var target in Turn.targets)
         {
             GameObject ob = ObjectPoolManager.instance.Spawn(smallEffectName);
@@ -26,6 +28,5 @@ public class HealingShow : SkillVisualEffect
 
         yield return new WaitForSeconds(delay);
 
-        effect.Apply();
     }
 }
