@@ -11,8 +11,6 @@ public class StageClearState : State
         base.Enter();
 
         uiController.EnableCanvas();
-
-        Debug.Log($"{GetType()} - 클리어스테이지 옴");
     }
 
     public override void Exit()

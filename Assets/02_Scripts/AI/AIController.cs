@@ -56,7 +56,7 @@ public class AIController : MonoBehaviour
 
             for(int j = 0; j < targetUnits.Count; j++) // 타겟 유닛 순회
             {
-                //Debug.Log($"{GetType()} - 타겟 유닛 이름 : {targetUnits[j].name}");
+                Debug.Log($"{GetType()} - 타겟 유닛 이름 : {targetUnits[j].name}");
                 var reachableTiles = SearchTileInRange(targetUnits[j].pos, skills[i].data);
                 if (reachableTiles.Count.Equals(0)) continue; // 가능한 스킬 범위가 하나도 없으면 다음 유닛으로 이동
 
@@ -235,6 +235,12 @@ public class AIController : MonoBehaviour
         currentPlan.skill = skill;
         currentPlan.movePos = movePos;
         currentPlan.targetPos = targetPos;
+
+        if(targetPos == Turn.unit.pos) // 자기자신 타겟일때를 위해
+        {
+            currentPlan.movePos = targetPos;
+        }
+
         Debug.Log($"{GetType()} - 정한 스킬 : {currentPlan.skill} / 움직일 곳 : {currentPlan.movePos} / 타겟 위치 : {currentPlan.targetPos}");
     }
 
@@ -274,6 +280,7 @@ public class AIController : MonoBehaviour
 
         while (targetTile != Turn.unit.tile)
         {
+            Debug.Log($"{GetType()} - 이거 몇번 도나");
             //if(targetTile.distance <= Turn.unit.stats.MOV &&
             //    targetTile.content == null)
             //{

@@ -3544,11 +3544,27 @@ MonoBehaviour:
   - key: Bat
     prefab: {fileID: 7048241894008068452, guid: 0d81251f0287ba542a2ab2960e0218ab, type: 3}
     initialObjectCount: 5
-    maxObjectCount: 10
+    maxObjectCount: 5
   - key: Brute
     prefab: {fileID: 9031873237375807018, guid: b6ca3c97d9f6c53498897a3e0dda4f5a, type: 3}
     initialObjectCount: 5
-    maxObjectCount: 10
+    maxObjectCount: 5
+  - key: Snake
+    prefab: {fileID: 6647310391351942658, guid: 7611b41d0ee7b49419529b61a234f907, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 5
+  - key: Crab
+    prefab: {fileID: 8208312396371963697, guid: d82f9dfd8fd1fb74fa4b95efa63702b8, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 5
+  - key: Shaman
+    prefab: {fileID: 6026531564037271172, guid: 861687cdad7521d42a6cb7358e38aaa7, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 5
+  - key: Golem
+    prefab: {fileID: 7411536689451833329, guid: 5766759575715944f9251f601aca79fa, type: 3}
+    initialObjectCount: 5
+    maxObjectCount: 5
   - key: MeteorShow
     prefab: {fileID: 7248012351692106010, guid: bca9861438eeb2241b02125ceb7d8ff1, type: 3}
     initialObjectCount: 1
@@ -6587,7 +6603,7 @@ GameObject:
   - component: {fileID: 838346728}
   - component: {fileID: 838346727}
   m_Layer: 5
-  m_Name: Text_Clear
+  m_Name: Text_Defeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6610,8 +6626,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 250, y: 50}
+  m_AnchoredPosition: {x: 0, y: -100}
+  m_SizeDelta: {x: 550, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &838346727
 MonoBehaviour:
@@ -6633,7 +6649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stage Clear!
+  m_text: Game Over..
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 42f7892773a3524439ba894b3c2a6ee8, type: 2}
   m_sharedMaterial: {fileID: 876963303799903478, guid: 42f7892773a3524439ba894b3c2a6ee8, type: 2}
@@ -6642,8 +6658,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190280
+  m_fontColor: {r: 0.7830189, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6660,8 +6676,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12107,7 +12123,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBA54\uC778\uC73C\uB85C"
+  m_text: "\uD0C0\uC774\uD2C0\uB85C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 42f7892773a3524439ba894b3c2a6ee8, type: 2}
   m_sharedMaterial: {fileID: 876963303799903478, guid: 42f7892773a3524439ba894b3c2a6ee8, type: 2}
@@ -12273,12 +12289,12 @@ GameObject:
   - component: {fileID: 1442866953}
   - component: {fileID: 1442866952}
   m_Layer: 5
-  m_Name: Button_GoMain
+  m_Name: Button_GoTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1442866951
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12344,8 +12360,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030793499}
-        m_TargetAssemblyTypeName: StageClearUIController, Assembly-CSharp
+      - m_Target: {fileID: 2030793502}
+        m_TargetAssemblyTypeName: StageDefeatUIController, Assembly-CSharp
         m_MethodName: ClickBtnEnd
         m_Mode: 1
         m_Arguments:
@@ -13554,7 +13570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stage1Maps:
-  - {fileID: 8710717193491505300, guid: 20913a1e079e98c46ba886d1ef3665a9, type: 3}
+  - {fileID: 8710717193491505300, guid: c747265cff189c94ca08f87de95dc07c, type: 3}
   Stage2Maps: []
   Stage3Maps: []
 --- !u!1 &1648039028
@@ -16898,6 +16914,7 @@ GameObject:
   - component: {fileID: 2030793493}
   - component: {fileID: 2030793500}
   - component: {fileID: 2030793499}
+  - component: {fileID: 2030793502}
   - component: {fileID: 2030793501}
   m_Layer: 0
   m_Name: BattleMapUIManager
@@ -16931,6 +16948,7 @@ MonoBehaviour:
   skillTargetUIController: {fileID: 0}
   turnEndUIController: {fileID: 0}
   stageClearUIController: {fileID: 0}
+  stageDefeatUIController: {fileID: 0}
   unitSmallPool: {fileID: 1522320829}
   unitBigPool: {fileID: 1279509824}
   skillIconPool: {fileID: 1837814896}
@@ -17128,6 +17146,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoText: {fileID: 7610444784290208890}
   turnCount: {fileID: 78309891}
+--- !u!114 &2030793502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030793490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bceeca483bf6714fb22c17953edea9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defeatCanvas: {fileID: 732301770}
 --- !u!1 &2068374741
 GameObject:
   m_ObjectHideFlags: 0

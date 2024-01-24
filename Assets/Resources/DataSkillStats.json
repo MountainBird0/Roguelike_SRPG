@@ -1,7 +1,7 @@
 {
   "0": {
     "name": "NormalAttackW",
-    "explain": "´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 1,
     "AOERange": 0,
     "affectType": "attack",
@@ -16,7 +16,7 @@
   },
   "1": {
     "name": "NormalAttackM",
-    "explain": "´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 2,
     "AOERange": 0,
     "affectType": "attack",
@@ -31,7 +31,7 @@
   },
   "2": {
     "name": "NormalAttackR",
-    "explain": "´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 1,
     "AOERange": 0,
     "affectType": "attack",
@@ -46,7 +46,7 @@
   },
   "3": {
     "name": "AcidBall",
-    "explain": "´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 2,
     "AOERange": 0,
     "affectType": "attack",
@@ -61,7 +61,7 @@
   },
   "4": {
     "name": "Puncture",
-    "explain": "1ÁÙÀÇ Á÷¼±»ó¿¡ ÀÖ´Â ¸ğµç Àû¿¡°Ô °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "1ì¤„ì˜ ì§ì„ ìƒì— ìˆëŠ” ëª¨ë“  ì ì—ê²Œ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 4,
     "AOERange": 0,
     "affectType": "attack",
@@ -76,7 +76,7 @@
   },
   "5": {
     "name": "FireBall",
-    "explain": "´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 4,
     "AOERange": 0,
     "affectType": "attack",
@@ -91,7 +91,7 @@
   },
   "6": {
     "name": "Slash",
-    "explain": "¹üÀ§ ³»ÀÇ ¸ğµç Àû¿¡°Ô °ø°İ·ÂÀÇ {multiplier}¹è ¹üÀ§ ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë²”ìœ„ ë‚´ì˜ ëª¨ë“  ì ì—ê²Œ ê³µê²©ë ¥ì˜ {multiplier}ë°° ë²”ìœ„ í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 3,
     "AOERange": 0,
     "affectType": "attack",
@@ -106,7 +106,7 @@
   },
   "7": {
     "name": "Meteor",
-    "explain": "¹üÀ§ ³»ÀÇ ¸ğµç Àû¿¡°Ô °ø°İ·ÂÀÇ {multiplier}¹è ¹üÀ§ ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë²”ìœ„ ë‚´ì˜ ëª¨ë“  ì ì—ê²Œ ê³µê²©ë ¥ì˜ {multiplier}ë°° ë²”ìœ„ í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 5,
     "AOERange": 3,
     "affectType": "attack",
@@ -121,7 +121,7 @@
   },
   "8": {
     "name": "MassHeal",
-    "explain": "¹üÀ§ ³» ¸ğµç ¾Æ±ºÀÇ »ı¸íÀ» °ø°İ·ÂÀÇ {multiplier}¸¸Å­ È¸º¹½ÃÅ²´Ù",
+    "explain": "ë²”ìœ„ ë‚´ ëª¨ë“  ì•„êµ°ì˜ ìƒëª…ì„ ê³µê²©ë ¥ì˜ {multiplier}ë§Œí¼ íšŒë³µì‹œí‚¨ë‹¤",
     "range": 3,
     "AOERange": 4,
     "affectType": "heal",
@@ -136,7 +136,7 @@
   },
   "9": {
     "name": "Heal",
-    "explain": "´ÜÀÏ ¾Æ±ºÀÇ »ı¸íÀ» °ø°İ·ÂÀÇ {multiplier}¸¸Å­ È¸º¹½ÃÅ²´Ù",
+    "explain": "ë‹¨ì¼ ì•„êµ°ì˜ ìƒëª…ì„ ê³µê²©ë ¥ì˜ {multiplier}ë§Œí¼ íšŒë³µì‹œí‚¨ë‹¤",
     "range": 2,
     "AOERange": 0,
     "affectType": "heal",
@@ -151,7 +151,7 @@
   },
   "10": {
     "name": "DoubleAttack",
-    "explain": "´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ 2È¸ ÁØ´Ù",
+    "explain": "ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ 2íšŒ ì¤€ë‹¤",
     "range": 1,
     "AOERange": 0,
     "affectType": "attack",
@@ -166,7 +166,7 @@
   },
   "11": {
     "name": "DaggerThrow",
-    "explain": "Á÷¼±»óÀÇ ´ÜÀÏ ÀûÀ» °ø°İÇØ °ø°İ·ÂÀÇ {multiplier}¹è ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ì§ì„ ìƒì˜ ë‹¨ì¼ ì ì„ ê³µê²©í•´ ê³µê²©ë ¥ì˜ {multiplier}ë°° í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 4,
     "AOERange": 0,
     "affectType": "attack",
@@ -181,7 +181,7 @@
   },
   "12": {
     "name": "GroundClaw",
-    "explain": "¹üÀ§ ³»ÀÇ ¸ğµç Àû¿¡°Ô °ø°İ·ÂÀÇ {multiplier}¹è ¹üÀ§ ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë²”ìœ„ ë‚´ì˜ ëª¨ë“  ì ì—ê²Œ ê³µê²©ë ¥ì˜ {multiplier}ë°° ë²”ìœ„ í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 2,
     "AOERange": 1,
     "affectType": "attack",
@@ -196,7 +196,7 @@
   },
   "13": {
     "name": "BlackHole",
-    "explain": "¹üÀ§ ³»ÀÇ ¸ğµç Àû¿¡°Ô °ø°İ·ÂÀÇ {multiplier}¹è ¹üÀ§ ÇÇÇØ¸¦ ÁØ´Ù",
+    "explain": "ë²”ìœ„ ë‚´ì˜ ëª¨ë“  ì ì—ê²Œ ê³µê²©ë ¥ì˜ {multiplier}ë°° ë²”ìœ„ í”¼í•´ë¥¼ ì¤€ë‹¤",
     "range": 5,
     "AOERange": 5,
     "affectType": "attack",

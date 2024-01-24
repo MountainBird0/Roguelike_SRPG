@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsters:
   - name: Bat
-    pos: {x: 4, y: 0, z: 0}
+    pos: {x: 5, y: -3, z: 0}
+  - name: Bat
+    pos: {x: 8, y: -9, z: 0}
   - name: Brute
-    pos: {x: 4, y: -1, z: 0}
-  - name: Bat
-    pos: {x: 4, y: -2, z: 0}
-  - name: Bat
-    pos: {x: 3, y: -2, z: 0}
+    pos: {x: 8, y: -8, z: 0}
+  - name: Brute
+    pos: {x: 4, y: -3, z: 0}

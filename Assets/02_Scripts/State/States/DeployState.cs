@@ -10,6 +10,7 @@ public class DeployState : State
     private Dictionary<Vector3Int, TileLogic> deployTiles = new();
     private DeployUIController uiController;
     private TurnBeginUIController unitInfoController = BattleMapUIManager.instance.turnBeginUIController;
+    private TurnEndUIController uiEndController = BattleMapUIManager.instance.turnEndUIController;
 
     private string unitName;
     private Vector3Int oldCoords;
@@ -44,6 +45,8 @@ public class DeployState : State
         BattleMapManager.instance.ResetUnit();
 
         // 유닛이랑 몬스터 선택된 스킬 프리팹 미리 생성해서 넣어두기?
+
+        uiEndController.StartNewTurn();
 
         // 몬스터 속도 정할 필요성
         InputManager.instance.OnStartTouch -= TouchStart;

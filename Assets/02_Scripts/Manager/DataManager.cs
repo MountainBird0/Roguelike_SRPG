@@ -156,7 +156,7 @@ public class DataManager : MonoBehaviour
     ***********************************************************/
     private void ResetGameInfo()
     {
-        gameInfo.currentStage = 1;
+        gameInfo.currentStage = 3;
         gameInfo.seed = (System.DateTime.Now.Millisecond + 1) * (System.DateTime.Now.Second + 1) * (System.DateTime.Now.Minute + 1);
         nodes.Clear();
     }

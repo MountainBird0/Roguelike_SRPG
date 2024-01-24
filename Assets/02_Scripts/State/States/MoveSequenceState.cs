@@ -58,22 +58,6 @@ public class MoveSequenceState : State
         TileLogic targetTile = board.mainTiles[Turn.selectedPos];
         board.Search(board.GetTile(Turn.unit.pos), IsMovable);
 
-        //if (!Turn.isHumanTurn)
-        //{
-        //    while(targetTile != Turn.unit.tile)
-        //    {
-        //        Debug.Log($"{GetType()} - 타일 위치 {targetTile.pos}");
-        //        Debug.Log($"{GetType()} - 타일 거리 {targetTile.distance}");
-        //        if (targetTile.distance <= Turn.unit.stats.MOV)
-        //        {
-        //            Debug.Log($"{GetType()} - 타일 더함");
-        //            path.Add(targetTile);
-        //        }
-        //        targetTile = targetTile.prev;
-        //    }
-        //}
-
-
         while(targetTile != Turn.unit.tile)
         {
             path.Add(targetTile);
@@ -87,8 +71,6 @@ public class MoveSequenceState : State
     {
         to.distance = from.distance + 1;
 
-        //return ((to.content == null || to.pos == Turn.selectedPos)
-        //    && to.distance <= 10);
         return (to.content == null && to.distance <= 30 && highlightTiles.ContainsKey(to.pos));
     }
 

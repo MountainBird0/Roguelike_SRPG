@@ -78,10 +78,10 @@ public class CameraController : MonoBehaviour
     {
         BoundsInt bounds = BattleMapManager.instance.board.mainMap.cellBounds;
 
-        minX = bounds.xMin + 7.0f;
-        maxX = bounds.xMax - 7.0f;
-        minY = bounds.yMin + 3.0f;
-        maxY = bounds.yMax - 6.0f;
+        minX = bounds.xMin + 5.0f;
+        maxX = bounds.xMax - 5.0f;
+        minY = bounds.yMin; // + 7.0f;
+        maxY = bounds.yMax; // - 7.0f;
 
         Debug.Log($"{GetType()} ¼¼ÆÃ°ª - {minX}, {maxX}, {minY}, {maxY}");
     }
