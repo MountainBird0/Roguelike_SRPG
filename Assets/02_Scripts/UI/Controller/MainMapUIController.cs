@@ -244,6 +244,7 @@ public class MainMapUIController : MonoBehaviour
     public void ClickBtnShopCheck()
     {
         currentUiState = UiState.Nothing;
+        mainMapInput.SetActive(true);
         shopWindow.SetActive(false);
     }
 

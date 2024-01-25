@@ -11,6 +11,7 @@ public class TurnEndState : State
         base.Enter();
 
         board.ClearTile();
+        SetCoolTime();
 
         var isClear = BattleMapManager.instance.ClearCheck();
         if (isClear.HasValue)
@@ -34,6 +35,41 @@ public class TurnEndState : State
     {
         base.Exit();
     }
+
+
+    /**********************************************************
+    * 스킬 쿨타임 세팅
+    ***********************************************************/
+    private void SetCoolTime()
+    {
+        
+        int defaultCoolTime = 0;
+        string skillName = null;
+        
+        if(Turn.skill != null)
+        {
+            defaultCoolTime = Turn.skill.data.coolTime;
+            skillName = Turn.skill.data.name;
+        }
+
+        for (int i = 0; i < Turn.unit.skills.Count; i++)
+        {
+            var skill = Turn.unit.skills[i].GetComponent<Skill>();
+
+            if (skillName == skill.data.name)
+            {
+                if (defaultCoolTime != 0) // 쿨타임이 0인 스킬은 넘어감
+                {
+                    skill.SetCoolTime(defaultCoolTime);
+                }
+            }
+            else if (skill.data.currentCoolTime > 0)
+            {
+                skill.ReduceCoolTime();
+            }
+        }
+    }
+
 
     /**********************************************************
     * 이번턴에 활동 가능한 유닛이 있는지 확인
@@ -63,6 +99,7 @@ public class TurnEndState : State
             }
         }
 
+        Turn.unit.tile = board.GetTile(Turn.unit.pos);
         Turn.Clear();
     }
 

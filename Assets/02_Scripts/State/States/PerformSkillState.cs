@@ -8,8 +8,6 @@ public class PerformSkillState : State
     {
         base.Enter();
 
-
-        SetCoolTime();
         StartCoroutine(ApplySkill());
         //DoSkill();
     }
@@ -56,29 +54,6 @@ public class PerformSkillState : State
     }
 
 
-    /**********************************************************
-    * 스킬 쿨타임 세팅
-    ***********************************************************/
-    private void SetCoolTime()
-    {
-        int defaultCoolTime = Turn.skill.data.coolTime;
 
-        for (int i = 0; i < Turn.unit.skills.Count; i++)
-        {
-            var skill = Turn.unit.skills[i].GetComponent<Skill>();
-
-            if (Turn.skill.data.name == skill.data.name)
-            {
-                if (defaultCoolTime != 0) // 쿨타임이 0인 스킬은 넘어감
-                {
-                    skill.SetCoolTime(defaultCoolTime);
-                }
-            }
-            else if (skill.data.currentCoolTime > 0)
-            {
-                skill.ReduceCoolTime();
-            }
-        }
-    }
 
 }

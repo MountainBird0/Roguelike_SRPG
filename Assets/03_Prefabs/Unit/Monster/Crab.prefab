@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3314e0a03ee16c347af0ef444c460acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Snake
+  unitName: Crab
   unitNum: 0
   body: {fileID: 5011334548372740811}
   image: {fileID: 1918845988, guid: 2d69056c71f17414a8315778a0823ed3, type: 3}

@@ -33,12 +33,19 @@ public class MainMapInteraction : MonoBehaviour
             case IconType.MONSTER:
                 ClickMonster();
                 break;
+
+            case IconType.ELITE:
+                ClickMonster();
+                break;
+
+            case IconType.BOSS:
+                ClickMonster();
+                break;
+
             case IconType.SHOP:
                 ClickShop();
                 break;
-            case IconType.BOSS:
 
-                break;
             case IconType.CHEST:
                 ClickChest();
                 break;

@@ -13569,10 +13569,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862cadf9c5b0b6049b0ad34e29ef21bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Stage1Maps:
+  stage1Mon:
   - {fileID: 8710717193491505300, guid: c747265cff189c94ca08f87de95dc07c, type: 3}
-  Stage2Maps: []
-  Stage3Maps: []
+  - {fileID: 8710717193491505300, guid: 7381308db83bcc943ba346f00514ce12, type: 3}
+  stage1Elite:
+  - {fileID: 8710717193491505300, guid: cd4ff160ebeaede4cab73d36e6062bee, type: 3}
+  stage1Boss:
+  - {fileID: 8710717193491505300, guid: 59eba77eef781b641b0f5cba7e71eab7, type: 3}
+  stage2Mon: []
+  stage2Elite: []
+  stage2Boss: []
+  stage3Mon: []
+  stage3Elite: []
+  stage3Boss: []
 --- !u!1 &1648039028
 GameObject:
   m_ObjectHideFlags: 0
