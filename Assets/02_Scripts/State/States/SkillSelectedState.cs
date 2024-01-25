@@ -22,13 +22,14 @@ public class SkillSelectedState : State
 
         ShowRangeTile();
         
+        uiController.EnableCanvas();
+        
         if(!Turn.isHumanTurn)
         {
             StartCoroutine(AISkillSelected());
             return;
         }
 
-        uiController.EnableCanvas();
 
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
@@ -73,6 +74,8 @@ public class SkillSelectedState : State
     private void ShowRangeTile()
     {
         tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.skill.data, false);
+
+        Debug.Log($"{GetType()} - 타일 크기 - {tiles.Count}");
         board.ShowHighlightTile(tiles, 2);
         board.ShowAimingTile(tiles, 2);
     }

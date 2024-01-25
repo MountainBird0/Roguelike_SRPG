@@ -77,7 +77,17 @@ public class ArrowSelectionState : State
     private IEnumerator AIArrowSelected()
     {
         yield return new WaitForSeconds(1f);
-        
-        SelectArrow(Turn.direction);
+
+        Debug.Log($"{GetType()} - 정한방향 - {Turn.direction}");
+
+        if (Turn.skill.data.isAOE)
+        {
+            StateMachineController.instance.ChangeTo<SkillTargetingState>();
+        }
+        else
+        {
+            StateMachineController.instance.ChangeTo<SkillSelectedState>();
+
+        }
     }
 }

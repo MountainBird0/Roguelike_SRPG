@@ -17,10 +17,10 @@ public class RangeSearchMachine : MonoBehaviour
         this.board = board;
     }
 
-    public List<TileLogic> SearchRange(Vector3Int pos, SkillData data, bool isAOE)
+    public List<TileLogic> SearchRange(Vector3Int pos, SkillData data, bool isAOERange)
     {
         int range;
-        if (isAOE)
+        if (isAOERange)
         {
             range = data.AOERange;
         }

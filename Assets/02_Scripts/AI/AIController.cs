@@ -19,6 +19,7 @@ public class AIController : MonoBehaviour
         Vector3Int.left,
         Vector3Int.right
     };
+    private Vector3Int currentDir = Vector3Int.zero;
 
     public void SetMachineBoard(RangeSearchMachine searchMachine, Board board)
     {
@@ -42,14 +43,14 @@ public class AIController : MonoBehaviour
         currentPlan = null;
 
         int highestScore = 0;
-        //Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
+        Debug.Log($"{GetType()} - 현재 유닛 : {Turn.unit.name}");
         var skills = SortSkills(Turn.unit.skills);
 
         if (skills.Count == 0) return null; // 이동하러가기 bool 값 쓸듯
 
         for (int i = 0; i < skills.Count; i++) // 스킬 순회
         {
-            //Debug.Log($"{GetType()} - 순회할 스킬 이름 : {skills[i].name}");
+            Debug.Log($"{GetType()} - 순회할 스킬 이름 : {skills[i].name}");
 
             var targetUnits = SearchUnit(skills[i].data.affectType);
             if (targetUnits.Count == 0) continue; // 타겟 유닛이 하나도 없으면 다음 스킬로 이동
@@ -62,7 +63,7 @@ public class AIController : MonoBehaviour
 
                 for (int k = 0; k < reachableTiles.Count; k++)
                 {
-                    int score = CheckScore(skills[i], targetUnits[j], reachableTiles[k]);
+                    int score = CheckScore(skills[i], targetUnits, targetUnits[j].pos, reachableTiles[k]);
 
                     if (highestScore < score)
                     {
@@ -81,14 +82,51 @@ public class AIController : MonoBehaviour
     /**********************************************************
     * 점수 계산
     ***********************************************************/
-    private int CheckScore(Skill skill, Unit targetUnit, TileLogic reachableTile)
+    private int CheckScore(Skill skill, List<Unit> targetUnits, Vector3Int targetPos, TileLogic reachableTile)
     {
         int score = 0;
 
-        Turn.direction = skill.data.isDirectional ? SearchDir(targetUnit.pos, reachableTile, skill.data) : Vector3Int.zero;
-        score = skill.data.isAOE ? SearchAOETarget(SearchUnit(skill.data.affectType), reachableTile, skill.data) : 1;
+        if(skill.data.isDirectional)
+        {
+            currentDir = SearchDir(targetPos, reachableTile, skill.data);
+            Turn.direction = currentDir;
+        }
+
+        // Turn.direction = skill.data.isDirectional ? SearchDir(targetUnit.pos, reachableTile, skill.data) : Vector3Int.zero;
+
+        if (skill.data.isAOE)
+        {
+            score = SearchAOETarget(targetUnits, targetPos, reachableTile.pos, skill.data);
+            Debug.Log($"{GetType()} - 나온 점수 : {score}");
+        }
+        else
+        {
+            score = 1;
+        }
+
+        // score = skill.data.isAOE ? SearchAOETarget(SearchUnit(skill.data.affectType), reachableTile, skill.data) : 1;
 
         return score;
+    }
+    private Vector3Int SearchDir(Vector3Int targetPos, TileLogic reachableTile, SkillData data)
+    {
+        Vector3Int dir = Vector3Int.zero;
+
+        for (int i = 0; i < dirs.Count(); i++)
+        {
+            Turn.direction = dirs[i];
+            var checktiles = searchMachine.SearchRange(reachableTile.pos, data, false);
+
+            TileLogic matchingTile = checktiles.FirstOrDefault(tile => tile.pos == targetPos);
+
+            if (matchingTile != null)
+            {
+                dir = dirs[i];
+                break;
+            }
+        }
+
+        return dir;
     }
 
     /**********************************************************
@@ -167,60 +205,49 @@ public class AIController : MonoBehaviour
     ***********************************************************/
     private List<TileLogic> SearchTileInRange(Vector3Int targetPos, SkillData data)
     {
+        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.ISMovable);
         List<TileLogic> tiles = new();
 
         if (data.isDirectional)
         {
             for(int i = 0; i < dirs.Count(); i++)
             {
-                Turn.direction = dirs[i];
+                Turn.direction = dirs[i]; // line찾는 로직 수정
                 tiles.AddRange(searchMachine.SearchRange(targetPos, data, false));
             }
         }
         else
         {
-            tiles = searchMachine.SearchRange(targetPos, data, false);
+            tiles = searchMachine.SearchRange(targetPos, data, false);       
         }
-        List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.ISMovable);
 
-        tiles = tiles.Intersect(moveableTiles).ToList();
-        tiles.Reverse();
-
+        tiles = tiles.Intersect(moveableTiles).ToList(); // 이동 가능한 타일과 일치하는 타일 찾음
+        tiles.Reverse(); // 끝거리에서 스킬 사용하도록 하기 위해
         return tiles;
     }
 
-    /**********************************************************
-    * 방향 정하기
-    ***********************************************************/
-    private Vector3Int SearchDir(Vector3Int targetPos, TileLogic markTile, SkillData data)
-    {
-        Vector3Int dir = Vector3Int.zero;
-
-        for (int l = 0; l < dirs.Count(); l++)
-        {
-            var checktiles = searchMachine.SearchRange(markTile.pos, data, false);
-
-            TileLogic matchingTile = checktiles.FirstOrDefault(tile => tile.pos == targetPos);
-
-            if (matchingTile != null)
-            {
-                dir = dirs[l];
-                break;
-            }
-        }
-
-        return dir;
-    }
 
     /**********************************************************
     * 광역스킬 범위에 들어가는 타겟 찾기
     ***********************************************************/
-    private int SearchAOETarget(List<Unit> targetUnits, TileLogic targetTile, SkillData data)
-    {
-        var tiles = searchMachine.SearchRange(targetTile.pos, data, true);
+     private int SearchAOETarget(List<Unit> targetUnits, Vector3Int targetPos, Vector3Int reachablePos, SkillData data)
+     {
+        List<TileLogic> tiles = new();
+
+        if (data.AOERange.Equals(0))
+        {
+            tiles = searchMachine.SearchRange(reachablePos, data, false);
+        }
+        else
+        {
+            tiles = searchMachine.SearchRange(targetPos, data, true);
+        }
+
+
+        //var tiles = searchMachine.SearchRange(targetTile.pos, data, true);
 
         return targetUnits.Count(unit => tiles.Any(tile => tile.pos == unit.pos));
-    }
+     }
 
     /**********************************************************
     * AIplan을 현재 플랜으로 세팅
@@ -232,6 +259,7 @@ public class AIController : MonoBehaviour
             currentPlan = new();
         }
 
+        currentPlan.direction = currentDir;
         currentPlan.skill = skill;
         currentPlan.movePos = movePos;
         currentPlan.targetPos = targetPos;
@@ -259,10 +287,14 @@ public class AIController : MonoBehaviour
             if (targetTile == null && arg2.content != null)
             {
                 Unit unit = arg2.content.GetComponent<Unit>();
-                if(unit != null && currentFaction != unit.faction)
+                if (unit != null && currentFaction != unit.faction)
                 {
                     targetTile = arg2;
                     return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             arg2.distance = arg1.distance + 1;
@@ -280,7 +312,6 @@ public class AIController : MonoBehaviour
 
         while (targetTile != Turn.unit.tile)
         {
-            Debug.Log($"{GetType()} - 이거 몇번 도나");
             //if(targetTile.distance <= Turn.unit.stats.MOV &&
             //    targetTile.content == null)
             //{

@@ -39,6 +39,8 @@ public static class Turn
 
         isMoving = true;
 
+        skill = null;
+
         targets.Clear();
     }
 
