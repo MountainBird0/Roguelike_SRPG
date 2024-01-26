@@ -12,7 +12,7 @@ public class ChooseActionState : State
     private ChooseActionUIController uiController = BattleMapUIManager.instance.chooseActionUIController;
     private AIController aiController;
 
-    private List<TileLogic> tiles;
+    // private List<TileLogic> tiles;
 
     private IEnumerator uiTouchCoroutine;
     private int currentSkillSlot;
@@ -21,8 +21,7 @@ public class ChooseActionState : State
 
     private void OnEnable()
     {
-        aiController = BattleMapManager.instance.aiController;
-        
+        aiController = BattleMapManager.instance.aiController;       
     }
 
     public override void Enter()
@@ -33,7 +32,7 @@ public class ChooseActionState : State
         
         if (Turn.isMoving)
         {
-            ShowMoveableTile();
+            ShowMoveableTile(Turn.unit);
             Turn.isMoving = false;
         }
         
@@ -192,9 +191,9 @@ public class ChooseActionState : State
     /**********************************************************
     * 움직일 수 있는 범위 표시
     ***********************************************************/
-    private void ShowMoveableTile()
+    private void ShowMoveableTile(Unit unit)
     {
-        tiles = board.Search(board.GetTile(Turn.originPos), Turn.unit.ISMovable);
+        var tiles = board.Search(board.GetTile(unit.pos), unit.ISMovable);
         board.ShowHighlightTile(tiles, 0);
     }
 

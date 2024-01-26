@@ -22,6 +22,7 @@ public class SkillTargetingState : State
     {
         base.Enter();
 
+        
         if(!Turn.isHumanTurn)
         {
             StartCoroutine(AISkillTargeting());
@@ -133,6 +134,8 @@ public class SkillTargetingState : State
         }
 
         AddTarget();
+
+        uiController.EnableCanvas();
 
         yield return new WaitForSeconds(1f);
 

@@ -35,7 +35,8 @@ public class DeployState : State
     public override void Exit()
     {
         base.Exit();
-        
+
+        board.ClearTile();
         uiController.DisableWindow();
         board.deployMap.gameObject.SetActive(false);
         // deployTiles 삭제 올려둔거 mainTile에 저장 mgr에서 할지?
@@ -72,12 +73,17 @@ public class DeployState : State
                 DeployNewUnit(cellPosition);
                 uiController.EnableFinishButton();
             }
+
+            var unit = deployTiles[cellPosition].content.GetComponent<Unit>();
+            ShowMoveableTile(unit);
+            unitInfoController.ShowStatWindow(unit);
         }
         else if(board.mainTiles.ContainsKey(cellPosition))
         {
             if (board.mainTiles[cellPosition].content)
             {
                 var unit = board.mainTiles[cellPosition].content.GetComponent<Unit>();
+                ShowMoveableTile(unit);
                 unitInfoController.ShowStatWindow(unit);
             }
             else
@@ -235,5 +241,15 @@ public class DeployState : State
         }
 
         return false;
+    }
+
+    /**********************************************************
+    * 움직일 수 있는 범위 표시
+    ***********************************************************/
+    private void ShowMoveableTile(Unit unit)
+    {
+        board.ClearTile();
+        var tiles = board.Search(board.GetTile(unit.pos), unit.ISMovable);
+        board.ShowHighlightTile(tiles, 0);
     }
 }

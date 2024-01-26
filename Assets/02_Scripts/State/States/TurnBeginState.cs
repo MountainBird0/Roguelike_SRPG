@@ -51,6 +51,7 @@ public class TurnBeginState : State
     {
         base.Exit();
 
+        board.ClearTile();
         uiController.DisableCanvas();
 
         InputManager.instance.OnStartTouch -= TouchStart;
@@ -75,6 +76,7 @@ public class TurnBeginState : State
                 else
                 {                   
                     uiController.ShowStatWindow(unit); // 정보창 보여주기
+                    ShowMoveableTile(unit);
                 }
             }
         }
@@ -95,5 +97,12 @@ public class TurnBeginState : State
         Turn.selectedPos = Turn.originPos;
 
         StateMachineController.instance.ChangeTo<ChooseActionState>();
+    }
+
+    private void ShowMoveableTile(Unit unit)
+    {
+        board.ClearTile();
+        var tiles = board.Search(board.GetTile(unit.pos), unit.ISMovable);
+        board.ShowHighlightTile(tiles, 0);
     }
 }

@@ -51,10 +51,12 @@ public class SkillTargetUIController : MonoBehaviour
     {
         skillTargetCanvas.gameObject.SetActive(true);
         ChooseList.transform.DORotate(new Vector3(0, 0, 150), 0.2f).From(true);
+        var skillData = Turn.skill.data;
 
-        if (Turn.skill.data.isAOE == false)
+        if (skillData.isAOE == false && skillData.affectType != AffectType.HEAL)
         {
             EnableBattleWindow();
+
         }
 
     }
@@ -86,7 +88,7 @@ public class SkillTargetUIController : MonoBehaviour
         Unit rightUnit;
         Unit leftUnit;
 
-        if (Turn.isHumanTurn)
+        if (Turn.unit.faction == 0)
         {
             rightUnit = Turn.unit;
             leftUnit = Turn.targets[0];
