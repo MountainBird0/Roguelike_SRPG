@@ -75,8 +75,6 @@ public class DeployState : State
             }
 
             var unit = deployTiles[cellPosition].content.GetComponent<Unit>();
-            ShowMoveableTile(unit);
-            unitInfoController.ShowStatWindow(unit);
         }
         else if(board.mainTiles.ContainsKey(cellPosition))
         {
@@ -250,6 +248,6 @@ public class DeployState : State
     {
         board.ClearTile();
         var tiles = board.Search(board.GetTile(unit.pos), unit.ISMovable);
-        board.ShowHighlightTile(tiles, 0);
+        board.ShowHighlightTile(tiles, HighlightTileType.Blue);
     }
 }

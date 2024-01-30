@@ -99,7 +99,7 @@ public class BattleMapUIManager : MonoBehaviour
             slot.className.text = unit.unitName;
             slot.level.text = unit.stats.Level.ToString();
             slot.curExp.text = unit.stats.CurEXP.ToString();
-            slot.maxExp.text = "/ " + unit.stats.MaxEXP.ToString();
+            slot.maxExp.text = unit.stats.MaxEXP.ToString();
 
             StartCoroutine(UpExp(unit, slot, gainedExp));
         }

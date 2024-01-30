@@ -23,13 +23,6 @@ public class SkillTargetingState : State
         base.Enter();
 
         
-        if(!Turn.isHumanTurn)
-        {
-            StartCoroutine(AISkillTargeting());
-            return;
-        }
-
-
         if (Turn.skill.data.isAOE)
         {
             Debug.Log($"{GetType()} - 범위타일 보여줌");
@@ -39,7 +32,13 @@ public class SkillTargetingState : State
         AddTarget();
         
         uiController.EnableCanvas();
-        
+
+        if(!Turn.isHumanTurn)
+        {
+            StartCoroutine(AISkillTargeting());
+            return;
+        }
+    
         InputManager.instance.OnStartTouch += TouchStart;
         InputManager.instance.OnEndTouch += TouchEnd;
     }
@@ -109,7 +108,9 @@ public class SkillTargetingState : State
     ***********************************************************/
     private void ShowAOERange()
     {
-        if(Turn.skill.data.AOERange.Equals(0))
+        var skillData = Turn.skill.data;
+
+        if (skillData.AOERange.Equals(0))
         {
             tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.skill.data, false);
         }
@@ -118,8 +119,16 @@ public class SkillTargetingState : State
             tiles = searchMachine.SearchRange(Turn.selectedPos, Turn.skill.data, true);
         }
 
-        board.ShowHighlightTile(tiles, 1);
-        board.ShowAimingTile(tiles, (int)Turn.skill.data.affectType);
+        if(skillData.affectType == AffectType.HEAL)
+        {
+            board.ShowHighlightTile(tiles, HighlightTileType.Blue);
+            board.ShowAimingTile(tiles, AimTileType.Green);
+        }
+        else
+        {
+            board.ShowHighlightTile(tiles, HighlightTileType.Red);
+            board.ShowAimingTile(tiles, AimTileType.Red);
+        }
     }
 
 
@@ -127,15 +136,6 @@ public class SkillTargetingState : State
     private IEnumerator AISkillTargeting()
     {
         Debug.Log($"{GetType()} - AI : STS");
-
-        if (Turn.skill.data.isAOE)
-        {
-            ShowAOERange();
-        }
-
-        AddTarget();
-
-        uiController.EnableCanvas();
 
         yield return new WaitForSeconds(1f);
 

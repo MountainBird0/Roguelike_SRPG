@@ -76,8 +76,8 @@ public class SkillSelectedState : State
         tiles = searchMachine.SearchRange(Turn.unit.pos, Turn.skill.data, false);
 
         Debug.Log($"{GetType()} - 타일 크기 - {tiles.Count}");
-        board.ShowHighlightTile(tiles, 2);
-        board.ShowAimingTile(tiles, 2);
+        board.ShowHighlightTile(tiles, HighlightTileType.Yellow);
+        board.ShowAimingTile(tiles, AimTileType.Yellow);
     }
 
     /**********************************************************

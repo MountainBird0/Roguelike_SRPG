@@ -9,8 +9,6 @@ public class MainMapManager : MonoBehaviour
     public MainMapDataMaker dataMaker;
     public MainMapMaker mapMaker;
 
-    public List<Unit> units;
-
     private void Start()
     {
         MapGenerate();       

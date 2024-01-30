@@ -15,13 +15,6 @@ public class Board : MonoBehaviour
     public List<Tile> aimTiles;
     public List<Tile> arrowTiles;
 
-    public Tile blueHighlightTile;
-    public Tile redHighlightTile;
-    public Tile yellowHighlightTile;
-    public Tile yellowSelectableTile;
-    public Tile redAimingTile;
-    public Tile greenAimingTile;
-
     [Header("TileMap")]
     public Tilemap mainMap;
     public Tilemap highlightMap;
@@ -80,13 +73,15 @@ public class Board : MonoBehaviour
     /**********************************************************
     * 하이라이트 타일 보이기 / 지우기
     ***********************************************************/
-    public void ShowHighlightTile(List<TileLogic> tiles, int num)
+    public void ShowHighlightTile(List<TileLogic> tiles, HighlightTileType type)
     {
+        int ColorNum = (int)type;
+
         for (int i = 0; i < tiles.Count; i++)
         {
             if(mainTiles.ContainsKey(tiles[i].pos))
             {
-                highlightMap.SetTile(tiles[i].pos, highTiles[num]);
+                highlightMap.SetTile(tiles[i].pos, highTiles[ColorNum]);
             }
         }
         SetTile(highlightMap, highlightTiles);     
@@ -103,67 +98,40 @@ public class Board : MonoBehaviour
     /**********************************************************
     * 타겟 타일 보이기 / 지우기
     ***********************************************************/
-    public void ShowAimingTile(List<TileLogic> tiles, int num)
+    public void ShowAimingTile(List<TileLogic> tiles, AimTileType type)
     {
         AffectType affectType = Turn.skill.data.affectType;
-
+        int ColorNum = (int)type;
         int originFaction = Turn.unit.faction;
 
         for (int i = 0; i < tiles.Count; i++)
         {
-
             if (mainTiles[tiles[i].pos].content != null)
-            {
-                
-                var targetUnit = mainTiles[tiles[i].pos].content.GetComponent<Unit>();
+            {             
+                var targetFaction = mainTiles[tiles[i].pos].content.GetComponent<Unit>().faction;
 
                 switch (affectType)
                 {
-                    case AffectType.ALL:
-                        break;
-
-                    case AffectType.ALLY:
-                        if (originFaction.Equals(targetUnit.faction))
-                        {
-                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
-                        }
-                        break;
-
                     case AffectType.HEAL:
-                        if (originFaction.Equals(targetUnit.faction))
+                        if (originFaction.Equals(targetFaction))
                         {
-                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
-                        }
-                        break;
-
-                    case AffectType.BUFF:
-                        if (originFaction.Equals(targetUnit.faction))
-                        {
-                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
-                        }
-                        break;
-
-                    case AffectType.ENEMY:
-                        if (!originFaction.Equals(targetUnit.faction))
-                        {
-                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[ColorNum]);
                         }
                         break;
 
                     case AffectType.ATTACK:
-                        if (!originFaction.Equals(targetUnit.faction))
+                        if (!originFaction.Equals(targetFaction))
                         {
-                            aimingMap.SetTile(tiles[i].pos, aimTiles[num]);
+                            aimingMap.SetTile(tiles[i].pos, aimTiles[ColorNum]);
                         }
-                        break;
-
-                    case AffectType.SELF:
                         break;
                 }
             }
         }
+
         SetTile(aimingMap, aimingTiles);
     }
+
 
 
     /**********************************************************

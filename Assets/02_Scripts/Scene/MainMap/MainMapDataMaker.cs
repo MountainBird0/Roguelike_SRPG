@@ -46,7 +46,7 @@ public class MainMapDataMaker : MonoBehaviour
         SetIconPos(iconCounts, iconPositions);
         for (int i = 0; i < iconTypes.Count; i++)
         {
-            mapData.iconInfo.Add((iconTypes[i], iconPositions[i]));
+            mapData.iconInfoList.Add((iconTypes[i], iconPositions[i]));
         }
 
 
@@ -282,10 +282,4 @@ public class MainMapDataMaker : MonoBehaviour
         // Debug.Log($"{GetType()} - ÃÑÇÕ - {totalProbability}");
         return totalProbability;
     }
-
-
-
-
-
-    // ³¡
 }

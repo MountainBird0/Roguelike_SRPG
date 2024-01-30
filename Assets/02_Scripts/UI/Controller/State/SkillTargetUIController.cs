@@ -10,6 +10,7 @@ public class SkillTargetUIController : MonoBehaviour
     public GameObject ChooseList;
 
     [Header("window")]
+    public GameObject simpleWindow;
     public GameObject battleWindow;
     public GameObject rightOb;
     public GameObject leftOb;
@@ -56,14 +57,30 @@ public class SkillTargetUIController : MonoBehaviour
         if (skillData.isAOE == false && skillData.affectType != AffectType.HEAL)
         {
             EnableBattleWindow();
-
+        }
+        else
+        {
+            EnableSimpleWindow();
         }
 
     }
     public void DisableCanvas()
     {
         skillTargetCanvas.gameObject.SetActive(false);
+        simpleWindow.SetActive(false);
         battleWindow.SetActive(false);
+    }
+
+    public void EnableSimpleWindow()
+    {
+        simpleWindow.SetActive(true);
+
+        var obrt = simpleWindow.GetComponent<RectTransform>();
+        obrt.DOAnchorPosY(-50, 0.5f).From(new Vector2(obrt.anchoredPosition.y , 150));
+
+        var window = simpleWindow.GetComponent<TargetingWindow>();
+        window.skillImage.sprite = Turn.skill.image;
+        window.className.text = Turn.skill.data.name;
     }
 
     /**********************************************************

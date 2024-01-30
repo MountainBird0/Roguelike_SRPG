@@ -5104,37 +5104,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!1 &2703877623362110933
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1018106636173353928}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1018106636173353928
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2703877623362110933}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.11, y: -2.19, z: 0.3488706}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8710717193491505301}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3497897491101087847
 GameObject:
   m_ObjectHideFlags: 0
@@ -15120,7 +15089,6 @@ Transform:
   - {fileID: 1247473078124012213}
   - {fileID: 8710717192582744362}
   - {fileID: 3522551246232976872}
-  - {fileID: 1018106636173353928}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15162,12 +15130,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3b7d976d21d35546b137d2594c7346b, type: 2}
   - {fileID: 11400000, guid: 347ad1ef7ad495f46b4669683d37eab8, type: 2}
   - {fileID: 11400000, guid: 3358c6e67a2cc0241bdf17ede9d92a8c, type: 2}
-  blueHighlightTile: {fileID: 11400000, guid: 5c66028d1abb4224d969c78312ef650e, type: 2}
-  redHighlightTile: {fileID: 11400000, guid: 7b2e1149221c01b469b4b71b830d6ce7, type: 2}
-  yellowHighlightTile: {fileID: 11400000, guid: 17059b740bdc46542ada379846111a3b, type: 2}
-  yellowSelectableTile: {fileID: 11400000, guid: 263d3a69b879b1e4ebfde8a60395002f, type: 2}
-  redAimingTile: {fileID: 11400000, guid: a0e3032494a95fe47ab5fc0a8d64932f, type: 2}
-  greenAimingTile: {fileID: 11400000, guid: d3034ad2b20a4bd4884ccf2cd2a57192, type: 2}
   mainMap: {fileID: 8710717193866040936}
   highlightMap: {fileID: 1247473078124012203}
   deployMap: {fileID: 8710717192582744364}

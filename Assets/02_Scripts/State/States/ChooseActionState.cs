@@ -194,7 +194,7 @@ public class ChooseActionState : State
     private void ShowMoveableTile(Unit unit)
     {
         var tiles = board.Search(board.GetTile(unit.pos), unit.ISMovable);
-        board.ShowHighlightTile(tiles, 0);
+        board.ShowHighlightTile(tiles, HighlightTileType.Blue);
     }
 
 

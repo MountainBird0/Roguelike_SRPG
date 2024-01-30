@@ -49,7 +49,7 @@ public class MainMapMaker : MonoBehaviour
             {
                 nodes[mapData.nodeDatas[i].Item1 + j].AddConnection(node);
             }
-            node.iconInfo = mapData.iconInfo[i];
+            node.iconInfo = mapData.iconInfoList[i];
 
             node.iconState = mapData.iconStates[i];
         }
