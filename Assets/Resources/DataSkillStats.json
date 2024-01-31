@@ -108,7 +108,7 @@
     "name": "Meteor",
     "explain": "범위 내의 모든 적에게 공격력의 {multiplier}배 범위 피해를 준다",
     "range": 5,
-    "AOERange": 3,
+    "AOERange": 30,
     "affectType": "attack",
     "jobType": 1,
     "damageType": "magic",

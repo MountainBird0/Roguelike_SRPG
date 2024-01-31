@@ -68,13 +68,14 @@ public class Unit : MonoBehaviour
         {
             stats.HP = stats.MaxHP;
         }
-        if(stats.HP <= 0)
-        {
-            SetHealthBar();
-            Die();
-        }
 
         SetHealthBar();
+
+        if(stats.HP <= 0)
+        {
+            stats.HP = 1;
+            Die();
+        }
     }
 
     public void SetHealthBar()

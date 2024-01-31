@@ -109,7 +109,7 @@ public class BattleMapUIManager : MonoBehaviour
     {
         int currentEXP = unit.stats.CurEXP;
         int addExp = 0;
-        gainedExp = 100; // Áö¿ï²¨////////////////////////////////////
+        gainedExp = 60; // Áö¿ï²¨////////////////////////////////////
         while (gainedExp != 0)
         {
             int requirExp = unit.stats.MaxEXP - currentEXP;
