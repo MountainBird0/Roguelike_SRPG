@@ -158,7 +158,7 @@ public class DownloadManager : MonoBehaviour
         {
             total += patchMap.Sum(tmp => tmp.Value);
             redBar.fillAmount = total / patchSize;
-
+            datasize.text = GetFileSize((long)total) + " / " + GetFileSize(patchSize);
             Debug.Log($"{GetType()} - ´Ù¿î Áß");
 
             if (total == patchSize)

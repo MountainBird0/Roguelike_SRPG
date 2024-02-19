@@ -32,10 +32,10 @@ public class PerformSkillState : State
             Turn.unit.body.transform.rotation = quat.Value;
         }
 
-        var effects = Turn.skill.effects;
-
         Turn.unit.animationController.PhysicsAttack();
 
+
+        var effects = Turn.skill.effects;
         for (int i = 0; i < effects.Count; i++)
         {
             Debug.Log($"{GetType()} - 스킬이름 : {effects[i].effectName}");

@@ -40,17 +40,17 @@ public class MainMapMaker : MonoBehaviour
         rootNode.iconState = IconState.VISITED;
         nodes.Add(rootNode);
 
-        for (int i = 0; i < mapData.nodeDatas.Count; i++)
+        for (int i = 0; i < mapData.nodeData.Count; i++)
         {
             IconNode node = new IconNode(null);
             nodes.Add(node);
 
-            for (int j = 0; j < mapData.nodeDatas[i].Item2; j++)
+            for (int j = 0; j < mapData.nodeData[i].Item2; j++)
             {
-                nodes[mapData.nodeDatas[i].Item1 + j].AddConnection(node);
+                nodes[mapData.nodeData[i].Item1 + j].AddConnection(node);
             }
-            node.iconInfo = mapData.iconInfoList[i];
 
+            node.iconInfo = mapData.iconInfoList[i];
             node.iconState = mapData.iconStates[i];
         }
 

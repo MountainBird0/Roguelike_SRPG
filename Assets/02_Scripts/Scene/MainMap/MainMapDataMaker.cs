@@ -41,14 +41,13 @@ public class MainMapDataMaker : MonoBehaviour
         SetData();
 
         SetProbabilityDic();
-
         SetIconType(iconCounts, iconTypes);
         SetIconPos(iconCounts, iconPositions);
+
         for (int i = 0; i < iconTypes.Count; i++)
         {
             mapData.iconInfoList.Add((iconTypes[i], iconPositions[i]));
         }
-
 
         SetIconGrid(iconCounts);
 
@@ -186,46 +185,35 @@ public class MainMapDataMaker : MonoBehaviour
     }
 
     /**********************************************************
-    * 노드 정보 넣기
+    * 그래프를 그림
     ***********************************************************/
     private void SetIconGrid(List<int> iconCounts)
     {
-        int maxIconPos = 0; // 이전라인 최대로 들어갈 수 있는 아이콘 위치
-        int gap = 0;        // 이전라인과 현재라인의 아이콘 수 차이
-        int parIcon = 0;    // 연결될 부모 아이콘
-        int drawCount;      // 몇 번 연결할지
+        int maxPos = 0;  // 이전라인 마지막 아이콘의 인덱스
+        int gap = 0;     // 이전라인과 현재라인의 아이콘 수 차이
+        int curPos = 0;  // 선이 시작될 아이콘의 인덱스
+        int drawCount;   // 한 아이콘에서 그려질 라인의 수
 
         for (int i = 0; i < stageLevel.lineCount; i++)
         {
-            if (i != 0)
-            {
-                gap = iconCounts[i - 1] - iconCounts[i];
-            }
+            if (i != 0) gap = iconCounts[i - 1] - iconCounts[i];
 
             for (int j = 0; j < iconCounts[i]; j++)
             {
-                if (j == iconCounts[i] - 1)
-                {
-                    mapData.nodeDatas.Add((parIcon, maxIconPos - parIcon + 1));
-                }
+                if (j == iconCounts[i] - 1) mapData.nodeData.Add((curPos, maxPos - curPos + 1));
                 else
                 {
                     drawCount = Random.Range(1, gap + 1);
-                    if (drawCount < 1)
-                    {
-                        drawCount = 1;
-                    }
-                    mapData.nodeDatas.Add((parIcon, drawCount));
-                    parIcon += drawCount + Random.Range(-1, 1);
+                    if (drawCount < 1) drawCount = 1; // gap이 음수일때는 한 줄만 생성
+
+                    mapData.nodeData.Add((curPos, drawCount));
+                    curPos += drawCount + Random.Range(-1, 1);
                 }
 
-                if (parIcon > maxIconPos)
-                {
-                    parIcon = maxIconPos;
-                }
+                if (curPos > maxPos) curPos = maxPos;
             }
-            parIcon = maxIconPos + 1;
-            maxIconPos += iconCounts[i];
+            curPos = maxPos + 1;
+            maxPos += iconCounts[i];
         }
     }
 

@@ -8,5 +8,5 @@ public class AIPlan
 
     public Vector3Int movePos;
     public Vector3Int targetPos;
-    public Vector3Int direction; // ¾È¾¸
+    public Vector3Int direction;
 }

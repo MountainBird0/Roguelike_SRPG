@@ -60,6 +60,8 @@ public class DeployState : State
     ***********************************************************/
     public override void TouchStart(Vector2 screenPosition, float time)
     {
+        board.ClearTile();
+
         Vector3Int cellPosition = GetCellPosition(screenPosition);
 
         if (deployTiles.ContainsKey(cellPosition))
@@ -246,7 +248,6 @@ public class DeployState : State
     ***********************************************************/
     private void ShowMoveableTile(Unit unit)
     {
-        board.ClearTile();
         var tiles = board.Search(board.GetTile(unit.pos), unit.ISMovable);
         board.ShowHighlightTile(tiles, HighlightTileType.Blue);
     }

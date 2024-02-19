@@ -40,7 +40,7 @@
   "Rogue": {
     "Level": 1,
     "MaxHp": 150,
-    "Hp": 20,
+    "Hp": 150,
     "ATK": 15,
     "DEF": 10,
     "MATK": 5,
