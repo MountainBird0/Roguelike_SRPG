@@ -195,7 +195,7 @@ public class MainMapUIManager : MonoBehaviour
                 skillInfo.target.text = "¥‹¿œ";
             }
 
-            skillInfo.explain.text = skillData.explain;
+            skillInfo.explain.text = skillData.explain.Replace("{multiplier}", skillData.multiplier.ToString());
         }
     }
 }

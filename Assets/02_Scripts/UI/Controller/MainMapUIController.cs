@@ -42,6 +42,9 @@ public class MainMapUIController : MonoBehaviour
     [Header("Shop")]
     public GameObject shopWindow;
 
+    [Header("Save")]
+    public GameObject SaveWindow;
+
     private string unitName;
 
     public Dictionary<string, Button> unitButtons = new();
@@ -248,6 +251,26 @@ public class MainMapUIController : MonoBehaviour
         shopWindow.SetActive(false);
     }
 
+
+    /**********************************************************
+    * 저장 window 활성화 비활성화
+    ***********************************************************/
+    public void EnableSaveWindow()
+    {
+        if (currentUiState == UiState.Nothing)
+        {
+            SaveWindow.SetActive(true);
+            currentUiState = UiState.ShowSetting;
+        }
+    }
+    public void ClickBtnCancelSaveWindow()
+    {
+        if (currentUiState == UiState.ShowSetting)
+        {
+            SaveWindow.SetActive(false);
+            currentUiState = UiState.Nothing;
+        }
+    }
 
 
     // 임시
