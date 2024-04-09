@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -92,8 +91,6 @@ public class AIController : MonoBehaviour
             Turn.direction = currentDir;
         }
 
-        // Turn.direction = skill.data.isDirectional ? SearchDir(targetUnit.pos, reachableTile, skill.data) : Vector3Int.zero;
-
         if (skill.data.isAOE)
         {
             score = SearchAOETarget(targetUnits, targetPos, reachableTile.pos, skill.data);
@@ -103,8 +100,6 @@ public class AIController : MonoBehaviour
         {
             score = 1;
         }
-
-        // score = skill.data.isAOE ? SearchAOETarget(SearchUnit(skill.data.affectType), reachableTile, skill.data) : 1;
 
         return score;
     }
@@ -243,9 +238,6 @@ public class AIController : MonoBehaviour
             tiles = searchMachine.SearchRange(targetPos, data, true);
         }
 
-
-        //var tiles = searchMachine.SearchRange(targetTile.pos, data, true);
-
         return targetUnits.Count(unit => tiles.Any(tile => tile.pos == unit.pos));
      }
 
@@ -264,7 +256,7 @@ public class AIController : MonoBehaviour
         currentPlan.movePos = movePos;
         currentPlan.targetPos = targetPos;
 
-        if(targetPos == Turn.unit.pos) // 자기자신 타겟일때를 위해
+        if(targetPos == Turn.unit.pos) // 자기자신이 타겟일 때를 위해
         {
             currentPlan.movePos = targetPos;
         }
@@ -301,7 +293,6 @@ public class AIController : MonoBehaviour
             return targetTile == null;
         });
 
-
         if (currentPlan == null)
         {
             currentPlan = new();
@@ -309,16 +300,8 @@ public class AIController : MonoBehaviour
 
         currentPlan.skill = null;
 
-
         while (targetTile != Turn.unit.tile)
         {
-            //if(targetTile.distance <= Turn.unit.stats.MOV &&
-            //    targetTile.content == null)
-            //{
-            //    Debug.Log($"{GetType()} - 움직일 위치 정함{targetTile.pos}");
-            //    currentPlan.movePos = targetTile.pos;
-            //    break;
-            //}
             if (board.highlightTiles.ContainsKey(targetTile.pos))
             {
                 Debug.Log($"{GetType()} - 움직일 위치 정함{targetTile.pos}");
@@ -327,22 +310,6 @@ public class AIController : MonoBehaviour
             }
             targetTile = targetTile.prev;
         }
-
-        // 가장 가까운 경로로 이동으로 수정
-
-
-        //// 이거 다른곳에서 받아오기 
-        //List<TileLogic> moveableTiles = board.Search(board.GetTile(Turn.unit.pos), Turn.unit.stats.MOV, board.ISMovable);
-        //TileLogic closestTile = moveableTiles.OrderBy(tile => Vector3Int.Distance(tile.pos, nearestUnitPos)).FirstOrDefault();
-
-        //if(closestTile != null)
-        //{
-        //    currentPlan.movePos = closestTile.pos;
-        //}
-        //else
-        //{
-        //    currentPlan.movePos = Turn.unit.pos;
-        //}
 
         return currentPlan;
     }

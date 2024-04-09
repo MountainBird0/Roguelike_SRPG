@@ -53,9 +53,12 @@ public class ChooseActionUIController : MonoBehaviour
     ***********************************************************/
     public void EnableCanvas()
     {
-        actionCanvas.gameObject.SetActive(true);
-        SetSkillIcon();
-        SetStatWindow();
+        if (Turn.isHumanTurn)
+        {
+            actionCanvas.gameObject.SetActive(true);
+            SetSkillIcon();
+            SetStatWindow();
+        }
     }
     public void DisableCanvas()
     {

@@ -2,22 +2,15 @@
 * unit의 행동을 결정하는 State
 ***********************************************************/
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class ChooseActionState : State
 {
     private ChooseActionUIController uiController = BattleMapUIManager.instance.chooseActionUIController;
     private AIController aiController;
 
-    // private List<TileLogic> tiles;
-
     private IEnumerator uiTouchCoroutine;
     private int currentSkillSlot;
-
-
 
     private void OnEnable()
     {
@@ -225,7 +218,6 @@ public class ChooseActionState : State
             }
         }
 
-        //if (!Turn.isMoving && (plan.movePos != Turn.unit.pos))
         if (plan.movePos != new Vector3Int(999, 0, 0))
         {
             Debug.Log($"{GetType()} - 움직이러감");

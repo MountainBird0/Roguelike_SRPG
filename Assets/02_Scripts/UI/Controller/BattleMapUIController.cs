@@ -23,9 +23,6 @@ public class BattleMapUIController : MonoBehaviour
         turnCount.text = Turn.turnCount.ToString() + " / 15";
     }
 
-
-
-
     public void ClickBtnAuto()
     {
         if (BattleMapManager.instance.isBtnAuto)
